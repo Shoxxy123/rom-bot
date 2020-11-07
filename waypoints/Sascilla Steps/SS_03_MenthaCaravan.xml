@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Sascilia Steppes quest series. -->
+	<!--	Required userfunctions: userfunction_questHelpers -->
+	<!--	SS_03_MenthaCaravan will complete all quests at Mentha Caravan and then go to Gurla Caravan. -->
+	<onload>
+			if not __WPL.ResumePoint then
+				__WPL:setWaypointIndex(1)
+			end
+			settings.profile.options.HARVEST_DISTANCE=250
+			
+			<!-- This function is needed to ensure the player can gather the Willow Wood for the quest "Refining Yellow Juice" -->
+			function getWood()
+				player:update()
+				local _isMounted = player.Mounted
+				local woodSkill = player:getCraftLevel(CRAFT_WOODCUTTING)
+				local woodType = 560018 -- Ash Wood
+				if woodSkill > 8 then
+					woodType = 560019 -- Willow Wood
+				end
+				local done
+				repeat
+					local wood = player:findNearestNameOrId(woodType)
+					if wood and 250 > distance(wood, player) then
+						player:moveTo(CWaypoint(wood.X, wood.Z), true)
+						player:harvest(woodType)
+					else
+						done = true
+					end
+				until done
+				if _isMounted then player:mount() end
+			end
+
+	</onload>
+	<!-- #  1 --><waypoint x="-33596" z="4790" y="-120">
+			player:target_NPC(111478) -- Mentha
+			SureAcceptQuest(421481) -- An Easy Errand
+			SureAcceptQuest(421483) -- Of all the Places...
+	</waypoint>
+	<!-- #  2 --><waypoint x="-33540" z="4759" y="-121">
+			player:target_NPC(111482) -- Lood Klongen
+			SureAcceptQuest(421478) -- Share the Wealth
+	</waypoint>
+	<!-- #  3 --><waypoint x="-33560" z="4783" y="-120">	</waypoint>
+	<!-- #  4 --><waypoint x="-33539" z="4911" y="-107">	</waypoint>
+	<!-- #  5 --><waypoint x="-33481" z="5158" y="-38">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- #  6 --><waypoint x="-33507" z="5291" y="16">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- #  7 --><waypoint x="-33627" z="5416" y="33">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- #  8 --><waypoint x="-33774" z="5394" y="-3">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- #  9 --><waypoint x="-33882" z="5374" y="-4">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 10 --><waypoint x="-34134" z="5267" y="29">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 11 --><waypoint x="-34360" z="5120" y="16">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 12 --><waypoint x="-34544" z="5292" y="36">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 13 --><waypoint x="-34426" z="5466" y="60">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 14 --><waypoint x="-34304" z="5649" y="45">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 15 --><waypoint x="-34369" z="5711" y="-1">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 16 --><waypoint x="-34539" z="5736" y="-4">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+			moveAndGather(111545,421483) -- Silvervein Leaves
+	</waypoint>
+	<!-- # 17 --><waypoint x="-34729" z="5607" y="2">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 18 --><waypoint x="-34862" z="5506" y="3">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 19 --><waypoint x="-34636" z="5457" y="36">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 20 --><waypoint x="-34552" z="5312" y="39">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 21 --><waypoint x="-34781" z="5195" y="42">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 22 --><waypoint x="-34760" z="4946" y="36">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 23 --><waypoint x="-34890" z="4870" y="37">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 24 --><waypoint x="-34895" z="4638" y="40">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(false,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 25 --><waypoint x="-34715" z="4480" y="31">
+			moveAndGather(111545,421483) -- Silvervein Leaves
+			killForQuest(true,100759,421478) -- Wild Rhinoceros Skin
+	</waypoint>
+	<!-- # 26 --><waypoint x="-34432" z="4509" y="16">
+	</waypoint>
+	<!-- # 27 --><waypoint x="-34155" z="4516" y="-12">	</waypoint>
+	<!-- # 28 --><waypoint x="-33849" z="4566" y="-81">	</waypoint>
+	<!-- # 29 --><waypoint x="-33636" z="4641" y="-116">	</waypoint>
+	<!-- # 30 --><waypoint x="-33593" z="4784" y="-120">
+			player:target_NPC(111478) -- Mentha
+			SureCompleteQuest(421483) -- Of all the Places...
+			SureAcceptQuest(421484) -- The Special Order
+	</waypoint>
+	<!-- # 31 --><waypoint x="-33538" z="4760" y="-121">
+			player:target_NPC(111482) -- Lood Klongen
+			SureCompleteQuest(421478) -- Share the Wealth
+			SureAcceptQuest(421479) -- Difficult Terrain
+	</waypoint>
+	<!-- # 32 --><waypoint x="-33559" z="4776" y="-120">	</waypoint>
+	<!-- # 33 --><waypoint x="-33465" z="5105" y="-67">	</waypoint>
+	<!-- # 34 --><waypoint x="-33453" z="5235" y="12">	</waypoint>
+	<!-- # 35 --><waypoint x="-33419" z="5315" y="60">	</waypoint>
+	<!-- # 36 --><waypoint x="-33383" z="5430" y="86">	</waypoint>
+	<!-- # 37 --><waypoint x="-33520" z="5558" y="53">	</waypoint>
+	<!-- # 38 --><waypoint x="-33552" z="5593" y="70">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 39 --><waypoint x="-33592" z="5708" y="84">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 40 --><waypoint x="-33510" z="5747" y="103">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 41 --><waypoint x="-33466" z="5817" y="119">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 42 --><waypoint x="-33375" z="5789" y="139">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 43 --><waypoint x="-33280" z="5783" y="132">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 44 --><waypoint x="-33284" z="5903" y="127">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 45 --><waypoint x="-33381" z="5927" y="146">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 46 --><waypoint x="-33443" z="6014" y="118">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 47 --><waypoint x="-33502" z="6067" y="45">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 48 --><waypoint x="-33690" z="6103" y="-15">	
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 49 --><waypoint x="-33809" z="6015" y="-29">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 50 --><waypoint x="-33910" z="6099" y="-5">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 51 --><waypoint x="-33896" z="6232" y="-15">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 52 --><waypoint x="-33828" z="6396" y="15">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 53 --><waypoint x="-33799" z="6539" y="40">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 54 --><waypoint x="-33768" z="6656" y="52">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 55 --><waypoint x="-33930" z="6625" y="32">
+			killForQuest(false,100800,421479) -- Blue Egar Feathers
+	</waypoint>
+	<!-- # 56 --><waypoint x="-34040" z="6624" y="-19">	</waypoint>
+	<!-- # 57 --><waypoint x="-33982" z="6309" y="-32">	</waypoint>
+	<!-- # 58 --><waypoint x="-33923" z="6057" y="-5">	</waypoint>
+	<!-- # 59 --><waypoint x="-33849" z="5639" y="-36">	</waypoint>
+	<!-- # 60 --><waypoint x="-33827" z="5478" y="-10">	</waypoint>
+	<!-- # 61 --><waypoint x="-33785" z="5312" y="-21">	</waypoint>
+	<!-- # 62 --><waypoint x="-33686" z="4986" y="-73">	</waypoint>
+	<!-- # 63 --><waypoint x="-33561" z="4863" y="-115">	</waypoint>
+	<!-- # 64 --><waypoint x="-33543" z="4769" y="-121">
+			player:target_NPC(111482) -- Lood Klongen
+			SureCompleteQuest(421479) -- Difficult Terrain
+			SureAcceptQuest(421480) -- The Unknown Prey
+			player:mount()
+	</waypoint>
+	<!-- # 65 --><waypoint x="-33565" z="4705" y="-122">	</waypoint>
+	<!-- # 66 --><waypoint x="-33854" z="4567" y="-80">	</waypoint>
+	<!-- # 67 --><waypoint x="-34090" z="4515" y="-23">	</waypoint>
+	<!-- # 68 --><waypoint x="-34314" z="4519" y="-3">	</waypoint>
+	<!-- # 69 --><waypoint x="-34459" z="4684" y="33">	</waypoint>
+	<!-- # 70 --><waypoint x="-34466" z="4825" y="39">
+			player:target_NPC(111054) -- Ekme Bobo
+			SureCompleteQuest(421009) -- Research Exchange
+			SureAcceptQuest(421016) -- Flame Candle
+	</waypoint>
+	<!-- # 71 --><waypoint x="-34353" z="4756" y="42">
+			player:target_Object(111061) -- Flame Candle
+	</waypoint>
+	<!-- # 72 --><waypoint x="-34380" z="4780" y="42">	</waypoint>
+	<!-- # 73 --><waypoint x="-34438" z="4963" y="30">
+			player:target_Object(111061) -- Flame Candle
+			player:mount()
+	</waypoint>
+	<!-- # 74 --><waypoint x="-34433" z="4853" y="36">	</waypoint>
+	<!-- # 75 --><waypoint x="-34552" z="4511" y="32">	</waypoint>
+	<!-- # 76 --><waypoint x="-34683" z="4428" y="33">
+			player:target_Object(111061) -- Flame Candle
+	</waypoint>
+	<!-- # 77 --><waypoint x="-34727" z="4427" y="31">	</waypoint>
+	<!-- # 78 --><waypoint x="-34810" z="4348" y="31">
+			player:target_Object(111061) -- Flame Candle
+	</waypoint>
+	<!-- # 79 --><waypoint x="-34779" z="4350" y="32">	</waypoint>
+	<!-- # 80 --><waypoint x="-34750" z="4262" y="37">	</waypoint>
+	<!-- # 81 --><waypoint x="-34802" z="4197" y="50">
+			player:target_Object(111061) -- Flame Candle
+	</waypoint>
+	<!-- # 82 --><waypoint x="-34862" z="4171" y="45">	</waypoint>
+	<!-- # 83 --><waypoint x="-35215" z="4329" y="36">
+			player:target_Object(111061) -- Flame Candle
+	</waypoint>
+	<!-- # 84 --><waypoint x="-35230" z="4110" y="53">	</waypoint>
+	<!-- # 85 --><waypoint x="-35350" z="3838" y="29">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+	</waypoint>
+	<!-- # 86 --><waypoint x="-35264" z="3715" y="25">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+	</waypoint>
+	<!-- # 87 --><waypoint x="-35187" z="3574" y="23">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+	</waypoint>
+	<!-- # 88 --><waypoint x="-35166" z="3469" y="25">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+	</waypoint>
+	<!-- # 89 --><waypoint x="-35047" z="3427" y="29">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+	</waypoint>
+	<!-- # 90 --><waypoint x="-34933" z="3339" y="28">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+	</waypoint>
+	<!-- # 91 --><waypoint x="-34834" z="3303" y="36">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+	</waypoint>
+	<!-- # 92 --><waypoint x="-34787" z="3243" y="27">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+	</waypoint>
+	<!-- # 93 --><waypoint x="-34722" z="3252" y="35">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+	</waypoint>
+	<!-- # 94 --><waypoint x="-34682" z="3177" y="24">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- # 95 --><waypoint x="-34571" z="2906" y="27">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- # 96 --><waypoint x="-34468" z="2785" y="33">
+			if getQuestStatus(421484) == "incomplete" then
+				player:target_Object(111546) -- Dried Grass
+			end
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- # 97 --><waypoint x="-34348" z="2594" y="29">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- # 98 --><waypoint x="-34269" z="2416" y="43">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- # 99 --><waypoint x="-34189" z="2333" y="26">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- #100 --><waypoint x="-34176" z="2187" y="30">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- #101 --><waypoint x="-34203" z="2021" y="46">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- #102 --><waypoint x="-34248" z="2207" y="29">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- #103 --><waypoint x="-34537" z="2343" y="30">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- #104 --><waypoint x="-34626" z="2310" y="62">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- #105 --><waypoint x="-34575" z="2414" y="31">
+	</waypoint>
+	<!-- #106 --><waypoint x="-34512" z="2625" y="21">
+			__WPL:setDirection(WPT_FORWARD)
+			print("Waiting for Valley Kites to Respawn.")
+			repeat
+				yrest(10000) 
+				bird = player:findNearestNameOrId(100770)
+			until bird and 250 > distance(bird, player) 
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- #107 --><waypoint x="-34487" z="2810" y="35">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- #108 --><waypoint x="-34607" z="2957" y="26">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- #109 --><waypoint x="-34626" z="3087" y="20">
+			killForQuest(false,100770,421480)
+	</waypoint>
+	<!-- #110 --><waypoint x="-34761" z="3282" y="36">
+			killForQuest(false,100770,421480)
+			if getQuestStatus(421480) == "incomplete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #111 --><waypoint x="-34877" z="3302" y="33">
+			player:mount()
+	</waypoint>
+	<!-- #112 --><waypoint x="-35133" z="3448" y="28">	</waypoint>
+	<!-- #113 --><waypoint x="-35205" z="3644" y="19">	</waypoint>
+	<!-- #114 --><waypoint x="-35357" z="3795" y="22">	</waypoint>
+	<!-- #115 --><waypoint x="-35351" z="3986" y="33">	</waypoint>
+	<!-- #116 --><waypoint x="-35306" z="4152" y="36">	</waypoint>
+	<!-- #117 --><waypoint x="-35213" z="4325" y="36">
+			player:target_Object(111061) -- Flame Candle
+	</waypoint>
+	<!-- #118 --><waypoint x="-34826" z="4347" y="31">
+			player:target_Object(111061) -- Flame Candle
+	</waypoint>
+	<!-- #119 --><waypoint x="-34732" z="4418" y="31">	</waypoint>
+	<!-- #120 --><waypoint x="-34688" z="4431" y="33">
+			player:target_Object(111061) -- Flame Candle
+	</waypoint>
+	<!-- #121 --><waypoint x="-34462" z="4595" y="13">	</waypoint>
+	<!-- #122 --><waypoint x="-34340" z="4748" y="39">
+			player:target_Object(111061) -- Flame Candle
+	</waypoint>
+	<!-- #123 --><waypoint x="-34460" z="4828" y="39">
+			player:target_NPC(111054) -- Ekme Bobo
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(421016, 1) -- Flame Candle, Mark of Flame Chain Pants (223101)
+			else
+				SureCompleteQuest(421016, 2) -- Flame Candle, Raging Flame Soft Boots (223102)
+			end
+			player:mount()
+	</waypoint>
+	<!-- #124 --><waypoint x="-34391" z="4768" y="43">	</waypoint>
+	<!-- #125 --><waypoint x="-34311" z="4546" y="-3">	</waypoint>
+	<!-- #126 --><waypoint x="-34134" z="4514" y="-16">	</waypoint>
+	<!-- #127 --><waypoint x="-33846" z="4559" y="-81">	</waypoint>
+	<!-- #128 --><waypoint x="-33595" z="4779" y="-119">
+			player:target_NPC(111478) -- Mentha
+			SureCompleteQuest(421484) -- The Special Order
+	</waypoint>
+	<!-- #129 --><waypoint x="-33532" z="4759" y="-122">
+			player:target_NPC(111482) -- Lood Klongen
+			SureCompleteQuest(421480) -- The Unknown Prey
+	</waypoint>
+	<!-- #130 --><waypoint x="-33617" z="4666" y="-120">	</waypoint>
+	<!-- #131 --><waypoint x="-33863" z="4559" y="-77">	</waypoint>
+	<!-- #132 --><waypoint x="-34174" z="4516" y="-10">	</waypoint>
+	<!-- #133 --><waypoint x="-34475" z="4680" y="30">	</waypoint>
+	<!-- #134 --><waypoint x="-34477" z="4822" y="39">
+			player:target_NPC(111054) -- Ekme Bobo
+			SureAcceptQuest(421017) -- Red Glitterdust
+	</waypoint>
+	<!-- #135 --><waypoint x="-34464" z="4765" y="42">	</waypoint>
+	<!-- #136 --><waypoint x="-34526" z="4531" y="28">	</waypoint>
+	<!-- #137 --><waypoint x="-34638" z="4473" y="35">	</waypoint>
+	<!-- #138 --><waypoint x="-34928" z="4428" y="28">	</waypoint>
+	<!-- #139 --><waypoint x="-35128" z="4328" y="27">	</waypoint>
+	<!-- #140 --><waypoint x="-35336" z="4154" y="33">	</waypoint>
+	<!-- #141 --><waypoint x="-35569" z="4096" y="55">	</waypoint>
+	<!-- #142 --><waypoint x="-35769" z="4053" y="29">	</waypoint>
+	<!-- #143 --><waypoint x="-35836" z="3868" y="57">	</waypoint>
+	<!-- #144 --><waypoint x="-35686" z="3641" y="35">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #145 --><waypoint x="-35583" z="3526" y="39">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #146 --><waypoint x="-35516" z="3411" y="32">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #147 --><waypoint x="-35452" z="3054" y="47">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #148 --><waypoint x="-35265" z="3008" y="21">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #149 --><waypoint x="-35268" z="2921" y="38">
+			killForQuest(true,100755,421017)
+			getWood()
+	</waypoint>
+	<!-- #150 --><waypoint x="-35300" z="2749" y="34">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #151 --><waypoint x="-35473" z="2725" y="-9">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #152 --><waypoint x="-35611" z="2704" y="-14">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #153 --><waypoint x="-35734" z="2750" y="7">
+			
+	</waypoint>
+	<!-- #154 --><waypoint x="-35886" z="2869" y="39">	</waypoint>
+	<!-- #155 --><waypoint x="-36078" z="2836" y="89">
+			killForQuest(true,100755,421017)
+			getWood()
+	</waypoint>
+	<!-- #156 --><waypoint x="-36230" z="2917" y="105">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #157 --><waypoint x="-36146" z="2982" y="95">	</waypoint>
+	<!-- #158 --><waypoint x="-36003" z="3194" y="139">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #159 --><waypoint x="-36076" z="3302" y="158">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #160 --><waypoint x="-35924" z="3404" y="168">
+			killForQuest(true,100755,421017)
+	</waypoint>
+	<!-- #161 --><waypoint x="-35885" z="3679" y="76">	</waypoint>
+	<!-- #162 --><waypoint x="-35790" z="4013" y="28">	</waypoint>
+	<!-- #163 --><waypoint x="-35530" z="4101" y="55">	</waypoint>
+	<!-- #164 --><waypoint x="-35321" z="4177" y="35">	</waypoint>
+	<!-- #165 --><waypoint x="-35070" z="4393" y="28">	</waypoint>
+	<!-- #166 --><waypoint x="-34740" z="4466" y="30">	</waypoint>
+	<!-- #167 --><waypoint x="-34483" z="4715" y="38">	</waypoint>
+	<!-- #168 --><waypoint x="-34471" z="4827" y="39">
+			player:target_NPC(111054) -- Ekme Bobo
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(421017, 1) -- Red Glitterdust, Wolfskin Robe (223103)
+			else
+				SureCompleteQuest(421017, 2) -- Red Glitterdust, Wolfskin Breastplate (223104)
+			end
+			player:target_NPC(111054) -- Ekme Bobo
+			SureAcceptQuest(421018) -- Fire Core
+	</waypoint>
+	<!-- #170 --><waypoint x="-34480" z="4748" y="41">	</waypoint>
+	<!-- #171 --><waypoint x="-34563" z="4543" y="35">	</waypoint>
+	<!-- #172 --><waypoint x="-34672" z="4384" y="35">	</waypoint>
+	<!-- #173 --><waypoint x="-34756" z="4236" y="41">	</waypoint>
+	<!-- #174 --><waypoint x="-34756" z="4192" y="48">
+			player:target_Object(111161) -- Fire Core
+			player:mount()
+	</waypoint>
+	<!-- #175 --><waypoint x="-34758" z="4235" y="41">	</waypoint>
+	<!-- #176 --><waypoint x="-34654" z="4409" y="36">	</waypoint>
+	<!-- #177 --><waypoint x="-34550" z="4581" y="28">	</waypoint>
+	<!-- #178 --><waypoint x="-34463" z="4822" y="39">
+			player:target_NPC(111054) -- Ekme Bobo
+			SureCompleteQuest(421018) -- Fire Core
+			SureAcceptQuest(421019) -- Fire Guardian
+	</waypoint>
+	<!-- #179 --><waypoint x="-34463" z="4822" y="39">
+			player:target_NPC(111054) -- Ekme Bobo
+			ChoiceOptionByName(getTEXT("SC_421014_0")) -- 'Finished preparations; ready to begin the ceremony'
+	</waypoint>
+	<!-- #180 --><waypoint x="-34463" z="4822" y="39">
+			__WPL:setForcedWaypointType("NORMAL")
+			repeat
+				yrest(1000) -- Wait for the ceremony to start and aggro from Salamanders
+				Salamander = player:findNearestNameOrId(100812)
+			until Salamander and 100 > distance(Salamander, player)
+	</waypoint>
+	<!-- #181 --><waypoint x="-34463" z="4822" y="39" tag="FireSeal">
+			if getQuestStatus(421019) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("FireSeal"))
+			end
+	</waypoint>
+	<!-- #182 --><waypoint x="-34471" z="4830" y="38">
+			yrest(5000) -- Give the NPC time to appear
+			__WPL:setForcedWaypointType("RUN")
+			player:target_NPC(111054) -- Ekme Bobo
+			if player.Class1 == CLASS_SCOUT then
+				SureCompleteQuest(421019, 3) -- Fire Guardian, Fire Mark Hunter's Bow (211555)
+			end
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(421019, 2) -- Fire Guardian), Fire Mark Staff (211554)
+			end
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(421019, 2) -- Fire Guardian, Guardian Knife (211553)
+			end
+			SureAcceptQuest(421020) -- The Master of the Seal of Fire
+			player:mount()
+	</waypoint>
+	<!-- #183 --><waypoint x="-34460" z="4763" y="42">	</waypoint>
+	<!-- #184 --><waypoint x="-34545" z="4502" y="30">	</waypoint>
+	<!-- #185 --><waypoint x="-34806" z="4430" y="29">	</waypoint>
+	<!-- #186 --><waypoint x="-35129" z="4330" y="27">	</waypoint>
+	<!-- #187 --><waypoint x="-35382" z="4138" y="29">	</waypoint>
+	<!-- #188 --><waypoint x="-35732" z="4057" y="30">	</waypoint>
+	<!-- #189 --><waypoint x="-35882" z="4063" y="35">	</waypoint>
+	<!-- #190 --><waypoint x="-36002" z="4144" y="42">
+			player:target_NPC(111087) -- Gurla
+			CompleteQuestByName(421481) -- An Easy Errand
+			loadPaths("SasciliaSteppes/SS_04_GurlaCaravan")
+	</waypoint>
+</waypoints>

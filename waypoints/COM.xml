@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+	<!-- #  1 --><waypoint x="-3577" z="5039" y="879">
+			player:target_Object(123959) -- Qishee Longar
+			player:target_NPC(123959) -- Qishee Longar
+			player:target_Object(123986) -- Stabilizing Talisman
+	</waypoint>
+	<!-- #  2 --><waypoint x="-3577" z="5039" y="881">	</waypoint>
+	<!-- #  3 --><waypoint x="-3537" z="5092" y="880">	</waypoint>
+	<!-- #  4 --><waypoint x="-3472" z="5120" y="881">	</waypoint>
+	<!-- #  5 --><waypoint x="-3398" z="5121" y="880">	</waypoint>
+	<!-- #  6 --><waypoint x="-3322" z="5072" y="879">
+			player:target_Object(123986) -- Stabilizing Talisman
+                        yrest(500)
+	</waypoint>
+	<!-- #  7 --><waypoint x="-3283" z="5003" y="880">	</waypoint>
+	<!-- #  8 --><waypoint x="-3282" z="4926" y="881">
+			player:target_Object(123986) -- Stabilizing Talisman
+                        yrest(500)
+	</waypoint>
+	<!-- #  9 --><waypoint x="-3297" z="4882" y="879">	</waypoint>
+	<!-- # 10 --><waypoint x="-3353" z="4818" y="881">
+			player:target_Object(123986) -- Stabilizing Talisman
+                        yrest(500)
+	</waypoint>
+	<!-- # 11 --><waypoint x="-3458" z="4805" y="880">
+			player:target_Object(123986) -- Stabilizing Talisman
+                        yrest(2000)
+	</waypoint>
+	<!-- # 12 --><waypoint x="-3535" z="4828" y="880">	</waypoint>
+	<!-- # 13 --><waypoint x="-3580" z="4889" y="880">	</waypoint>
+	<!-- # 14 --><waypoint x="-3599" z="4964" y="881">	</waypoint>
+	<!-- # 15 --><waypoint x="-3570" z="5042" y="880">
+			player:target_Object(123959) -- Qishee Longar
+			player:target_NPC(123959) -- Qishee Longar
+                        yrest(4000)
+	</waypoint>
+</waypoints>

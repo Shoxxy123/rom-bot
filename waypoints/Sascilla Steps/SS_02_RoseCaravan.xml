@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Sascilia Steppes quest series. -->
+	<!--	Required userfunctions: userfunction_questHelpers -->
+	<!--	SS_02_RoseCaravan will complete all quests at Rose Caravan and then go to Mentha Caravan. -->
+	<onload>
+			if not __WPL.ResumePoint then
+				__WPL:setWaypointIndex(1)
+			end
+			<!-- This function is needed to ensure the player can gather the Willow Wood for the quest "Refining Yellow Juice" -->
+			function getWood()
+				player:update()
+				local _isMounted = player.Mounted
+				local woodSkill = player:getCraftLevel(CRAFT_WOODCUTTING)
+				local woodType = 560018 -- Ash Wood
+				if woodSkill > 8 then
+					woodType = 560019 -- Willow Wood
+				end
+				local done
+				repeat
+					local wood = player:findNearestNameOrId(woodType)
+					if wood and 250 > distance(wood, player) then
+						player:moveTo(CWaypoint(wood.X, wood.Z), true)
+						player:harvest(woodType)
+					else
+						done = true
+					end
+				until done
+				if _isMounted then player:mount() end
+			end
+		
+			<!-- This function turns on the in-game Auto Loot even if using a looting add-on, and resets the original condition when finished. -->
+			<!-- Needed for Fuquash's combat quests. Need to loot all items off henchmen so they despawn and allow the quests to complete. -->
+			local aLoot
+			function toggleLoot(_set)
+				if string.lower(_set) == "set" then
+					aLoot = RoMScript("IsAutoTakeLoot()")
+					if aLoot == false then
+						RoMScript("SetAutoTakeLoot(true)")
+					end
+				else
+					if aLoot == false then
+						RoMScript("SetAutoTakeLoot(false)")
+					end
+				end
+			end
+	</onload>
+	<!-- #  1 --><waypoint x="-32662" z="6522" y="-327">
+			player:target_NPC(111082) -- Rose
+			SureCompleteQuest(421459) -- Clan Caravan
+			SureAcceptQuest(421082) -- Rose's Business
+			SureCompleteQuest(421082) -- Rose's Business
+			SureAcceptQuest(421083) -- Rose's Helper
+	</waypoint>
+	<!-- #  2 --><waypoint x="-32603" z="6532" y="-329">	</waypoint>
+	<!-- #  3 --><waypoint x="-32533" z="6579" y="-329">	</waypoint>
+	<!-- #  4 --><waypoint x="-32561" z="6651" y="-327">
+			player:target_NPC(111083) -- Fuquash
+			SureCompleteQuest(421083) -- Rose's Helper
+			SureAcceptQuest(421084) -- Fuquash's Revenge
+	</waypoint>
+	<!-- #  5 --><waypoint x="-32419" z="6560" y="-327">
+			player:target_NPC(111084) -- Domatag
+			SureAcceptQuest(421086) -- Domatag's Friends
+	</waypoint>
+	<!-- #  6 --><waypoint x="-32268" z="6575" y="-315">	</waypoint>
+	<!-- #  7 --><waypoint x="-32012" z="6501" y="-364">	</waypoint>
+	<!-- #  8 --><waypoint x="-31696" z="6414" y="-377">
+			player:target_Object(111086) -- Marsh Fern
+			if getQuestStatus(421084) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- #  9 --><waypoint x="-31574" z="6412" y="-375">	</waypoint>
+	<!-- # 10 --><waypoint x="-31293" z="6403" y="-375">
+			player:target_Object(111086) -- Marsh Fern
+			if getQuestStatus(421084) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 11 --><waypoint x="-31086" z="6315" y="-376">
+			player:target_Object(111086) -- Marsh Fern
+			if getQuestStatus(421084) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 12 --><waypoint x="-31039" z="6184" y="-369">	</waypoint>
+	<!-- # 13 --><waypoint x="-30812" z="6037" y="-376">
+			player:target_Object(111086) -- Marsh Fern
+			if getQuestStatus(421084) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 14 --><waypoint x="-30605" z="6145" y="-376">
+			player:target_Object(111086) -- Marsh Fern
+			if getQuestStatus(421084) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 15 --><waypoint x="-30559" z="6114" y="-370">	</waypoint>
+	<!-- # 16 --><waypoint x="-30286" z="6349" y="-378">
+			player:target_Object(111086) -- Marsh Fern
+			if getQuestStatus(421084) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 17 --><waypoint x="-29908" z="6441" y="-373">
+			player:target_Object(111086) -- Marsh Fern
+			if getQuestStatus(421084) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 18 --><waypoint x="-29863" z="6080" y="-376">
+			player:target_Object(111086) -- Marsh Fern
+			if getQuestStatus(421084) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 19 --><waypoint x="-29661" z="5944" y="-376">
+			player:target_Object(111086) -- Marsh Fern
+			if getQuestStatus(421084) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 20 --><waypoint x="-29378" z="5841" y="-375">
+			player:target_Object(111086) -- Marsh Fern
+			if getQuestStatus(421084) == "incomplete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 21 --><waypoint x="-29391" z="6072" y="-348">	</waypoint>
+	<!-- # 22 --><waypoint x="-29394" z="6454" y="-281">
+			player:target_Object(111085) -- Wooden Box
+			SureCompleteQuest(421086) -- Domatag's Friends
+			SureAcceptQuest(421087) -- Domatag's Secret
+			player:mount()
+	</waypoint>
+	<!-- # 23 --><waypoint x="-29405" z="6244" y="-325">	</waypoint>
+	<!-- # 24 --><waypoint x="-29543" z="6117" y="-357">	</waypoint>
+	<!-- # 25 --><waypoint x="-29750" z="6047" y="-372">	</waypoint>
+	<!-- # 26 --><waypoint x="-30014" z="5991" y="-374">	</waypoint>
+	<!-- # 27 --><waypoint x="-30419" z="5975" y="-332">	</waypoint>
+	<!-- # 28 --><waypoint x="-30601" z="6246" y="-375">	</waypoint>
+	<!-- # 29 --><waypoint x="-30707" z="6334" y="-364">	</waypoint>
+	<!-- # 30 --><waypoint x="-30916" z="6387" y="-366">	</waypoint>
+	<!-- # 31 --><waypoint x="-31195" z="6487" y="-362">	</waypoint>
+	<!-- # 32 --><waypoint x="-31393" z="6585" y="-357">	</waypoint>
+	<!-- # 33 --><waypoint x="-31629" z="6550" y="-371">	</waypoint>
+	<!-- # 34 --><waypoint x="-31737" z="6433" y="-344">	</waypoint>
+	<!-- # 35 --><waypoint x="-31943" z="6189" y="-368">	</waypoint>
+	<!-- # 36 --><waypoint x="-32140" z="6196" y="-372">	</waypoint>
+	<!-- # 37 --><waypoint x="-32351" z="6338" y="-357">	</waypoint>
+	<!-- # 38 --><waypoint x="-32482" z="6538" y="-329">	</waypoint>
+	<!-- # 39 --><waypoint x="-32554" z="6654" y="-327">
+			player:target_NPC(111083) -- Fuquash
+			SureCompleteQuest(421084) -- Fuquash's Revenge
+			SureAcceptQuest(421085) -- Fuquash's Justice
+	</waypoint>
+	<!-- # 40 --><waypoint x="-32423" z="6561" y="-328">
+			player:target_NPC(111084) -- Domatag
+			SureCompleteQuest(421087) -- Domatag's Secret
+	</waypoint>
+	<!-- # 41 --><waypoint x="-32436" z="6565" y="-328">	</waypoint>
+	<!-- # 42 --><waypoint x="-32242" z="6608" y="-311">	</waypoint>
+	<!-- # 43 --><waypoint x="-31887" z="6808" y="-368">	</waypoint>
+	<!-- # 44 --><waypoint x="-31641" z="7007" y="-297">	</waypoint>
+	<!-- # 45 --><waypoint x="-31610" z="7218" y="-270">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			__WPL:setDirection(WPT_FORWARD)
+	</waypoint>
+	<!-- # 46 --><waypoint x="-31629" z="7456" y="-243">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 47 --><waypoint x="-31590" z="7592" y="-217">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 48 --><waypoint x="-31513" z="7726" y="-182">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 49 --><waypoint x="-31385" z="7761" y="-160">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 50 --><waypoint x="-31309" z="7897" y="-139">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 51 --><waypoint x="-31227" z="8054" y="-142">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 52 --><waypoint x="-31050" z="8029" y="-155">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 53 --><waypoint x="-30981" z="7917" y="-148">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 54 --><waypoint x="-30842" z="7915" y="-152">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 55 --><waypoint x="-30647" z="7940" y="-143">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+				if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 56 --><waypoint x="-30531" z="8069" y="-157">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 57 --><waypoint x="-30538" z="8278" y="-158">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 58 --><waypoint x="-30341" z="8421" y="-137">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 59 --><waypoint x="-30177" z="8320" y="-139">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 60 --><waypoint x="-30160" z="8007" y="-96">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 61 --><waypoint x="-30020" z="7884" y="-76">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 62 --><waypoint x="-29990" z="7628" y="-72">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 63 --><waypoint x="-29859" z="7452" y="-105">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 64 --><waypoint x="-29674" z="7313" y="-142">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 65 --><waypoint x="-29557" z="7160" y="-166">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 66 --><waypoint x="-29460" z="6879" y="-184">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 67 --><waypoint x="-29388" z="6656" y="-248">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 68 --><waypoint x="-29566" z="6443" y="-295">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 69 --><waypoint x="-29801" z="6267" y="-350">
+			killForQuest(true, 100894, 421085, 100895, 421085) -- Kobold Gatherer and Kobold Medic /Fuquash's Justice
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 70 --><waypoint x="-30016" z="6244" y="-375">
+			if getQuestStatus(421085) == "incomplete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+			if getQuestStatus(421085) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 71 --><waypoint x="-30498" z="6207" y="-376">	</waypoint>
+	<!-- # 72 --><waypoint x="-30603" z="6205" y="-376">	</waypoint>
+	<!-- # 73 --><waypoint x="-30766" z="6156" y="-375">	</waypoint>
+	<!-- # 74 --><waypoint x="-31308" z="6191" y="-374">	</waypoint>
+	<!-- # 75 --><waypoint x="-31727" z="6147" y="-331">	</waypoint>
+	<!-- # 76 --><waypoint x="-31977" z="6168" y="-370">	</waypoint>
+	<!-- # 77 --><waypoint x="-32280" z="6294" y="-359">	</waypoint>
+	<!-- # 78 --><waypoint x="-32469" z="6440" y="-335">	</waypoint>
+	<!-- # 79 --><waypoint x="-32562" z="6671" y="-326">
+			player:target_NPC(111083) -- Fuquash
+			if player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(421085, 1) -- Fuquash's Justice - Healing Earring (223111)
+			else
+				SureCompleteQuest(421085, 2) -- Fuquash's Justice - Righteous Earring (223112)
+			end
+			SureAcceptQuest(421088) -- Fuquash's Strategy
+	</waypoint>
+	<!-- # 80 --><waypoint x="-32523" z="6578" y="-329">	</waypoint>
+	<!-- # 81 --><waypoint x="-32662" z="6524" y="-327">
+			player:target_NPC(111082) -- Rose
+			SureAcceptQuest(421095) -- Rose's Return Letter
+	</waypoint>
+	<!-- # 82 --><waypoint x="-32425" z="6563" y="-328">
+			player:target_NPC(111084) -- Domatag
+			SureCompleteQuest(421088) -- Fuquash's Strategy
+			SureAcceptQuest(421089) -- Domatag's Warning
+	</waypoint>
+	<!-- # 83 --><waypoint x="-32391" z="6570" y="-324">
+			player:mount()
+	</waypoint>
+	<!-- # 84 --><waypoint x="-32218" z="6605" y="-318">	</waypoint>
+	<!-- # 85 --><waypoint x="-31961" z="6693" y="-375">	</waypoint>
+	<!-- # 86 --><waypoint x="-31609" z="6608" y="-366">	</waypoint>
+	<!-- # 87 --><waypoint x="-31346" z="6586" y="-357">	</waypoint>
+	<!-- # 88 --><waypoint x="-30732" z="6544" y="-371">	</waypoint>
+	<!-- # 89 --><waypoint x="-30462" z="6575" y="-329">	</waypoint>
+	<!-- # 90 --><waypoint x="-30247" z="6572" y="-356">	</waypoint>
+	<!-- # 91 --><waypoint x="-30163" z="6513" y="-372">	</waypoint>
+	<!-- # 92 --><waypoint x="-29938" z="6341" y="-360">	</waypoint>
+	<!-- # 93 --><waypoint x="-29734" z="6363" y="-352">	</waypoint>
+	<!-- # 94 --><waypoint x="-29396" z="6470" y="-276">
+			player:target_Object(111085) -- Wooden Box
+			SureCompleteQuest(421089) -- Domatag's Warning
+			SureAcceptQuest(421090) -- Rose's Stance
+			player:mount()
+	</waypoint>
+	<!-- # 95 --><waypoint x="-29526" z="6375" y="-302">	</waypoint>
+	<!-- # 96 --><waypoint x="-29890" z="6300" y="-354">	</waypoint>
+	<!-- # 97 --><waypoint x="-30311" z="6354" y="-375">	</waypoint>
+	<!-- # 98 --><waypoint x="-30764" z="6408" y="-363">	</waypoint>
+	<!-- # 99 --><waypoint x="-31091" z="6429" y="-369">	</waypoint>
+	<!-- #100 --><waypoint x="-31353" z="6540" y="-365">	</waypoint>
+	<!-- #101 --><waypoint x="-31615" z="6548" y="-372">	</waypoint>
+	<!-- #102 --><waypoint x="-31713" z="6471" y="-345">	</waypoint>
+	<!-- #103 --><waypoint x="-31858" z="6309" y="-367">	</waypoint>
+	<!-- #104 --><waypoint x="-32010" z="6315" y="-377">	</waypoint>
+	<!-- #105 --><waypoint x="-32232" z="6317" y="-364">	</waypoint>
+	<!-- #106 --><waypoint x="-32515" z="6454" y="-331">	</waypoint>
+	<!-- #107 --><waypoint x="-32657" z="6538" y="-326">
+			player:target_NPC(111082) -- Rose
+			SureCompleteQuest(421090) -- Rose's Stance
+			SureAcceptQuest(421091) -- Rose's Methods
+	</waypoint>
+	<!-- #108 --><waypoint x="-32561" z="6558" y="-330">	</waypoint>
+	<!-- #109 --><waypoint x="-32551" z="6653" y="-327">
+			toggleLoot("set") -- Need to loot the henchmen or Fuquash won't allow the quest to complete.
+			player:target_NPC(111083) -- Fuquash
+			SureAcceptQuest(421092) -- Fuquash's Subordinates
+	</waypoint>
+	<!-- #110 --><waypoint x="-32551" z="6653" y="-327">
+			player:target_NPC(111083) -- Fuquash
+			if player.Class1 == CLASS_ROGUE or player.Class1 == CLASS_SCOUT then
+				SureCompleteQuest(421092, 1) -- Fuquash's Subordinates - Victory Boots (223115)
+			else
+				SureCompleteQuest(421092, 2) -- Fuquash's Subordinates - Rose Chainmail Boots (223116)
+			end
+			SureAcceptQuest(421093) -- Fuquash's Defeat
+			yrest(2000) -- Wait for Fuquash to become aggressive and attack.
+	</waypoint>
+	<!-- #111 --><waypoint x="-32551" z="6653" y="-327">
+			yrest(10000) -- Wait 10 seconds for Fuquash to respawn.
+			player:target_NPC(111083) -- Fuquash
+			SureCompleteQuest(421093) -- Fuquash's Defeat
+			SureAcceptQuest(421094) -- Fuquash's Surrender
+			yrest(2000) -- Wait for Fuquash and his Henchmen to become aggressive and attack.
+	</waypoint>
+	<!-- #112 --><waypoint x="-32556" z="6649" y="-327">
+			yrest(10000) -- Wait 10 seconds for Fuquash to respawn.
+			player:target_NPC(111083) -- Fuquash
+			if player.Class1 == CLASS_SCOUT then
+				SureCompleteQuest(421094, 3) -- Fuquash's Surrender - Crossbow of Wrath (211560)
+			elseif player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(421094, 1) -- Fuquash's Surrender - Beautiful Mistake (223118)
+			else
+				SureCompleteQuest(421094, 3) -- Fuquash's Surrender - Fuquash's 2-Hand Sword (211559)
+			end
+			toggleLoot("reset") -- Reset auto loot to user's preference after completing the quests.
+	</waypoint>
+	<!-- #113 --><waypoint x="-32538" z="6559" y="-330">	</waypoint>
+	<!-- #114 --><waypoint x="-32662" z="6530" y="-326">
+			player:target_NPC(111082) -- Rose
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(421091, 1) -- Rose's Methods - Merchant's Long Chainmail Boots (223113)
+			else
+				SureCompleteQuest(421091, 2) -- Rose's Methods - Rose Belt (223114)
+			end
+			player:mount()
+	</waypoint>
+	<!-- #115 --><waypoint x="-32386" z="6345" y="-354">	</waypoint>
+	<!-- #116 --><waypoint x="-32138" z="6154" y="-367">	</waypoint>
+	<!-- #117 --><waypoint x="-32151" z="5890" y="-349">	</waypoint>
+	<!-- #118 --><waypoint x="-32249" z="5581" y="-308">	</waypoint>
+	<!-- #119 --><waypoint x="-32454" z="5390" y="-254">	</waypoint>
+	<!-- #120 --><waypoint x="-32615" z="5217" y="-220">	</waypoint>
+	<!-- #121 --><waypoint x="-32773" z="5027" y="-171">	</waypoint>
+	<!-- #122 --><waypoint x="-32859" z="4890" y="-136">	</waypoint>
+	<!-- #123 --><waypoint x="-32998" z="4783" y="-139">	</waypoint>
+	<!-- #124 --><waypoint x="-33186" z="4736" y="-132">	</waypoint>
+	<!-- #125 --><waypoint x="-33450" z="4699" y="-136">	</waypoint>
+	<!-- #126 --><waypoint x="-33585" z="4784" y="-120">
+			player:target_NPC(111478) -- Mentha
+			SureCompleteQuest(421095) -- Rose's Return Letter
+			loadPaths("SasciliaSteppes/SS_03_MenthaCaravan")
+	</waypoint>
+</waypoints>
+
+

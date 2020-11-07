@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+	<!-- #  1 --><waypoint x="-570" z="2040" y="78">
+			player:target_NPC(124430) -- Yishaz
+			AcceptQuestByName(427630) -- Shield the Camp from the Enemy
+	</waypoint>
+	<!-- #  2 --><waypoint x="-610" z="2119" y="73">	</waypoint>
+	<!-- #  3 --><waypoint x="-649" z="2106" y="74">	</waypoint>
+	<!-- #  4 --><waypoint x="-650" z="2041" y="77">	</waypoint>
+	<!-- #  5 --><waypoint x="-645" z="1976" y="74">	</waypoint>
+	<!-- #  6 --><waypoint x="-616" z="1949" y="75">	</waypoint>
+	<!-- #  7 --><waypoint x="-566" z="1908" y="73">	</waypoint>
+	<!-- #  8 --><waypoint x="-497" z="1851" y="75">	</waypoint>
+	<!-- #  9 --><waypoint x="-443" z="1806" y="76">	</waypoint>
+	<!-- # 10 --><waypoint x="-426" z="1792" y="79">	</waypoint>
+	<!-- # 11 --><waypoint x="-426" z="1792" y="79">
+			player:harvest()
+	</waypoint>
+	<!-- # 12 --><waypoint x="-478" z="1842" y="75">	</waypoint>
+	<!-- # 13 --><waypoint x="-531" z="1896" y="75">	</waypoint>
+	<!-- # 14 --><waypoint x="-531" z="1896" y="75">
+			player:harvest()
+	</waypoint>
+	<!-- # 15 --><waypoint x="-609" z="1890" y="57">	</waypoint>
+	<!-- # 16 --><waypoint x="-616" z="1943" y="75">	</waypoint>
+	<!-- # 17 --><waypoint x="-631" z="2084" y="75">	</waypoint>
+	<!-- # 18 --><waypoint x="-617" z="2079" y="76">	</waypoint>
+	<!-- # 19 --><waypoint x="-617" z="2079" y="76">
+			player:harvest()
+	</waypoint>
+	<!-- # 20 --><waypoint x="-575" z="2175" y="75">	</waypoint>
+	<!-- # 21 --><waypoint x="-575" z="2175" y="75">
+			player:harvest()
+	</waypoint>
+	<!-- # 22 --><waypoint x="-578" z="2205" y="76">	</waypoint>
+	<!-- # 23 --><waypoint x="-585" z="2294" y="76">	</waypoint>
+	<!-- # 24 --><waypoint x="-585" z="2294" y="76">
+			player:harvest()
+	</waypoint>
+	<!-- # 25 --><waypoint x="-594" z="2376" y="76">	</waypoint>
+	<!-- # 26 --><waypoint x="-597" z="2412" y="75">	</waypoint>
+	<!-- # 27 --><waypoint x="-553" z="2438" y="86">	</waypoint>
+	<!-- # 28 --><waypoint x="-524" z="2457" y="103">	</waypoint>
+	<!-- # 29 --><waypoint x="-524" z="2457" y="103">
+			player:harvest()
+	</waypoint>
+	<!-- # 30 --><waypoint x="-528" z="2525" y="112">	</waypoint>
+	<!-- # 31 --><waypoint x="-522" z="2567" y="111">	</waypoint>
+	<!-- # 32 --><waypoint x="-518" z="2589" y="111">	</waypoint>
+	<!-- # 33 --><waypoint x="-518" z="2589" y="111">
+			player:harvest()
+	</waypoint>
+	<!-- # 34 --><waypoint x="-538" z="2530" y="117">	</waypoint>
+	<!-- # 35 --><waypoint x="-628" z="2287" y="76">	</waypoint>
+	<!-- # 36 --><waypoint x="-588" z="2172" y="75">	</waypoint>
+	<!-- # 37 --><waypoint x="-680" z="2093" y="75">	</waypoint>
+	<!-- # 38 --><waypoint x="-638" z="1953" y="73">	</waypoint>
+	<!-- # 39 --><waypoint x="-618" z="1889" y="57">	</waypoint>
+	<!-- # 40 --><waypoint x="-565" z="1869" y="53">	</waypoint>
+	<!-- # 41 --><waypoint x="-499" z="1871" y="75">	</waypoint>
+	<!-- # 42 --><waypoint x="-430" z="1797" y="79">	</waypoint>
+	<!-- # 43 --><waypoint x="-430" z="1797" y="79">
+			player:harvest()
+	</waypoint>
+	<!-- # 44 --><waypoint x="-553" z="1875" y="62">	</waypoint>
+	<!-- # 45 --><waypoint x="-644" z="1947" y="71">	</waypoint>
+	<!-- # 46 --><waypoint x="-653" z="2010" y="74">	</waypoint>
+	<!-- # 47 --><waypoint x="-635" z="2110" y="73">	</waypoint>
+	<!-- # 48 --><waypoint x="-555" z="2036" y="77">
+			player:target_NPC(-1) -- <UNKNOWN>
+			player:target_NPC(124430) -- Yishaz
+			CompleteQuestByName(427630) -- Shield the Camp from the Enemy
+	</waypoint>
+</waypoints>

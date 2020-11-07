@@ -1,0 +1,932 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+	<!-- 	Yrvandis Hollows v1.35 by Bill D. Cat -->
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Yrvandis Hollows quest series. -->
+	<!--	Required userfunctions: userfunction_teleport, userfunction_gotoportal and userfunction_questHelpers -->
+	<!--	YH_01_MorfantasCity will complete all quests up to Old Hangrar Ore Mine -->
+	<!--	Approximate Runtime: 45 Minutes -->
+	<onload>
+		speed(59)
+		if not __WPL.ResumePoint then
+			__WPL:setWaypointIndex(1)
+		end
+	</onload>
+	<!-- #  1 --><waypoint x="-598" z="2405" y="1389">
+			player:target_NPC(120561) -- Galis Faidley
+			SureAcceptQuest(424787) -- Awaken
+			SureCompleteQuest(424787) -- Awaken
+			SureAcceptQuest(424788) -- Warm-up Exercise
+	</waypoint>
+	<!-- #  2 --><waypoint x="-725" z="2495" y="1389">	</waypoint>
+	<!-- #  3 --><waypoint x="-1016" z="2548" y="1358">	</waypoint>
+	<!-- #  4 --><waypoint x="-1213" z="2433" y="1331">	</waypoint>
+	<!-- #  5 --><waypoint x="-1391" z="1943" y="1316">
+			player:target_NPC(119637) -- Alya Fanta
+			SureCompleteQuest(424788) -- Warm-up Exercise
+			SureAcceptQuest(424789) -- Adventurer's Code
+			SureCompleteQuest(424789) -- Adventurer's Code
+			SureAcceptQuest(424790) -- Self-defense Ability
+	</waypoint>
+	<!-- #  6 --><waypoint x="-1127" z="1662" y="1316">
+			player:target_NPC(119638) -- Tyda Rason
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(424790, 1) -- Self-defense Ability
+				yrest(1000)
+				inventory:update()
+				inventory:useItem(210515) -- Fine Wand
+			else
+				SureCompleteQuest(424790, 2) -- Self-defense Ability
+				yrest(1000)
+				inventory:update()
+				inventory:useItem(210516) -- Fine Long Sword
+			end
+			yrest(2000)
+			inventory:useItem(209577) -- Mysterious Runic Scroll
+			SureAcceptQuest(424791) -- Safety Fundamentals
+	</waypoint>
+	<!-- #  7 --><waypoint x="-1107" z="1663" y="1316">	</waypoint>
+	<!-- #  8 --><waypoint x="-1022" z="1672" y="1316">
+			player:target_NPC(119639) -- Dana Hodgins
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(424791, 2) -- Safety Fundamentals
+				inventory:update()
+				inventory:useItem(221586) -- Superior Chaincoat 
+			else
+				SureCompleteQuest(424791, 1) -- Safety Fundamentals
+				inventory:update()
+				inventory:useItem(221585) -- Superior Traveling Robe
+			end
+			SureAcceptQuest(424792) -- The Way of Survival
+	</waypoint>
+	<!-- #  9 --><waypoint x="-1044" z="1770" y="1317">
+			player:target_NPC(119882) -- Pendreen Copperspade
+			SureAcceptQuest(425016) -- Emergency Harvest
+	</waypoint>
+	<!-- # 10 --><waypoint x="-1044" z="1770" y="1317">
+			if getQuestStatus(425016) == "incomplete" then
+				repeat
+					player:target_Object(120369) -- Violet Jadeleaf
+					yrest(1000)
+				until getQuestStatus(425016) == "complete"
+			end
+	</waypoint>
+	<!-- # 11 --><waypoint x="-1043" z="1772" y="1317">
+			player:target_NPC(119882) -- Pendreen Copperspade
+			SureCompleteQuest(425016) -- Emergency Harvest
+			SureAcceptQuest(425017) -- Teach Those Rat Thieves A Lesson
+	</waypoint>
+	<!-- # 12 --><waypoint x="-1025" z="1658" y="1316">
+			player:target_NPC(119938) -- Kemo Silvering
+			SureAcceptQuest(425066) -- Beware Of Those Outsiders!
+	</waypoint>
+	<!-- # 13 --><waypoint x="-1130" z="1643" y="1316">	</waypoint>
+	<!-- # 14 --><waypoint x="-1186" z="1816" y="1316">	</waypoint>
+	<!-- # 15 --><waypoint x="-1144" z="1832" y="1315">
+			player:target_NPC(119640) -- Nora Hodgins
+			SureCompleteQuest(424792) -- The Way of Survival
+			SureAcceptQuest(424793) -- Old Friend
+	</waypoint>
+	<!-- # 16 --><waypoint x="-1157" z="1827" y="1315">
+	</waypoint>
+	<!-- # 17 --><waypoint x="-1198" z="1779" y="1332" tag="Rats">
+			killForQuest(true, 106557, 425017, "RatsDone") -- Filthy Cave Rat / Teach Those Rat Thieves A Lesson
+	</waypoint>
+	<!-- # 18 --><waypoint x="-1197" z="1589" y="1332">
+			killForQuest(true, 106557, 425017, "RatsDone") -- Filthy Cave Rat / Teach Those Rat Thieves A Lesson
+	</waypoint>
+	<!-- # 19 --><waypoint x="-1358" z="1629" y="1332">
+			killForQuest(true, 106557, 425017, "RatsDone") -- Filthy Cave Rat / Teach Those Rat Thieves A Lesson
+			if getQuestStatus(425017) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Rats"))
+			end
+	</waypoint>
+	<!-- # 20 --><waypoint x="-1729" z="1617" y="1332" tag="RatsDone">	</waypoint>
+	<!-- # 21 --><waypoint x="-1980" z="2059" y="1313">	</waypoint>
+	<!-- # 22 --><waypoint x="-2110" z="2100" y="1313">	</waypoint>
+	<!-- # 23 --><waypoint x="-2375" z="2064" y="1308">	</waypoint>
+	<!-- # 24 --><waypoint x="-2432" z="2122" y="1312">
+			player:dismount()
+			player:target_NPC(120433) -- Norrhu Shadowcliff
+			SureAcceptQuest(425018) -- Dig! For our power!
+	</waypoint>
+	<!-- # 25 --><waypoint x="-2458" z="2202" y="1306">
+			if getQuestStatus(425018) == "incomplete" then
+				repeat
+					player:target_Object(120428)
+					yrest(3000)
+				until getQuestStatus(425018) == "complete"
+			end
+	</waypoint>
+	<!-- # 26 --><waypoint x="-2437" z="2137" y="1311">
+			player:target_NPC(120433) -- Norrhu Shadowcliff
+			SureCompleteQuest(425018) -- Dig! For our power!
+			SureAcceptQuest(425019) -- Reassert Skills
+	</waypoint>
+	<!-- # 27 --><waypoint x="-2472" z="2105" y="1310">
+			player:target_NPC(120234) -- Saul Leighton
+			SureAcceptQuest(425068) -- Invitation From Zurhidon
+			player:target_NPC(120234) -- Saul Leighton
+			ChoiceOptionByName(getTEXT("SC_425068_0"))  -- "Join the Silvershadow Adventurers' Guild?"
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SC_425068_2")) -- "Zurhidon?"
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SC_425068_4")) -- "I refuse, because I am a subject of the Great Asomanson."
+	</waypoint>
+	<!-- # 28 --><waypoint x="-2474" z="2166" y="1306">
+			yrest(2000)
+			player:target_Object(120235) -- Battered Box
+			yrest(1000)
+	</waypoint>
+	<!-- # 29 --><waypoint x="-2472" z="2104" y="1311">
+			player:target_Object(120253) -- Saul Leighton's Bag
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425068, 1) -- Invitation From Zurhidon
+				inventory:update()
+				inventory:useItem(230463) -- Shorn Cape
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425068, 2) -- Invitation From Zurhidon
+				inventory:update()
+				inventory:useItem(230464) -- Stabbed Cape
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425068, 3) -- Invitation From Zurhidon
+				inventory:update()
+				inventory:useItem(230465) -- Bloodstained Cape
+			end
+			inventory:useItem(241044) -- Seal of Zurhidon
+			RoMScript("AcceptBorderQuest()") -- Enigmatic Seal
+			RoMScript("CloseAllWindows()")
+			player:mount()
+	</waypoint>
+	<!-- # 30 --><waypoint x="-2248" z="2087" y="1324">	</waypoint>
+	<!-- # 31 --><waypoint x="-2067" z="2107" y="1330">	</waypoint>
+	<!-- # 32 --><waypoint x="-1803" z="1761" y="1339">	</waypoint>
+	<!-- # 33 --><waypoint x="-1630" z="1600" y="1332">	</waypoint>
+	<!-- # 34 --><waypoint x="-1458" z="1688" y="1332">	</waypoint>
+	<!-- # 35 --><waypoint x="-1350" z="2034" y="1332">
+			player:target_NPC(119636) -- Lamisa Faidley
+			SureCompleteQuest(425069) -- Enigmatic Seal
+	</waypoint>
+	<!-- # 36 --><waypoint x="-1269" z="1932" y="1332">	</waypoint>
+	<!-- # 37 --><waypoint x="-1169" z="1769" y="1332">	</waypoint>
+	<!-- # 38 --><waypoint x="-1058" z="1785" y="1334">
+			player:target_NPC(119882) -- Pendreen Copperspade
+			SureCompleteQuest(425017) -- Teach Those Rat Thieves A Lesson
+	</waypoint>
+	<!-- # 39 --><waypoint x="-1019" z="1668" y="1332">
+			player:target_NPC(119938) -- Kemo Silvering
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST then
+				SureCompleteQuest(425066, 2) -- Beware Of Those Outsiders!
+				inventory:update()
+				inventory:useItem(221537) -- Metal Ring of Mana
+			else
+				SureCompleteQuest(425066, 1) -- Beware Of Those Outsiders!
+				inventory:update()
+				inventory:useItem(221536) -- Metal Ring of Health
+			end
+			SureAcceptQuest(425067) -- Visit An Old Friend
+	</waypoint>
+	<!-- # 40 --><waypoint x="-1066" z="1630" y="1332">	</waypoint>
+	<!-- # 41 --><waypoint x="-990" z="1335" y="1332">	</waypoint>
+	<!-- # 42 --><waypoint x="-962" z="1254" y="1334">	</waypoint>
+	<!-- # 43 --><waypoint x="-558" z="1039" y="1467">	</waypoint>
+	<!-- # 44 --><waypoint x="-496" z="648" y="1568">	</waypoint>
+	<!-- # 45 --><waypoint x="-266" z="536" y="1578">	</waypoint>
+	<!-- # 46 --><waypoint x="-68" z="445" y="1577">	</waypoint>
+	<!-- # 47 --><waypoint x="339" z="183" y="1561">
+			player:target_NPC(120237) -- Kemo Silvering
+			SureCompleteQuest(425067) -- Visit An Old Friend
+			SureAcceptQuest(425070) -- Visit the Elders
+	</waypoint>
+	<!-- # 48 --><waypoint x="-68" z="445" y="1577">	</waypoint>
+	<!-- # 49 --><waypoint x="-100" z="547" y="1577">
+			player:target_NPC(119641) -- Saatchi Shadoweave
+			SureCompleteQuest(424793) -- Old Friend
+	</waypoint>
+	<!-- # 50 --><waypoint x="-99" z="545" y="1577">
+			player:target_NPC(119641) -- Saatchi Shadoweave
+			SureAcceptQuest(424794) -- Saatchi's Cup
+	</waypoint>
+	<!-- # 51 --><waypoint x="-68" z="445" y="1577">	</waypoint>
+	<!-- # 52 --><waypoint x="229" z="441" y="1577">	</waypoint>
+	<!-- # 53 --><waypoint x="413" z="495" y="1578">
+			player:target_NPC(119642) -- Wolf Asher
+			ChoiceOptionByName(getTEXT("HOUSE_MAID_LEAVE_TALK")) -- 'Leave conversation'
+			player:target_NPC(119642) -- Wolf Asher
+			SureAcceptQuest(424795) -- Wooden Cup on the Tent
+			player:dismount()
+	</waypoint>
+	<!-- # 54 --><waypoint x="444" z="495" y="1561">
+			teleport(455, 492, 1570)
+			if getQuestStatus(424795) == "incomplete" then
+				repeat
+					player:target_Object(119643) -- Dusty Cup
+					yrest(5000)
+				until getQuestStatus(424795) == "complete"
+			end
+	</waypoint>
+	<!-- # 55 --><waypoint x="415" z="489" y="1561">
+			player:target_NPC(119642) -- Wolf Asher
+			SureCompleteQuest(424795) -- Wooden Cup on the Tent
+			player:mount()
+	</waypoint>
+	<!-- # 56 --><waypoint x="254" z="440" y="1577">	</waypoint>
+	<!-- # 57 --><waypoint x="-24" z="444" y="1577">	</waypoint>
+	<!-- # 58 --><waypoint x="-95" z="569" y="1577">
+			player:target_NPC(119641) -- Saatchi Shadoweave
+			SureCompleteQuest(424794) -- Saatchi's Cup
+			SureAcceptQuest(424796) -- Hate Bugs
+	</waypoint>
+	<!-- # 59 --><waypoint x="-236" z="524" y="1577">	</waypoint>
+	<!-- # 60 --><waypoint x="-248" z="540" y="1561" tag="HateBugs">
+			killForQuest(true, 106562, 424796) -- Gellis Beetle / Hate Bugs
+	</waypoint>
+	<!-- # 61 --><waypoint x="-458" z="637" y="1555">
+			killForQuest(true, 106562, 424796) -- Gellis Beetle / Hate Bugs
+	</waypoint>
+	<!-- # 62 --><waypoint x="-583" z="1039" y="1442">
+			killForQuest(true, 106562, 424796) -- Gellis Beetle / Hate Bugs
+	</waypoint>
+	<!-- # 63 --><waypoint x="-458" z="637" y="1555">
+			killForQuest(true, 106562, 424796) -- Gellis Beetle / Hate Bugs
+	</waypoint>
+	<!-- # 64 --><waypoint x="-248" z="540" y="1561">
+			killForQuest(true, 106562, 424796) -- Gellis Beetle / Hate Bugs
+			if getQuestStatus(424796) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("HateBugs"))
+			end
+	</waypoint>
+	<!-- # 65 --><waypoint x="-83" z="558" y="1561">
+			player:target_NPC(119641) -- Saatchi Shadoweave
+			SureCompleteQuest(424796) -- Hate Bugs
+			SureAcceptQuest(424797) -- Repair Equipment
+			SureCompleteQuest(424797) -- Repair Equipment
+			SureAcceptQuest(424798) -- Delicious Moss
+	</waypoint>
+	<!-- # 66 --><waypoint x="-239" z="533" y="1561">	</waypoint>
+	<!-- # 67 --><waypoint x="-371" z="502" y="1563" tag="Moss">
+			player:target_Object(119644)
+	</waypoint>
+	<!-- # 68 --><waypoint x="-474" z="531" y="1557">
+			player:target_Object(119644)
+	</waypoint>
+	<!-- # 69 --><waypoint x="-603" z="694" y="1541">
+			player:target_Object(119644)
+	</waypoint>
+	<!-- # 70 --><waypoint x="-466" z="888" y="1500">
+			player:target_Object(119644)
+	</waypoint>
+	<!-- # 71 --><waypoint x="-496" z="746" y="1538">
+			player:target_Object(119644)
+	</waypoint>
+	<!-- # 72 --><waypoint x="-441" z="639" y="1557">
+			player:target_Object(119644)
+			if getQuestStatus(424798) == "incomplete" then 
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Moss"))
+			end
+	</waypoint>
+	<!-- # 73 --><waypoint x="-286" z="534" y="1562">	</waypoint>
+	<!-- # 74 --><waypoint x="-75" z="569" y="1561">	</waypoint>
+	<!-- # 75 --><waypoint x="-83" z="558" y="1561">
+			player:target_NPC(119641) -- Saatchi Shadoweave
+			SureCompleteQuest(424798) -- Delicious Moss
+			SureAcceptQuest(424799) -- Further Study
+			player:mount()
+	</waypoint>
+	<!-- # 76 --><waypoint x="-104" z="313" y="1561">
+			player:target_NPC(119645) -- Penny Shadoweave
+			SureCompleteQuest(424799) -- Further Study
+			SureAcceptQuest(424800) -- Embedding Runes
+			SureCompleteQuest(424800) -- Embedding Runes
+			SureAcceptQuest(424801) -- Mining Skills
+	</waypoint>
+	<!-- # 77 --><waypoint x="141" z="459" y="1561">
+			player:target_NPC(119904) -- Purlin Copperlatch
+			SureCompleteQuest(424801) -- Mining Skills
+			SureAcceptQuest(424802) -- Herbalism Skills
+	</waypoint>
+	<!-- # 78 --><waypoint x="415" z="443" y="1561">
+			player:target_NPC(119905) -- Jaydna Steelsand
+			SureCompleteQuest(424802) -- Herbalism Skills
+			SureAcceptQuest(424803) -- Woodcutting Skills
+	</waypoint>
+	<!-- # 79 --><waypoint x="409" z="333" y="1561">	</waypoint>
+	<!-- # 80 --><waypoint x="339" z="183" y="1561">	</waypoint>
+	<!-- # 81 --><waypoint x="337" z="88" y="1561">	</waypoint>
+	<!-- # 82 --><waypoint x="451" z="4" y="1561">	</waypoint>
+	<!-- # 83 --><waypoint x="505" z="7" y="1566">
+			player:target_NPC(120239) -- Hebron Shadoweave
+			SureCompleteQuest(425070) -- Visit the Elders
+			SureAcceptQuest(425071) -- Reward For Rune Craftsmen
+	</waypoint>
+	<!-- # 84 --><waypoint x="216" z="-223" y="1561">	</waypoint>
+	<!-- # 85 --><waypoint x="198" z="-328" y="1561">
+			player:target_NPC(119906) -- Chantholl von Jura
+			SureCompleteQuest(424803) -- Woodcutting Skills
+			SureAcceptQuest(424804) -- Recognition
+	</waypoint>
+	<!-- # 86 --><waypoint x="130" z="-353" y="1561">
+			player:target_NPC(120434) -- Ghuherr Shadowhammer
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425019, 1) -- Reassert Skills
+				inventory:update()
+				inventory:useItem(230474) -- Heavy Forging Hand Guards
+			end
+			if player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425019, 2) -- Reassert Skills
+				inventory:update() 
+				inventory:useItem(230473) -- Dark Grained Gloves
+			end
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425019, 3) -- Reassert Skills
+				inventory:update()
+				inventory:useItem(230472) -- Transport Gloves
+			end
+	</waypoint>
+	<!-- # 87 --><waypoint x="106" z="-406" y="1561">
+			player:target_NPC(119884) -- Harry Largekettle
+			SureAcceptQuest(425025) -- Token of Love
+	</waypoint>
+	<!-- # 88 --><waypoint x="51" z="-415" y="1561">
+			player:target_NPC(119883) -- Hruda Quickblade
+			SureAcceptQuest(425024) -- Crafting Talent
+	</waypoint>
+	<!-- # 89 --><waypoint x="94" z="-428" y="1561">
+			player:target_Object(120376) -- Fine Crafting Tool
+			yrest(1000)
+			player:target_Object(120377) -- Shape Carving Tool
+	</waypoint>
+	<!-- # 90 --><waypoint x="47" z="-416" y="1561">
+			player:target_NPC(119883) -- Hruda Quickblade
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425024, 3) -- Crafting Talent
+				inventory:update()
+				inventory:useItem(230477) -- Engraved Chainmail Boots
+			end
+			if player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425024, 2) -- Crafting Talent
+				inventory:update() 
+				inventory:useItem(230476) -- Engraved Leather Boots
+			end
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425024, 1) -- Crafting Talent
+				inventory:update()
+				inventory:useItem(230475) -- Crafting Cloth Shoes
+			end
+	</waypoint>
+	<!-- # 91 --><waypoint x="112" z="-417" y="1561">	</waypoint>
+	<!-- # 92 --><waypoint x="149" z="-268" y="1561">	</waypoint>
+	<!-- # 93 --><waypoint x="124" z="85" y="1563">	</waypoint>
+	<!-- # 94 --><waypoint x="106" z="254" y="1561">	</waypoint>
+	<!-- # 95 --><waypoint x="-8" z="330" y="1561">	</waypoint>
+	<!-- # 96 --><waypoint x="-105" z="311" y="1561">
+			player:target_NPC(119645) -- Penny Shadoweave
+			SureCompleteQuest(424804) -- Recognition
+			SureAcceptQuest(424805) -- Wolf's Letter
+	</waypoint>
+	<!-- # 97 --><waypoint x="-43" z="335" y="1561">	</waypoint>
+	<!-- # 98 --><waypoint x="415" z="335" y="1561">
+			player:target_NPC(120451) -- Tjarkta Yanoh
+			SureAcceptQuest(425027) -- Shadow Heart
+	</waypoint>
+	<!-- # 99 --><waypoint x="378" z="244" y="1561">	</waypoint>
+	<!-- #100 --><waypoint x="342" z="177" y="1561">	</waypoint>
+	<!-- #101 --><waypoint x="326" z="-231" y="1561">
+			player:target_NPC(119944) -- Mailbox
+			SureCompleteQuest(424805) -- Wolf's Letter
+			SureAcceptQuest(424806) -- What Is This?!
+	</waypoint>
+	<!-- #102 --><waypoint x="319" z="148" y="1561">	</waypoint>
+	<!-- #103 --><waypoint x="417" z="236" y="1561">
+			player:target_NPC(119876) -- Jalin Polly
+			SureCompleteQuest(424806) -- What Is This?!
+			SureAcceptQuest(424807) -- Well-Intentioned Lie
+	</waypoint>
+	<!-- #104 --><waypoint x="416" z="483" y="1561">
+			player:target_NPC(119642) -- Wolf Asher
+			SureCompleteQuest(424807) -- Well-Intentioned Lie
+			SureAcceptQuest(424808) -- Wild Child
+	</waypoint>
+	<!-- #105 --><waypoint x="357" z="464" y="1577">	</waypoint>
+	<!-- #106 --><waypoint x="337" z="39" y="1577">	</waypoint>
+	<!-- #107 --><waypoint x="513" z="-334" y="1577">	</waypoint>
+	<!-- #108 --><waypoint x="747" z="-382" y="1577">	</waypoint>
+	<!-- #109 --><waypoint x="775" z="-771" y="1577">	</waypoint>
+	<!-- #110 --><waypoint x="1099" z="-799" y="1576">	</waypoint>
+	<!-- #111 --><waypoint x="1138" z="-878" y="1578">
+			player:target_NPC(119879) -- Burkhlee Oldbore
+			SureAcceptQuest(425021) -- Divine Droplets
+	</waypoint>
+	<!-- #112 --><waypoint x="1265" z="-931" y="1576">	</waypoint>
+	<!-- #113 --><waypoint x="1562" z="-1040" y="1578">
+			player:target_NPC(120440) -- Pradush Blacknail
+			SureAcceptQuest(425030) -- Hometown Food
+	</waypoint>
+	<!-- #114 --><waypoint x="1561" z="-935" y="1576">	</waypoint>
+	<!-- #115 --><waypoint x="1702" z="-799" y="1576">	</waypoint>
+	<!-- #116 --><waypoint x="1927" z="-769" y="1577">	</waypoint>
+	<!-- #117 --><waypoint x="1950" z="-369" y="1577">	</waypoint>
+	<!-- #118 --><waypoint x="2134" z="-359" y="1577">
+			player:target_NPC(119877) -- Nini Asher
+			SureCompleteQuest(424808) -- Wild Child
+			SureAcceptQuest(424809) -- Shortcut Home
+	</waypoint>
+	<!-- #119 --><waypoint x="2240" z="-365" y="1575">
+			player:target_NPC(119885) -- Snoop the Stubborn
+			SureCompleteQuest(424809) -- Shortcut Home
+	</waypoint>
+	<!-- #120 --><waypoint x="1954" z="-350" y="1577">	</waypoint>
+	<!-- #121 --><waypoint x="1929" z="-771" y="1577">	</waypoint>
+	<!-- #122 --><waypoint x="1697" z="-798" y="1577">	</waypoint>
+	<!-- #123 --><waypoint x="1679" z="-863" y="1576">
+			player:target_NPC(120442) -- Roland Ironfist
+			SureAcceptQuest(425033) -- Protest Against Outsiders
+	</waypoint>
+	<!-- #124 --><waypoint x="1623" z="-916" y="1576">
+			player:target_NPC(120453) -- Purlani Soulforge
+			SureCompleteQuest(425033) -- Protest Against Outsiders
+			SureAcceptQuest(425034) -- Express Dissatisfaction
+	</waypoint>
+	<!-- #125 --><waypoint x="1291" z="-1027" y="1576">
+			player:target_NPC(120441) -- Thisthor Shadowblaze
+			SureCompleteQuest(425030) -- Hometown Food
+			SureAcceptQuest(425031) -- Back to the Chopping Board
+	</waypoint>
+	<!-- #126 --><waypoint x="1164" z="-789" y="1576">	</waypoint>
+	<!-- #127 --><waypoint x="767" z="-778" y="1577">	</waypoint>
+	<!-- #128 --><waypoint x="747" z="-359" y="1577">	</waypoint>
+	<!-- #129 --><waypoint x="539" z="-360" y="1577">	</waypoint>
+	<!-- #130 --><waypoint x="359" z="-189" y="1577">	</waypoint>
+	<!-- #131 --><waypoint x="67" z="-209" y="1577">	</waypoint>
+	<!-- #132 --><waypoint x="-115" z="-348" y="1578">
+			player:target_NPC(120245) -- Logden Darkstove
+			ChoiceOptionByName(getTEXT("SC_425071_GIVE")) -- A snack given to you by Hebron Shadoweave.
+			player:target_NPC(120245) -- Logden Darkstove
+			SureAcceptQuest(425074) -- Rune Armaments
+			player:dismount()
+	</waypoint>
+	<!-- #133 --><waypoint x="-89" z="-374" y="1561">
+			if getQuestStatus(425074) == "incomplete" then
+				repeat
+					player:target_Object(120246) -- Rune Charger
+					player:target_Object(120247) -- Rune Armaments
+					RoMScript("UseExtraAction(1)")
+					yrest(2000)
+				until getQuestStatus(425074) == "complete"
+			end
+	</waypoint>
+	<!-- #134 --><waypoint x="-111" z="-341" y="1561">
+			player:target_NPC(120245) -- Logden Darkstove
+			if player.Class1 == CLASS_WARRIOR then
+				SureCompleteQuest(425074, 2) -- Rune Armaments
+			else
+				SureCompleteQuest(425074, 3) -- Rune Armaments
+			end
+	</waypoint>
+	<!-- #135 --><waypoint x="-69" z="-329" y="1561">
+			player:target_NPC(119880) -- Tooka Ironpot
+			SureAcceptQuest(425022) -- Secret Help
+			player:mount()
+	</waypoint>
+	<!-- #136 --><waypoint x="16" z="-275" y="1578">	</waypoint>
+	<!-- #137 --><waypoint x="123" z="-61" y="1579">	</waypoint>
+	<!-- #138 --><waypoint x="123" z="191" y="1579">	</waypoint>
+	<!-- #139 --><waypoint x="19" z="328" y="1578">	</waypoint>
+	<!-- #140 --><waypoint x="-350" z="328" y="1645">
+			player:dismount()
+			player:target_NPC(120240) -- Valent Blackscar
+			ChoiceOptionByName(getTEXT("SC_425071_GIVE")) -- A snack given to you by Hebron Shadoweave.
+			player:target_NPC(120240) -- Valent Blackscar
+			SureAcceptQuest(425072) -- Here Comes the Rain!
+			if getQuestStatus(425072) == "incomplete" then
+				repeat
+					player:target_Object(120243) -- You must strike in the place that's in need of repair.
+					yrest(1000)
+					player:target_Object(120388) -- Repair Spot with Piler
+					yrest(1000)
+				until getQuestStatus(425072) == "complete"
+			end
+	</waypoint>
+	<!-- #141 --><waypoint x="-350" z="328" y="1645">
+			player:target_NPC(120389) -- Valent Blackscar
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425072, 1) -- Here Comes the Rain!
+				inventory:update()
+				inventory:useItem(230502) -- Craftsman Tool
+			else
+				SureCompleteQuest(425072, 2) -- Here Comes the Rain!
+				if player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARRIOR then
+					inventory:update()
+					inventory:useItem(230503) -- Carved Shield
+				end
+			end
+			player:mount()
+	</waypoint>
+	<!-- #142 --><waypoint x="-168" z="370" y="1577">	</waypoint>
+	<!-- #143 --><waypoint x="-229" z="515" y="1577">	</waypoint>
+	<!-- #144 --><waypoint x="-438" z="584" y="1576">	</waypoint>
+	<!-- #145 --><waypoint x="-589" z="892" y="1513">
+			player:dismount()
+			if getQuestStatus(425021) == "incomplete" then
+				repeat
+					player:target_Object(120370) -- Dewleaf
+					yrest(2000)
+				until getQuestStatus(425021) == "complete"
+			end
+	</waypoint>
+	<!-- #146 --><waypoint x="-531" z="934" y="1485">	</waypoint>
+	<!-- #147 --><waypoint x="-606" z="1100" y="1422">	</waypoint>
+	<!-- #148 --><waypoint x="-754" z="1325" y="1336" tag="Secret">
+			player:target_Object(120371) -- Ore Fragments
+			if getQuestStatus(425022) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("SecretDone"))
+			end
+	</waypoint>
+	<!-- #149 --><waypoint x="-839" z="1334" y="1322">
+			player:target_Object(120371) -- Ore Fragments
+			if getQuestStatus(425022) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("SecretDone"))
+			end
+	</waypoint>
+	<!-- #150 --><waypoint x="-839" z="1083" y="1347">
+			player:target_Object(120371) -- Ore Fragments
+			if getQuestStatus(425022) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("SecretDone"))
+			end
+	</waypoint>
+	<!-- #151 --><waypoint x="-779" z="1320" y="1332">
+			player:target_Object(120371) -- Ore Fragments
+			if getQuestStatus(425022) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("SecretDone"))
+			end
+	</waypoint>
+	<!-- #152 --><waypoint x="-834" z="1330" y="1323">
+			player:target_Object(120371) -- Ore Fragments
+			if getQuestStatus(425022) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Secret"))
+			end
+	</waypoint>
+	<!-- #153 --><waypoint x="-769" z="1213" y="1359" tag="SecretDone">
+			player:mount()
+	</waypoint>
+	<!-- #154 --><waypoint x="-553" z="1053" y="1464">	</waypoint>
+	<!-- #155 --><waypoint x="-516" z="665" y="1564">	</waypoint>
+	<!-- #156 --><waypoint x="-175" z="505" y="1577">	</waypoint>
+	<!-- #157 --><waypoint x="57" z="326" y="1577">	</waypoint>
+	<!-- #158 --><waypoint x="549" z="-354" y="1577">	</waypoint>
+	<!-- #159 --><waypoint x="743" z="-373" y="1577">	</waypoint>
+	<!-- #160 --><waypoint x="768" z="-768" y="1577">	</waypoint>
+	<!-- #161 --><waypoint x="1094" z="-797" y="1576">	</waypoint>
+	<!-- #162 --><waypoint x="1136" z="-870" y="1578">
+			player:target_NPC(119879) -- Burkhlee Oldbore
+			SureCompleteQuest(425021) -- Divine Droplets
+			SureAcceptQuest(425020) -- Counterattack Assailants
+	</waypoint>
+	<!-- #163 --><waypoint x="1198" z="-905" y="1560">
+	</waypoint>
+	<!-- #164 --><waypoint x="1255" z="-965" y="1560">	</waypoint>
+	<!-- #165 --><waypoint x="1248" z="-1029" y="1560">	</waypoint>
+	<!-- #166 --><waypoint x="1200" z="-1097" y="1561">
+			player:target_NPC(120244) -- Ned Shadoweave
+			ChoiceOptionByName(getTEXT("SC_425071_GIVE")) -- A snack given to you by Hebron Shadoweave.
+			player:target_NPC(120244) -- Ned Shadoweave
+			SureAcceptQuest(425073) -- Perilous
+	</waypoint>
+	<!-- #167 --><waypoint x="1244" z="-1026" y="1560" tag="Ambush">
+			killForQuest(false, 106561, 425020, 106561, 425073) -- Ambush Phantom / Counterattack Assailants / Perilous
+	</waypoint>
+	<!-- #168 --><waypoint x="1375" z="-986" y="1560">
+			killForQuest(false, 106561, 425020, 106561, 425073) -- Ambush Phantom / Counterattack Assailants / Perilous
+	</waypoint>
+	<!-- #169 --><waypoint x="1465" z="-958" y="1560">	
+			killForQuest(false, 106561, 425020, 106561, 425073) -- Ambush Phantom / Counterattack Assailants / Perilous
+	</waypoint>
+	<!-- #170 --><waypoint x="1572" z="-875" y="1560">
+			killForQuest(false, 106561, 425020, 106561, 425073) -- Ambush Phantom / Counterattack Assailants / Perilous
+	</waypoint>
+	<!-- #171 --><waypoint x="1649" z="-739" y="1560">
+			killForQuest(false, 106561, 425020, 106561, 425073) -- Ambush Phantom / Counterattack Assailants / Perilous
+	</waypoint>
+	<!-- #172 --><waypoint x="1592" z="-822" y="1560">	
+			killForQuest(false, 106561, 425020, 106561, 425073) -- Ambush Phantom / Counterattack Assailants / Perilous
+	</waypoint>
+	<!-- #173 --><waypoint x="1471" z="-948" y="1560">
+			killForQuest(false, 106561, 425020, 106561, 425073) -- Ambush Phantom / Counterattack Assailants / Perilous
+	</waypoint>
+	<!-- #174 --><waypoint x="1327" z="-959" y="1560">
+			killForQuest(false, 106561, 425020, 106561, 425073) -- Ambush Phantom / Counterattack Assailants / Perilous
+	</waypoint>
+	<!-- #175 --><waypoint x="1243" z="-908" y="1560">
+			if getQuestStatus(425020) == "incomplete" or getQuestStatus(425073) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Ambush"))
+			end
+	</waypoint>
+	<!-- #176 --><waypoint x="1142" z="-875" y="1564">
+			player:target_NPC(119879) -- Burkhlee Oldbore
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425020, 1) -- Counterattack Assailants
+				inventory:update()
+				inventory:useItem(230469) -- Handy Belt
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425020, 2) -- Counterattack Assailants
+				inventory:update()
+				inventory:useItem(230470) -- Utility Belt
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425020, 3) -- Counterattack Assailants
+				inventory:update()
+				inventory:useItem(230471) -- Rugged Belt
+			end
+	</waypoint>
+	<!-- #177 --><waypoint x="1205" z="-908" y="1560">	</waypoint>
+	<!-- #178 --><waypoint x="1254" z="-945" y="1560">	</waypoint>
+	<!-- #179 --><waypoint x="1254" z="-1012" y="1560">	</waypoint>
+	<!-- #180 --><waypoint x="1197" z="-1099" y="1561">
+			player:target_NPC(120244) -- Ned Shadoweave
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425073, 1) -- Perilous
+				inventory:update()
+				inventory:useItem(230448) -- Breathtaking Cloth Shoes
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425073, 2) -- Perilous
+				inventory:update()
+				inventory:useItem(230449) -- Breathtaking Leather Boots
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425073, 3) -- Perilous
+				inventory:update()
+				inventory:useItem(230450) -- Breathtaking Chainmail Boots
+			end
+			player:mount()
+	</waypoint>
+	<!-- #181 --><waypoint x="1252" z="-1017" y="1560">	</waypoint>
+	<!-- #182 --><waypoint x="1253" z="-954" y="1560">	</waypoint>
+	<!-- #183 --><waypoint x="1121" z="-805" y="1560">	</waypoint>
+	<!-- #184 --><waypoint x="779" z="-768" y="1561">	</waypoint>
+	<!-- #185 --><waypoint x="749" z="-375" y="1561">	</waypoint>
+	<!-- #186 --><waypoint x="511" z="-344" y="1561">	</waypoint>
+	<!-- #187 --><waypoint x="487" z="7" y="1561">
+			player:target_NPC(120239) -- Hebron Shadoweave
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425071, 1) -- Reward For Rune Craftsmen
+				inventory:update()
+				inventory:useItem(230454) -- Exhilarating Cloth Shoulders
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425071, 2) -- Reward For Rune Craftsmen
+				inventory:update()
+				inventory:useItem(230455) -- Exhilarating Leather Shoulders
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425071, 3) -- Reward For Rune Craftsmen
+				inventory:update()
+				inventory:useItem(230456) -- Exhilarating Chainmail Shoulders
+			end
+	</waypoint>
+	<!-- #188 --><waypoint x="325" z="-64" y="1561">	</waypoint>
+	<!-- #189 --><waypoint x="28" z="-258" y="1561">	</waypoint>
+	<!-- #190 --><waypoint x="-57" z="-320" y="1561">
+			player:target_NPC(119880) -- Tooka Ironpot
+			SureCompleteQuest(425022) -- Secret Help
+	</waypoint>
+	<!-- #191 --><waypoint x="-130" z="-339" y="1561">
+			player:target_NPC(120245) -- Logden Darkstove
+			ChoiceOptionByName(getTEXT("SC_120245_Q_2")) -- Tell Logden Darkstove about the missing screws.
+			yrest(500)
+			ChoiceOptionByName(getTEXT("SC_120245_Q_5")) -- Promise that you'll be an honest person.
+			if player.Class1 == CLASS_CHAMPION then
+				player:target_NPC(120245) -- Logden Darkstove
+				ChoiceOptionByName(getTEXT("SC_546211_CHECK")) -- What are rune armaments exactly?
+			end
+	</waypoint>
+	<!-- #192 --><waypoint x="4" z="-286" y="1561">	</waypoint>
+	<!-- #193 --><waypoint x="177" z="-287" y="1561">	</waypoint>
+	<!-- #194 --><waypoint x="231" z="-333" y="1561">	</waypoint>
+	<!-- #195 --><waypoint x="363" z="-339" y="1561">
+			player:target_NPC(119881) -- Bodus Shadowhook
+			SureAcceptQuest(425023) -- Mysterious Silver Coin
+	</waypoint>
+	<!-- #196 --><waypoint x="552" z="-353" y="1561">	</waypoint>
+	<!-- #197 --><waypoint x="761" z="-384" y="1561">	</waypoint>
+	<!-- #198 --><waypoint x="761" z="-770" y="1561">	</waypoint>
+	<!-- #199 --><waypoint x="1108" z="-797" y="1560">	</waypoint>
+	<!-- #200 --><waypoint x="1275" z="-911" y="1561">	</waypoint>
+	<!-- #201 --><waypoint x="1415" z="-914" y="1561">
+			player:target_NPC(120249) -- Kuta Shadowblade
+			SureAcceptQuest(425075) -- Blessed bloodline?
+			if getQuestStatus(425075) == "incomplete" then
+				repeat
+					player:target_Object(120250) -- Gradually Fossilized Guard
+					yrest(3000)
+				until getQuestStatus(425075) == "complete"
+			end
+			player:mount()
+	</waypoint>
+	<!-- #202 --><waypoint x="1275" z="-908" y="1562">	</waypoint>
+	<!-- #203 --><waypoint x="1090" z="-792" y="1560">	</waypoint>
+	<!-- #204 --><waypoint x="771" z="-767" y="1561">	</waypoint>
+	<!-- #205 --><waypoint x="745" z="-366" y="1561">	</waypoint>
+	<!-- #206 --><waypoint x="542" z="-341" y="1561">	</waypoint>
+	<!-- #207 --><waypoint x="488" z="8" y="1561">
+			player:target_NPC(120239) -- Hebron Shadoweave
+			SureCompleteQuest(425075) -- Blessed bloodline?
+			SureAcceptQuest(425076) -- Assist Pioneer
+	</waypoint>
+	<!-- #208 --><waypoint x="535" z="-353" y="1561">	</waypoint>
+	<!-- #209 --><waypoint x="749" z="-378" y="1561">	</waypoint>
+	<!-- #210 --><waypoint x="771" z="-776" y="1561">	</waypoint>
+	<!-- #211 --><waypoint x="1047" z="-791" y="1560">	</waypoint>
+	<!-- #212 --><waypoint x="1264" z="-912" y="1560">	</waypoint>
+	<!-- #213 --><waypoint x="1456" z="-913" y="1560">	</waypoint>
+	<!-- #214 --><waypoint x="1725" z="-799" y="1560">	</waypoint>
+	<!-- #215 --><waypoint x="1922" z="-770" y="1561">	</waypoint>
+	<!-- #216 --><waypoint x="1949" z="-372" y="1561">	</waypoint>
+	<!-- #217 --><waypoint x="2232" z="-360" y="1559" tag="Ratsnakes">
+			CatchMobSetup(106558, 29, 241061, 425031)
+			player:dismount()
+	</waypoint>
+	<!-- #218 --><waypoint x="2431" z="-324" y="1498">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #219 --><waypoint x="2560" z="-269" y="1441">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #220 --><waypoint x="2675" z="-107" y="1373">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #221 --><waypoint x="2825" z="172" y="1322">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #222 --><waypoint x="2840" z="309" y="1314" tag="Coin">
+			if getQuestStatus(425023) == "incomplete" then
+				player:target_Object(120372) -- Silver Coin Cleansing
+			end
+	</waypoint>
+	<!-- #223 --><waypoint x="2992" z="170" y="1343">
+			if getQuestStatus(425023) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Coin"))
+			end
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #224 --><waypoint x="3172" z="95" y="1338">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #225 --><waypoint x="3355" z="-204" y="1327">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #226 --><waypoint x="3490" z="-355" y="1320">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #227 --><waypoint x="3643" z="-446" y="1296">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #228 --><waypoint x="3759" z="-535" y="1271">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #229 --><waypoint x="3494" z="-355" y="1320">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #230 --><waypoint x="3208" z="-259" y="1325">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #231 --><waypoint x="2906" z="-257" y="1350">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #232 --><waypoint x="2602" z="-271" y="1423">
+			killForQuest(false, 106558, 425031, 106558, 425025, 106560, 425027) -- Crystal Ratsnake / Back to the Chopping Board / Token of Love and Magic Rock Gamiter / Shadow Heart
+	</waypoint>
+	<!-- #233 --><waypoint x="2243" z="-360" y="1559">
+			if getQuestStatus(425031) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+			if getQuestStatus(425031) == "incomplete" or getQuestStatus(425025) == "incomplete" or getQuestStatus(425027) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Ratsnakes"))
+			end
+			if player.Class1 == CLASS_CHAMPION and player.Level > 7 then
+				inventory:useItem(213730) -- Meticulous Strike
+			end
+			player:mount()
+	</waypoint>
+	<!-- #234 --><waypoint x="1959" z="-357" y="1577">	</waypoint>
+	<!-- #235 --><waypoint x="1928" z="-761" y="1577">	</waypoint>
+	<!-- #236 --><waypoint x="1699" z="-806" y="1576">	</waypoint>
+	<!-- #237 --><waypoint x="1286" z="-1028" y="1576">
+			player:target_NPC(120441) -- Thisthor Shadowblaze
+			SureCompleteQuest(425031) -- Back to the Chopping Board
+			SureAcceptQuest(425032) -- Taste of Yearning
+	</waypoint>
+	<!-- #238 --><waypoint x="1189" z="-818" y="1576">	</waypoint>
+	<!-- #239 --><waypoint x="1054" z="-789" y="1578">	</waypoint>
+	<!-- #240 --><waypoint x="775" z="-774" y="1577">	</waypoint>
+	<!-- #241 --><waypoint x="747" z="-370" y="1577">	</waypoint>
+	<!-- #242 --><waypoint x="384" z="-353" y="1578">
+			player:target_NPC(119881) -- Bodus Shadowhook
+			SureCompleteQuest(425023) -- Mysterious Silver Coin
+	</waypoint>
+	<!-- #243 --><waypoint x="404" z="-267" y="1577">	</waypoint>
+	<!-- #244 --><waypoint x="242" z="-214" y="1577">	</waypoint>
+	<!-- #245 --><waypoint x="128" z="-296" y="1578">	</waypoint>
+	<!-- #246 --><waypoint x="110" z="-404" y="1578">
+			player:target_NPC(119884) -- Harry Largekettle
+			SureCompleteQuest(425025) -- Token of Love
+			SureAcceptQuest(425026) -- A Surprising Start
+	</waypoint>
+	<!-- #247 --><waypoint x="145" z="-293" y="1578">	</waypoint>
+	<!-- #248 --><waypoint x="383" z="271" y="1578">	</waypoint>
+	<!-- #249 --><waypoint x="409" z="326" y="1578">
+			player:target_NPC(120451) -- Tjarkta Yanoh
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425027, 1) -- Shadow Heart
+				inventory:update()
+				inventory:useItem(230484) -- Soulful Cloth Leg Armor
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425027, 2) -- Shadow Heart
+				inventory:update()
+				inventory:useItem(230485) -- Shadowsoul Leather Leg Armor
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425027, 3) -- Shadow Heart
+				inventory:update()
+				inventory:useItem(230486) -- Dark Soul Chainmail Leg Armor
+			end
+	</waypoint>
+	<!-- #250 --><waypoint x="345" z="218" y="1577">	</waypoint>
+	<!-- #251 --><waypoint x="344" z="6" y="1578">	</waypoint>
+	<!-- #252 --><waypoint x="532" z="-352" y="1577">	</waypoint>
+	<!-- #253 --><waypoint x="737" z="-372" y="1577">	</waypoint>
+	<!-- #254 --><waypoint x="776" z="-775" y="1577">	</waypoint>
+	<!-- #255 --><waypoint x="1080" z="-796" y="1576">	</waypoint>
+	<!-- #256 --><waypoint x="1320" z="-970" y="1576">	</waypoint>
+	<!-- #257 --><waypoint x="1488" z="-924" y="1577">	</waypoint>
+	<!-- #258 --><waypoint x="1705" z="-801" y="1576">	</waypoint>
+	<!-- #259 --><waypoint x="1925" z="-771" y="1577">	</waypoint>
+	<!-- #260 --><waypoint x="1954" z="-367" y="1577">	</waypoint>
+	<!-- #261 --><waypoint x="2229" z="-358" y="1575">
+			player:dismount()
+	</waypoint>
+	<!-- #262 --><waypoint x="2380" z="-326" y="1517">	</waypoint>
+	<!-- #263 --><waypoint x="2532" z="-366" y="1465">
+			if getQuestStatus(425026) == "incomplete" then
+				repeat
+					player:target_Object(120373) -- Bellscenti
+				until getQuestStatus(425026) == "complete"
+			end
+	</waypoint>
+	<!-- #264 --><waypoint x="2380" z="-326" y="1517">	</waypoint>
+	<!-- #265 --><waypoint x="2190" z="-351" y="1577">
+			player:mount()
+	</waypoint>
+	<!-- #266 --><waypoint x="1953" z="-364" y="1577">	</waypoint>
+	<!-- #267 --><waypoint x="1919" z="-776" y="1577">	</waypoint>
+	<!-- #268 --><waypoint x="1676" z="-820" y="1576">	</waypoint>
+	<!-- #269 --><waypoint x="1544" z="-891" y="1576">	</waypoint>
+	<!-- #270 --><waypoint x="1255" z="-906" y="1576">	</waypoint>
+	<!-- #271 --><waypoint x="1085" z="-792" y="1576">	</waypoint>
+	<!-- #272 --><waypoint x="774" z="-775" y="1577">	</waypoint>
+	<!-- #273 --><waypoint x="753" z="-367" y="1577">	</waypoint>
+	<!-- #274 --><waypoint x="523" z="-351" y="1577">	</waypoint>
+	<!-- #275 --><waypoint x="364" z="-74" y="1577">	</waypoint>
+	<!-- #276 --><waypoint x="353" z="137" y="1577">
+			player:target_NPC(120443) -- Aileen Silverkey
+			SureCompleteQuest(425026) -- A Surprising Start
+			player:target_NPC(120443) -- Aileen Silverkey
+			inventory:useItem(241063) -- Stewed Snake Meat
+			yrest(3000)
+			player:target_NPC(120237) -- Kemo Silvering
+			inventory:useItem(241063) -- Stewed Snake Meat
+			yrest(3000)
+	</waypoint>
+	<!-- #277 --><waypoint x="405" z="284" y="1578">	</waypoint>
+	<!-- #278 --><waypoint x="422" z="485" y="1578">
+			player:target_NPC(120439) -- Kannil  Deeprut
+			inventory:useItem(241063) -- Stewed Snake Meat
+			yrest(3000)
+			player:target_NPC(119642) -- Wolf Asher
+			inventory:useItem(241063) -- Stewed Snake Meat
+			yrest(3000)
+	</waypoint>
+	<!-- #279 --><waypoint x="325" z="446" y="1577">	</waypoint>
+	<!-- #280 --><waypoint x="-35" z="435" y="1577">	</waypoint>
+	<!-- #281 --><waypoint x="-99" z="569" y="1577">
+			player:target_NPC(119641) -- Saatchi Shadoweave
+			inventory:useItem(241063) -- Stewed Snake Meat
+			yrest(3000)
+			player:mount()
+	</waypoint>
+	<!-- #282 --><waypoint x="-62" z="453" y="1577">	</waypoint>
+	<!-- #283 --><waypoint x="247" z="75" y="1576">	</waypoint>
+	<!-- #284 --><waypoint x="523" z="-352" y="1577">	</waypoint>
+	<!-- #285 --><waypoint x="749" z="-373" y="1577">	</waypoint>
+	<!-- #286 --><waypoint x="768" z="-774" y="1577">	</waypoint>
+	<!-- #287 --><waypoint x="1125" z="-796" y="1576">	</waypoint>
+	<!-- #288 --><waypoint x="1287" z="-1019" y="1576">
+			player:target_NPC(120441) -- Thisthor Shadowblaze
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425032, 1) -- Taste of Yearning
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425032, 2) -- Taste of Yearning
+			elseif player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425032, 3) -- Taste of Yearning
+			end
+	</waypoint>
+	<!-- #289 --><waypoint x="1612" z="-852" y="1560">	</waypoint>
+	<!-- #290 --><waypoint x="1750" z="-784" y="1560">	</waypoint>
+	<!-- #291 --><waypoint x="1927" z="-776" y="1561">	</waypoint>
+	<!-- #292 --><waypoint x="1961" z="-358" y="1561">	</waypoint>
+	<!-- #293 --><waypoint x="2236" z="-358" y="1559">
+			loadPaths("YrvandisHollows/YH_02_SintherCamp")
+	</waypoint>
+</waypoints>

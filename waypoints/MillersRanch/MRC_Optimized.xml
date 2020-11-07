@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+
+<!--        Rock5's Millers Ranch Chickens run        -->
+<!--           By Rock5         Version 4.6           -->
+<!--      Incorporating Jduartedj's enhancements      -->
+<!-- www.solarstrike.net/phpBB3/viewtopic.php?p=12139 -->
+
+<onLoad>
+	--== User Option ==--
+
+	Deliver = 10         -- Change if you want to enable/disable deliver quests  0=disable, any number = deliver after that amount of eggs (must b bigger than 9)
+	LagTime = 0           -- Affects accepting/completing quests. Increase LagTime if time is wasted by repeated CompleteQuests or AcceptQuests.
+	RunningSpeed = 50     -- The speed the toon runs when not teleporting. 50 is normal. Recommended 100.
+	UseTeleporter = false -- Use Jduratedj's teleport userfunction. Please make sure you have it installed to use this option.
+	Timeout = 300         -- Time hens and eggs stay in the ignore list before being given another chance. '0' disables it, remains permanently in ignore list.
+	debugging = true      -- Set to true to display extra useful information regarding egg drop rates and ignore lists.
+
+	--=================--
+
+	ignoredHens = {}
+	ignoredEggs = {}
+
+	changeProfileOption("HARVEST_DISTANCE", 150)
+
+	-- Get name strings
+	questname1 = RoMScript("TEXT('Sys422386_name')"); yrest(500) -- ie. "An Easy Lay?" part 1
+	questname2 = RoMScript("TEXT('Sys425174_name')"); yrest(500) -- ie. "An Easy Lay?" part 2
+	npcname = RoMScript("TEXT('Sys114930_name')"); yrest(500)   -- ie. "Jenna Miller"
+	merchant = RoMScript("TEXT('Sys114935_name')"); yrest(500)  -- ie. "Pykesile"
+
+	-- Don't need assist. Disable it.
+	if settings.profile.options.EGGPET_ENABLE_ASSIST == true then
+		settings.profile.options.EGGPET_ENABLE_ASSIST = false
+		local assistPet = CEggPet(settings.profile.options.EGGPET_ASSIST_SLOT)
+		assistPet:Return()
+	end
+
+	-- Don't need buffs, disable those skills
+	for i, skill in pairs(settings.profile.skills) do
+		if skill.Type == STYPE_BUFF then
+			settings.profile.skills[i].AutoUse = false
+		end
+	end
+
+	local zoneid = RoMScript("GetZoneID()")
+	if zoneid ~= 304 then -- not at Miller's Ranch
+		-- Try to find Sorrun and teleport in
+		if player:target_NPC("Sorrun") then
+			sendMacro("ChoiceOption(3)") yrest(1000)
+			sendMacro("ChoiceOption(1)")
+			waitForLoadingScreen()
+			yrest(1000)
+			__WPL:setWaypointIndex(__WPL:getNearestWaypoint(player.X,player.Z))
+		else
+			error("You are too far from Miller's Ranch")
+		end
+	end
+
+	-- Apply speed hack
+	local playerAddress = memoryReadIntPtr(getProc(), addresses.staticbase_char, addresses.charPtr_offset);
+	if playerAddress ~= 0 then
+		memoryWriteFloat(getProc(), playerAddress + 0x40, RunningSpeed);
+	end
+
+	-- eval functions
+	function feedHenEvalFunc(address)
+		-- Don't target hens in the ignore list
+		for k,v in pairs(ignoredHens) do
+			if v.address == address then
+				if Timeout == 0 or (Timeout > 0 and Timeout > (os.time() - v.time)) then
+					return false
+				end
+			end
+		end
+
+		local hen = CObject(address)
+
+		-- Don't target hens in coop
+		if hen.Z > 3240 then return false end -- Hen in coop
+
+		-- Don't target moving hens
+		local oldX, oldZ = hen.X, hen.Z
+		yrest(100)
+		hen:update()
+		if distance(hen.X,hen.Z,oldX,oldZ) > 2 then return false end
+
+		return true
+	end
+
+	function coopHenEvalFunc(address)
+		-- Don't target hens in the ignore list
+		for k,v in pairs(ignoredHens) do
+			if v.address == address then
+				if Timeout == 0 or (Timeout > 0 and Timeout > (os.time() - v.time)) then
+					return false
+				end
+			end
+		end
+
+		local hen = CObject(address)
+
+		-- Only target coop Hens
+		if 3240 > hen.Z then return false end
+
+		-- Don't target moving hens
+		local oldX, oldZ = hen.X, hen.Z
+		yrest(100)
+		hen:update()
+		if distance(hen.X,hen.Z,oldX,oldZ) > 2 then return false end
+
+		return true
+	end
+
+	function eggEvalFunc(address)
+		-- Don't target eggs in the ignore list
+		for k,v in pairs(ignoredEggs) do
+			if Timeout > 0 and (os.time() - v.time) > Timeout then
+				table.remove(ignoredEggs,k)
+			elseif v.address == address then
+				return false
+			end
+		end
+
+		return true
+	end
+
+	function feedEvalFunc(address)
+		-- Make sure the feed is from the right shed
+		local feed = CObject(address)
+
+		if feed.X > 4000 or feed.Z > 3030 then
+			return false
+		end
+
+		return true
+	end
+
+	-- local teleport function checker
+	function portTo(_x, _z, notWaypoint)
+		-- Is Teleporter is enabled?
+		if not UseTeleporter then
+			return
+		end
+
+		-- Close enough. Don't teleport (when feeding hens)
+		if notWaypoint then
+			local dist = distance(player.X, player.Z, _x, _z)
+			if 19 > dist then
+				return
+			end
+		end
+
+		teleport(_x, _z)
+	end
+
+	-- Debuging -----
+	hencount = 0
+	eggcount = 0
+	speedlog = {}
+	speedlogcount = 0
+	ongoingGoldenEggCount = inventory:itemTotalCount(204792)
+	-- Record start data for collected eggs but only if starting with less than 10 Fresh eggs.
+	if 10 > inventory:itemTotalCount(204795) then
+		speedlogcount = speedlogcount + 1
+		speedlog[speedlogcount] = {start = os.clock()}
+	end
+	-----------------
+</onLoad>
+
+	<!-- #  1 --><waypoint x="4026" z="3400">
+		if settings.profile.options.EGGPET_ENABLE_CRAFT == true then -- if crafting is enabled
+			player:merchant(merchant);
+		end
+		__WPL:setDirection(WPT_FORWARD)
+	</waypoint>
+	<!-- #  2 --><waypoint x="4029" z="3327">	</waypoint>
+	<!-- #  3 --><waypoint x="4016" z="3172" tag="merchant">	</waypoint>
+	<!-- #  4 --><waypoint x="3948" z="3107" tag="Main">
+		-- Do we need more pet tools?
+		if inventory.Money >= 9900 and settings.profile.options.EGGPET_ENABLE_CRAFT == true then
+			local craftpet = CEggPet(settings.profile.options.EGGPET_CRAFT_SLOT)
+			local toolChoice = craftpet:getToolChoices()
+			if inventory:itemTotalCount(toolChoice[1].Id) == 0 then
+				-- go buy some.
+				__WPL:setDirection(WPT_BACKWARD)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("merchant"));
+				return
+			end
+		end
+
+		queststate = getQuestStatus(questname1)
+		if queststate == "not accepted" then
+			queststate = getQuestStatus(questname2)
+		end
+
+		if queststate == "complete" and Deliver > 0 and inventory:itemTotalCount(204795) >= Deliver then
+			-- Debuging -----
+			-- Record end data for collected eggs
+			if speedlog[speedlogcount] ~= nil then
+				speedlog[speedlogcount].finish = os.clock()
+				speedlog[speedlogcount].goldeneggs = inventory:itemTotalCount(204792) - ongoingGoldenEggCount
+				ongoingGoldenEggCount = inventory:itemTotalCount(204792)
+			end
+			local deliverstart = os.clock()
+			-----------------
+			player:target_NPC(npcname)
+			while inventory:itemTotalCount(204795) > 9 do --if 9+ fresh eggs
+				-- Complete quest
+				if not CompleteQuestByName(questname2) then CompleteQuestByName(questname1) end
+
+				-- Accept quest
+				if not AcceptQuestByName(questname2) then AcceptQuestByName(questname1) end
+			end
+			-- Debuging -----
+			-- Record delivery duration and start data for collected eggs
+			if speedlog[speedlogcount] ~= nil then
+				speedlog[speedlogcount].deliver = os.clock() - deliverstart
+			end
+			speedlogcount = speedlogcount + 1
+			speedlog[speedlogcount] = {start = os.clock()}
+			-----------------
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("Main"))
+
+		elseif queststate == "not accepted" then
+			-- Accept quest
+			player:target_NPC(npcname);
+			if not AcceptQuestByName(questname2) then AcceptQuestByName(questname1) end
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("Main"))
+		else
+			local feedNumber = inventory:itemTotalCount(204789)
+			local strikes = 0
+
+			local hen = player:findNearestNameOrId(112955, nil, feedHenEvalFunc)
+			while feedNumber > 0 and hen do -- While you have feed and hen
+				portTo(hen.X, hen.Z, true)
+				player:target_Object(112955,nil,nil,true,function(address) return address == hen.Address end ) -- Feed Hen
+				if( inventory:itemTotalCount(204789) == feedNumber ) then -- Feed didn't work
+					strikes = strikes + 1
+					if strikes >= 3 then -- Add to ignore list
+						-- First see if it isn't already on list
+						local found
+						for k,v in pairs(ignoredHens) do
+							if v.address == hen.Address then
+								found = k
+								break
+							end
+						end
+						if found then -- reset timer
+							ignoredHens[found].time = os.time()
+						else
+							-- Debuging -----
+							-- Used to keep track of total number of stuck hens.
+							hencount = hencount + 1
+							-----------------
+							table.insert(ignoredHens,{address=hen.Address, time=os.time()})
+						end
+						strikes = 0
+					end
+				else
+					-- If it's on the ignore list, remove it.
+					for k,v in pairs(ignoredHens) do
+						if v.address == hen.Address then
+							table.remove(ignoredHens,k)
+							break
+						end
+					end
+					strikes = 0
+				end
+
+				feedNumber = inventory:itemTotalCount(204789)
+
+				hen = player:findNearestNameOrId(112955, nil, feedHenEvalFunc)
+			end
+			-- Out of feed or hens
+			if 1 > inventory:itemTotalCount(204789) then -- Get more feed
+				if distance(player.X,player.Z,3940,3055)>128 then
+					portTo(3948,3107); -- back to main
+				end
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Get Feed"));
+				portTo(3940,3055);
+			else
+				if distance(player.X,player.Z,3928,3185)>120 then
+					portTo(3948,3107); -- back to main
+				end
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Get Eggs"))
+				portTo(3928,3185);
+			end
+		end
+		-- Debuging -----
+		-- Print stats
+		if debugging then
+			if speedlogcount > 1 or #ignoredHens > 0 or hencount > 0 or #ignoredEggs > 0 or eggcount > 0 then
+				cprintf(cli.lightgreen, "\nDisplaying Stats:\n")
+			end
+			if speedlogcount > 1 then
+				cprintf(cli.yellow,"Egg Stats:\n")
+				print("Per " .. Deliver .. " fresh eggs.")
+				print("","To Collect\tTo Deliver\tGolden Eggs Dropped")
+				local totaltime = 0
+				local totalcount = 0
+				local totalgoldeneggs = 0
+				for k,v in pairs(speedlog) do
+					if v.finish then
+						local timetaken = (v.finish - v.start)/60
+						cprintf(cli.white,"\t%dm\t\t%ds\t\t%d\n",math.floor(timetaken), math.floor(v.deliver), v.goldeneggs )
+						totaltime = totaltime + timetaken
+						totalcount = totalcount + 1
+						totalgoldeneggs = totalgoldeneggs + v.goldeneggs
+					end
+				end
+				local eggtotal = 0
+
+				printf("Fresh Eggs average drop rate: ") cprintf(cli.white, math.floor(Deliver * totalcount/totaltime * 6000)/100 .. " per hour\n")
+				printf("Golden Eggs average drop rate: ") cprintf(cli.white, math.floor(totalgoldeneggs/totaltime * 6000)/100 .. " per hour\n\n")
+			end
+			if #ignoredHens > 0 or #ignoredEggs > 0 then
+				cprintf(cli.yellow,"Ignore lists:\n")
+			end
+			if #ignoredHens > 0 then
+				printf("Ignored hens\tSeconds\n")
+				for k,v in pairs(ignoredHens) do
+					cprintf(cli.white, "%x  \t%d\n", v.address, os.time()-v.time)
+				end
+			end
+			if hencount > 0 then printf("Total stuck hens = ") cprintf(cli.white, hencount.."\n") end
+			if #ignoredHens > 0 or hencount > 0 then printf("\n") end
+
+			if #ignoredEggs > 0 then
+				printf("Ignored eggs\tSeconds\n")
+				for k,v in pairs(ignoredEggs) do
+					cprintf(cli.white, "%x  \t%d\n", v.address, os.time()-v.time)
+				end
+			end
+			if eggcount > 0 then printf("Total stuck eggs = ") cprintf(cli.white, eggcount.."\n") end
+			if #ignoredEggs > 0 or eggcount > 0 then printf("\n") end
+		end
+		-----------------
+
+		if #ignoredHens == 3 and inventory:itemTotalCount(204789) > 0 then
+
+			if Timeout == 0 then -- Timeout is disabled. No trying again.
+				printf("All hens are stuck.\n")
+				player:sleep()
+			else -- wait until next hen due to be tried again
+				cprintf(cli.yellow, "All hens are stuck. Waiting for hens Timeout to end before trying again.\n")
+				repeat
+					yrest(1000)
+					-- get highest time
+					local highest = 0
+					for k,v in pairs (ignoredHens) do
+						local donetime = os.time() - v.time
+						if donetime > highest then
+							highest = donetime
+						end
+					end
+					displayProgressBar(highest / Timeout * 100, 60)
+				until highest > Timeout
+
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Main"))
+			end
+		end; <!-- Quest:  Report In - Accept -->
+
+	</waypoint>
+	<!-- #  5 --><waypoint x="3940" z="3055" tag="Get Feed">
+		portTo(3937,2978)	</waypoint>
+	<!-- #  6 --><waypoint x="3937" z="2978">
+		player:target_Object(112956,nil,true,false,feedEvalFunc)
+		portTo(3940,3055)	</waypoint>
+	<!-- #  7 --><waypoint x="3935" z="3051">
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("Main"));
+		portTo(3948,3107)	</waypoint>
+
+	<!-- #  8 --><waypoint x="3928" z="3185" tag="Get Eggs">
+		portTo(3929,3261)	</waypoint>
+	<!-- #  9 --><waypoint x="3929" z="3261">
+		yrest(500) -- make sure you come to a complete stop
+		repeat
+			local hen = player:findNearestNameOrId(112955,nil,coopHenEvalFunc)
+			if hen then -- hen found
+				cprintf(cli.yellow, language[95], hen.Name); -- We found object and will harvest it
+				repeat
+					repeat
+						player:target(hen)
+						Attack()
+						yrest(500)
+						player:update()
+						hen:update()
+					until player.Stance2 == 115 or 3240 > hen.Z -- Victory emote
+
+					player:clearTarget()
+
+					local maxWaitTime = 5
+					local startTime = os.clock()
+					repeat
+						yrest(500)
+						player:update()
+						egg = player:findNearestNameOrId({112958,114931}, nil, eggEvalFunc)
+					until egg or (os.clock() - startTime) > maxWaitTime
+				until egg
+
+				--Collect eggs
+				repeat
+					cprintf(cli.yellow, language[95], egg.Name); -- We found object and will harvest it
+					local maxWaitTime = 8
+					local startTime = os.clock()
+					repeat
+						player:target(egg)
+						Attack()
+						yrest(1000)
+						egg:update()
+					until (egg.Id ~= 112958 and egg.Id ~= 114931) or (os.clock() - startTime > maxWaitTime)
+
+					-- Didn't disappear. Add to ignore list
+					if (egg.Id == 112958 or egg.Id == 114931) then
+						-- Debuging -----
+						-- Used to keep track of total number of stuck eggs.
+						eggcount = eggcount + 1
+						-----------------
+						table.insert(ignoredEggs,{address=egg.Address, time=os.time()})
+					end
+
+					egg = player:findNearestNameOrId({112958,114931}, nil, eggEvalFunc)
+				until not egg
+			end
+
+		until hen == nil
+
+
+		portTo(3926,3198);
+		if 1 > inventory:itemTotalCount(204789) then yrest(LagTime+1000) end --if he gooes directly to feed he is rubberbanded!
+	</waypoint>
+	<!-- # 10 --><waypoint x="3926" z="3198">
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("Main"))
+		portTo(3948,3107)	</waypoint>
+</waypoints>

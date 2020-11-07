@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL" >
+<onload>
+	Malatina = GetIdName(111813)
+
+	settings.profile.options.WP_NO_STOP = false
+	table.insert(settings.profile.friends, "102382") -- adds the barrier to friend so doesn't try to kill it.
+	changeProfileOption("HARVEST_DISTANCE", 300);
+
+	function getkey()
+		local keys = inventory:itemTotalCount(203027)
+		repeat
+			player:update()
+			if not player.Battling  then
+				if not player:findNearestNameOrId(113106) then
+					player:target_Object(113112,3000,nil,true) -- opens seal to reveal key
+				else
+					yrest(2000)
+					player:target_Object(113106,3000,nil,true) -- harvests key
+				end
+			else
+				player:target(102384) -- kills the summoning portal and not the ghost clown, not sure if this code is working.
+				player:fight()
+			end
+		until inventory:getItemCount(203027) == keys + 1-- repeats until it has collected the key.
+	end
+
+	function gate()
+		repeat
+			player:update()
+			dist = distance(player.X, player.Z, 4081, 3335)
+			keyboardHold( settings.hotkeys.MOVE_FORWARD.key );
+			yrest(700)
+			keyboardRelease(settings.hotkeys.MOVE_FORWARD.key);
+		until 100 > dist
+		printf("Distance checked and continuing.\n")
+	end
+
+	--[[
+	inventory:getItemCount(203027) = keytotal
+	if keytotal ~= 0 then
+		__WPL:setWaypointIndex(__WPL:findWaypointTag(keytotal));
+	end
+	]]--
+</onload>
+
+	<!-- #  1 --><waypoint x="4863" z="-1909" y="112">
+		player:target_NPC(Malatina);
+		sendMacro("ChoiceOption(2);");
+		yrest(2000)
+		sendMacro("ChoiceOption(1);");
+		waitForLoadingScreen()
+		player:target_NPC(Malatina);
+		yrest(2000)
+		sendMacro("ChoiceOption(2);");
+		yrest(2000)
+		sendMacro("ChoiceOption(1);");
+		yrest(25000)
+		fly()
+	</waypoint>
+
+<!-- JUST BEFORE THE DOOR -->
+	<!-- # 11 --><waypoint x="4081" z="3499" y="18" tag="START" >	</waypoint>
+<!-- JUST AFTER THE DOOR -->
+	<!-- # 12 --><waypoint x="4081" z="3590" y="28" >	yrest(1000) </waypoint>
+<!-- HOME BASE -->
+	<!-- # 13 --><waypoint x="4081" z="3742" y="132" tag="HOME BASE" >
+		if player:findNearestNameOrId(113112) then -- if there is a key seal
+			getkey()
+			player:update() -- refresh player coords
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("HOME BASE"));
+		end
+	</waypoint>
+	<!-- # 15 --><waypoint x="4081" z="3990" y="12">gate()</waypoint>
+	<!-- # 10 --><waypoint x="4081" z="3335" y="18">
+		yrest(1000)
+		if 7 > inventory:itemTotalCount(203027) then -- Not finished. Go again.
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("START"));
+		end
+	</waypoint>
+
+<!-- COLLECT CHESTS -->
+	<!-- # 17 --><waypoint x="4081" z="3335" y="18">
+		flyoff()
+
+		--=== Create table for chests ===--
+		chests = {left = {}, right = {}}
+
+		local objectList = CObjectList();
+		objectList:update();
+		local objSize = objectList:size()
+
+		for i = 0,objSize do
+			local obj = objectList:getObject(i);
+			if obj.Id == 113114 or obj.Id == 113137 then
+				if obj.X > 4081 then -- right side
+					table.insert(chests.right, table.copy(obj))
+				else -- left side
+					table.insert(chests.left, table.copy(obj))
+				end
+			end
+		end
+	table.print(chests)
+
+		-- Sort chests
+		table.sort(chests.left, function(a,b) return b.Z > a.Z end)
+		table.sort(chests.right, function(a,b) return a.Z > b.Z end)
+	table.print(chests)
+
+		-- Get left side
+		for k,v in pairs(chests.left) do
+			memoryWriteInt(getProc(), player.Address + addresses.pawnTargetPtr_offset, v.Address);
+			RoMScript("UseSkill(1,1)");
+			yrest(2000)
+			RoMScript("UseSkill(1,1)");
+			yrest(2000)
+			repeat
+				yrest(2000)
+				player:update()
+			until not player.Casting
+		end
+
+		-- Get right side
+		for k,v in pairs(chests.right) do
+			memoryWriteInt(getProc(), player.Address + addresses.pawnTargetPtr_offset, v.Address);
+			RoMScript("UseSkill(1,1)");
+			yrest(2000)
+			RoMScript("UseSkill(1,1)");
+			yrest(2000)
+			repeat
+				yrest(2000)
+				player:update()
+			until not player.Casting
+		end
+	</waypoint>
+	<!-- # 24 --><waypoint x="4081" z="3335" y="18">
+		player:target_NPC(Malatina);
+		sendMacro("ChoiceOption(1);");
+		yrest(2000)
+		sendMacro("ChoiceOption(1);");
+		waitForLoadingScreen()
+		player:sleep()
+	</waypoint>
+</waypoints>

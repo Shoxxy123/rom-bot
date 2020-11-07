@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+<!-- Rock5's Millers Ranch Milk run Version 1.2 -->
+<onLoad>
+	repeat questname=RoMScript("TEXT('Sys422343_name')"); yrest(500) until questname -- ie. "Sweet Milk"
+	repeat npcname=RoMScript("TEXT('Sys110789_name')"); yrest(500) until npcname -- ie. "Jessica Miller"
+</onLoad>
+	<!-- #  2 --><waypoint x="4054" z="3353" tag="npc">
+		repeat queststate = getQuestStatus(questname); yrest(500) until queststate
+		if queststate == "complete" then
+			-- Complete quest
+			player:target_NPC(npcname);
+			sendMacro("CompleteQuest()"); yrest(2000);
+			-- Accept quest
+			player:target_NPC(npcname);
+			sendMacro("AcceptQuest()"); yrest(2000);
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("npc"));	
+		elseif queststate == "incomplete" then
+			-- Collect herb
+			inventory:update()
+			if 1 >= inventory:itemTotalCount(204788) then -- Get more herb
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("get_herb"));	
+			else
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("get_milk"));				
+			end
+		else
+			-- Accept quest
+			player:target_NPC(npcname);
+			sendMacro("AcceptQuest()"); yrest(2000);
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("npc"));	
+		end		
+	</waypoint>
+	<!-- #  5 --><waypoint x="4105" z="3469" tag="get_herb">
+		player:target_Object(112954,7500,true)		
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("npc"));
+	</waypoint>
+	<!-- #  8 --><waypoint x="4055" z="3291" tag="get_Milk">
+		inventory:update()
+		while inventory:itemTotalCount(204788) > 0 and inventory:itemTotalCount(204786) > 0  do 
+			player:target_Object(112953,7000)
+			inventory:update()
+		end		
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("npc"));
+	</waypoint>
+</waypoints>

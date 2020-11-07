@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+<onLoad>
+
+while inventory:itemTotalCount(202903) >= 1 do
+	player:target_NPC(120380)
+	yrest(500)
+	sendMacro("ChoiceOption(2);");
+	yrest(1500)
+	sendMacro("ChoiceOption(1);");
+	yrest(1000)
+	player:moveTo(CWaypoint(3050, 111, 44))
+
+	EventMonitorStart("checkmissed", "WARNING_MESSAGE");
+	local missed = getTEXT("SC_FLOWERFES_KORS_RS27")
+	local first = {}
+	local second = {}
+	local third = {}
+	local ignore = {}
+	local function poptable()
+		first = {}
+		second = {}
+		third = {}
+		local objectList = CObjectList();
+		objectList:update();
+		local objSize = objectList:size()
+		for i = 0,objSize do 
+			obj = objectList:getObject(i)
+			obj:update()
+			if obj.Id == 120386 then
+				if not table.contains(ignore,obj.Address) then
+					table.insert(first,obj)
+				end
+			elseif obj.Id == 120385 then
+				if not table.contains(ignore,obj.Address) then
+					table.insert(second,obj)
+				end
+			elseif obj.Id == 120384 then
+				if not table.contains(ignore,obj.Address) then
+					table.insert(third,obj)
+				end
+			end
+		end
+	end
+
+	local function cast(obj)
+		obj:update()
+		if obj then
+			player:target(obj)
+			RoMScript("UseExtraAction(1)")
+			yrest(900)
+			repeat
+				player:updateCasting()
+				yrest(100)
+			until player.Casting==false
+			local time, moreToCome, name, msg = EventMonitorCheck("checkmissed", "4,1",true)
+			if time ~= nil then
+				local score = string.match(name, "score: (%d*)")
+				if score then
+					cprintf(cli.yellow,score.."\n")
+				end
+				obj:update()
+				if obj and string.find(name,missed) then
+					print("Missed, trying again")
+					player:target(obj)
+					RoMScript("UseExtraAction(1)")
+					yrest(900)
+					repeat
+						player:updateCasting()
+						yrest(100)
+					until player.Casting==false	
+					local time, moreToCome, name, msg = EventMonitorCheck("checkmissed", "4,1",true)
+					if time ~= nil then
+						local score = string.match(name, "score: (%d*)")
+						if score then
+							cprintf(cli.yellow,score.."\n")
+						end
+					end				
+				end
+			
+			end
+
+			yrest(200)
+			table.insert(ignore,obj.Address)				
+			--table.print(ignore)
+		end
+	end
+
+	repeat   
+		player:target(player:findNearestNameOrId(120391)) -- ID here for which bench you use
+		Attack()
+		yrest(200)
+	until RoMScript("ExtraActionBarFrame:IsVisible()")
+
+	while RoMScript("ExtraActionBarFrame:IsVisible()") do
+		poptable()
+		if #first ~= 0 then
+			cast(first[1])
+		elseif #second ~= 0 then
+			cast(second[1])
+		elseif #third ~= 0 then
+			cast(third[1])
+		end
+		yrest(1)
+	end
+	player:moveTo(CWaypoint(3083, 155, 44))
+	player:target_NPC(120380)
+	sendMacro("ChoiceOption(2);");
+end
+</onLoad>
+</waypoints>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+	<onload>
+		--=== Rock5's Yolius Minigame ===--
+		--===     Haunted  House      ===--
+		--===      Version 1.03       ===--
+
+		--=== User Options ===--
+		When_Finished = "end"
+			-- "end" to end script, "relog" to log next character, "charlist" to log next in 'charlist' and "waypointfilename" to load that waypointfile.
+		Bag_Space_Limit = 5
+			-- If bag space is less than this value then the 'Not_Enough_Bag_Space' action is triggered.
+		Not_Enough_Bag_Space = "pause"
+			-- "pause" to wait for user to clear some bag space, "skip" to skip the game or "continue" to play the game anyway.
+
+		CharList = {}
+			-- Character list to use when using the "charlist" option above. Requires my "userfunction_LoginNextChar" userfunction.
+			-- Find it here. http://www.solarstrike.net/phpBB3/viewtopic.php?p=10350
+			--		eg.
+			--		CharList = {
+			--			{account=4,chars={}},
+			--			{account=8,chars={1}},
+			--			{account=7,chars={1,2,5}},
+			--		}
+
+		Transform_Pots_To_IS_Bag	= false 		-- true/false. Puts Tansformation Potions into the IS bag.
+		Guild_Materials				= "isbag"		-- "donate", "isbag" or "". Donate Wood, herbs and Ore to guild, put in IS bag or neither.
+		Guild_Other					= ""		-- "donate", "isbag" or "". Donate Stones, Rubies and Runes to guild, put in IS bag or neither.
+		Backpack_Ticket_To_IS_Bag	= true 		-- true/false. Puts Backpack Tickets in the IS bag.
+		Use_XP_TP_Rewards			= false		-- true/false. Uses XP and TP reward items.
+		Repeat_With_Transport_Runes	= "all"		-- "all", number or false. Use all Transport Runes to repeat the game,
+												--						   repeat a certain number of times or disable.
+		--====================--
+
+		include("waypoints/"..getFilePath(__WPL.FileName).."/Haunted_onload.lua",true)
+	</onload>
+
+<!--	At Yolius	-->
+	<!-- #1 --> <waypoint x="4857" z="-1914" y="109">
+		if logentry == nil then
+			local empties = inventory:itemTotalCount(0)
+			local emptylimit = tonumber(Bag_Space_Limit) or 20
+
+			if emptylimit > empties then
+				if Not_Enough_Bag_Space == "pause" then
+					-- Wait for user to make some space in inventory.
+					cprintf(cli.yellow,"Not much space left in inventory. Are you sure you want to continue with only %d spaces left?\n",empties)
+					player:sleep()
+				elseif Not_Enough_Bag_Space == "skip" then
+					print("Not enough bag space.")
+					logentry = "Not enough bag space."
+					checkRelog()
+					return
+				elseif Not_Enough_Bag_Space == "continue" then
+					-- Do nothing and continue.
+				else
+					error("Wrong value used for 'Not_Enough_Bag_Space' option.")
+				end
+			end
+		end
+
+		player:target_NPC(yolius) yrest(1000)
+
+		if RoMScript("GetSpeakOption(1)") == yoliusaccept then -- 'I want to take up the challenge.'
+			sendMacro("ChoiceOption(1);");
+			if not waitForLoadingScreen(30) then
+				print("Failed to teleport into Yolius minigame")
+				logentry = "Failed to teleport into Yolius minigame."
+				checkRelog()
+			end
+		elseif RoMScript("GetSpeakOption(1)") == yoliusreport then -- 'Report results'
+			sendMacro("ChoiceOption(1);");
+			__WPL:setWaypointIndex(1)
+		elseif RoMScript("GetSpeakOption(1)") == yoliusrepeat then -- 'I want to take up the challenge again.'
+			if Repeat_With_Transport_Runes and inventory:itemTotalCount(transportrunes) > 1 and
+			  (Repeat_With_Transport_Runes == "all" or Repeat_With_Transport_Runes >= timescompleted) then
+				sendMacro("ChoiceOption(1);"); yrest(1000)
+				sendMacro("ChoiceOption(1);");
+				if not waitForLoadingScreen(30) then
+					print("Failed to teleport into Yolius minigame")
+					logentry = "Failed to teleport into Yolius minigame."
+					checkRelog()
+				end
+			else
+				print("This character already did Yolius minigame.")
+				if logentry == nil then logentry = "Already did Yolius Minigame." end
+				checkRelog()
+			end
+		end
+	</waypoint>
+
+	<!-- #2 --><waypoint x="2519" z="2593" y="9">	</waypoint>
+
+<!--	At Hill Joker	-->
+	<!-- #3 --><waypoint x="2535" z="2635" y="9">
+			disableallskills()
+			player:target_NPC(111814) -- Hill Joker
+			ChoiceOptionByName(jokerready) -- 'Ready'
+			yrest(2000)
+	</waypoint>
+
+	<!-- #4 --><waypoint x="2546" z="2681" y="9">	</waypoint>
+	<!-- #5 --><waypoint x="2586" z="2789" y="9">	</waypoint>
+
+<!--	At start of game	-->
+	<!-- #6 --><waypoint x="2606" z="2843" y="9">
+		logentry = "Ran out of time" -- default
+
+		fly()
+
+		LastTileDug = 0
+
+		createTileTable() -- do it here as you can't see the pawns until you start the event.
+		local failed = breaktiles() -- start breaking tiles
+		if failed ~= true then
+			createTileTable() -- 2 passes for the 2 ids.
+			failed = breaktiles() -- start breaking more tiles
+		end
+
+		timescompleted = timescompleted + 1
+
+		if failed ~= true then
+			local secondsleft
+			repeat secondsleft = RoMScript("TimeKeeperFrame.startTime-GetTime()") yrest(100) until secondsleft
+			local mm = string.format("%2s", math.floor(secondsleft/ 60))
+			local ss = string.format("%02s", math.floor(math.fmod(secondsleft, 60)))
+			printf("Succeeded at Yolius with %s:%s remaining.\n",mm,ss)
+			logentry = string.format("Succeeded with %s:%s remaining.",mm,ss)
+		end
+
+		if 1 > player.HP or not player.Alive then
+			RoMScript("UseSelfRevive();");	-- first try self revive
+			yrest(500);
+			RoMScript("BrithRevive();");
+			waitForLoadingScreen(30)
+		else
+			waitForLoadingScreen(10)
+		end
+	</waypoint>
+</waypoints>
+

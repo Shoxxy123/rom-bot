@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints><onLoad> if player:target_NPC("Forem Mone") then yrest(1000);AcceptQuestByName("Keeping the Veiled Encampment Disguised","daily");end
+
+__WPL:setForcedWaypointType("TRAVEL");
+</onLoad>
+	<!-- #  1 --><waypoint x="-2663" z="-17956" y="811" tag="daledondale">
+      	player:target_NPC("Forem Mone");yrest(1000);AcceptQuestByName("Keeping the Veiled Encampment Disguised","daily");	
+	</waypoint>
+	<!-- #  2 --><waypoint x="-2812" z="-18142" y="812">inventory:update();
+        player:update();
+
+         -- note #202434 is the daily reset card
+   local dailyQuestCount, dailyQuestsPerDay= RoMScript("Daily_count()");
+   if 10 == dailyQuestCount then
+      if inventory:itemTotalCount(202434) >= 1 then
+                   inventory:useItem(202434);
+    
+      else
+         printf("No Daily Reset Cards left!\n");
+         player:sleep();end
+		 if dqCount == 10 then
+			if inventory:itemTotalCount(202434) >= 1 then
+				inventory:useItem(202434);
+				yrest(1000)
+			else
+				printf("No Daily Reset Cards left!\n")
+				player:sleep();      
+			end	
+		end
+end	</waypoint>
+	<!-- #  3 --><waypoint x="-2879" z="-18114" y="811">	</waypoint>
+        <!-- #  4 --><waypoint x="-2896" z="-18080" y="810">	</waypoint>
+	<!-- #  5 --><waypoint x="-2934" z="-18024" y="810">inventory:useItem("Magic Circle Charge Rune");</waypoint>
+        <!-- #  6 --><waypoint x="-2815" z="-18148" y="811">inventory:useItem("Magic Circle Charge Rune");	
+	</waypoint>
+	<!-- #  7 --><waypoint x="-2654" z="-17958" y="811">inventory:useItem("Magic Circle Charge Rune");player:target_NPC("Forem Mone");yrest(1000);CompleteQuestByName("Keeping the Veiled Encampment Disguised","daily");
+	
+	yrest(1000);
+  __WPL:setWaypointIndex(__WPL:findWaypointTag("daledondale"));
+    
+	</waypoint>
+
+</waypoints>

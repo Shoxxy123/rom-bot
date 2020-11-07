@@ -1,0 +1,1347 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+<onLoad>
+<!-- Version 0.13 -->
+
+		settings.profile.friends = {
+			"Ruthless Ice Witch", "Skrupellose Eishexe"
+		}	
+		settings.profile.mobs = {
+			"Shuma Gazelle", "Shuma-Gazelle",
+			"Shuma Tortoise", "Shuma-Schildkr\148te",
+			"Mestro Forest Wolf", "Mestro-Waldwolf",
+			"Basilisk Giant Rhinoceros", "Riesenstirn-Basilisken-Rhinozeros",
+			"Giant Basilisk Mosquito", "Riesenbasiliskenmoskito",
+			"Deep Mud Cylotok", "Tiefschlamm-Cylotok",
+			"Waterfall Dragonfly", "Kaskadenlibelle",
+			"Waterfall Newt", "Kaskadenmolch",
+			"Burrow Beast", "Erdgruben-Gr\132ber",
+			"Burrow Cactus", "Erdgruben-Kaktus",
+			"Burrow Food Plunderer", "Erdgruben-Nahrungspl\129nderer",
+			"Burrow Hyena", "Erdgruben-Hyäne",
+			-- "Ancient Naga Rebel", "Alter Naga-Rebell",
+			-- "Ancient Naga Conspirator", "Steinalter Naga-Verschw\148rer"
+			-- "Wandering Ancient Naga", "Uralter Wander-Naga",
+			"Ancient Embittered Disciple", "Alter verbitterter Adept",
+			"Mutated Trickster", "Mutierter Schwindler",
+			"Death Bloom", "Todesblume",
+			"Ancient Ayax Warrior", "Alter Ayax-Krieger",
+			"Ancient Limon Bandit", "Alter Limon-Bandit",
+			"Ancient Limon Bandit", "Steinalter Limon-Bandit",
+			"Ruthless Ancient sub-human", "Skrupelloser steinalter Humanoid",
+			"Ferocious Ancient sub-human", "Furchterregender steinalter Humanoid",
+			"Restored Sub-Human", "Wiederhergestellter Humanoider",
+			"Still-Weakened Sub-Human", "Geschw\132chter Humanoider",
+		}
+
+		function getDailyComplete()
+			--[[
+			local dailycomplete_ptr = 0x9CD1E0
+			local dailycomplete_offset = 0xACF4
+			return memoryReadBytePtr(getProc(),dailycomplete_ptr,dailycomplete_offset)
+			--]]
+
+			local dailyQuestCount, dailyQuestsPerDay;
+			repeat dailyQuestCount, dailyQuestsPerDay = RoMScript("Daily_count()") until dailyQuestCount and dailyQuestsPerDay
+			return dailyQuestCount;
+		end	
+		
+		function checkDQCount()
+			local _tmpQC = getDailyComplete()
+			cprintf(cli.lightblue,"%s quests completed.\n",tostring(_tmpQC))
+			--[[
+			if (_tmpQC == 10) then
+				cprintf(cli.lightblue,"Sleepytime.\n")
+				player:sleep()
+			end
+			--]]
+		end
+
+		function getXP()
+			-- return memoryReadRepeat("intptr", getProc(), addresses.charExp_address, 0)
+			
+			local exp
+			repeat exp = RoMScript("GetPlayerExp()") until exp
+			return exp;
+		end
+	
+		function COO_Merchant(p_npcNameOrId)
+			if nil == p_npcNameOrId then p_npcNameOrId = 118102; end
+			if type(p_npcNameOrId) == "number" then
+				local tmp = p_npcNameOrId;
+				repeat p_npcNameOrId = RoMScript("TEXT('Sys" .. tmp .. "_name')"); yrest(500) until p_npcNameOrId
+			end
+			printf("COO_Merchant(%s)\n", p_npcNameOrId);
+			
+			player:merchant(p_npcNameOrId)
+		end
+
+		-- macro to find SysNameId, DailyNotes must be installed:
+		-- /script msQid, msE = DailyNotes.FindQuestByName("Heilige Erde"); DEFAULT_CHAT_FRAME:AddMessage("Qid:"..msQid); 
+		function COO_AcceptQuest(p_npcNameOrId, p_questNameOrId)
+			if type(p_npcNameOrId) == "number" then
+				local tmp = p_npcNameOrId;
+				repeat p_npcNameOrId = RoMScript("TEXT('Sys" .. tmp .. "_name')"); yrest(500) until p_npcNameOrId
+			end
+
+			if type(p_questNameOrId) == "number" then
+				local tmp = p_questNameOrId;
+				repeat p_questNameOrId = RoMScript("TEXT('Sys" .. tmp .. "_name')"); yrest(500) until p_questNameOrId
+			end
+
+			printf("COO_AcceptQuest(%s, %s)\n", p_npcNameOrId, p_questNameOrId);
+
+			player:target_NPC(p_npcNameOrId)
+			yrest(400)
+			if nil ~= AcceptQuestByName then
+				AcceptQuestByName(p_questNameOrId)
+			else
+				sendMacro("OnClick_QuestListButton(1,1);"); 
+				yrest(400);
+				sendMacro("AcceptQuest()"); 
+				yrest(400);
+			end
+		end
+
+		function COO_CompleteQuest(p_npcNameOrId, p_questNameOrId)
+			if type(p_npcNameOrId) == "number" then
+				local tmp = p_npcNameOrId;
+				repeat p_npcNameOrId = RoMScript("TEXT('Sys" .. tmp .. "_name')"); yrest(500) until p_npcNameOrId
+			end
+
+			if type(p_questNameOrId) == "number" then
+				local tmp = p_questNameOrId;
+				repeat p_questNameOrId = RoMScript("TEXT('Sys" .. tmp .. "_name')"); yrest(500) until p_questNameOrId
+			end
+
+			printf("COO_CompleteQuest(%s, %s)\n", p_npcNameOrId, p_questNameOrId);
+
+			player:target_NPC(p_npcNameOrId)
+			yrest(400)
+			if nil ~= CompleteQuestByName then
+				CompleteQuestByName(p_questNameOrId)
+			else
+				sendMacro("OnClick_QuestListButton(3,1);"); 
+				yrest(400);
+				sendMacro("CompleteQuest()"); 
+				yrest(400);
+			end
+		end
+</onLoad>
+	<!-- #  1 --><waypoint x="-6948" z="-3649" y="189">
+		-- housemaid
+		repeat npcname=RoMScript("TEXT('Sys117291_name')"); yrest(500) until npcname --Nicole Rebecca
+		player:target_NPC(npcname)
+	</waypoint>
+	<!-- #  4 --><waypoint x="-6808" z="-3701" y="189">	</waypoint>
+	<!-- #  5 --><waypoint x="-6432" z="-3843" y="182">	</waypoint>
+	<!-- #  6 --><waypoint x="-6336" z="-3912" y="178">
+		repeat npcname=RoMScript("TEXT('Sys118002_name')"); yrest(500) until npcname --Snoop the Stubborn:118002
+		player:target_NPC(npcname)
+	</waypoint>
+	<!-- #  8 --><waypoint x="-5970" z="-3690" y="148">	</waypoint>
+	<!-- #  9 --><waypoint x="-5192" z="-3012" y="149">	</waypoint>
+	<!-- # 10 --><waypoint x="-4427" z="-3143" y="147">	</waypoint>
+	<!-- # 11 --><waypoint x="-3886" z="-3137" y="158">	-- other side of bridge	</waypoint>
+	<!-- # 13 --><waypoint x="-3727" z="-3204" y="143">	</waypoint>
+	<!-- # 14 --><waypoint x="-3571" z="-3502" y="147">	
+		if getXP() > 19000 or player.Level > 21 or inventory:getItemCount(209006) > 70 then --Gazelle Feces:209006
+			-- printf("passingThrough1\n")
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("passingThrough1"))
+		end	</waypoint>
+	<!-- # 14 --><waypoint x="-3571" z="-3502" y="147">	__WPL:setWaypointIndex(__WPL:findWaypointTag("cross"))	</waypoint>
+	<!-- # 15 --><waypoint x="-2531" z="-3714" y="155" tag="passingThrough1">	</waypoint>
+	<!-- # 16 --><waypoint x="-2151" z="-3684" y="157">	</waypoint>
+	<!-- # 17 --><waypoint x="-1851" z="-3482" y="153">	</waypoint>
+	<!-- # 18 --><waypoint x="-1471" z="-3478" y="201">	__WPL:setWaypointIndex(__WPL:findWaypointTag("passingThrough"))	</waypoint>
+====
+========================================================================
+====	
+	<!-- #  5 --><waypoint x="-1518" z="-3605" y="177" tag="killMoreGazelle">	</waypoint>
+	<!-- #  6 --><waypoint x="-1764" z="-3398" y="128">	</waypoint>
+	<!-- #  7 --><waypoint x="-2036" z="-3429" y="136">	</waypoint>
+	<!-- #  8 --><waypoint x="-2139" z="-3605" y="141">	</waypoint>
+	<!-- #  9 --><waypoint x="-2326" z="-3710" y="143">	</waypoint>
+	<!-- # 10 --><waypoint x="-2657" z="-3709" y="135">	</waypoint>
+	<!-- # 11 --><waypoint x="-3059" z="-3572" y="143" tag="cross">	
+		if not (player.Current_waypoint_type == WPT_NORMAL) then
+			__WPL:setForcedWaypointType("NORMAL")
+		end	</waypoint>
+	<!-- # 12 --><waypoint x="-3222" z="-3794" y="163">	</waypoint>
+	<!-- # 13 --><waypoint x="-3404" z="-3958" y="190">	</waypoint>
+	<!-- #  --><waypoint x="-3550" z="-4131" y="212">	</waypoint>
+	<!-- # --><waypoint x="-3424" z="-4353" y="253">	</waypoint>
+	<!-- # 12 --><waypoint x="-3424" z="-4353" y="253">	</waypoint>
+	<!-- #  --><waypoint x="-3552" z="-4485" y="266">	</waypoint>
+	<!-- #  --><waypoint x="-3753" z="-4392" y="281">	</waypoint>
+	<!-- # 18 --><waypoint x="-3862" z="-4203" y="281">	</waypoint>
+	<!-- # 16 --><waypoint x="-4128" z="-4200" y="285">	</waypoint>
+	<!-- # 20 ><waypoint x="-4102" z="-4028" y="285">	</waypoint-->
+	<!-- #  --><waypoint x="-4033" z="-3826" y="119">	</waypoint>
+	<!-- # 20 --><waypoint x="-3854" z="-3739" y="134">	</waypoint>
+	<!-- #  --><waypoint x="-3814" z="-3579" y="134">	</waypoint>
+	<!-- # 24 --><waypoint x="-3621" z="-3651" y="132">	</waypoint>
+	<!-- # 24 --><waypoint x="-3621" z="-3651" y="132">	</waypoint>
+	<!-- # 25 --><waypoint x="-3317" z="-3623" y="141">	</waypoint>
+	<!-- # 11 ><waypoint x="-3059" z="-3572" y="143" tag="cross">	</waypoint-->
+	<!-- # 12 --><waypoint x="-3222" z="-3794" y="163">	</waypoint>
+	<!-- # 13 --><waypoint x="-3404" z="-3958" y="190">	</waypoint>
+	<!-- # 14 --><waypoint x="-3550" z="-4131" y="212">	</waypoint>
+	<!-- # 15 --><waypoint x="-3424" z="-4353" y="253">	</waypoint>
+	<!-- # 15 --><waypoint x="-3424" z="-4353" y="253">	</waypoint>
+	<!-- # 27 --><waypoint x="-3309" z="-4379" y="265">	</waypoint>
+	<!-- # 29 --><waypoint x="-2972" z="-4508" y="276">	</waypoint>
+	<!-- # 30 --><waypoint x="-2732" z="-4453" y="248">	</waypoint>
+	<!-- # 30 --><waypoint x="-2732" z="-4453" y="248">	
+		if inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("skipMerchant1"))
+		end	</waypoint>
+	<!-- # 31 --><waypoint x="-2685" z="-4375" y="245">	</waypoint>
+	<!-- # 32 --><waypoint x="-2695" z="-4233" y="244">
+		COO_Merchant(118088);	-- Silvershadow Adventurers' Guild Provisioner
+	</waypoint>
+	<!-- # 3 --><waypoint x="-2637" z="-4233" y="242">	</waypoint>
+	<!-- # 3 --><waypoint x="-2509" z="-4187" y="246">	</waypoint>
+	<!-- # 3 --><waypoint x="-2255" z="-4321" y="243" tag="skipMerchant1">	</waypoint>
+	<!-- #  --><waypoint x="-1947" z="-4283" y="261">	</waypoint>
+	<!-- #  --><waypoint x="-1839" z="-4277" y="276">	</waypoint>
+	<!-- #  --><waypoint x="-1818" z="-4060" y="274">	</waypoint>
+	<!-- # 55 --><waypoint x="-1626" z="-4109" y="279">	</waypoint>
+	<!-- # 56 --><waypoint x="-1315" z="-3729" y="196">	
+		if 10 > inventory:getItemCount(209006) then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreGazelle"))
+		end	</waypoint>
+	<!-- #  57 --><waypoint x="-1449" z="-3495" y="185" tag="passingThrough">		
+		while inventory:getItemCount(209006) > 9 and 10 > getDailyComplete() do
+			COO_AcceptQuest(117519, 423935) --Sikas Shorthair, Gazelle, Gazellenexkremente:209006
+			COO_CompleteQuest(117519, 423935) --Sikas Shorthair, Gazelle, Gazellenexkremente:209006
+
+			checkDQCount()
+			player:update()
+		end
+
+		if getXP() > 19000 or player.Level > 22 then
+			if player.Current_waypoint_type == WPT_NORMAL then
+				__WPL:setForcedWaypointType()
+			end
+			yrest(100)
+		else
+			if player.Current_waypoint_type == WPT_RUN then
+				__WPL:setForcedWaypointType("NORMAL")
+			end		
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreGazelle"))
+		end	</waypoint>	
+====
+========================================================================
+====
+	<!-- #  58 --><waypoint x="-288" z="-2671" y="153" tag="toTortoise">	
+		if player.Level > 22 then
+			if player.Current_waypoint_type == WPT_NORMAL then
+				__WPL:setForcedWaypointType()
+			end
+			yrest(100)
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("passingThrough2"))
+		elseif player.Current_waypoint_type == WPT_RUN then
+			__WPL:setForcedWaypointType("NORMAL")
+		end	</waypoint>
+	<!-- #   --><waypoint x="-489" z="-2615" y="173">	</waypoint>
+	<!-- #   --><waypoint x="-778" z="-2549" y="184">	</waypoint>
+	<!-- #   --><waypoint x="-979" z="-2590" y="186">	</waypoint>
+	<!-- #   --><waypoint x="-933" z="-2788" y="180">	</waypoint>
+	<!-- #  7 --><waypoint x="-577" z="-2795" y="168">	</waypoint>
+	<!-- #  8 --><waypoint x="-448" z="-2719" y="165">	</waypoint>
+	<!-- #  9 --><waypoint x="-63" z="-2864" y="178">	</waypoint>
+	<!-- # 10 --><waypoint x="200" z="-3001" y="181">	</waypoint>
+	<!-- # 11 --><waypoint x="132" z="-3297" y="182">	
+		if inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then
+			if 30 > inventory:getItemCount(209007) or getDailyComplete() > 9 or getXP() > 24000 or
+			22 > player.Level or player.Level > 22 then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("skipTurnInOrRepair"))
+			end
+			yrest(100)
+		end	</waypoint>
+	<!-- #  --><waypoint x="-92" z="-3561" y="185" tag="turnInOrRepair">	__WPL:setForcedWaypointType()	</waypoint>
+	<!-- #  --><waypoint x="-325" z="-3676" y="251">	</waypoint>
+	<!-- #  --><waypoint x="-287" z="-3799" y="266">	
+		if getDailyComplete() > 9 or 10 > inventory:getItemCount(209007) then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("repair1"))
+		end	</waypoint>
+	<!-- # 73 --><waypoint x="-122" z="-3866" y="277">	
+		while inventory:getItemCount(209007) > 9 and 10 > getDailyComplete() and 23 > player.Level do
+			COO_AcceptQuest(115399, 423937) --Walus, Strong, Tortoise Offal:209007
+			COO_CompleteQuest(115399, 423937) --Walus, Strong, Tortoise Offal:209007
+
+			checkDQCount()
+			player:update()
+		end	
+		
+		if inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("skipRepair1"))
+		end	</waypoint>
+	<!-- #  --><waypoint x="-53" z="-3821" y="279" tag="repair1">	
+		COO_Merchant(118095);	-- Silvershadow Adventurers' Guild Provisioner
+	</waypoint>
+	<!-- # 16 --><waypoint x="-152" z="-3838" y="276" tag="skipRepair1">
+		if player.Level > 22 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("toSpices"))
+		end	</waypoint>
+	<!-- #  --><waypoint x="-121" z="-3444" y="187">	</waypoint>
+	<!-- #  --><waypoint x="-163" z="-3321" y="180">	</waypoint>
+	<!-- # 25 --><waypoint x="-121" z="-3256" y="183">	__WPL:setForcedWaypointType("NORMAL")	</waypoint> 
+	<!-- # 26 --><waypoint x="-104" z="-3188" y="187" tag="skipTurnInOrRepair">	</waypoint>
+	<!-- # 28 --><waypoint x="-115" z="-3070" y="192">	</waypoint>
+	<!-- # 29 --><waypoint x="-72" z="-2846" y="177">	__WPL:setWaypointIndex(__WPL:findWaypointTag("toTortoise"))	</waypoint>
+	<!-- #  --><waypoint x="-379" z="-2763" y="153" tag="reStockPots">	__WPL:setForcedWaypointType()	</waypoint>
+	<!-- #  --><waypoint x="-1163" z="-3176" y="153">	</waypoint>
+	<!-- # 25 --><waypoint x="-1285" z="-3361" y="165">	</waypoint>
+	<!-- #  --><waypoint x="-1314" z="-3805" y="193">	</waypoint>
+	<!-- #  --><waypoint x="-1342" z="-3876" y="202">	</waypoint>
+	<!-- # 37 --><waypoint x="-1346" z="-3878" y="203">	</waypoint>
+	<!-- # 38 --><waypoint x="-1397" z="-3910" y="215">	</waypoint>
+	<!-- # 39 --><waypoint x="-1632" z="-3942" y="269">	</waypoint>
+	<!-- # 40 --><waypoint x="-1961" z="-4252" y="261">	</waypoint>
+	<!-- # 41 --><waypoint x="-2035" z="-4288" y="249">	</waypoint>
+	<!-- # 42 --><waypoint x="-2352" z="-4272" y="246">	</waypoint>
+	<!-- # 43 --><waypoint x="-2509" z="-4196" y="246">	</waypoint>
+	<!-- # 44 --><waypoint x="-2676" z="-4227" y="241">	
+		COO_Merchant(118095);	-- Silvershadow Adventurers' Guild Provisioner
+	</waypoint>
+	<!-- #  --><waypoint x="-2746" z="-4146" y="257">	</waypoint>
+	<!-- #  --><waypoint x="-2511" z="-3721" y="139">	</waypoint>
+	<!-- #  --><waypoint x="-2175" z="-3655" y="142">	__WPL:setWaypointIndex(__WPL:findWaypointTag("skip"))	</waypoint>
+	<!-- # 39 --><waypoint x="-1449" z="-3495" y="185" tag="Sikas">
+		if player.Level > 22 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("passingThrough2"))
+		end </waypoint>	
+	<!-- #  --><waypoint x="-1319" z="-3230" y="153" tag="skip">	
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("toTortoise"))	</waypoint>
+====
+========================================================================
+====
+	<!-- #  1 --><waypoint x="-153" z="-3831" y="293" tag="toSpices">	</waypoint>
+	<!-- #  2 --><waypoint x="-43" z="-3540" y="198">	</waypoint>
+	<!-- #  3 --><waypoint x="293" z="-3212" y="203">	</waypoint>
+	<!-- #  4 --><waypoint x="36" z="-2797" y="193">	</waypoint>
+	<!-- #  5 --><waypoint x="-141" z="-2302" y="169" tag="passingThrough2">	</waypoint>
+	<!-- #  6 --><waypoint x="-92" z="-2088" y="169">	</waypoint>
+	<!-- #  7 --><waypoint x="-162" z="-1876" y="184">	
+		if inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("skipMerchant"))
+		end	</waypoint>
+	<!-- #  1 --><waypoint x="-359" z="-1608" y="172" tag="merchant-NOTREFERENCED">
+		COO_Merchant(118102);	-- Silvershadow Adventurers' Guild Provisioner
+	</waypoint>	
+	<!-- #  8 --><waypoint x="-291" z="-1515" y="188" tag="skipMerchant">
+		if player.Level > 23 then
+			if 45000 > getXP() then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("mud"))
+			elseif getXP() > 45000 or player.Level == 26 then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("rhino"))
+			elseif getXP() > 56000 or player.Level > 26 then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("cylotok"))
+			end
+			yrest(100)
+		end	</waypoint>
+	<!-- # 10 --><waypoint x="-474" z="-1471" y="187">	-- to Rebecca	</waypoint>
+	<!-- # 12 --><waypoint x="-482" z="-1325" y="198">	</waypoint>
+	<!-- # 13 --><waypoint x="-378" z="-1326" y="198">	</waypoint>		
+====
+========================================================================
+====		
+	<!-- # 24 --><waypoint x="-420" z="-1341" y="182" tag="spices">
+		repeat questname=RoMScript("TEXT('Sys423936_name')"); yrest(500) until questname
+		dailyQuest = getQuestStatus(questname)
+		if dailyQuest == "complete" and player.Level == 23 and 10 > getDailyComplete() then 
+			COO_CompleteQuest(117586, 423936) --Rebecca, Spices, Blade of Luoshen Grass:208996
+
+			checkDQCount()
+			player:update()
+		end
+		
+		if player.Level > 23 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("mud"))
+		elseif 10 > getDailyComplete() then
+			COO_AcceptQuest(117586, 423936) --Rebecca, Spices, Blade of Luoshen Grass:208996
+		else
+			__WPL:setForcedWaypointType("NORMAL")
+		end	</waypoint>
+	<!-- # 16 --><waypoint x="-443" z="-1452" y="187">	</waypoint>
+	<!-- # 17 --><waypoint x="-313" z="-1538" y="188">	</waypoint>
+	<!-- #  1 --><waypoint x="-320" z="-1567" y="187">	</waypoint>
+	<!-- #  2 --><waypoint x="-137" z="-1908" y="179">	</waypoint>
+	<!-- #  3 --><waypoint x="162" z="-2807" y="197">	</waypoint>
+	<!-- #  4 --><waypoint x="260" z="-2856" y="190" tag="getMoreGrass">	player:target_Object(117312) --Lorssen Grass	</waypoint>
+	<!-- # 117 --><waypoint x="206" z="-3138" y="186">	player:target_Object(117312)	</waypoint>
+	<!-- #  8 --><waypoint x="25" z="-3297" y="185">	player:target_Object(117312)	</waypoint>
+	<!-- #  1 --><waypoint x="-110" z="-3296" y="183">	</waypoint>
+	<!-- #  2 --><waypoint x="-185" z="-3413" y="182">	</waypoint>
+	<!-- #  3 --><waypoint x="-228" z="-3422" y="190">	player:target_Object(117312)	</waypoint>
+	<!-- #  4 --><waypoint x="-181" z="-3363" y="182">	</waypoint>
+	<!-- #  5 --><waypoint x="-199" z="-3298" y="190">	</waypoint>
+	<!-- # 11 --><waypoint x="-265" z="-3290" y="207">	player:target_Object(117312)	</waypoint>
+	<!-- # 13 --><waypoint x="-182" z="-3038" y="191">	player:target_Object(117312)
+		if 24 > player.Level and 10 > inventory:getItemCount(208996) and inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then --Luoshen-Grashalm:208996
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("getMoreGrass"))
+		else
+			__WPL:setForcedWaypointType("RUN")
+		end	</waypoint>
+	<!-- # 16 --><waypoint x="-76" z="-3014" y="187">	</waypoint>
+	<!-- # 17 --><waypoint x="-77" z="-2079" y="153">	</waypoint>
+	<!-- # 19 --><waypoint x="-139" z="-1966" y="156">	</waypoint>
+	<!-- # 20 --><waypoint x="-197" z="-1734" y="171">	</waypoint>
+	<!-- # 21 --><waypoint x="-478" z="-1507" y="171">	</waypoint>
+	<!-- # 22 --><waypoint x="-481" z="-1453" y="172">	</waypoint>
+	<!-- # 23 --><waypoint x="-484" z="-1368" y="182">	__WPL:setWaypointIndex(__WPL:findWaypointTag("spices"))	</waypoint>	
+====
+========================================================================
+====	
+	<!-- #  1 --><waypoint x="-567" z="-1528" y="172" tag="mud">		
+		repeat questname=RoMScript("TEXT('Sys423940_name')"); yrest(500) until questname
+		dailyQuest = getQuestStatus(questname)
+		--if dailyQuest == "complete" and 26 > player.Level and 10 > getDailyComplete() then 
+		if dailyQuest == "complete" and 10 > getDailyComplete() then 
+			COO_CompleteQuest(118014, 423940) --Monkatula, Soil, Swamp Mud:209100
+
+			checkDQCount()
+			player:update()
+		end		
+		
+		if player.Level > 25 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("rhino"))
+		elseif 10 > getDailyComplete() then
+			COO_AcceptQuest(118014, 423940) --Monkatula, Soil, Swamp Mud:209100
+		end	</waypoint>
+	<!-- #  7 --><waypoint x="-357" z="-1496" y="175">	
+		if inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("noMerchant"))
+		end		
+	</waypoint>
+	<!-- #  1 --><waypoint x="-359" z="-1608" y="172" tag="merchant1-NOTREFERENCED">
+		COO_Merchant(118102);	-- Silvershadow Adventurers' Guild Provisioner
+	</waypoint>	
+	<!-- #  8 --><waypoint x="-49" z="-1126" y="159" tag="noMerchant">	</waypoint>
+	<!-- #  1 --><waypoint x="36" z="-1126" y="137">
+		repeat npcname=RoMScript("TEXT('Sys112051_name')"); yrest(500) until npcname --Ailic's Aide
+		player:target_NPC(npcname) --Lyonside transport
+	</waypoint>
+	<!-- #  9 --><waypoint x="-60" z="-1015" y="151">	</waypoint>
+	<!-- # 10 --><waypoint x="-152" z="-870" y="148">	</waypoint>
+	<!-- # 11 --><waypoint x="-356" z="-676" y="148">	</waypoint>
+	<!-- # 12 --><waypoint x="-395" z="-564" y="146">
+		if getDailyComplete() > 9 then
+			__WPL:setForcedWaypointType("NORMAL")
+		end
+	</waypoint>
+	<!-- # 23 --><waypoint x="-490" z="-144" y="128">	player:target_Object(117513) --Swamp Mud, Sumpfschlamm	</waypoint>
+	<!-- # 25 --><waypoint x="-296" z="-10" y="118">	player:target_Object(117513)	</waypoint>
+	<!-- # 27 --><waypoint x="-170" z="-63" y="117">	</waypoint>
+	<!-- # 28 --><waypoint x="-84" z="-3" y="118">		player:target_Object(117513)	</waypoint>
+	<!-- #  1 --><waypoint x="110" z="-114" y="118">	</waypoint>
+	<!-- #  3 --><waypoint x="279" z="-19" y="118">	player:target_Object(117513)	</waypoint>
+	<!-- #  5 --><waypoint x="350" z="-33" y="118">	</waypoint>
+	<!-- #  6 --><waypoint x="503" z="136" y="118">	player:target_Object(117513)	</waypoint>
+	<!-- #  8 --><waypoint x="720" z="83" y="118">	player:target_Object(117513)	</waypoint>
+	<!-- # 10 --><waypoint x="600" z="-219" y="118">	player:target_Object(117513)	</waypoint>
+	<!-- # 12 --><waypoint x="323" z="-519" y="118">	player:target_Object(117513)	</waypoint>
+	<!-- # 14 --><waypoint x="121" z="-350" y="121">	player:target_Object(117513)	
+		__WPL:setDirection(WPT_FORWARD)	</waypoint>
+	<!-- # 16 --><waypoint x="-106" z="-351" y="116">	player:target_Object(117513)	</waypoint>
+	<!-- # 18 --><waypoint x="-171" z="-451" y="120">	player:target_Object(117513)	
+		yrest(500)
+		player:update()
+		repeat questname=RoMScript("TEXT('Sys423940_name')"); yrest(500) until questname
+      	dailyQuest = getQuestStatus(questname)
+		if 26 > player.Level and dailyQuest ~= "complete" and inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then 
+			__WPL:setDirection(WPT_BACKWARD)
+		else
+			__WPL:setForcedWaypointType("RUN")
+		end	</waypoint>
+	<!-- # 37 --><waypoint x="-144" z="-426" y="123">	</waypoint>
+	<!-- # 38 --><waypoint x="-173" z="-707" y="121">	</waypoint>
+	<!-- # 39 --><waypoint x="-170" z="-845" y="131">	</waypoint>
+	<!-- #  --><waypoint x="-71" z="-982" y="133">	</waypoint>
+	<!-- #  --><waypoint x="-39" z="-1075" y="137">	</waypoint>
+	<!-- #  --><waypoint x="-60" z="-1187" y="154">	</waypoint>
+	<!-- # 160 --><waypoint x="-341" z="-1434" y="170">	__WPL:setWaypointIndex(__WPL:findWaypointTag("mud"))</waypoint>		
+====
+========================================================================
+====	
+	<!-- #  --><waypoint x="-562" z="-1521" y="172" tag="rhino">	</waypoint>
+	<!-- #   --><waypoint x="-287" z="-1421" y="170">	
+		if inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("turnIn1"))
+		end		</waypoint>
+	<!-- #   --><waypoint x="-359" z="-1608" y="172" tag="merchant2">
+		COO_Merchant(118102);	-- Silvershadow Adventurers' Guild Provisioner
+	</waypoint>	
+	<!-- # 161  --><waypoint x="-232" z="-1250" y="174" tag="turnIn1">	
+		-- while 10 > getDailyComplete() and player.Level == 26 and 56000 > getXP() and inventory:getItemCount(209062) > 10 do
+		while 10 > getDailyComplete() and player.Level == 26 and inventory:getItemCount(209062) > 10 do
+			COO_AcceptQuest(117521, 423941) --Shamilod, Leather of "Weighty" Importance, Thick Giant Rhinoceros Skin:209062
+			COO_CompleteQuest(117521, 423941) --Shamilod, Leather of "Weighty" Importance, Thick Giant Rhinoceros Skin:209062
+
+			checkDQCount()
+			player:update()
+		end
+		
+		-- if player.Level > 26 or 56000 > getXP() then
+		if player.Level > 26 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("cylotok"))		
+		end	</waypoint>
+	<!-- #  8 --><waypoint x="-74" z="-988" y="133">	__WPL:setForcedWaypointType("NORMAL")	</waypoint>
+	<!-- #  9 --><waypoint x="-160" z="-869" y="131">	</waypoint>
+	<!-- # 10 --><waypoint x="-368" z="-796" y="120" tag="killMoreRhinos">	</waypoint>
+	<!-- # 11 --><waypoint x="-137" z="-638" y="120">	</waypoint>
+	<!-- # 12 --><waypoint x="-38" z="-732" y="114">	</waypoint>
+	<!-- # 13 --><waypoint x="202" z="-718" y="125">	</waypoint>
+	<!-- # 14 --><waypoint x="505" z="-560" y="126">	</waypoint>
+	<!-- # 15 --><waypoint x="606" z="-1096" y="129">	</waypoint>
+	<!-- # 16 --><waypoint x="147" z="-888" y="123">	</waypoint>
+	<!-- # 17 --><waypoint x="-156" z="-832" y="132">	
+		if inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 and 27 > player.Level and 
+		58000 > getXP() and 50 > inventory:getItemCount(209062) then --Thick Giant Rhinoceros Skin:209062
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreRhinos"))
+		end	</waypoint>
+	<!-- #  --><waypoint x="-72" z="-994" y="134" tag="turninOrRepair">	__WPL:setForcedWaypointType()	</waypoint>
+	<!-- #  --><waypoint x="-29" z="-1077" y="137">	</waypoint>
+	<!-- # 178 --><waypoint x="-102" z="-1198" y="163">	
+		if 4 > inventory:getItemCount(0) or 80 > inventory:getMainHandDurability() then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("merchant2"))
+		else __WPL:setWaypointIndex(__WPL:findWaypointTag("turnIn1"))
+		end	</waypoint>
+====
+========================================================================
+====	
+	<!-- #  1 --><waypoint x="-147" z="-1147" y="173" tag="cylotok">		
+		-- Cylotok Stomach; Cylotok-Magen, 209063
+		<!-- macro to find SysNameId, DailyNotes must be installed:
+		/script msQid, msE = DailyNotes.FindQuestByName("Hässlicher Magen"); DEFAULT_CHAT_FRAME:AddMessage("Qid:"..msQid); 
+		-->
+		repeat questname=RoMScript("TEXT('Sys423942_name')"); yrest(500) until questname
+		repeat npcname=RoMScript("TEXT('Sys117522_name')"); yrest(500) until npcname
+		-- npcname="Yar'ak"
+
+		-- while 10 > getDailyComplete() and 29 > player.Level and player.Level > 26 and 87000 > getXP() and inventory:getItemCount(209063) > 10 do	
+		while 10 > getDailyComplete() and 29 > player.Level and player.Level > 26 and inventory:getItemCount(209063) > 10 do	
+			COO_AcceptQuest(117522, 423942) --Yar'ak, Ugly Stomach, Cylotok Stomach:209063
+			COO_CompleteQuest(117522, 423942) --Yar'ak, Ugly Stomach, Cylotok Stomach:209063
+
+			checkDQCount()
+			player:update()
+		end	
+
+		-- if player.Level > 28 or getXP() > 87000 then
+		if player.Level > 28 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("toDragonfly"))
+		end	</waypoint>
+	<!-- #  5 --><waypoint x="-33" z="-1107" y="137">	</waypoint>
+	<!-- #  6 --><waypoint x="-70" z="-982" y="133">	</waypoint>
+	<!-- #  7 --><waypoint x="-134" z="-886" y="131">	</waypoint>
+	<!-- #  8 --><waypoint x="-144" z="-821" y="130">	</waypoint>
+	<!-- # 11 --><waypoint x="503" z="-571" y="127">	</waypoint>
+	<!-- # 12 --><waypoint x="748" z="-274" y="132">	</waypoint>
+	<!-- # 13 --><waypoint x="1237" z="-48" y="143">	</waypoint>
+	<!-- # 14 --><waypoint x="1480" z="-190" y="133">	__WPL:setForcedWaypointType("NORMAL")	</waypoint>
+	<!-- # 38 --><waypoint x="2007" z="-346" y="123">	</waypoint>
+	<!-- # 39 --><waypoint x="2197" z="-129" y="118">	</waypoint>
+	<!-- # 40 --><waypoint x="2171" z="151" y="118" tag="killMoreCylotok">	--loop start	</waypoint>
+	<!-- # 42 --><waypoint x="2129" z="375" y="118">	</waypoint>
+	<!-- # 43 --><waypoint x="1930" z="431" y="118">	</waypoint>
+	<!-- # 44 --><waypoint x="1781" z="509" y="129">	</waypoint>
+	<!-- # 45 --><waypoint x="1710" z="396" y="118">	changeProfileOption("MAX_TARGET_DIST", 80)	</waypoint>
+	<!-- # 46 --><waypoint x="1832" z="400" y="119">	changeProfileOption("MAX_TARGET_DIST", 150)	</waypoint>
+	<!-- # 47 --><waypoint x="1808" z="218" y="118">
+		if (getDailyComplete() > 9 or 100 > inventory:getItemCount(209063)) and 87000 > getXP() and 29 > player.Level and
+		inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then --Cylotok Stomach:209063
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreCylotok"))
+		end	</waypoint>
+	<!-- # 49 --><waypoint x="1552" z="21" y="141">		__WPL:setForcedWaypointType()	</waypoint>
+	<!-- # 50 --><waypoint x="894" z="-167" y="137">	</waypoint>
+	<!-- # 51 --><waypoint x="474" z="-643" y="129">	</waypoint>
+	<!-- #  --><waypoint x="-84" z="-783" y="120">	</waypoint>
+	<!-- #  --><waypoint x="-119" z="-792" y="120">
+		if player.Level == 28 then
+			if getXP() > 87000 then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("toDragonfly2"))
+			end
+			yrest(100)
+		end	</waypoint>
+	<!-- #  --><waypoint x="-146" z="-811" y="128">	</waypoint>
+	<!-- # 25 --><waypoint x="-155" z="-841" y="131">	</waypoint>
+	<!-- #  --><waypoint x="-146" z="-875" y="131">	</waypoint>
+	<!-- #  --><waypoint x="-65" z="-975" y="133">	</waypoint>
+	<!-- #  --><waypoint x="-67" z="-1144" y="149">	</waypoint>
+	<!-- # 59 --><waypoint x="-92" z="-1160" y="159">	</waypoint>
+	<!-- # 60 --><waypoint x="-117" z="-1161" y="169">
+		if inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("Cylotok"))
+		end	</waypoint>
+	<!-- #  ><waypoint x="-128" z="-1154" y="173">	</waypoint-->
+	<!-- #  --><waypoint x="-350" z="-1601" y="172">	
+		COO_Merchant(118102);	-- Silvershadow Adventurers' Guild Provisioner
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("Cylotok"))	</waypoint>	
+====
+========================================================================
+====	
+	<!-- # 210 --><waypoint x="-54" z="-1122" y="142" tag="toDragonfly">	</waypoint>
+	<!-- #   --><waypoint x="-64" z="-1005" y="134">	</waypoint>
+	<!-- #   --><waypoint x="-201" z="-804" y="131">	</waypoint>
+	<!-- #   --><waypoint x="-625" z="-569" y="138" tag="toDragonfly2">	</waypoint>
+	<!-- #   --><waypoint x="-1023" z="-538" y="145">	</waypoint>
+	<!-- #  6 --><waypoint x="-1573" z="-577" y="197">	--gulos	</waypoint>
+	<!-- #  8 --><waypoint x="-1647" z="-306" y="203">	</waypoint>
+	<!-- #  9 --><waypoint x="-1702" z="-196" y="213">	</waypoint>
+	<!-- # 10 --><waypoint x="-2124" z="-460" y="261">	</waypoint>
+	<!-- # 11 --><waypoint x="-2464" z="-340" y="303">	</waypoint>
+	<!-- # 12 --><waypoint x="-2838" z="-424" y="306">	
+		if 4 > inventory:getItemCount(0) or 80 > inventory:getMainHandDurability() then
+			COO_Merchant(118102);	-- Silvershadow Adventurers' Guild Provisioner
+		end	</waypoint>
+	<!-- # 14 --><waypoint x="-3047" z="-457" y="326">	</waypoint>
+	<!-- # 15 --><waypoint x="-3283" z="-630" y="385">	</waypoint>
+	<!-- # 16 --><waypoint x="-3455" z="-655" y="402">	</waypoint>
+	<!-- # 17 --><waypoint x="-3850" z="-316" y="388">	--end gulos	</waypoint>
+	<!-- # 19 --><waypoint x="-4204" z="-370" y="401">
+		player:update();
+		if getXP() > 108000 or player.Level > 29 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("toFluids"))
+		else
+			__WPL:setForcedWaypointType("NORMAL")
+			changeProfileOption("MAX_TARGET_DIST", 100)
+		end	</waypoint>	
+====
+========================================================================
+====	
+	<!-- # 19 --><waypoint x="-4204" z="-370" y="401" tag="salina">
+		while 10 > getDailyComplete() and 108000 > getXP() and player.Level == 29
+		and inventory:getItemCount(209078) > 10 do	
+			COO_AcceptQuest(117517, 423944) --Sad Salina, Cute and Slimy, Dragonfly Wing:209078
+			COO_CompleteQuest(117517, 423944) --Sad Salina, Cute and Slimy, Dragonfly Wing:209078
+
+			checkDQCount()
+			player:update()
+		end
+		
+		if getXP() > 108000 or player.Level > 29 then
+			__WPL:setForcedWaypointType()
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("toFluids"))
+		end	</waypoint>
+	<!-- #   --><waypoint x="-4474" z="-315" y="373" tag="killMoreDragonflies">	</waypoint>
+	<!-- #   --><waypoint x="-4703" z="-416" y="372">	</waypoint>
+	<!-- #  229 --><waypoint x="-5060" z="-228" y="370">	</waypoint>
+	<!-- #   --><waypoint x="-5228" z="-392" y="377">	</waypoint>
+	<!-- #   --><waypoint x="-4744" z="-737" y="371">	--on hill	</waypoint>
+	<!-- #   --><waypoint x="-4413" z="-691" y="372">	</waypoint>
+	<!-- #  7 --><waypoint x="-4413" z="-691" y="372">	
+		if player.Level > 29 then
+			yrest(100)
+		elseif 29 > player.Level then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreDragonflies"))
+		elseif 60 > inventory:getItemCount(209078) and 108000 > getXP() and 30 > player.Level then --Dragonfly Wing:209078
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreDragonflies"))
+		else	
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("salina"))
+		end	</waypoint>	
+====
+========================================================================
+====
+	<!-- #  1 --><waypoint x="-4464" z="-437" y="370" tag="toFluids">	</waypoint>
+	<!-- #  2 --><waypoint x="-4820" z="-403" y="373">	</waypoint>
+	<!-- #  3 --><waypoint x="-5082" z="-323" y="375">	</waypoint>
+	<!-- #  4 --><waypoint x="-5190" z="-367" y="375">	</waypoint>
+	<!-- #  5 --><waypoint x="-5256" z="-504" y="417">	</waypoint>
+	<!-- #  6 --><waypoint x="-5297" z="-558" y="439">	</waypoint>
+	<!-- #  7 --><waypoint x="-5348" z="-524" y="441">	</waypoint>
+	<!-- #  8 --><waypoint x="-5412" z="-206" y="510">	</waypoint>
+	<!-- #  9 --><waypoint x="-5480" z="-153" y="522">	</waypoint>
+	<!-- # 10 --><waypoint x="-5579" z="-169" y="542">	</waypoint>
+	<!-- # 11 --><waypoint x="-5857" z="-261" y="590">	</waypoint>
+	<!-- # 12 --><waypoint x="-6103" z="-204" y="598">	</waypoint>
+	<!-- # 13 --><waypoint x="-6288" z="-51" y="595">	</waypoint>
+	<!-- # 14 --><waypoint x="-6426" z="75" y="593">	</waypoint>
+	<!-- # 15 --><waypoint x="-6701" z="462" y="601">	</waypoint>
+	<!-- # 16 --><waypoint x="-6973" z="847" y="613">	</waypoint>
+	<!-- # 17 --><waypoint x="-7118" z="993" y="603">	</waypoint>	
+	<!-- # 18 --><waypoint x="-7255" z="1187" y="616">	</waypoint>
+	<!-- # 19 --><waypoint x="-7300" z="1286" y="616">	</waypoint>	
+	<!-- #  1 --><waypoint x="-7397" z="1196" y="632">
+		repeat npcname=RoMScript("TEXT('Sys118020_name')"); yrest(500) until npcname
+		player:target_NPC(npcname)	--Ailic's Aide, desert investigation transport
+	</waypoint>	
+	<!-- #  1 --><waypoint x="-7382" z="1362" y="631">	</waypoint>
+	<!-- #  2 --><waypoint x="-7526" z="1650" y="631">	-- stable master also might be close enough
+		if 4 > inventory:getItemCount(0) or 80 > inventory:getMainHandDurability() then
+			COO_Merchant(117696);	--Bruno, Silvershadow Adventurers' Guild Provisioner
+		end	</waypoint>
+	<!-- #  3 --><waypoint x="-7462" z="1974" y="624" tag="toJuice">	</waypoint>
+	<!-- #   --><waypoint x="-7399" z="2281" y="544"> -- bottom of hill	
+		if player.Level > 30 and 33 > player.Level and 190000 > getXP() then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("hyena"))
+		elseif 34 > player.Level and getXP() > 216000 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("buzz"))	
+		elseif player.Level > 33 or getXP() > 247000 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("skipKill"))	
+		end	</waypoint>
+====
+========================================================================
+====	
+	<!-- # 257 --><waypoint x="-7520" z="2322" y="544" tag="beasts">	__WPL:setForcedWaypointType("NORMAL")	</waypoint>
+	<!-- # 258 --><waypoint x="-7971" z="2397" y="537">	changeProfileOption("MAX_TARGET_DIST", 100) --on trail at rez	</waypoint>
+	<!-- #   --><waypoint x="-8203" z="2362" y="532" tag="killMoreBeasts">	</waypoint>
+	<!-- #   --><waypoint x="-8228" z="2103" y="551">	</waypoint>
+	<!-- #   --><waypoint x="-8519" z="1780" y="547">	</waypoint>
+	<!-- #   --><waypoint x="-8653" z="1953" y="549">	</waypoint>
+	<!-- #  --><waypoint x="-8649" z="1974" y="551">	</waypoint>
+	<!-- #  --><waypoint x="-8556" z="2336" y="530">		
+		if  30 > player.Level and inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreBeasts"))
+		end	</waypoint>
+	<!-- # 265 --><waypoint x="-7555" z="2388" y="530" tag="turnIn2">	__WPL:setForcedWaypointType()	</waypoint>
+	<!-- #  --><waypoint x="-7456" z="2561" y="585">	</waypoint>
+	<!-- #  --><waypoint x="-7456" z="2792" y="584">	</waypoint>
+	<!-- #  --><waypoint x="-7488" z="2849" y="583">	</waypoint>
+	<!-- # 17 --><waypoint x="-7466" z="2879" y="580" tag="AnbenronReplanting">
+		if player.Level > 35 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("aoluona"))
+		else
+			while 10 > getDailyComplete() and 135000 > getXP() and player.Level == 30 and
+			inventory:getItemCount(209192) > 10	do	
+				COO_AcceptQuest(117588, 424036) --Anbenron, Replanting, Burrow Beast Body Fluids:209192
+				COO_CompleteQuest(117588, 424036) --Anbenron, Replanting, Burrow Beast Body Fluids:209192
+
+				checkDQCount()
+				player:update()
+			end	
+			
+			if inventory:getItemCount(0) > 4 and inventory:getMainHandDurability() > 80 and 
+			31 > player.Level and 135000 > getXP() then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("beasts"))
+			elseif player.Level > 35 and 38 > player.Level then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("aoluona"))		
+			end	
+		end
+	</waypoint>
+	<!-- #  4 --><waypoint x="-7426" z="3027" y="585">		
+		if 4 > inventory:getItemCount(0) or 80 > inventory:getMainHandDurability() then
+			COO_Merchant(118102);	-- Silvershadow Adventurers' Guild Provisioner
+		end
+		
+		if 135000 > getXP() and 31 > player.Level then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("beasts"))
+		end	</waypoint>		
+====
+========================================================================
+====
+	<!-- #  --><waypoint x="-7488" z="2849" y="583">	settings.profile.friends = {"Burrow Beast","Erdgruben-Gräber"}	</waypoint>
+	<!-- #  --><waypoint x="-7456" z="2792" y="584">	</waypoint>
+	<!-- #  --><waypoint x="-7456" z="2561" y="585">	</waypoint>
+	<!-- # 275 --><waypoint x="-8317" z="2136" y="548" tag="hyena">	</waypoint>
+	<!-- # 276 --><waypoint x="-8317" z="2136" y="548" tag="killMoreHyena">	
+		if player.Current_waypoint_type == WPT_RUN then
+			__WPL:setForcedWaypointType("NORMAL")
+		end	</waypoint>
+	<!-- #   --><waypoint x="-8513" z="2069" y="554">	</waypoint>
+	<!-- #   --><waypoint x="-8771" z="2151" y="549">	</waypoint>
+	<!-- #   --><waypoint x="-8830" z="2412" y="524">	</waypoint>
+	<!-- #  --><waypoint x="-8956" z="2761" y="531">	</waypoint>
+	<!-- #  --><waypoint x="-8828" z="2853" y="527">	</waypoint>
+	<!-- #  --><waypoint x="-8678" z="2671" y="532">	</waypoint>
+	<!-- #  --><waypoint x="-8455" z="2653" y="531">	</waypoint>
+	<!-- #  --><waypoint x="-8153" z="2657" y="533">	</waypoint>
+	<!-- # 285 --><waypoint x="-8153" z="2657" y="533">
+		if 31 > player.Level then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreHyena"))	
+		elseif 140 > inventory:getItemCount(209053) and 190000 > getXP() then --Short Fur:209053
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreHyena"))
+		end	</waypoint>
+	<!-- #  --><waypoint x="-7601" z="2408" y="529">	__WPL:setForcedWaypointType()	</waypoint>
+	<!-- #  --><waypoint x="-7430" z="2381" y="535" tag="skipKill">	</waypoint>
+	<!-- #  --><waypoint x="-7199" z="2569" y="526">	</waypoint>
+	<!-- # 288 --><waypoint x="-7075" z="2760" y="519">	-- at main Y, goes to 7426 for merchant
+		if player.Level > 35 or getXP() > 283000 then
+			if	38 > player.Level then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("aoluona"))
+			elseif player.Level > 37 then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("toBluto"))
+			end
+			yrest(100)
+		end	</waypoint>
+	<!-- # 20 --><waypoint x="-7092" z="2931" y="523">	</waypoint>
+	<!-- # 21 --><waypoint x="-7229" z="3276" y="531" tag="continue">	-- at second Y	</waypoint>
+	<!-- #  --><waypoint x="-7145" z="3327" y="568">	-- from y	</waypoint>
+	<!-- #  --><waypoint x="-6994" z="3484" y="556">	</waypoint>
+	<!-- # 293 --><waypoint x="-6909" z="3948" y="487">	-- at bottom of hill	</waypoint>
+	<!-- #  --><waypoint x="-7046" z="4074" y="514">	</waypoint>
+	<!-- #  --><waypoint x="-7191" z="4113" y="538">	</waypoint>
+	<!-- # 37 --><waypoint x="-7235" z="4163" y="547">	</waypoint>
+	<!-- # 38 --><waypoint x="-7300" z="4410" y="585">	-- at top of hill
+		if player.Level > 33 or getXP() > 190000 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("juice"))
+		end	</waypoint>
+	<!-- # 39 --><waypoint x="-7778" z="4507" y="600">	</waypoint>
+	<!-- # 40 --><waypoint x="-7896" z="4611" y="599">		
+		while 10 > getDailyComplete() and 33 > player.Level and	190000 > getXP() and 
+		inventory:getItemCount(209053) > 10 do	
+			COO_AcceptQuest(117525, 423947) --Mimet Bugfoot, Warm Pelts, Short Fur:209053
+			COO_CompleteQuest(117525, 423947) --Mimet Bugfoot, Warm Pelts, Short Fur:209053
+
+			checkDQCount()
+			player:update()
+		end	
+		
+		if player.Level > 33 or getXP() > 191000 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("juice"))
+		end	</waypoint>
+	<!-- # 42 --><waypoint x="-7768" z="4522" y="600">	</waypoint>
+	<!-- # 43 --><waypoint x="-7333" z="4394" y="585">	</waypoint>
+	<!-- # 44 --><waypoint x="-7172" z="4078" y="538">	</waypoint>
+	<!-- # 45 --><waypoint x="-6979" z="3868" y="488">	</waypoint>
+	<!-- # 46 --><waypoint x="-6928" z="3725" y="488">	</waypoint>
+	<!-- #  --><waypoint x="-7005" z="3647" y="493">	</waypoint>
+	<!-- #  --><waypoint x="-7139" z="3547" y="503">	</waypoint>
+	<!-- #  --><waypoint x="-7277" z="3331" y="547">	-- second Y	</waypoint>
+	<!-- # 308 --><waypoint x="-7075" z="2760" y="519">	-- main Y	</waypoint>
+	<!-- #  ><waypoint x="-6943" z="2883" y="532" tag="toNext">	 main Y exit</waypoint-->
+====
+========================================================================
+====
+	<!-- # 16 --><waypoint x="-7528" z="2160" y="571">	</waypoint>
+	<!-- # 17 --><waypoint x="-7593" z="2052" y="587">	</waypoint>
+	<!-- # 18 --><waypoint x="-7453" z="1896" y="630">	</waypoint>
+	<!-- # 19 ><waypoint x="-7549" z="1635" y="631">	</waypoint-->
+	<!-- #  3 --><waypoint x="-7462" z="1974" y="624">	-- top of hill	</waypoint>
+	<!-- #  2 --><waypoint x="-7526" z="1650" y="631">	-- stable master also close enough to use
+		if 4 > inventory:getItemCount(0) or 80 > inventory:getMainHandDurability() then
+			COO_Merchant(118102);	-- Silvershadow Adventurers' Guild Provisioner
+		end	</waypoint>		
+	<!-- # 22 --><waypoint x="-7566" z="1515" y="615" tag="buzz">		
+		COO_AcceptQuest(117281, 423792) --Mufasa Luckshine, A Suspicious Buzzing, activate 4 Energy Detecting Device
+	</waypoint>
+	<!-- #  3 --><waypoint x="-7529" z="1747" y="614" tag="buzz2">	</waypoint>
+	<!-- #  4 --><waypoint x="-7445" z="1886" y="613">	</waypoint>
+	<!-- #  5 --><waypoint x="-7747" z="2292" y="525">	</waypoint>
+	<!-- #  6 --><waypoint x="-8452" z="2364" y="514">	</waypoint>
+	<!-- #  7 --><waypoint x="-8874" z="2406" y="508" tag="snoopers">	</waypoint>
+	<!-- #  8 --><waypoint x="-9155" z="2613" y="505">	</waypoint>
+	<!-- #  9 --><waypoint x="-9332" z="2380" y="535">	</waypoint>
+	<!-- # 10 --><waypoint x="-9496" z="2226" y="537">
+		__WPL:setForcedWaypointType("NORMAL")
+		changeProfileOption("MAX_TARGET_DIST", 160)
+	</waypoint>
+	<!-- # 11 --><waypoint x="-9645" z="2236" y="466">
+		repeat npcname=RoMScript("TEXT('Sys117306_name')"); yrest(500) until npcname
+		player:target_Object("First Grade Energy Snooper",3000,false,true)	--First Grade Energy Snooper
+	</waypoint>
+	<!-- # 13 --><waypoint x="-9857" z="2242" y="465">	</waypoint>
+	<!-- # 14 --><waypoint x="-9951" z="2283" y="469">	</waypoint>
+	<!-- # 15 --><waypoint x="-10030" z="2452" y="466">
+		repeat npcname=RoMScript("TEXT('Sys117306_name')"); yrest(500) until npcname
+		player:target_Object("Second Grade Energy Snooper",3000,false,true)	</waypoint>
+	<!-- #  1 ><waypoint x="-10145" z="2536" y="474">		delete</waypoint-->
+	<!-- #  3 --><waypoint x="-9880" z="2977" y="424">	</waypoint>
+	<!-- #  4 --><waypoint x="-9901" z="3320" y="472">
+		repeat npcname=RoMScript("TEXT('Sys117306_name')"); yrest(500) until npcname
+		player:target_Object("Third Grade Energy Snooper",3000,false,true)
+	</waypoint>
+	<!-- #  6 --><waypoint x="-9539" z="3228" y="464">
+		repeat npcname=RoMScript("TEXT('Sys117306_name')"); yrest(500) until npcname
+		player:target_Object("Fourth Grade Energy Snooper",3000,false,true)
+	</waypoint>
+	<!-- #  8 --><waypoint x="-9361" z="3027" y="472">	</waypoint>
+	<!-- #  9 --><waypoint x="-9207" z="2943" y="532">	</waypoint>
+	<!-- # 11 --><waypoint x="-9016" z="2503" y="507">	
+		repeat questname=RoMScript("TEXT('Sys423792_name')"); yrest(500) until questname
+		quest = getQuestStatus(questname)	--Buzzing
+		if quest == "incomplete" then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("snoopers"))
+		else
+			changeProfileOption("MAX_TARGET_DIST", 200)
+			__WPL:setForcedWaypointType()
+		end	</waypoint>
+	<!-- # 12 --><waypoint x="-8466" z="2307" y="517">	</waypoint>
+	<!-- # 13 --><waypoint x="-7915" z="2320" y="524">	</waypoint>
+	<!-- # 14 --><waypoint x="-7563" z="2273" y="529">	</waypoint>
+	<!-- # 15 --><waypoint x="-7531" z="2239" y="534">	</waypoint>
+	<!-- # 16 --><waypoint x="-7529" z="2205" y="543">	</waypoint>
+	<!-- # 17 --><waypoint x="-7567" z="2052" y="568">	</waypoint>
+	<!-- # 18 --><waypoint x="-7561" z="2025" y="586">	</waypoint>
+	<!-- # 19 --><waypoint x="-7493" z="1955" y="601">	</waypoint>
+	<!-- # 20 --><waypoint x="-7459" z="1896" y="615">	</waypoint>
+	<!-- # 21 --><waypoint x="-7479" z="1819" y="614">	</waypoint>
+	<!-- # 22 --><waypoint x="-7566" z="1515" y="615">		
+		COO_CompleteQuest(117281, 423792) --Mufasa Luckshine, A Suspicious Buzzing, activate 4 Energy Detecting Device
+		checkDQCount()
+		
+		COO_AcceptQuest(117281, 423957) --Mufasa Luckshine, Power for a Thousand Miles, kill Complete Charge 5x
+	</waypoint>		
+	<!-- #  1 --><waypoint x="-7626" z="1495" y="615" tag="charge">
+		repeat npcname=RoMScript("TEXT('Sys117580_name')"); yrest(500) until npcname
+		player:target_Object("High Power Generator")	--High Power Generator
+	</waypoint>	
+	<!-- #  3 --><waypoint x="-7529" z="1747" y="614">	</waypoint>
+	<!-- #  4 --><waypoint x="-7445" z="1886" y="613">	</waypoint>
+	<!-- #  5 --><waypoint x="-7747" z="2292" y="525">	</waypoint>
+	<!-- #  6 --><waypoint x="-8452" z="2364" y="514">	</waypoint>
+	<!-- #  7 --><waypoint x="-8874" z="2406" y="508">	__WPL:setWaypointIndex(__WPL:findWaypointTag("chargeUp"))	</waypoint>
+	<!-- #  1 --><waypoint x="-9384" z="3222" y="528" tag="tester">	</waypoint>	
+	<!-- #  6 --><waypoint x="-9539" z="3228" y="464" tag="chargeUp">	
+		repeat questname=RoMScript("TEXT('Sys423957_name')"); yrest(500) until questname
+		while getQuestStatus(questname) == "incomplete" do
+			repeat
+				repeat npcname=RoMScript("TEXT('Sys117306_name')"); yrest(500) until npcname
+				player:target_Object(npcname)	--Fourth Grade Energy Snooper
+				yrest(5000)
+			until getQuestStatus(questname) ~= "complete"
+		end	</waypoint>
+	<!-- #  8 --><waypoint x="-9361" z="3027" y="472">	
+		repeat questname=RoMScript("TEXT('Sys423957_name')"); yrest(500) until questname
+		dailyQuest = getQuestStatus(questname)
+		if dailyQuest == "incomplete" and 10 > getDailyComplete() then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("chargeUp"))
+		end	</waypoint>
+	<!-- #  9 --><waypoint x="-9207" z="2943" y="532">	</waypoint>
+	<!-- # 11 --><waypoint x="-9016" z="2503" y="507">	</waypoint>
+	<!-- # 12 --><waypoint x="-8466" z="2307" y="517">	</waypoint>
+	<!-- # 13 --><waypoint x="-7915" z="2320" y="524">	</waypoint>
+	<!-- # 14 --><waypoint x="-7563" z="2273" y="529">	</waypoint>
+	<!-- # 15 --><waypoint x="-7531" z="2239" y="534">	</waypoint>
+	<!-- # 16 --><waypoint x="-7529" z="2205" y="543">	</waypoint>
+	<!-- # 17 --><waypoint x="-7567" z="2052" y="568">	</waypoint>
+	<!-- # 18 --><waypoint x="-7561" z="2025" y="586">	</waypoint>
+	<!-- # 19 --><waypoint x="-7493" z="1955" y="601">	</waypoint>
+	<!-- # 20 --><waypoint x="-7459" z="1896" y="615">	</waypoint>
+	<!-- # 21 --><waypoint x="-7479" z="1819" y="614">	__WPL:setWaypointIndex(__WPL:findWaypointTag("miles"))	</waypoint>
+	<!-- #  1 --><waypoint x="-7597" z="1442" y="617" tag="tester2">	</waypoint>	
+	<!-- #  1 --><waypoint x="-7596" z="1505" y="615" tag="miles">		
+		repeat questname=RoMScript("TEXT('Sys423957_name')"); yrest(500) until questname
+		dailyQuest = getQuestStatus(questname)
+		if dailyQuest == "complete" then
+			COO_CompleteQuest(117281, 423957) --Mufasa Luckshine, Power for a Thousand Miles, kill Complete Charge 5x
+		end
+		checkDQCount()
+
+		repeat questname=RoMScript("TEXT('Sys423925_name')"); yrest(500) until questname
+		quest = getQuestStatus(questname)
+		if quest == "complete" then
+			COO_CompleteQuest(117281, 423925) --Mufasa Luckshine, Resonating with Energy, collect Resonance Core 5x
+		end
+
+		repeat npcname=RoMScript("TEXT('Sys117281_name')"); yrest(500) until npcname
+		repeat questname=RoMScript("TEXT('Sys423926_name')"); yrest(500) until questname
+		quest = getQuestStatus(questname)	
+		if quest == "not accepted" or quest == "incomplete" or quest == "complete" then		
+			COO_AcceptQuest(117281, 423926) --Mufasa Luckshine, Information Loss, Help Mufasa Luckshine record what he reads off
+
+			player:target_NPC(npcname)
+			yrest(200)
+			sendMacro("ChoiceOption(2)")	
+			yrest(1000)
+			sendMacro("ChoiceOption(1)")
+			yrest(200)			
+			
+			player:target_NPC(npcname)
+			yrest(200)
+			CompleteQuestByName("Information")
+			
+			player:target_NPC(npcname)
+			yrest(200)
+			-- AcceptQuestByName("Discovery")
+			sendMacro("OnClick_QuestListButton(1,1);"); 
+			yrest(200);
+			sendMacro("AcceptQuest()"); 
+			yrest(200);
+			
+			yrest(1000)
+			sendMacro("ChoiceOption(2)")
+			yrest(200)
+			
+			player:target_NPC(npcname)
+			yrest(200)
+			-- CompleteQuestByName("Discovery")
+			sendMacro("OnClick_QuestListButton(3,1);");
+			yrest(200);
+			sendMacro("CompleteQuest()"); 
+			yrest(200);
+		end		
+		
+		if player.Level > 33 or getXP() > 216000 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("toJuice"))		
+		else	
+			COO_AcceptQuest(117281, 423957) --Mufasa Luckshine, Power for a Thousand Miles, kill Complete Charge 5x
+
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("charge"))
+		end	</waypoint>	
+====
+========================================================================
+====
+	<!-- #  1 --><waypoint x="-7757" z="4690" y="583" tag="juice">
+		repeat questname=RoMScript("TEXT('Sys423950_name')"); yrest(500) until questname --Sweet Juice
+		dailyQuest = getQuestStatus(questname)
+		while 10 > getDailyComplete() and 36 > player.Level and 283000 > getXP() and
+		inventory:getItemCount(208920) > 9	do	
+			COO_AcceptQuest(117524, 423950) --Sharphorn Sugula, Sweet Juice, Sweet Juice:208920
+			COO_CompleteQuest(117524, 423950) --Sharphorn Sugula, Sweet Juice, Sweet Juice:208920
+
+			checkDQCount()
+			player:update()
+		end	
+		
+		if player.Level > 35 or getXP() > 283000 then
+			__WPL:setForcedWaypointType()
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("toAoluona"))
+		end
+	</waypoint>
+	<!-- #  4 --><waypoint x="-7425" z="4652" y="580" tag="killMoreCacti">
+		if player.Current_waypoint_type == WPT_RUN then
+			__WPL:setForcedWaypointType("NORMAL")
+		end
+	</waypoint>
+	<!-- #  5 --><waypoint x="-7292" z="4753" y="582">	</waypoint>
+	<!-- #  6 --><waypoint x="-7168" z="4663" y="586">	</waypoint>
+	<!-- #  8 --><waypoint x="-7346" z="4461" y="572">	
+		if 10 > inventory:getItemCount(208920) then -- Sweet Juice
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreCacti"))	
+		else 
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("juice"))
+		end	</waypoint>
+====
+========================================================================
+====
+
+	<!-- #  1 --><waypoint x="-7496" z="4577" y="571" tag="toAoluona">	</waypoint>
+	<!-- #  2 --><waypoint x="-7292" z="4345" y="564">	</waypoint>
+	<!-- #  3 --><waypoint x="-7221" z="4131" y="526">	</waypoint>
+	<!-- #  4 --><waypoint x="-6999" z="3881" y="472">	</waypoint>
+	<!-- #  5 --><waypoint x="-7042" z="3642" y="473">	</waypoint>
+	<!-- #  6 --><waypoint x="-7123" z="3564" y="484">	</waypoint>
+	<!-- #  7 --><waypoint x="-7509" z="3170" y="559">	</waypoint>
+	<!-- #  8 --><waypoint x="-7461" z="2928" y="576">	</waypoint>
+====
+========================================================================
+====
+	<!-- # 17 --><waypoint x="-7466" z="2879" y="580" tag="aoluona">		
+		if 36 > player.Level then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("AnbenronReplanting"))
+		else
+			while 10 > getDailyComplete() and 38 > player.Level and 378000 > getXP() and inventory:getItemCount(209101) > 9 do	
+				COO_AcceptQuest(117588, 423958) --Anbenron, Life Hormone, Aoluona:209101
+				COO_CompleteQuest(117588, 423958) --Anbenron, Life Hormone, Aoluona:209101
+
+				checkDQCount()
+				player:update()
+			end	
+			
+			if player.Level > 37 or getXP() > 378000 then
+				if player.Current_waypoint_type == WPT_NORMAL then
+					__WPL:setForcedWaypointType()
+				end
+				yrest(100)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("toBluto"))
+			end
+		end
+	</waypoint>
+	<!-- #  4 --><waypoint x="-7426" z="3027" y="585">		
+		if 4 > inventory:getItemCount(0) or 80 > inventory:getMainHandDurability() then
+			COO_Merchant(118102);	--Silvershadow Adventurers' Guild Provisioner
+		end
+	</waypoint>			
+	<!-- #  3 --><waypoint x="-7387" z="2874" y="580">	</waypoint>
+	<!-- #  4 ><waypoint x="-7203" z="2608" y="528">	</waypoint-->
+	<!-- #  6 --><waypoint x="-6913" z="2503" y="543">	</waypoint>
+	<!-- #  7 --><waypoint x="-6507" z="2078" y="391">	
+		__WPL:setDirection(WPT_FORWARD)
+		if player.Current_waypoint_type == WPT_RUN then
+			__WPL:setForcedWaypointType("NORMAL")		
+		end		
+		if 4 > inventory:getItemCount(0) or (10 > getDailyComplete() and inventory:getItemCount(209101) > 119) or
+		80 > inventory:getMainHandDurability() then
+			__WPL:setForcedWaypointType()
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("turnInOrRepair2"))
+		end	</waypoint>
+	<!-- #  8 --><waypoint x="-6640" z="1949" y="388">	</waypoint>
+	<!-- #  9 --><waypoint x="-6541" z="1710" y="390">	</waypoint>
+	<!-- # 10 --><waypoint x="-6699" z="1555" y="386">	</waypoint>
+	<!-- # 11 --><waypoint x="-6777" z="1369" y="386">	</waypoint>
+	<!-- # 12 --><waypoint x="-7038" z="1092" y="387">	</waypoint>
+	<!-- # 13 --><waypoint x="-7269" z="941" y="386">	</waypoint>
+	<!-- # 14 --><waypoint x="-7437" z="837" y="386">	</waypoint>
+	<!-- # 15 --><waypoint x="-7437" z="824" y="386">	</waypoint>
+	<!-- # 16 --><waypoint x="-7613" z="777" y="393">	</waypoint>
+	<!-- # 17 --><waypoint x="-7693" z="674" y="394">	</waypoint>
+	<!-- # 18 --><waypoint x="-7842" z="500" y="387">	</waypoint>
+	<!-- # 19 ><waypoint x="-7901" z="459" y="386">	</waypoint-->
+	<!-- # 20 --><waypoint x="-7969" z="240" y="386">	</waypoint>
+	<!-- #  1 --><waypoint x="-8068" z="70" y="404">	</waypoint>
+	<!-- # 22 --><waypoint x="-8355" z="160" y="389">	</waypoint>
+	<!-- # 23 --><waypoint x="-8468" z="557" y="387">	</waypoint>
+	<!-- # 24 --><waypoint x="-8749" z="154" y="385">	</waypoint>
+	<!-- # 25 --><waypoint x="-8851" z="-164" y="391">	__WPL:setDirection(WPT_BACKWARD)	</waypoint>
+	<!-- # 26 --><waypoint x="-6556" z="2264" y="399" tag="turnInOrRepair2">	--bottom of hill	</waypoint>
+	<!-- # 28 --><waypoint x="-6435" z="2414" y="435">	</waypoint>
+	<!-- # 29 --><waypoint x="-6566" z="2790" y="501">	</waypoint>
+	<!-- # 308 --><waypoint x="-7075" z="2760" y="519">	-- main Y	
+		if player.Level > 36 and getXP() > 350000 then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("passingThrough3"))
+		end	</waypoint>
+	<!-- # 30 --><waypoint x="-6755" z="2840" y="513">	__WPL:setWaypointIndex(__WPL:findWaypointTag("aoluona"))	</waypoint>
+====
+========================================================================
+====	
+	<!-- #  1 ><waypoint x="-7275" z="2931" y="575">	use from Anberon	</waypoint-->
+	<!-- #  4 --><waypoint x="-7426" z="3027" y="585" tag="toBluto">
+		COO_Merchant(118102);	-- Silvershadow Adventurers' Guild Provisioner
+	</waypoint>	
+	<!-- #  2 --><waypoint x="-6497" z="3020" y="516" tag="passingThrough3">	</waypoint>
+	<!-- #  3 --><waypoint x="-6338" z="3083" y="519">	</waypoint>
+	<!-- #  4 --><waypoint x="-6202" z="3194" y="545">	</waypoint>
+	<!-- #  5 --><waypoint x="-6186" z="3210" y="549">	</waypoint>
+	<!-- #  6 --><waypoint x="-6036" z="3367" y="584">	</waypoint>
+	<!-- #  7 --><waypoint x="-5941" z="3385" y="603">	</waypoint>
+	<!-- #  8 --><waypoint x="-5798" z="3346" y="624">	</waypoint>
+	<!-- #  9 --><waypoint x="-5630" z="3203" y="631">	</waypoint>
+	<!-- # 10 --><waypoint x="-5360" z="2973" y="633">	</waypoint>
+	<!-- # 11 --><waypoint x="-5215" z="2952" y="634">	</waypoint>
+	<!-- # 12 --><waypoint x="-4987" z="2949" y="646">	</waypoint>
+	<!-- # 13 --><waypoint x="-4781" z="2952" y="641">	</waypoint>
+	<!-- # 14 --><waypoint x="-4535" z="2833" y="645">	__WPL:setForcedWaypointType("NORMAL")	</waypoint>
+	<!-- # 16 --><waypoint x="-4218" z="2736" y="685">	</waypoint>
+	<!-- # 17 --><waypoint x="-3835" z="2647" y="697">	--goto naga from this one 46.2 33.7	
+		if player.Level > 40 then
+			__WPL:setForcedWaypointType()
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("passingThrough4"))
+		end	</waypoint>
+	<!-- #  1 --><waypoint x="-3375" z="2942" y="765">	__WPL:setForcedWaypointType()	</waypoint>
+	<!-- #  1 --><waypoint x="-3375" z="2942" y="765" tag="killMoreNaga">	</waypoint>
+	<!-- #  1 --><waypoint x="-3475" z="3106" y="765">	</waypoint>
+	<!-- #  1 --><waypoint x="-3435" z="3113" y="767">	__WPL:setForcedWaypointType("TRAVEL")	</waypoint>	
+	<!-- #  1 --><waypoint x="-3475" z="3106" y="765">	__WPL:setForcedWaypointType()	yrest(1300)	</waypoint>
+	<!-- #  2 --><waypoint x="-3499" z="3234" y="766">	</waypoint>
+	<!-- #  3 --><waypoint x="-3473" z="3418" y="765">	</waypoint>
+	<!-- #  1 --><waypoint x="-3328" z="3365" y="764">	__WPL:setForcedWaypointType("TRAVEL")	</waypoint>	
+	<!-- #  4 --><waypoint x="-3290" z="3434" y="765">	__WPL:setForcedWaypointType()	yrest(1300)	</waypoint>
+	<!-- #  5 --><waypoint x="-3156" z="3391" y="754">	</waypoint>
+	<!-- #  6 --><waypoint x="-3083" z="3276" y="753">	</waypoint>
+	<!-- #  6 ><waypoint x="-3083" z="3276" y="753">	__WPL:setForcedWaypointType()	yrest(1300)	</waypoint-->
+	<!-- #  7 --><waypoint x="-3063" z="3138" y="765">	</waypoint>
+	<!-- #  1 --><waypoint x="-3141" z="3118" y="766">	__WPL:setForcedWaypointType("TRAVEL")	</waypoint>	
+	<!-- #  8 --><waypoint x="-3134" z="3021" y="770">	
+		__WPL:setForcedWaypointType()	yrest(1300)	
+		if 5 > inventory:getItemCount(209082) then --Naga Knife:209082
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreNaga"))	
+		else changeProfileOption("MAX_TARGET_DIST", 150)			
+		end	</waypoint>	
+	<!-- # 15 --><waypoint x="-2799" z="2852" y="703">	--on trail	</waypoint>
+	<!-- # 17 --><waypoint x="-2594" z="2730" y="732">	__WPL:setForcedWaypointType("NORMAL")	</waypoint>
+	<!-- # 18 --><waypoint x="-2188" z="2569" y="730">	__WPL:setDirection(WPT_FORWARD)	</waypoint>
+	<!-- # 19 --><waypoint x="-1806" z="2320" y="734">	
+		if 5 > inventory:getItemCount(209084) then --Minotaur Gun:209084
+			__WPL:setDirection(WPT_BACKWARD)	
+		else __WPL:setForcedWaypointType()
+		end	</waypoint>
+	<!-- #  ><waypoint x="-1635" z="2521" y="771">	</waypoint-->
+	<!-- #   --><waypoint x="-1665" z="2778" y="765" tag="killMoreTricksters">	changeProfileOption("MAX_TARGET_DIST", 150)	
+		if player.Current_waypoint_type == WPT_RUN then
+			__WPL:setForcedWaypointType("NORMAL")		
+		end	</waypoint>
+	<!-- #   --><waypoint x="-1465" z="2888" y="769">	</waypoint>
+	<!-- # 440 --><waypoint x="-1299" z="3141" y="764">	</waypoint>
+	<!-- # 440 --><waypoint x="-1299" z="3141" y="764">	</waypoint>
+	<!-- #   --><waypoint x="-827" z="2803" y="768">	</waypoint>
+	<!-- #   --><waypoint x="-1363" z="2226" y="758">	</waypoint>
+	<!-- #   --><waypoint x="-1363" z="2226" y="758">	
+		if inventory:getItemCount(209193) > 70 then --Trickster Skin:209193
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("toClansmen"))
+		end	</waypoint>	
+	<!-- # 443 --><waypoint x="-1557" z="2339" y="750">	
+		if 70 > inventory:getItemCount(209193) then --Trickster Skin:209193
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreTricksters"))
+		end	</waypoint>		
+	<!-- #  1 --><waypoint x="-1155" z="2079" y="756" tag="toClansmen">	settings.profile.friends = {"Ancient Ayax Warrior","Alter Ayax-Krieger"}	</waypoint>
+	<!-- #  2 --><waypoint x="-885" z="2164" y="703">	</waypoint>
+	<!-- #  3 --><waypoint x="-757" z="2039" y="685">	</waypoint>
+	<!-- #  5 --><waypoint x="-618" z="1985" y="669">	</waypoint>
+	<!-- #  7 --><waypoint x="-592" z="2281" y="687">	</waypoint>
+	<!-- #  9 --><waypoint x="-205" z="2395" y="660">	</waypoint>
+	<!-- # 11 --><waypoint x="-25" z="2343" y="676" tag="killMoreClansmen">	
+		if player.Current_waypoint_type == WPT_RUN then
+			__WPL:setForcedWaypointType("NORMAL")		
+		end	</waypoint>
+	<!-- # 13 --><waypoint x="-36" z="2508" y="685">	</waypoint>
+	<!-- # 15 --><waypoint x="-232" z="2772" y="694">	</waypoint>
+	<!-- # 17 --><waypoint x="-317" z="2670" y="673">	
+		if 30 > inventory:getItemCount(209086) then --Ayax Staff:209086
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreClansmen"))
+		end	</waypoint>
+	<!-- # 20 --><waypoint x="-486" z="2974" y="677">	</waypoint>
+	<!-- # 21 --><waypoint x="-85" z="3348" y="724" tag="limon">	--second limon	
+		if player.Current_waypoint_type == WPT_RUN then
+			__WPL:setForcedWaypointType("NORMAL")		
+		end	</waypoint>
+	<!-- # 23 --><waypoint x="269" z="3279" y="725">	</waypoint>
+	<!-- # 24 --><waypoint x="751" z="3627" y="727">	--goto camp	
+		if player.Level > 37 and inventory:getItemCount(209083) > 30 then --Pirate Knife:209083
+			__WPL:setForcedWaypointType()
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("toCamp"))
+		end	</waypoint>
+	<!-- # 26 --><waypoint x="969" z="3811" y="723">	</waypoint>
+	<!-- # 27 --><waypoint x="1324" z="3455" y="698">	</waypoint>
+	<!-- # 28 --><waypoint x="1059" z="2984" y="712">	</waypoint>
+	<!-- # 29 --><waypoint x="873" z="2845" y="680">	</waypoint>
+	<!-- # 30 --><waypoint x="633" z="2956" y="674">	</waypoint>
+	<!-- # 31 --><waypoint x="500" z="3376" y="730">	__WPL:setWaypointIndex(__WPL:findWaypointTag("limon"))	</waypoint>	
+	<!-- #  --><waypoint x="-1635" z="2521" y="771">	</waypoint>
+	<!-- #  --><waypoint x="-1892" z="2808" y="763">	</waypoint>
+	<!-- #  --><waypoint x="-2021" z="3014" y="727">	</waypoint>
+	<!-- # 24 --><waypoint x="-1902" z="3429" y="703">	--back on trail at split to icefrost	
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("fromMinotaurs"))	</waypoint>
+	<!-- # 18 --><waypoint x="-2881" z="2838" y="701" tag="passingThrough4">	</waypoint>
+	<!-- # 19 ><waypoint x="-2871" z="2811" y="702">	faces south	</waypoint-->
+	<!-- # 20 ><waypoint x="-2608" z="2681" y="744">	1st off trail	</waypoint-->
+	<!-- # 21 ><waypoint x="-2558" z="2244" y="780">	2 after rez stone	</waypoint-->
+	<!-- #  1 --><waypoint x="-2320" z="3003" y="710">	</waypoint>
+	<!-- #  2 --><waypoint x="-1973" z="3180" y="711">	</waypoint>
+	<!-- #  3 --><waypoint x="-2033" z="3459" y="707">	</waypoint>
+	<!-- #  4 --><waypoint x="-1549" z="3739" y="709" tag="fromMinotaurs">	--to tiktaliks	</waypoint>
+	<!-- #  5 --><waypoint x="-982" z="3664" y="737" tag="fromTricksters">	--before bridge	</waypoint>
+	<!-- #  6 --><waypoint x="-774" z="3663" y="741">	--middle of bridge	</waypoint>
+	<!-- #  8 --><waypoint x="-580" z="3655" y="737">	</waypoint>
+	<!-- #  9 --><waypoint x="-120" z="3631" y="735">	--above "t" in Quodate on map	</waypoint>
+	<!-- # 10 --><waypoint x="178" z="3625" y="735">	</waypoint>
+	<!-- # 11 --><waypoint x="387" z="3660" y="735">	</waypoint>
+	<!-- # 14 --><waypoint x="531" z="3842" y="735" tag="toCamp">	__WPL:setForcedWaypointType("TRAVEL")	</waypoint>
+	<!-- # 15 --><waypoint x="275" z="4237" y="688">	</waypoint>
+	<!-- # 16 --><waypoint x="79" z="4665" y="679">	</waypoint>
+	<!-- #  1 --><waypoint x="285" z="4716" y="683">
+		COO_Merchant(118102);	--Silvershadow Adventurers' Guild Provisioner
+	</waypoint>	
+	<!-- # 17 --><waypoint x="92" z="4796" y="674">	</waypoint>
+	<!-- # 18 --><waypoint x="-35" z="4889" y="682">	</waypoint>
+	<!-- #  1 --><waypoint x="-13" z="5230" y="704" tag="bluto">	
+		while 10 > getDailyComplete() and 39 > player.Level and 439000 > getXP() and
+		inventory:getItemCount(209082) > 4 and inventory:getItemCount(209084) > 4 do
+			COO_AcceptQuest(117609, 423963) --Bluto Munk, Inspection, Naga Knife:209082+Minotaur Gun:209084
+			COO_CompleteQuest(117609, 423963) --Bluto Munk, Inspection, Naga Knife:209082+Minotaur Gun:209084
+
+			checkDQCount()
+			player:update()
+		end
+		
+		while 10 > getDailyComplete() and 39 > player.Level and 439000 > getXP() and
+		inventory:getItemCount(209086) > 4 and inventory:getItemCount(209083) > 4 do	
+			COO_AcceptQuest(117609, 423964) --Bluto Munk, Inspection II, Ayax Staff:209086+Pirate Knife:209083
+			COO_CompleteQuest(117609, 423964) --Bluto Munk, Inspection II, Ayax Staff:209086+Pirate Knife:209083
+
+			checkDQCount()
+			player:update()
+		end	</waypoint>
+	<!-- #  1 ><waypoint x="-96" z="5038" y="682">	target mishlor	</waypoint-->
+	<!-- #  4 --><waypoint x="-35" z="5016" y="683" tag="goToBlooms">	
+		if player.Level == 39 and inventory:getItemCount(208977) > 70 and 10 > getDailyComplete() then --Death Flower Root
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("rootTurnIn"))
+		end	</waypoint>
+	<!-- #  5 --><waypoint x="460" z="5056" y="680">	
+		if not (player.Current_waypoint_type == WPT_TRAVEL) then
+			__WPL:setForcedWaypointType("TRAVEL")		
+		end	</waypoint>
+	<!-- #  6 --><waypoint x="558" z="5064" y="679">	</waypoint>
+	<!-- #  7 --><waypoint x="651" z="5072" y="679">	</waypoint>
+	<!-- #  8 --><waypoint x="1106" z="5091" y="744" tag="killMoreBlooms">	
+		if not (player.Current_waypoint_type == WPT_NORMAL) then
+			__WPL:setForcedWaypointType("NORMAL")		
+		end	</waypoint>
+	<!-- #  9 --><waypoint x="1116" z="5160" y="749">	</waypoint>
+	<!-- # 10 --><waypoint x="1094" z="5601" y="805">	</waypoint>
+	<!-- # 11 --><waypoint x="1497" z="5326" y="799">	</waypoint>
+	<!-- # 12 --><waypoint x="1510" z="5113" y="776">	</waypoint>
+	<!-- # 13 --><waypoint x="1538" z="4729" y="763">	</waypoint>
+	<!-- # 14 --><waypoint x="1331" z="4577" y="751">
+		if 39 > player.Level or 70 > inventory:getItemCount(208977) then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreBlooms"))
+		end	</waypoint>
+	<!-- # 15 --><waypoint x="1111" z="4979" y="743">	__WPL:setForcedWaypointType("TRAVEL")	</waypoint>
+	<!-- # 16 --><waypoint x="889" z="5064" y="706">	</waypoint>
+	<!-- # 17 --><waypoint x="547" z="5061" y="679">	</waypoint>
+	<!-- # 18 --><waypoint x="-77" z="5018" y="682">	</waypoint>
+	<!-- #  3 --><waypoint x="-135" z="5110" y="682" tag="rootTurnIn">	
+		-- printf("Mishlor, Another Drink, getDailyComplete:%d, player.Level:%d, Roots:%d\n", getDailyComplete(), player.Level, inventory:getItemCount(208977));
+		while 10 > getDailyComplete() and player.Level == 39 and inventory:getItemCount(208977) > 9 do
+			COO_AcceptQuest(117590, 423959) --Mishlor, Another Drink, Death Flower Root:208977
+			COO_CompleteQuest(117590, 423959) --Mishlor, Another Drink, Death Flower Root:208977
+
+			checkDQCount()
+			player:update()
+		end
+
+		if 40 > player.Level then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("goToBlooms"))
+		else 
+			while 10 > getDailyComplete() and player.Level == 40 and inventory:getItemCount(209193) > 9 do
+				COO_AcceptQuest(117590, 424037) --Mishlor, Reduction, Trickster Skin:209193
+				COO_CompleteQuest(117590, 424037) --Mishlor, Reduction, Trickster Skin:209193
+
+				checkDQCount()
+				player:update()
+			end
+			yrest(100)
+		end	</waypoint>	
+====
+========================================================================
+====		
+	<!-- # 19 --><waypoint x="2" z="5026" y="685">	
+		if not (player.Current_waypoint_type == WPT_RUN) then
+			__WPL:setForcedWaypointType()		
+		end
+		repeat npcname=RoMScript("TEXT('Sys112051_name')"); yrest(500) until npcname --Ailic's Aide
+		player:target_NPC(npcname)	
+		
+		--Teleport to Ruins Research in Xaviera, if portal has been opened
+		--isTeleport("next","Ailic's Aide",1) 
+		--waitForLoadingScreen(40)
+		--player:rest(2)
+		--player:update()	</waypoint>	
+====
+========================================================================
+====		
+	<!-- #  1 --><waypoint x="-96" z="5038" y="682">	--travel to Xaviera Snoop if portal has not been opened	</waypoint>
+	<!-- #  7 --><waypoint x="121" z="5011" y="664">	</waypoint>
+	<!-- #  8 --><waypoint x="421" z="5094" y="679">	</waypoint>
+	<!-- #  9 --><waypoint x="552" z="5073" y="679">	</waypoint>
+	<!-- # 10 --><waypoint x="997" z="5078" y="727">	</waypoint>
+	<!-- # 11 --><waypoint x="1073" z="5103" y="745">	</waypoint>
+	<!-- # 12 --><waypoint x="1140" z="5204" y="759">	</waypoint>
+	<!-- # 13 --><waypoint x="1131" z="5435" y="795">	</waypoint>
+	<!-- # 14 --><waypoint x="1055" z="5543" y="800">	</waypoint>
+	<!-- # 15 --><waypoint x="592" z="5804" y="832">	</waypoint>
+	<!-- # 16 --><waypoint x="515" z="5883" y="830">	</waypoint>
+	<!-- # 17 --><waypoint x="477" z="6106" y="837">	</waypoint>
+	<!-- # 18 --><waypoint x="749" z="6434" y="842">	</waypoint>
+	<!-- # 19 --><waypoint x="899" z="6551" y="844">	</waypoint>
+	<!-- # 20 --><waypoint x="1104" z="7222" y="833">	</waypoint>
+	<!-- # 21 --><waypoint x="1096" z="7508" y="811">	</waypoint>
+	<!-- # 22 --><waypoint x="805" z="8007" y="778">	</waypoint>
+	<!-- # 23 --><waypoint x="-60" z="8538" y="694">	</waypoint>
+	<!-- # 24 --><waypoint x="-556" z="8655" y="670">	</waypoint>
+	<!-- # 25 --><waypoint x="-1057" z="9164" y="575">	</waypoint>
+	<!-- # 26 --><waypoint x="-1864" z="9973" y="520">	</waypoint>
+	<!-- # 27 --><waypoint x="-2017" z="10454" y="461">	</waypoint>
+	<!-- # 28 --><waypoint x="-1958" z="10827" y="398">	</waypoint>
+	<!-- # 29 --><waypoint x="-1812" z="10971" y="363">	</waypoint>
+	<!-- # 30 --><waypoint x="-1535" z="11125" y="323">	</waypoint>
+	<!-- # 31 --><waypoint x="-717" z="11148" y="379">	</waypoint>
+	<!-- # 32 --><waypoint x="-325" z="11173" y="379">	
+		repeat npcname=RoMScript("TEXT('Sys117832_name')"); yrest(500) until npcname --Shenbi:117832
+		player:target_NPC(npcname)
+	</waypoint>
+	<!-- # 34 --><waypoint x="450" z="11195" y="379">	</waypoint>
+	<!-- # 35 --><waypoint x="718" z="11324" y="320">	</waypoint>
+	<!-- # 36 --><waypoint x="920" z="12023" y="318">	</waypoint>
+	<!-- # 37 --><waypoint x="844" z="12864" y="314">	</waypoint>
+	<!-- # 38 --><waypoint x="829" z="13136" y="322">	</waypoint>
+	<!-- # 39 --><waypoint x="929" z="13278" y="323">	</waypoint>
+	<!-- # 40 --><waypoint x="979" z="13359" y="324">
+		repeat npcname=RoMScript("TEXT('Sys118002_name')"); yrest(500) until npcname --Snoop the Stubborn:118002
+		player:target_NPC(npcname)
+		
+		printf("finished --- stopPE");
+		stopPE();
+	</waypoint>		
+</waypoints>

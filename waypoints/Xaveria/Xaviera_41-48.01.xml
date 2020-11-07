@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<waypoints>
+<onload>
+
+startGMDetect()
+
+	settings.profile.mobs = {
+			"Agile Shadow Mink", "Agiler Schattennerz",
+			"Ancient Demon Bloom", "Uralte Dämonenblume",
+			"Scavenger Chupura", "Aasfresser-Chupura",
+			"Red Scavenger Bear", "Roter Aasfresserbär",
+		}
+
+	
+	function getDailyComplete()
+		--[[
+		local dailycomplete_ptr = 0x9CD1E0
+		local dailycomplete_offset = 0xACF4
+		return memoryReadBytePtr(getProc(),dailycomplete_ptr,dailycomplete_offset)
+		--]]
+		local dailyQuestCount, dailyQuestsPerDay;
+		repeat dailyQuestCount, dailyQuestsPerDay = RoMScript("Daily_count()") until dailyQuestCount and dailyQuestsPerDay
+		return dailyQuestCount;
+	end	
+		
+	function checkDQCount()
+		local _tmpQC = getDailyComplete()
+		cprintf(cli.lightblue,"%s quests completed.\n",tostring(_tmpQC))
+		--[[
+		if (_tmpQC == 10) then
+			cprintf(cli.lightblue,"Sleepytime.\n")
+			player:sleep()
+		end
+		return _tmpQC;
+		--]]
+	end
+
+	function getXP()
+		-- return memoryReadRepeat("intptr", getProc(), addresses.charExp_address, 0)
+		
+		local exp
+		repeat exp = RoMScript("GetPlayerExp()") until exp
+		return exp;
+	end
+	
+	function COO_Merchant(p_npcNameOrId)
+		if nil == p_npcNameOrId then p_npcNameOrId = 118102; end
+		if type(p_npcNameOrId) == "number" then
+			local tmp = p_npcNameOrId;
+			repeat p_npcNameOrId = RoMScript("TEXT('Sys" .. tmp .. "_name')"); yrest(500) until p_npcNameOrId
+		end
+		printf("COO_Merchant(%s)\n", p_npcNameOrId);
+		
+		player:merchant(p_npcNameOrId)
+	end
+
+	function COO_AcceptQuest(p_npcNameOrId, p_questNameOrId)
+			if type(p_npcNameOrId) == "number" then
+				local tmp = p_npcNameOrId;
+				repeat p_npcNameOrId = RoMScript("TEXT('Sys" .. tmp .. "_name')"); yrest(500) until p_npcNameOrId
+			end
+
+			if type(p_questNameOrId) == "number" then
+				local tmp = p_questNameOrId;
+				repeat p_questNameOrId = RoMScript("TEXT('Sys" .. tmp .. "_name')"); yrest(500) until p_questNameOrId
+			end
+
+			printf("COO_AcceptQuest(%s, %s)\n", p_npcNameOrId, p_questNameOrId);
+
+			player:target_NPC(p_npcNameOrId)
+			yrest(400)
+			if nil ~= AcceptQuestByName then
+				AcceptQuestByName(p_questNameOrId)
+			else
+				sendMacro("OnClick_QuestListButton(1,1);"); 
+				yrest(400);
+				sendMacro("AcceptQuest()"); 
+				yrest(400);
+			end
+	end
+	
+	function COO_CompleteQuest(p_npcNameOrId, p_questNameOrId)
+			if type(p_npcNameOrId) == "number" then
+				local tmp = p_npcNameOrId;
+				repeat p_npcNameOrId = RoMScript("TEXT('Sys" .. tmp .. "_name')"); yrest(500) until p_npcNameOrId
+			end
+
+			if type(p_questNameOrId) == "number" then
+				local tmp = p_questNameOrId;
+				repeat p_questNameOrId = RoMScript("TEXT('Sys" .. tmp .. "_name')"); yrest(500) until p_questNameOrId
+			end
+
+			printf("COO_CompleteQuest(%s, %s)\n", p_npcNameOrId, p_questNameOrId);
+
+			player:target_NPC(p_npcNameOrId)
+			yrest(400)
+			if nil ~= CompleteQuestByName then
+				CompleteQuestByName(p_questNameOrId)
+			else
+				sendMacro("OnClick_QuestListButton(3,1);"); 
+				yrest(400);
+				sendMacro("CompleteQuest()"); 
+				yrest(400);
+			end
+	end
+</onload>
+	<!-- #  1 --><waypoint x="1008" z="13379" y="328">
+	__WPL:setForcedWaypointType("RUN")
+	if player.Level > 42 then
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("travel2ChefFhil"))
+	end	</waypoint>
+	<!-- #  2 --><waypoint x="935" z="13327" y="322">	</waypoint>
+	<!-- #  3 --><waypoint x="905" z="13247" y="323">	</waypoint>
+	<!-- #  4 --><waypoint x="768" z="12971" y="323">	
+	if  checkDQCount() > 1 then 
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("SoftBrush"))
+	end
+	
+	COO_AcceptQuest(118056, 424151) -- Calm The Fury (once a day)
+	</waypoint>
+	<!-- #  7 --><waypoint x="809" z="12970" y="321">	</waypoint>
+	<!-- #  8 --><waypoint x="897" z="12375" y="314">	</waypoint>
+	<!-- #  9 --><waypoint x="900" z="12291" y="314">	</waypoint>
+	<!-- # 10 --><waypoint x="1123" z="12326" y="333">		
+		player:target_NPC("Ruins Excavator");
+		sendMacro("ChoiceOption(1);");yrest(2000);
+		sendMacro("ChoiceOption(1);");yrest(2000);
+		player:target_NPC("Ruins Excavator");
+		sendMacro("ChoiceOption(1);");yrest(2000);
+		sendMacro("ChoiceOption(1);");yrest(2000);
+	</waypoint>
+	<!-- # 17 --><waypoint x="1183" z="12266" y="331">		player:target_NPC("Ruins Excavator");
+		sendMacro("ChoiceOption(1);");yrest(2000);
+		sendMacro("ChoiceOption(1);");yrest(2000);
+		player:target_NPC("Ruins Excavator");
+		sendMacro("ChoiceOption(1);");yrest(2000);
+		sendMacro("ChoiceOption(1);");yrest(2000);
+		player:target_NPC("Ruins Excavator");
+		sendMacro("ChoiceOption(1);");yrest(2000);
+		sendMacro("ChoiceOption(1);");yrest(2000);
+	</waypoint>
+	<!-- # 26 --><waypoint x="895" z="12524" y="312">	</waypoint>
+	<!-- # 27 --><waypoint x="850" z="12976" y="320">	</waypoint>
+	<!-- # 28 --><waypoint x="774" z="12966" y="322">
+	COO_CompleteQuest(118056, 424151) -- Calm The Fury (once a day)
+	</waypoint>
+	<!-- # 28 --><waypoint x="774" z="12966" y="322" tag="SoftBrush">
+	COO_AcceptQuest(118056, 424153) --
+	</waypoint>
+	<!-- # 33 --><waypoint x="843" z="12963" y="321">
+	__WPL:setForcedWaypointType("RUN")
+	</waypoint>
+	<!-- # 34 --><waypoint x="854" z="12798" y="312" tag="travel2SoftBrush">	</waypoint>
+	<!-- # 35 --><waypoint x="1086" z="12590" y="313">	</waypoint>
+	<!-- # 36 --><waypoint x="1600" z="12549" y="209">	</waypoint>
+	<!-- # 37 --><waypoint x="1824" z="12302" y="220">	</waypoint>
+	<!-- # 38 --><waypoint x="2053" z="12241" y="212">	</waypoint>
+	<!-- # 39 --><waypoint x="2523" z="11501" y="140">	</waypoint>
+	<!-- # 40 --><waypoint x="2721" z="11482" y="151">	</waypoint>
+	<!-- # 41 --><waypoint x="3250" z="10570" y="141">	</waypoint>
+	<!-- # 42 --><waypoint x="3370" z="10494" y="153">	</waypoint>
+	<!-- # 43 --><waypoint x="3377" z="9998" y="139">	</waypoint>
+	<!-- # 44 --><waypoint x="3545" z="9964" y="147">	</waypoint>
+	<!-- # 45 --><waypoint x="3595" z="9917" y="143">	</waypoint>
+	<!-- # 46 --><waypoint x="3592" z="10084" y="197" tag="SoftBrushStart">
+	__WPL:setForcedWaypointType("NORMAL")
+	</waypoint>
+	<!-- # 48 --><waypoint x="3477" z="10121" y="186">	</waypoint>
+	<!-- # 49 --><waypoint x="3497" z="10522" y="186">	</waypoint>
+	<!-- # 50 --><waypoint x="3569" z="10789" y="189">	</waypoint>
+	<!-- # 51 --><waypoint x="3572" z="11140" y="185">	</waypoint>
+	<!-- # 52 --><waypoint x="3497" z="11492" y="189">	</waypoint>
+	<!-- # 53 --><waypoint x="3622" z="11654" y="189">	</waypoint>
+	<!-- # 54 --><waypoint x="4119" z="11629" y="194">	</waypoint>
+	<!-- # 55 --><waypoint x="4372" z="11359" y="191">	</waypoint>
+	<!-- # 56 --><waypoint x="4377" z="10831" y="190">	</waypoint>
+	<!-- # 57 --><waypoint x="4138" z="10568" y="187">	</waypoint>
+	<!-- # 58 --><waypoint x="3887" z="10519" y="184">	</waypoint>
+	<!-- # 59 --><waypoint x="3874" z="10040" y="187">	</waypoint>
+	<!-- # 60 --><waypoint x="3607" z="10041" y="186">
+	if 10 > inventory:getItemCount(209427) then
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("SoftBrushStart"))
+	end
+	</waypoint>
+	<!-- # 62 --><waypoint x="3571" z="10074" y="198">	</waypoint>
+	<!-- # 63 --><waypoint x="3396" z="10465" y="184">	</waypoint>
+	<!-- # 64 --><waypoint x="3306" z="10554" y="136">	</waypoint>
+	<!-- # 65 --><waypoint x="3220" z="10647" y="155">	</waypoint>
+	<!-- # 66 --><waypoint x="3047" z="10868" y="133">	</waypoint>
+	<!-- # 67 --><waypoint x="2991" z="11015" y="132">	</waypoint>
+	<!-- # 68 --><waypoint x="2685" z="11675" y="139">	</waypoint>
+	<!-- # 69 --><waypoint x="2376" z="11809" y="132">	</waypoint>
+	<!-- # 70 --><waypoint x="1865" z="12533" y="213">	</waypoint>
+	<!-- # 71 --><waypoint x="1076" z="12602" y="313">	</waypoint>
+	<!-- # 72 --><waypoint x="798" z="12973" y="322">	</waypoint>
+	<!-- # 73 --><waypoint x="766" z="12967" y="323">
+	while inventory:getItemCount(209427) > 10 and 10 > getDailyComplete() do
+	
+	COO_AcceptQuest(118056, 424153) --
+	COO_CompleteQuest(118056, 424153) -- 
+		
+	checkDQCount()
+	player:update()
+	
+	end
+	
+	if  getXP() > 850000 or player.Level > 42 then
+			if player.Current_waypoint_type == WPT_NORMAL then
+				__WPL:setForcedWaypointType()
+			end
+			yrest(100)
+		else
+			if player.Current_waypoint_type == WPT_RUN then
+				__WPL:setForcedWaypointType("NORMAL")
+			end		
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("travel2SoftBrush"))
+	end
+	</waypoint>
+	<!-- # 76 --><waypoint x="888" z="13055" y="323">	</waypoint>
+	<!-- # 77 --><waypoint x="937" z="13091" y="323">	</waypoint>
+	<!-- # 78 --><waypoint x="1022" z="13121" y="322">	</waypoint>
+	<!-- # 79 --><waypoint x="1066" z="13132" y="326">	</waypoint>
+	<!-- # 80 --><waypoint x="1007" z="13378" y="328">	</waypoint>
+	<!-- #  1 --><waypoint x="1046" z="13342" y="323" >
+	__WPL:setForcedWaypointType("RUN")
+	if player.Level > 42 then
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("travel2ChefFhil"))
+	end
+	</waypoint>
+	<!-- #  2 --><waypoint x="1195" z="13269" y="313" tag="travel2ChefFhil">	</waypoint>
+	<!-- #  3 --><waypoint x="1255" z="13190" y="310">	</waypoint>
+	<!-- #  4 --><waypoint x="1723" z="13320" y="318">	</waypoint>
+	<!-- #  5 --><waypoint x="2249" z="13146" y="216">	</waypoint>
+	<!-- #  6 --><waypoint x="4361" z="13156" y="204">	</waypoint>
+	<!-- #  7 --><waypoint x="4942" z="12980" y="209">	</waypoint>
+	<!-- #  8 --><waypoint x="5481" z="12884" y="200">	</waypoint>
+	<!-- #  9 --><waypoint x="5695" z="12969" y="167">	</waypoint>
+	<!-- # 10 --><waypoint x="5892" z="12826" y="129">	</waypoint>
+	<!-- # 11 --><waypoint x="6098" z="12720" y="130">	</waypoint>
+	<!-- # 12 --><waypoint x="6195" z="12514" y="125">	</waypoint>
+	<!-- # 13 --><waypoint x="6195" z="12514" y="125">	</waypoint>
+	<!-- # 14 --><waypoint x="6561" z="12409" y="43">
+	if player.Level > 43 then
+		if player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID then 
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("2Chupra"))
+		__WPL:setForcedWaypointType("RUN")
+		end
+	end
+	printf("Bloomfarm or not?\n")
+	</waypoint>
+	<!-- # 15 --><waypoint x="6929" z="12300" y="-47">	</waypoint>
+	<!-- # 16 --><waypoint x="7188" z="12310" y="-77">	</waypoint>
+	<!-- # 17 --><waypoint x="7426" z="12418" y="-78">	</waypoint>
+	<!-- # 18 --><waypoint x="7413" z="12388" y="-78" tag="atChef">		
+	while inventory:getItemCount(209436) > 4 and 10 > getDailyComplete() do
+	
+	COO_AcceptQuest(117776, 424161) -- Chef Fhil, ancient demon bloom, sweet demon bloom honey:209436
+	COO_CompleteQuest(117776, 424161) -- Chef Fhil, ancient demon bloom, sweet demon bloom honey:209436
+		
+	checkDQCount()
+	player:update()
+	
+	end
+	
+	if  getXP() > 900000 or player.Level > 44 then
+			if player.Current_waypoint_type == WPT_NORMAL then
+				__WPL:setForcedWaypointType()
+			end
+			yrest(100)
+		else
+			if player.Current_waypoint_type == WPT_RUN then
+				__WPL:setForcedWaypointType("NORMAL")
+			end		
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("killMoreBloom"))
+	end
+	</waypoint>
+	<!-- # 22 --><waypoint x="7423" z="12415" y="-78" tag="killMoreBloom">	</waypoint>
+	<!-- # 23 --><waypoint x="7290" z="12369" y="-82">	</waypoint>
+	<!-- # 24 --><waypoint x="7148" z="12294" y="-77">	</waypoint>
+	<!-- # 25 --><waypoint x="6870" z="12279" y="-46">	</waypoint>
+	<!-- # 26 --><waypoint x="6698" z="12282" y="-2">
+	if player.Level > 43 then
+		if player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID then 
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("2Chupra"))
+		__WPL:setForcedWaypointType("RUN")
+		else
+		printf("No healer as main class, skipping chupra's till lvl 44 \n")
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("bloomFarm"))
+		end
+	end	
+	</waypoint>
+	<!-- # 27 --><waypoint x="6612" z="12164" y="45" tag="bloomFarm">
+	changeProfileOption("MAX_TARGET_DIST", 100)	
+	</waypoint>
+	<!-- # 28 --><waypoint x="6582" z="11976" y="67">	</waypoint>
+	<!-- # 29 --><waypoint x="6493" z="12251" y="54">	</waypoint>
+	<!-- # 30 --><waypoint x="6279" z="12498" y="105">	</waypoint>
+	<!-- # 31 --><waypoint x="6148" z="12487" y="131">	</waypoint>
+	<!-- # 32 --><waypoint x="6185" z="12648" y="128">	</waypoint>
+	<!-- # 33 --><waypoint x="6572" z="12545" y="53">	</waypoint>
+	<!-- # 34 --><waypoint x="6695" z="12476" y="33">	</waypoint>
+	<!-- # 35 --><waypoint x="6734" z="12294" y="-15">
+	if 5 > inventory:getItemCount(209436) then
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("bloomFarm"))
+	end
+	</waypoint>	
+	<!-- #  1 --><waypoint x="6868" z="12263" y="-47" tag="bloomFarm2Chef">	</waypoint>
+	<!-- #  2 --><waypoint x="7166" z="12280" y="-77">	</waypoint>
+	<!-- #  3 --><waypoint x="7413" z="12437" y="-78">	</waypoint>
+	<!-- #  4 --><waypoint x="7418" z="12396" y="-78">	
+	__WPL:setWaypointIndex(__WPL:findWaypointTag("atChef"))
+	</waypoint>
+	<!-- #  1 --><waypoint x="6970" z="12238" y="-59" tag="2Chupra">	</waypoint>
+	<!-- #  2 --><waypoint x="7215" z="12016" y="-85">	</waypoint>
+	<!-- #  3 --><waypoint x="7452" z="11892" y="-79">	</waypoint>
+	<!-- #  4 --><waypoint x="7858" z="11318" y="-75">	</waypoint>
+	<!-- #  5 --><waypoint x="7980" z="10803" y="-117">	</waypoint>
+	<!-- #  6 --><waypoint x="8219" z="10411" y="-127">	</waypoint>
+	<!-- #  7 --><waypoint x="8779" z="10363" y="-20">	</waypoint>
+	<!-- #  8 --><waypoint x="8846" z="10339" y="-19">	</waypoint>
+	<!-- #  9 --><waypoint x="9127" z="10226" y="-20">	</waypoint>
+	<!-- # 10 --><waypoint x="9558" z="10284" y="-19">	</waypoint>
+	<!-- # 11 --><waypoint x="10029" z="10285" y="-33">	</waypoint>
+	<!-- # 12 --><waypoint x="10022" z="9355" y="0">	</waypoint>
+	<!-- # 13 --><waypoint x="10022" z="9355" y="0">	</waypoint>
+	<!-- # 14 --><waypoint x="10091" z="9366" y="4">		
+	COO_AcceptQuest(118060, 424165) -- Sofie Paichu 
+	</waypoint>
+	<!-- # 17 --><waypoint x="10021" z="9362" y="0" tag="ChupraHunt">
+	if player.Current_waypoint_type == WPT_RUN then
+		__WPL:setForcedWaypointType("NORMAL")
+	end	
+	</waypoint>
+	<!-- # 18 --><waypoint x="10044" z="9772" y="-6">	</waypoint>
+	<!-- # 19 --><waypoint x="9980" z="10048" y="-45">	</waypoint>
+	<!-- # 20 --><waypoint x="9827" z="10087" y="-42">	</waypoint>
+	<!-- # 21 --><waypoint x="9827" z="10087" y="-42">	</waypoint>
+	<!-- # 22 --><waypoint x="9725" z="10064" y="-21">	</waypoint>
+	<!-- # 23 --><waypoint x="9627" z="9924" y="-5">	</waypoint>
+	<!-- # 24 --><waypoint x="9749" z="9854" y="2">	</waypoint>
+	<!-- # 25 --><waypoint x="10026" z="9676" y="-2">	</waypoint>
+	<!-- # 27 --><waypoint x="10025" z="9351" y="0" tag="ChupraDeliver"></waypoint>
+	<!-- # 28 --><waypoint x="10095" z="9370" y="4">
+	COO_CompleteQuest(118060, 424165) -- Sofie Paichu
+	
+	checkDQCount()
+	player:update()
+	
+	
+	if  player.Level > 44 then
+			if player.Current_waypoint_type == WPT_NORMAL then
+				__WPL:setForcedWaypointType()
+			end
+			yrest(100)
+		else
+			if player.Current_waypoint_type == WPT_RUN then
+				__WPL:setForcedWaypointType("NORMAL")
+			end	
+			COO_AcceptQuest(118060, 424165) -- Sofie Paichu 
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("ChupraHunt"))
+	end
+	</waypoint>
+	<!-- #  1 --><waypoint x="10020" z="9347" y="0">	</waypoint>
+	<!-- #  2 --><waypoint x="10020" z="8765" y="0">	</waypoint>
+	<!-- #  3 --><waypoint x="10070" z="8718" y="-3">	</waypoint>
+	<!-- #  4 --><waypoint x="10074" z="8680" y="-1">
+	COO_AcceptQuest(118062, 424167) -- Qobbis Kenn
+	</waypoint>
+	<!-- #  6 --><waypoint x="10053" z="8740" y="0" tag="2Bears">
+	if player.Current_waypoint_type == WPT_NORMAL then
+		__WPL:setForcedWaypointType("RUN")
+	end
+	</waypoint>
+	<!-- #  7 --><waypoint x="9986" z="8817" y="0">	</waypoint>
+	<!-- #  8 --><waypoint x="10025" z="9059" y="0">	</waypoint>
+	<!-- #  9 --><waypoint x="10050" z="9606" y="0">	</waypoint>
+	<!-- # 10 --><waypoint x="10073" z="9634" y="0">	</waypoint>
+	<!-- # 11 --><waypoint x="10382" z="9742" y="-5">	</waypoint>
+	<!-- # 12 --><waypoint x="10551" z="10184" y="-40">	</waypoint>
+	<!-- # 13 --><waypoint x="10519" z="10197" y="-28">	</waypoint>
+	<!-- # 14 --><waypoint x="10551" z="10262" y="0">	</waypoint>
+	<!-- # 15 --><waypoint x="10546" z="10538" y="-24" tag="huntBears">
+	if player.Current_waypoint_type == WPT_RUN then
+		__WPL:setForcedWaypointType("NORMAL")
+	end	
+	</waypoint>
+	<!-- # 17 --><waypoint x="10739" z="10603" y="-28">	</waypoint>
+	<!-- # 18 --><waypoint x="10984" z="10687" y="-4">	</waypoint>
+	<!-- # 19 --><waypoint x="11278" z="10730" y="-18">	</waypoint>
+	<!-- # 20 --><waypoint x="11414" z="10791" y="-24">	</waypoint>
+	<!-- # 21 --><waypoint x="11271" z="10942" y="-5">	</waypoint>
+	<!-- # 22 --><waypoint x="11098" z="10968" y="0">	</waypoint>
+	<!-- # 23 --><waypoint x="11161" z="11042" y="-10">	</waypoint>
+	<!-- # 24 --><waypoint x="11149" z="11178" y="-6">	</waypoint>
+	<!-- # 25 --><waypoint x="11203" z="11309" y="38">	</waypoint>
+	<!-- # 26 --><waypoint x="10943" z="11506" y="79">	</waypoint>
+	<!-- # 27 --><waypoint x="10765" z="11451" y="66">	</waypoint>
+	<!-- # 28 --><waypoint x="10728" z="11283" y="21">	</waypoint>
+	<!-- # 29 --><waypoint x="10540" z="10958" y="-8">	</waypoint>
+	<!-- # 30 --><waypoint x="10535" z="10875" y="11">	</waypoint>
+	<!-- # 31 --><waypoint x="10402" z="10701" y="5">	</waypoint>
+	<!-- # 32 --><waypoint x="10541" z="10549" y="-23">
+	if 10 > inventory:getItemCount(209440) then
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("huntBears"))
+	end
+	</waypoint>
+	<!-- # 34 --><waypoint x="10528" z="10368" y="-14" tag="2Qobbis">
+	if player.Current_waypoint_type == WPT_NORMAL then
+		__WPL:setForcedWaypointType("RUN")
+	end	</waypoint>
+	<!-- # 35 --><waypoint x="10482" z="10267" y="0">	</waypoint>
+	<!-- # 36 --><waypoint x="10601" z="10127" y="-48">	</waypoint>
+	<!-- # 37 --><waypoint x="10494" z="9902" y="-38">	</waypoint>
+	<!-- # 38 --><waypoint x="10498" z="9858" y="-21">	</waypoint>
+	<!-- # 39 --><waypoint x="10456" z="9829" y="-3">	</waypoint>
+	<!-- # 40 --><waypoint x="10288" z="9644" y="2">	</waypoint>
+	<!-- # 41 --><waypoint x="10072" z="9636" y="0">	</waypoint>
+	<!-- # 42 --><waypoint x="10029" z="9604" y="0">	</waypoint>
+	<!-- # 43 --><waypoint x="10040" z="8881" y="0">	</waypoint>
+	<!-- # 44 --><waypoint x="10016" z="8756" y="0">	</waypoint>
+	<!-- # 45 --><waypoint x="10071" z="8723" y="-3">	</waypoint>
+	<!-- # 46 --><waypoint x="10072" z="8672" y="0">
+	while inventory:getItemCount(209440) > 10 and 10 > getDailyComplete() do
+	
+	COO_AcceptQuest(118062, 424167) -- Qobbis Kenn, Red Scavenger Bear, Bloody Bear Meat:209440
+	COO_CompleteQuest(118062, 424167) -- Qobbis Kenn, Red Scavenger Bear, Bloody Bear Meat:209440
+		
+	checkDQCount()
+	player:update()
+	
+	end
+	
+	if player.Level > 47 then
+		printf("finished reached lvl 48 Ready to do Butterfly.....");
+		stopPE();	
+	else
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("2Bears"))
+	end
+	
+	
+	</waypoint>
+</waypoints>

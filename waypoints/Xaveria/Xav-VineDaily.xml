@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+	<onLoad>
+		survivalwpfile = "mgsurv"
+
+		--[[ Set Options ]]--
+			options = {}
+			optionDescriptions = { 	"Choose destination after finishing script...\n\t0. Nowhere (stay)\n\t1. Transport: Recall\n\t2. Transport: Heffner Camp\n\t3. Run: Jinners Camp to Heffner Camp\n\t4. Run: Jinners Camp to Silverspring\nChoice: ",
+									"Log out after finishing script?\n\t0. No\n\t1. Yes\n\t2. Run Minigames After (Silverspring only!)\nChoice: " }
+
+			set_options(options, optionDescriptions)
+
+		--[[ Give Options a Variable Name for code readability ]]--
+			portAway = options[1]
+			exitGame = options[2]
+
+		--[[ Process Options ]]--
+			function doOption_portAway()
+				local cooldown, remaining = sendMacro("GetSkillCooldown(1,2);")
+				if portAway == 0 then
+					cprintn(cli.lightred,"You chose to stay at the questgiver.")
+					doOption_exitGame()
+				end
+				if portAway == 1 then
+					local recall = GetIdName(493330)
+					if remaining > 0 then 
+						cprintn(cli.lightred,"Spell "..recall.." not available (Cooldown Remaining: "..remaining.." seconds")
+					else
+						cprintn(cli.lightred,"Casting "..recall.."...")
+						RoMScript('CastSpellByName("'..recall..'")')
+						waitForLoadingScreen(20)
+					end
+					doOption_exitGame()
+				elseif portAway == 2 then
+					local heffnerTransportSpell = GetIdName(545142)
+					if remaining > 0 then
+						cprintn(cli.lightred,"Spell "..heffnerTransportSpell.." not available (Cooldown Remaining: "..remaining.." seconds")
+					else
+						cprintn(cli.lightred,"Casting "..heffnerTransportSpell.."...")
+						RoMScript('CastSpellByName("'..heffnerTransportSpell..'")')
+						waitForLoadingScreen(20)
+						doOption_exitGame()
+					end
+				elseif portAway == 3 then
+					cprintn(cli.lightred,"Hoofing it to Jinners Camp and paying to get back to Heffner Camp!")
+					goto_wp("fionaReturn")
+				elseif portAway == 4 then
+					cprintn(cli.lightred,"Hoofing it to Jinners Camp and paying to get back to Silverspring through Heffner Camp!")
+					goto_wp("fionaReturn")
+				else
+					cprintn(cli.lightred,"Invalid option chosen for portAway")
+					doOption_exitGame()
+				end
+			end
+
+			function doOption_exitGame()
+				if exitGame == 0 then
+					cprintn(cli.lightred,"You chose to stay logged in after script finish.")
+					error("Script finish - 10 daily quests complete!")
+				elseif exitGame == 1 then
+					cprintn(cli.lightred,"You chose to log out after script finish. Have a great day!")
+					player:logout()
+					error("Script finish - 10 daily quests complete!")
+				elseif portAway == 4 and exitGame == 2 then
+					cprintn(cli.lightred,"Starting minigames with Malatina's Survival")
+					loadPaths(survivalwpfile)
+				else
+					cprintn(cli.lightred,"Invalid option chosen for exitGame")
+					error("Script finish - 10 daily quests complete!")
+				end
+			end
+
+		--[[ Objects by ID for multi-language use ]]--
+			fiona 		= GetIdName(118070) -- NPC "Fiona Andus"
+			defenses 	= GetIdName(424176) -- Quest "The Elves' Defenses"
+			vine 		= 118193 			-- Object "Protector Vine"
+	</onLoad>
+	<!-- #  1 --><waypoint x="-6322" z="-3913" y="173" tag="heffsnoop">
+		player:mount()
+		take_snoop(snoop, "Jinners Camp",1)
+	</waypoint>
+	<!-- #  2 --><waypoint x="12873" z="1955" y="64" tag="jinners">
+		player:mount()
+	</waypoint>
+	<!-- #  3 --><waypoint x="12897" z="2167" y="67">	</waypoint>
+	<!-- #  4 --><waypoint x="12822" z="2244" y="66">	</waypoint>
+	<!-- #  5 --><waypoint x="12736" z="2418" y="60">	</waypoint>
+	<!-- #  6 --><waypoint x="12713" z="2470" y="74">	</waypoint>
+	<!-- #  7 --><waypoint x="12620" z="2594" y="84">	</waypoint>
+	<!-- #  8 --><waypoint x="12336" z="2625" y="82">	</waypoint>
+	<!-- #  9 --><waypoint x="12085" z="2654" y="87">	</waypoint>
+	<!-- # 10 --><waypoint x="11774" z="2679" y="89">	</waypoint>
+	<!-- # 11 --><waypoint x="11500" z="2674" y="139">	</waypoint>
+	<!-- # 12 --><waypoint x="11297" z="2790" y="140">	</waypoint>
+	<!-- # 13 --><waypoint x="11078" z="3013" y="138">	</waypoint>
+	<!-- # 14 --><waypoint x="10917" z="3242" y="140">	</waypoint>
+	<!-- # 15 --><waypoint x="10784" z="3506" y="143">	</waypoint>
+	<!-- # 16 --><waypoint x="10590" z="3914" y="147">	</waypoint>
+	<!-- # 17 --><waypoint x="10552" z="4283" y="188">	</waypoint>
+	<!-- # 18 --><waypoint x="10567" z="4465" y="210">	</waypoint>
+	<!-- # 19 --><waypoint x="10551" z="4731" y="218">	</waypoint>
+	<!-- # 20 --><waypoint x="10522" z="4996" y="218">	</waypoint>
+	<!-- # 21 --><waypoint x="10478" z="5238" y="213">	</waypoint>
+	<!-- # 22 --><waypoint x="10435" z="5416" y="220">	</waypoint>
+	<!-- # 23 --><waypoint x="10358" z="5446" y="222" tag="fiona">		
+		player:target_NPC(fiona)
+
+		if getQuestStatus(defenses) == "complete" then
+			CompleteQuestByName(defenses)
+			cprintn(cli.lightblue,"=-=-= "..player.Name.." - "..RoMScript("Daily_count()").." daily quests completed. =-=-=")
+		end
+
+		if RoMScript("Daily_count()") == 10 then
+			changeProfileOption("HARVEST_DISTANCE", 120)
+			doOption_portAway()
+		else
+			if getQuestStatus(defenses) == "not accepted" then
+				AcceptQuestByName(defenses)
+			end
+		end
+	</waypoint>
+	<!-- # 24 --><waypoint x="10352" z="5444" y="223">	</waypoint>
+	<!-- # 25 --><waypoint x="10294" z="5609" y="220" tag="vines">	
+		if 200 > settings.profile.options.HARVEST_DISTANCE then changeProfileOption("HARVEST_DISTANCE", 200) end
+		while getQuestStatus(defenses) == "incomplete" do
+			player:target_Object(vine, 500)
+		end
+	</waypoint>
+	<!-- # 26 --><waypoint x="10303" z="5576" y="220">
+		goto_wp("fiona")
+	</waypoint>
+
+	<!-- Waypoints to run from Fiona to Jinners Camp (best if Recall is on cd) -->
+	<!-- #  R1 --><waypoint x="10358" z="5446" y="222" tag="fionaReturn">
+		player:mount()
+	</waypoint>
+	<!-- #  R2 --><waypoint x="10435" z="5416" y="220">	</waypoint>
+	<!-- #  R3 --><waypoint x="10478" z="5238" y="213">	</waypoint>
+	<!-- #  R4 --><waypoint x="10522" z="4996" y="218">	</waypoint>
+	<!-- #  R5 --><waypoint x="10551" z="4731" y="218">	</waypoint>
+	<!-- #  R6 --><waypoint x="10567" z="4465" y="210">	</waypoint>
+	<!-- #  R7 --><waypoint x="10552" z="4283" y="188">	</waypoint>
+	<!-- #  R8 --><waypoint x="10590" z="3914" y="147">	</waypoint>
+	<!-- #  R9 --><waypoint x="10784" z="3506" y="143">	</waypoint>
+	<!-- # R10 --><waypoint x="10917" z="3242" y="140">	</waypoint>
+	<!-- # R11 --><waypoint x="11078" z="3013" y="138">	</waypoint>
+	<!-- # R12 --><waypoint x="11297" z="2790" y="140">	</waypoint>
+	<!-- # R13 --><waypoint x="11500" z="2674" y="139">	</waypoint>
+	<!-- # R14 --><waypoint x="11774" z="2679" y="89">	</waypoint>
+	<!-- # R15 --><waypoint x="12085" z="2654" y="87">	</waypoint>
+	<!-- # R16 --><waypoint x="12336" z="2625" y="82">	</waypoint>
+	<!-- # R17 --><waypoint x="12620" z="2594" y="84">	</waypoint>
+	<!-- # R18 --><waypoint x="12713" z="2470" y="74">	</waypoint>
+	<!-- # R19 --><waypoint x="12736" z="2418" y="60">	</waypoint>
+	<!-- # R20 --><waypoint x="12822" z="2244" y="66">	</waypoint>
+	<!-- # R21 --><waypoint x="12897" z="2167" y="67">	</waypoint>
+	<!-- # R22 --><waypoint x="12873" z="1955" y="64" tag="jinnersReturn">
+		take_snoop(ailic, "Heffner Camp",1)
+		if portAway == 3 then
+			cprintn(cli.lightred,"Arrived in Heffner Camp. Script Finished!")
+			doOption_exitGame()
+		end
+	</waypoint>
+	<!-- # R23 --><waypoint x="-6322" z="-3913" y="173" tag="heffsnoopReturn">
+		if portAway and portAway ~= nil then
+			take_snoop(snoop, "Silverspring",1)
+			cprintn(cli.lightred,"Arrived in Silverspring. Script Finished!")
+			doOption_exitGame()
+		end
+	</waypoint>
+</waypoints>

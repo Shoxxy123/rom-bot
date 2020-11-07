@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+	<!-- #  1 --><waypoint x="-3562" z="5046" y="882">
+			player:merchant(123959) -- Qishee Longar
+			player:merchant(123959) -- Qishee Longar
+	</waypoint>
+	<!-- #  2 --><waypoint x="-3562" z="5046" y="882">	</waypoint>
+	<!-- #  3 --><waypoint x="-3562" z="5047" y="882">	</waypoint>
+	<!-- #  4 --><waypoint x="-3578" z="5056" y="882">	</waypoint>
+	<!-- #  5 --><waypoint x="-3578" z="5056" y="882">	</waypoint>
+	<!-- #  6 --><waypoint x="-3579" z="5056" y="882">
+			player:harvest()
+	</waypoint>
+	<!-- #  7 --><waypoint x="-3542" z="5086" y="883">	</waypoint>
+	<!-- #  8 --><waypoint x="-3487" z="5125" y="883">	</waypoint>
+	<!-- #  9 --><waypoint x="-3393" z="5128" y="884">	</waypoint>
+	<!-- # 10 --><waypoint x="-3305" z="5071" y="884">	</waypoint>
+	<!-- # 11 --><waypoint x="-3300" z="5066" y="882">	</waypoint>
+	<!-- # 12 --><waypoint x="-3303" z="5067" y="882">
+			player:harvest()
+	</waypoint>
+	<!-- # 13 --><waypoint x="-3274" z="4925" y="882">	</waypoint>
+	<!-- # 14 --><waypoint x="-3274" z="4925" y="882">	</waypoint>
+	<!-- # 15 --><waypoint x="-3276" z="4926" y="882">
+			player:harvest()
+	</waypoint>
+	<!-- # 16 --><waypoint x="-3367" z="4813" y="884">	</waypoint>
+	<!-- # 17 --><waypoint x="-3374" z="4807" y="882">	</waypoint>
+	<!-- # 18 --><waypoint x="-3374" z="4807" y="882">
+			player:harvest()
+	</waypoint>
+	<!-- # 19 --><waypoint x="-3374" z="4807" y="882">
+			player:harvest()
+	</waypoint>
+	<!-- # 20 --><waypoint x="-3471" z="4803" y="883">	</waypoint>
+	<!-- # 21 --><waypoint x="-3479" z="4802" y="882">	</waypoint>
+	<!-- # 22 --><waypoint x="-3479" z="4802" y="882">
+			player:harvest()
+	</waypoint>
+	<!-- # 23 --><waypoint x="-3479" z="4802" y="882">
+			player:harvest()
+	</waypoint>
+	<!-- # 24 --><waypoint x="-3586" z="4872" y="882">	</waypoint>
+	<!-- # 25 --><waypoint x="-3623" z="4964" y="883">	</waypoint>
+	<!-- # 26 --><waypoint x="-3561" z="5045" y="883">	</waypoint>
+	<!-- # 27 --><waypoint x="-3562" z="5044" y="882">
+			player:harvest()
+	</waypoint>
+	<!-- # 28 --><waypoint x="-3562" z="5043" y="882">
+			player:target_NPC(123959) -- Qishee Longar
+			player:target_NPC(123959) -- Qishee Longar
+			player:target_NPC(123959) -- Qishee Longar
+			player:target_NPC(123959) -- Qishee Longar
+	</waypoint>
+</waypoints>

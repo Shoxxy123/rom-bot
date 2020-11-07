@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Sascilia Steppes quest series. -->
+	<!--	Required userfunctions: userfunction_questHelpers -->
+	<!--	SS_04_GurlaCaravan will complete all quests at Mentha Caravan and then go to the Ailic Expedtion camp northeast of Khant. -->
+	<onload>
+			if not __WPL.ResumePoint then
+				__WPL:setWaypointIndex(1)
+			end
+			settings.profile.options.HARVEST_DISTANCE=250
+			
+			<!-- This function is needed to ensure the player can gather the Willow Wood for the quest "Refining Yellow Juice" -->
+			function getWood()
+				player:update()
+				local _isMounted = player.Mounted
+				local woodSkill = player:getCraftLevel(CRAFT_WOODCUTTING)
+				local woodType = 560018 -- Ash Wood
+				if woodSkill > 8 then
+					woodType = 560019 -- Willow Wood
+				end
+				local done
+				repeat
+					local wood = player:findNearestNameOrId(woodType)
+					if wood and 250 > distance(wood, player) then
+						player:moveTo(CWaypoint(wood.X, wood.Z), true)
+						player:harvest(woodType)
+					else
+						done = true
+					end
+				until done
+				if _isMounted then player:mount() end
+			end
+
+	</onload>
+	<!-- #  1 --><waypoint x="-36003" z="4143" y="42">
+			player:target_NPC(111087) -- Gurla
+			SureAcceptQuest(421099) -- Gurla's Caravan
+			SureAcceptQuest(421103) -- Gurla's Beloved Son
+	</waypoint>
+	<!-- #  2 --><waypoint x="-36021" z="3995" y="47">
+			player:target_NPC(111088) -- Hosea Klongen
+			SureCompleteQuest(421099) -- Gurla's Caravan
+			SureAcceptQuest(421096) -- Wholesale Colorful Feathers
+	</waypoint>
+	<!-- #  3 --><waypoint x="-36206" z="4074" y="29">	</waypoint>
+	<!-- #  4 --><waypoint x="-36515" z="4060" y="0">	</waypoint>
+	<!-- #  5 --><waypoint x="-36617" z="3965" y="-13">	</waypoint>
+	<!-- #  6 --><waypoint x="-36800" z="3722" y="-22">	</waypoint>
+	<!-- #  7 --><waypoint x="-36892" z="3571" y="-27" tag="Feathers">	</waypoint>
+	<!-- #  8 --><waypoint x="-37036" z="3595" y="-5">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- #  9 --><waypoint x="-37204" z="3667" y="45">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 10 --><waypoint x="-37372" z="3831" y="84">
+			killForQuest(false,100772,421096)
+			getWood()
+	</waypoint>
+	<!-- # 11 --><waypoint x="-37402" z="3575" y="60">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 12 --><waypoint x="-37534" z="3420" y="37">
+			killForQuest(false,100772,421096)
+			getWood()
+	</waypoint>
+	<!-- # 13 --><waypoint x="-37427" z="3181" y="7">
+			killForQuest(false,100772,421096)
+			getWood()
+	</waypoint>
+	<!-- # 14 --><waypoint x="-37675" z="3087" y="86">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 15 --><waypoint x="-37465" z="2915" y="-19">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 16 --><waypoint x="-37380" z="2685" y="-63">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 17 --><waypoint x="-37247" z="2557" y="-4">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 18 --><waypoint x="-37031" z="2301" y="-2">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 19 --><waypoint x="-36821" z="2441" y="-26">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 20 --><waypoint x="-36799" z="2713" y="-63">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 21 --><waypoint x="-36595" z="2736" y="-48">
+			killForQuest(false,100772,421096)
+			getWood()
+	</waypoint>
+	<!-- # 22 --><waypoint x="-36853" z="2922" y="-92">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 23 --><waypoint x="-36928" z="3117" y="-84">
+			killForQuest(false,100772,421096)
+			getWood()
+	</waypoint>
+	<!-- # 24 --><waypoint x="-36572" z="3174" y="-59">
+			killForQuest(false,100772,421096)
+	</waypoint>
+	<!-- # 25 --><waypoint x="-36796" z="3476" y="-29">
+			if getQuestStatus(421096) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Feathers"))
+			end
+			player:mount()
+	</waypoint>
+	<!-- # 26 --><waypoint x="-36670" z="3879" y="-15">	</waypoint>
+	<!-- # 27 --><waypoint x="-36490" z="4039" y="3">	</waypoint>
+	<!-- # 28 --><waypoint x="-36227" z="4078" y="26">	</waypoint>
+	<!-- # 29 --><waypoint x="-36020" z="3997" y="47">
+			player:target_NPC(111088) -- Hosea Klongen
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_WARDEN then
+				SureCompleteQuest(421096, 2) -- Wholesale Colorful Feathers, Colorful Feather Chain Belt (223122)
+			else
+				SureCompleteQuest(421096, 1) -- Wholesale Colorful Feathers, Colorful Feather Belt (223121)
+			end
+			SureAcceptQuest(421097) -- Wholeselling Living Balloon Monsters
+	</waypoint>
+	<!-- # 30 --><waypoint x="-36001" z="4158" y="42">
+			player:target_NPC(111087) -- Gurla
+			SureAcceptQuest(421100) -- Gurla's Candle
+	</waypoint>
+	<!-- # 31 --><waypoint x="-36002" z="4329" y="79">	</waypoint>
+	<!-- # 32 --><waypoint x="-36051" z="4569" y="114">	</waypoint>
+	<!-- # 33 --><waypoint x="-36171" z="4776" y="148">	</waypoint>
+	<!-- # 34 --><waypoint x="-36240" z="5048" y="150">	</waypoint>
+	<!-- # 35 --><waypoint x="-36323" z="5302" y="185">	</waypoint>
+	<!-- # 36 --><waypoint x="-36480" z="5510" y="266">	</waypoint>
+	<!-- # 37 --><waypoint x="-36644" z="5622" y="290">	</waypoint>
+	<!-- # 38 --><waypoint x="-36878" z="5674" y="260">
+			player:target_Object(111089) -- Altar covered with candles
+			SureCompleteQuest(421100) -- Gurla's Candle
+	</waypoint>
+	<!-- # 39 --><waypoint x="-36934" z="5672" y="256">	</waypoint>
+	<!-- # 40 --><waypoint x="-37033" z="5481" y="237">	</waypoint>
+	<!-- # 41 --><waypoint x="-36949" z="5291" y="240">
+			getWood()
+	</waypoint>
+	<!-- # 42 --><waypoint x="-36672" z="5249" y="203">	</waypoint>
+	<!-- # 43 --><waypoint x="-36419" z="5106" y="154">	</waypoint>
+	<!-- # 44 --><waypoint x="-36206" z="4808" y="143">	</waypoint>
+	<!-- # 45 --><waypoint x="-36080" z="4604" y="124">	</waypoint>
+	<!-- # 46 --><waypoint x="-36088" z="4312" y="80">	</waypoint>
+	<!-- # 47 --><waypoint x="-36190" z="4080" y="29">	</waypoint>
+	<!-- # 48 --><waypoint x="-36287" z="3859" y="59">
+			CatchMobSetup(100801, 20, 202256, 421097)
+	</waypoint>
+	<!-- # 49 --><waypoint x="-36376" z="3686" y="75" tag="Balloons">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 50 --><waypoint x="-36549" z="3715" y="54">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 51 --><waypoint x="-36868" z="3832" y="5">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 52 --><waypoint x="-37010" z="3588" y="4">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 53 --><waypoint x="-37211" z="3395" y="30">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 54 --><waypoint x="-37292" z="3259" y="22">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 55 --><waypoint x="-37329" z="3083" y="9">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 56 --><waypoint x="-37473" z="2943" y="3">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 57 --><waypoint x="-37623" z="2783" y="23">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 58 --><waypoint x="-37458" z="2588" y="-43">	
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 59 --><waypoint x="-37219" z="2364" y="11">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 60 --><waypoint x="-37015" z="2188" y="20">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 61 --><waypoint x="-36816" z="2108" y="20">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 62 --><waypoint x="-36613" z="2273" y="2">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 63 --><waypoint x="-36596" z="2437" y="-3">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 64 --><waypoint x="-36378" z="2476" y="-13">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 65 --><waypoint x="-36567" z="2744" y="-28">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 66 --><waypoint x="-36666" z="2989" y="-67">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 67 --><waypoint x="-36755" z="3283" y="-40">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 68 --><waypoint x="-36599" z="3467" y="-33">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 69 --><waypoint x="-36536" z="3719" y="54">
+			killForQuest(false,100801,421097)
+			if getQuestStatus(421097) == "complete" then
+				CatchMobSetup(0, 0, 0, 0)
+			end
+	</waypoint>
+	<!-- # 70 --><waypoint x="-36287" z="3859" y="59">
+			if getQuestStatus(421097) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Balloons"))
+			end
+	</waypoint>
+	<!-- # 71 --><waypoint x="-36287" z="3859" y="59">
+			CatchMobSetup(0, 0, 0, 0)
+	</waypoint>
+	<!-- # 72 --><waypoint x="-36027" z="3997" y="47">
+			player:target_NPC(111088) -- Hosea Klongen
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_WARDEN then
+				SureCompleteQuest(421097, 1) -- Wholeselling Living Balloon Monsters, Balloon Monster Chainmail Pants (223123)
+			else
+				SureCompleteQuest(421097, 2) -- Wholeselling Living Balloon Monsters, Sprightly Soft Shoes (223124)
+			end
+			SureAcceptQuest(421098) -- Wholesale Long Jet-Black Feathers
+	</waypoint>
+	<!-- # 73 --><waypoint x="-36006" z="4149" y="42">
+			player:target_NPC(111087) -- Gurla
+			SureAcceptQuest(421101) -- Gurla's Benevolence
+			player:mount()
+	</waypoint>
+	<!-- # 74 --><waypoint x="-35860" z="4057" y="49">	</waypoint>
+	<!-- # 75 --><waypoint x="-35565" z="4094" y="72">	</waypoint>
+	<!-- # 76 --><waypoint x="-35311" z="4180" y="53">	</waypoint>
+	<!-- # 77 --><waypoint x="-35150" z="4339" y="45">	</waypoint>
+	<!-- # 78 --><waypoint x="-34917" z="4438" y="45">	</waypoint>
+	<!-- # 79 --><waypoint x="-34706" z="4454" y="48">	</waypoint>
+	<!-- # 80 --><waypoint x="-34451" z="4513" y="36">	</waypoint>
+	<!-- # 81 --><waypoint x="-34140" z="4514" y="1">	</waypoint>
+	<!-- # 82 --><waypoint x="-33813" z="4572" y="-71">	</waypoint>
+	<!-- # 83 --><waypoint x="-33543" z="4670" y="-109">	</waypoint>
+	<!-- # 84 --><waypoint x="-33294" z="4711" y="-117">	</waypoint>
+	<!-- # 85 --><waypoint x="-33086" z="4729" y="-118">	</waypoint>
+	<!-- # 86 --><waypoint x="-32958" z="4791" y="-124">	</waypoint>
+	<!-- # 87 --><waypoint x="-32837" z="4887" y="-122">	</waypoint>
+	<!-- # 88 --><waypoint x="-32784" z="4981" y="-145">	</waypoint>
+	<!-- # 89 --><waypoint x="-32715" z="5129" y="-177">	</waypoint>
+	<!-- # 90 --><waypoint x="-32517" z="5312" y="-225">	</waypoint>
+	<!-- # 91 --><waypoint x="-32285" z="5485" y="-277">	</waypoint>
+	<!-- # 92 --><waypoint x="-32119" z="5705" y="-321">	</waypoint>
+	<!-- # 93 --><waypoint x="-32032" z="6016" y="-346">	</waypoint>
+	<!-- # 94 --><waypoint x="-31901" z="6222" y="-347">	</waypoint>
+	<!-- # 95 --><waypoint x="-31670" z="6206" y="-353">	</waypoint>
+	<!-- # 96 --><waypoint x="-31467" z="6098" y="-331">	</waypoint>
+	<!-- # 97 --><waypoint x="-31074" z="5865" y="-356">	</waypoint>
+	<!-- # 98 --><waypoint x="-30812" z="5716" y="-318">	</waypoint>
+	<!-- # 99 --><waypoint x="-30583" z="5705" y="-256">	</waypoint>
+	<!-- #100 --><waypoint x="-30426" z="5674" y="-253">	</waypoint>
+	<!-- #101 --><waypoint x="-30404" z="5635" y="-248">	</waypoint>
+	<!-- #102 --><waypoint x="-30196" z="5784" y="-290">	</waypoint>
+	<!-- #103 --><waypoint x="-29863" z="6041" y="-376">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #104 --><waypoint x="-29661" z="5943" y="-376">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #105 --><waypoint x="-29371" z="5855" y="-377">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #106 --><waypoint x="-29754" z="5688" y="-380">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #107 --><waypoint x="-29552" z="5457" y="-378">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #108 --><waypoint x="-29683" z="5357" y="-377">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #109 --><waypoint x="-29595" z="5255" y="-377">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #110 --><waypoint x="-29383" z="5191" y="-376">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #111 --><waypoint x="-29409" z="4949" y="-377">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #112 --><waypoint x="-29556" z="4987" y="-375">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #113 --><waypoint x="-29647" z="5065" y="-380">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #114 --><waypoint x="-29802" z="4930" y="-361">	</waypoint>
+	<!-- #115 --><waypoint x="-29890" z="4799" y="-378">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #116 --><waypoint x="-29856" z="4604" y="-376">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #117 --><waypoint x="-29962" z="4300" y="-376">
+			player:target_Object(111086) -- Marsh Fern
+	</waypoint>
+	<!-- #118 --><waypoint x="-29963" z="4554" y="-379">	</waypoint>
+	<!-- #119 --><waypoint x="-30020" z="4870" y="-375">	</waypoint>
+	<!-- #120 --><waypoint x="-30088" z="5054" y="-346">	</waypoint>
+	<!-- #121 --><waypoint x="-30146" z="5315" y="-292">	</waypoint>
+	<!-- #122 --><waypoint x="-30181" z="5468" y="-274">	</waypoint>
+	<!-- #123 --><waypoint x="-30401" z="5628" y="-263">
+			repeat
+				player:target_Object(111101) -- Barbeque Firewood
+				yrest(5000)
+			until getQuestStatus(421012) == "complete" or inventory:itemTotalCount(200295) == 0 or inventory:itemTotalCount(111086) == 0 -- Quest complete, or used up all the Willow and Marsh Fern
+	</waypoint>
+	<!-- #124 --><waypoint x="-30516" z="5713" y="-271">
+			if getQuestStatus(421012) == "complete" then -- Will revist this quest if needed when we come back to deal with Phant.
+				player:target_NPC(111053) -- Fares Mitten
+				SureCompleteQuest(421012) -- Refining Yellow Juice
+				SureAcceptQuest(421013) -- The Third Item of the Ceremony. Phant has 24K HP, we will come back and fight him much later.
+			end
+			player:mount()
+	</waypoint>
+	<!-- #125 --><waypoint x="-30699" z="5710" y="-300">	</waypoint>
+	<!-- #126 --><waypoint x="-30945" z="5772" y="-370">	</waypoint>
+	<!-- #127 --><waypoint x="-31359" z="6029" y="-348">	</waypoint>
+	<!-- #128 --><waypoint x="-31716" z="6202" y="-357">	</waypoint>
+	<!-- #129 --><waypoint x="-31935" z="6175" y="-366">	</waypoint>
+	<!-- #130 --><waypoint x="-32020" z="6046" y="-363">	</waypoint>
+	<!-- #131 --><waypoint x="-32125" z="5668" y="-334">	</waypoint>
+	<!-- #132 --><waypoint x="-32280" z="5494" y="-298">	</waypoint>
+	<!-- #133 --><waypoint x="-32541" z="5295" y="-237">	</waypoint>
+	<!-- #134 --><waypoint x="-32766" z="5034" y="-173">	</waypoint>
+	<!-- #135 --><waypoint x="-32849" z="4885" y="-137">	</waypoint>
+	<!-- #136 --><waypoint x="-32980" z="4791" y="-139">	</waypoint>
+	<!-- #137 --><waypoint x="-33170" z="4729" y="-132">	</waypoint>
+	<!-- #138 --><waypoint x="-33418" z="4697" y="-137">	</waypoint>
+	<!-- #139 --><waypoint x="-33744" z="4595" y="-102">	</waypoint>
+	<!-- #140 --><waypoint x="-34076" z="4506" y="-27">	</waypoint>
+	<!-- #141 --><waypoint x="-34405" z="4518" y="9">	</waypoint>
+	<!-- #142 --><waypoint x="-34673" z="4463" y="33">	</waypoint>
+	<!-- #143 --><waypoint x="-34953" z="4435" y="27">	</waypoint>
+	<!-- #144 --><waypoint x="-35162" z="4314" y="31">	</waypoint>
+	<!-- #145 --><waypoint x="-35312" z="4169" y="35">	</waypoint>
+	<!-- #146 --><waypoint x="-35540" z="4099" y="55">	</waypoint>
+	<!-- #147 --><waypoint x="-35799" z="4046" y="30">	</waypoint>
+	<!-- #148 --><waypoint x="-36006" z="4157" y="43">
+			CatchMobSetup(100771, 50, 202258, 421101)
+	</waypoint>
+	<!-- #149 --><waypoint x="-36000" z="4224" y="49" tag="MoreFeathers">
+			if getQuestStatus(421101) == "complete" and getQuestStatus(421098) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("FeathersDone"))
+			end
+	</waypoint>
+	<!-- #150 --><waypoint x="-36062" z="4307" y="80">
+			killForQuest(false,100771,421101)
+			if getQuestStatus(421101) == "complete" and getQuestStatus(421098) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #151 --><waypoint x="-36063" z="4445" y="104">
+			killForQuest(false,100771,421101)
+			if getQuestStatus(421101) == "complete" and getQuestStatus(421098) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #152 --><waypoint x="-35926" z="4635" y="108">
+			killForQuest(false,100771,421101)
+			if getQuestStatus(421101) == "complete" and getQuestStatus(421098) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #153 --><waypoint x="-36064" z="4822" y="146">
+			killForQuest(false,100771,421101)
+			if getQuestStatus(421101) == "complete" and getQuestStatus(421098) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #154 --><waypoint x="-35996" z="4934" y="160">
+			killForQuest(false,100771,421101)
+			if getQuestStatus(421101) == "complete" and getQuestStatus(421098) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #155 --><waypoint x="-36117" z="5011" y="158">
+			killForQuest(false,100771,421101)
+			if getQuestStatus(421101) == "complete" and getQuestStatus(421098) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #156 --><waypoint x="-36303" z="5125" y="151">	
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #157 --><waypoint x="-36369" z="5399" y="224">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #158 --><waypoint x="-36559" z="5571" y="295">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #159 --><waypoint x="-36721" z="5618" y="283">	
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #160 --><waypoint x="-36892" z="5591" y="254">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #161 --><waypoint x="-37019" z="5450" y="238">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #162 --><waypoint x="-36962" z="5346" y="239">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #163 --><waypoint x="-36816" z="5306" y="241">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #164 --><waypoint x="-36640" z="5224" y="192">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #165 --><waypoint x="-36607" z="5071" y="72">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #166 --><waypoint x="-36623" z="4990" y="52">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #167 --><waypoint x="-36834" z="4912" y="55">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #168 --><waypoint x="-36972" z="4829" y="60">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #169 --><waypoint x="-37161" z="4765" y="55">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #170 --><waypoint x="-37302" z="4678" y="69">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #171 --><waypoint x="-37512" z="4750" y="76">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #172 --><waypoint x="-37543" z="4616" y="90">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #173 --><waypoint x="-37473" z="4482" y="84">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #174 --><waypoint x="-37406" z="4155" y="72">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #175 --><waypoint x="-37185" z="4192" y="50">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #176 --><waypoint x="-37111" z="4355" y="44">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #177 --><waypoint x="-36970" z="4395" y="43">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #178 --><waypoint x="-36756" z="4442" y="123">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #179 --><waypoint x="-36606" z="4526" y="149">
+			killForQuest(false,100771,421101)
+	</waypoint>
+	<!-- #180 --><waypoint x="-36394" z="4475" y="141">	</waypoint>
+	<!-- #181 --><waypoint x="-36239" z="4478" y="130">	</waypoint>
+	<!-- #182 --><waypoint x="-36090" z="4326" y="82">	</waypoint>
+	<!-- #183 --><waypoint x="-36006" z="4229" y="49">	</waypoint>
+	<!-- #184 --><waypoint x="-36008" z="4148" y="42">
+			if getQuestStatus(421101) == "incomplete" or getQuestStatus(421098) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("MoreFeathers"))
+			end
+	</waypoint>
+	<!-- #185 --><waypoint x="-36008" z="4148" y="42" tag="FeathersDone">
+			CatchMobSetup(0, 0, 0, 0)
+	</waypoint>
+	<!-- #186 --><waypoint x="-36009" z="4147" y="42">
+			player:target_NPC(111087) -- Gurla
+			SureCompleteQuest(421101, 1) -- Gurla's Benevolence
+			-- Rewards: [1] Gurla's Necklace (223126), [2] Necklace of Kindness (223127), 
+	</waypoint>
+	<!-- #187 --><waypoint x="-36016" z="4002" y="47">
+			player:target_NPC(111088) -- Hosea Klongen
+			SureCompleteQuest(421098) -- Wholesale Long Jet-Black Feathers
+	</waypoint>
+	<!-- #188 --><waypoint x="-36010" z="4149" y="42">
+			player:target_NPC(111087) -- Gurla
+			SureAcceptQuest(421102) -- Gurla's disciplinary action
+	</waypoint>
+	<!-- #189 --><waypoint x="-36040" z="3974" y="44">
+			player:target_NPC(111090) -- Hosea's Cart
+			ChoiceOptionByName(getTEXT("EM_421102_0")) -- 'Stuff the pouch into the wagon!'
+	</waypoint>
+	<!-- #190 --><waypoint x="-36008" z="4146" y="42">
+			player:target_NPC(111087) -- Gurla
+			SureCompleteQuest(421102) -- Gurla's disciplinary action
+			player:mount()
+	</waypoint>
+	<!-- #191 --><waypoint x="-36031" z="4097" y="41">	</waypoint>
+	<!-- #192 --><waypoint x="-36244" z="4085" y="25">	</waypoint>
+	<!-- #193 --><waypoint x="-36469" z="4057" y="2">	</waypoint>
+	<!-- #194 --><waypoint x="-36587" z="3991" y="-9">	</waypoint>
+	<!-- #195 --><waypoint x="-36677" z="3900" y="-16">	</waypoint>
+	<!-- #196 --><waypoint x="-36791" z="3733" y="-22">	</waypoint>
+	<!-- #197 --><waypoint x="-36896" z="3566" y="-27">	</waypoint>
+	<!-- #198 --><waypoint x="-36945" z="3435" y="-33">	</waypoint>
+	<!-- #199 --><waypoint x="-36990" z="3265" y="-51">	</waypoint>
+	<!-- #200 --><waypoint x="-37043" z="3106" y="-73">	</waypoint>
+	<!-- #201 --><waypoint x="-37135" z="2935" y="-83">	</waypoint>
+	<!-- #202 --><waypoint x="-37202" z="2857" y="-82">	</waypoint>
+	<!-- #203 --><waypoint x="-37335" z="2744" y="-68">	</waypoint>
+	<!-- #204 --><waypoint x="-37491" z="2588" y="-60">	</waypoint>
+	<!-- #205 --><waypoint x="-37602" z="2450" y="-52">	</waypoint>
+	<!-- #206 --><waypoint x="-37665" z="2333" y="-48">	</waypoint>
+	<!-- #207 --><waypoint x="-37727" z="2192" y="-37">	</waypoint>
+	<!-- #208 --><waypoint x="-37804" z="1988" y="-23">	</waypoint>
+	<!-- #209 --><waypoint x="-37938" z="1811" y="8">	</waypoint>
+	<!-- #210 --><waypoint x="-37935" z="1706" y="28">
+			player:target_NPC(111267) -- Iron Heel Ayren
+			SureCompleteQuest(421103) -- Gurla's Beloved Son
+	</waypoint>
+	<!-- #211 --><waypoint x="-37957" z="1694" y="23">	</waypoint>
+	<!-- #212 --><waypoint x="-37923" z="1534" y="25">
+			player:merchant(111096) -- McDilon
+			yrest(2000)
+			RoMScript("SpeakFrame_Hide()")
+	</waypoint>
+	<!-- #213 --><waypoint x="-38024" z="1523" y="24">	</waypoint>
+	<!-- #214 --><waypoint x="-38181" z="1467" y="14">
+			player:target_NPC(111056) -- Liana Omeiya
+			SureCompleteQuest(421020) -- The Master of the Seal of Fire
+	</waypoint>
+	<!-- #215 --><waypoint x="-38220" z="1504" y="13">	</waypoint>
+	<!-- #216 --><waypoint x="-38358" z="1445" y="0">	</waypoint>
+	<!-- #217 --><waypoint x="-38601" z="1325" y="-15">	</waypoint>
+	<!-- #218 --><waypoint x="-38663" z="1378" y="-24">	</waypoint>
+	<!-- #219 --><waypoint x="-38723" z="1558" y="1">
+			player:target_NPC(111256) -- Snoop the Stuborn
+			yrest(2000)
+			RoMScript("SpeakFrame_Hide()")
+	</waypoint>
+	<!-- #220 --><waypoint x="-38643" z="1323" y="-26">	</waypoint>
+	<!-- #221 --><waypoint x="-38412" z="1343" y="-7">	</waypoint>
+	<!-- #222 --><waypoint x="-38258" z="1487" y="10">	</waypoint>
+	<!-- #223 --><waypoint x="-37957" z="1798" y="10">	</waypoint>
+	<!-- #224 --><waypoint x="-37849" z="1979" y="-17">	</waypoint>
+	<!-- #225 --><waypoint x="-37764" z="2167" y="-35">	</waypoint>
+	<!-- #226 --><waypoint x="-37648" z="2401" y="-50">	</waypoint>
+	<!-- #227 --><waypoint x="-37516" z="2585" y="-58">	</waypoint>
+	<!-- #228 --><waypoint x="-37393" z="2766" y="-56">	</waypoint>
+	<!-- #229 --><waypoint x="-37393" z="2962" y="-22">	</waypoint>
+	<!-- #230 --><waypoint x="-37464" z="3156" y="5">	</waypoint>
+	<!-- #231 --><waypoint x="-37448" z="3479" y="43">	</waypoint>
+	<!-- #232 --><waypoint x="-37419" z="3690" y="72">	</waypoint>
+	<!-- #233 --><waypoint x="-37374" z="3915" y="87">	</waypoint>
+	<!-- #234 --><waypoint x="-37325" z="4198" y="59">	</waypoint>
+	<!-- #235 --><waypoint x="-37311" z="4450" y="72">	</waypoint>
+	<!-- #236 --><waypoint x="-37207" z="4685" y="61">	</waypoint>
+	<!-- #237 --><waypoint x="-37178" z="5031" y="53">	</waypoint>
+	<!-- #238 --><waypoint x="-37253" z="5226" y="101">	</waypoint>
+	<!-- #239 --><waypoint x="-37400" z="5254" y="87">	</waypoint>
+	<!-- #240 --><waypoint x="-37514" z="5385" y="-6">	</waypoint>
+	<!-- #241 --><waypoint x="-37441" z="5579" y="26">	</waypoint>
+	<!-- #242 --><waypoint x="-37290" z="6036" y="100">
+			error("Done",0) -- Remove when next waypoint file is created.
+			loadPaths("SasciliaSteppes/SS_05_AilicExpedition")
+	</waypoint>
+</waypoints>

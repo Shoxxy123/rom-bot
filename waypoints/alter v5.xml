@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+<onLoad>
+--alter zone is 218
+   local zone = getZoneId()
+ print("zone = ", zone)
+   if zone == 218 then
+		print("starting alter", zone)
+   else 
+		error("You need to be in mirror alter to start")
+   end
+-- chests numbers 104529/123978
+
+sendMacro('SetFindPartyState(false)')
+changeProfileOption("MAX_TARGET_DIST", 100)
+changeProfileOption("LOOT_IN_COMBAT", "true")
+function chkzone()
+	if zone ~= 218 then
+		error("You are no longer in mirror")
+	end
+end
+
+
+</onLoad>
+
+	<!-- # 58 --><waypoint x="-894" z="-2202" y="401">  chkzone() </waypoint>
+	<!-- # 57 --><waypoint x="-826" z="-2206" y="401">	 chkzone() </waypoint>
+	<!-- # 56 --><waypoint x="-815" z="-2211" y="401">	 chkzone() </waypoint>
+	<!-- # 55 --><waypoint x="-741" z="-2292" y="399">	 chkzone() </waypoint>
+	<!-- # 54 --><waypoint x="-369" z="-2299" y="399">	 chkzone() </waypoint>
+	<!-- # 53 --><waypoint x="-266" z="-2337" y="399">	 chkzone() </waypoint>
+	<!-- # 52 --><waypoint x="-692" z="-2097" y="399">	 chkzone() </waypoint>
+	<!-- # 51 --><waypoint x="-190" z="-2112" y="401">	 chkzone() </waypoint>
+	<!-- # 50 --><waypoint x="-101" z="-2209" y="401">	 chkzone() </waypoint>
+	<!-- # 49 --><waypoint x="-35" z="-2207" y="402">	 chkzone() </waypoint>
+	<!-- # 48 --><waypoint x="53" z="-2183" y="387">	 chkzone() </waypoint>
+	<!-- # 47 --><waypoint x="149" z="-2164" y="365">	 chkzone() </waypoint>
+	<!-- # 46 --><waypoint x="263" z="-2205" y="335">	 chkzone() </waypoint>
+	<!-- # 45 --><waypoint x="294" z="-2202" y="331">	 chkzone() </waypoint>
+	<!-- # 44 --><waypoint x="352" z="-2183" y="331">	 chkzone() </waypoint>
+	<!-- # 43 --><waypoint x="493" z="-2050" y="334">	 chkzone() </waypoint>
+	<!-- # 42 --><waypoint x="708" z="-2040" y="329">	 chkzone() </waypoint>
+	<!-- # 41 --><waypoint x="955" z="-2030" y="344">	 chkzone() </waypoint>
+	<!-- # 40 --><waypoint x="914" z="-2201" y="343">	 chkzone() </waypoint>
+	<!-- # 39 --><waypoint x="424" z="-2365" y="339">	 chkzone() </waypoint>
+	<!-- # 38 --><waypoint x="582" z="-2217" y="323">	 chkzone() </waypoint>
+	<!-- # 37 --><waypoint x="1025" z="-2448" y="331">	 chkzone() </waypoint>
+	<!-- # 36 --><waypoint x="1010" z="-2938" y="335">	 chkzone() </waypoint>
+	<!-- # 35 --><waypoint x="1026" z="-3018" y="332">	 chkzone() </waypoint>
+	<!-- # 34 --><waypoint x="1026" z="-3018" y="332">	 chkzone() </waypoint>
+	<!-- # 33 --><waypoint x="1133" z="-3015" y="332">	 chkzone() </waypoint>
+	<!-- # 32 --><waypoint x="1150" z="-3477" y="332">	 chkzone() </waypoint>
+	<!-- # 31 --><waypoint x="1128" z="-3161" y="332">	 chkzone() </waypoint>
+	<!-- # 30 --><waypoint x="890" z="-3033" y="332">	 chkzone() </waypoint>
+	<!-- # 29 --><waypoint x="879" z="-3477" y="332">	 chkzone() </waypoint>
+	<!-- # 28 --><waypoint x="881" z="-3174" y="332">	 chkzone() </waypoint>
+	<!-- # 27 --><waypoint x="1021" z="-3186" y="332">	 chkzone() </waypoint>
+	<!-- # 26 --><waypoint x="1021" z="-3186" y="332">	 chkzone() </waypoint>
+	<!-- # 25 --><waypoint x="1014" z="-3508" y="399">	 chkzone() </waypoint>
+	<!-- # 24 --><waypoint x="1014" z="-3508" y="399">	 chkzone() </waypoint>
+	<!-- # 23 --><waypoint x="1007" z="-3818" y="401">	 chkzone() </waypoint>
+	<!-- # 22 --><waypoint x="1007" z="-3818" y="401">	 chkzone() </waypoint>
+	<!-- # 21 --><waypoint x="912" z="-3877" y="401">	 chkzone() </waypoint>
+	<!-- # 20 --><waypoint x="866" z="-4065" y="399">	 chkzone() </waypoint>
+	<!-- # 19 --><waypoint x="1130" z="-3897" y="401">	 chkzone() </waypoint>
+	<!-- # 18 --><waypoint x="1108" z="-4264" y="399">	 chkzone() </waypoint>
+	<!-- # 17 --><waypoint x="1128" z="-4414" y="399">	 chkzone() </waypoint>
+	<!-- # 16 --><waypoint x="1019" z="-4344" y="399">	 chkzone() </waypoint>
+	<!-- # 15 --><waypoint x="1019" z="-4344" y="399">	 chkzone() </waypoint>
+	<!-- # 14 --><waypoint x="849" z="-4394" y="401">	 chkzone() </waypoint>
+	<!-- # 13 --><waypoint x="849" z="-4234" y="401">	 chkzone() </waypoint>
+	<!-- # 12 --><waypoint x="735" z="-4178" y="401">	 chkzone() </waypoint>
+	<!-- # 11 --><waypoint x="688" z="-4176" y="398">	 chkzone() </waypoint>
+	<!-- # 10 --><waypoint x="273" z="-4163" y="332">	 chkzone() </waypoint>
+	<!-- #  9 --><waypoint x="273" z="-4163" y="332">	 chkzone() </waypoint>
+	<!-- #  8 --><waypoint x="216" z="-4076" y="332">	 chkzone() </waypoint>
+	<!-- #  7 --><waypoint x="-84" z="-4064" y="332">	 chkzone() </waypoint>
+	<!-- #  6 --><waypoint x="221" z="-4262" y="332">	 chkzone() </waypoint>
+	<!-- #  5 --><waypoint x="-110" z="-4269" y="332">	 chkzone() </waypoint>
+	<!-- #  4 --><waypoint x="-98" z="-4171" y="332">	 chkzone() </waypoint>
+	<!-- #  3 --><waypoint x="-1038" z="-4169" y="229">	 chkzone() </waypoint>
+	<!-- #  2 --><waypoint x="-1038" z="-4169" y="229">	 chkzone() </waypoint>
+	<!-- #  1 --><waypoint x="-1374" z="-4177" y="229">	
+	yrest(5000)
+	error("done at end")	
+	player:sleep()
+	 chkzone() </waypoint>
+
+</waypoints>

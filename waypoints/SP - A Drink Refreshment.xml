@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+<onload>
+	while (true) do
+		player:target_NPC(121948) 
+		CompleteQuestByName(425961)	
+		local dqCount, dqPerDay = RoMScript("Daily_count()");
+		yrest(1000)
+		if dqCount == 10 then
+			if inventory:itemTotalCount(202434) >= 1 then
+				inventory:useItem(202434);
+				yrest(1000)
+			else
+				printf("No Daily Reset Cards left!\n")
+				player:sleep();      
+			end	
+		end
+		player:target_NPC(121948)
+		AcceptQuestByName(425961)
+
+		local char,chartable = player:findNearestNameOrId(121923)
+		for i = 1, #chartable do
+			player:target(chartable[i].Address)
+			yrest(500)
+			inventory:useItem(242219)
+			if getQuestStatus(425961) == "complete" then 
+				break 
+			else
+				if inventory:itemTotalCount(242219) == 0 then
+					player:target_NPC(121948)
+					ChoiceOptionByName(getTEXT("SC_Z25Q425874_3"))
+				end		
+			end
+		end
+	end
+</onload>
+</waypoints>

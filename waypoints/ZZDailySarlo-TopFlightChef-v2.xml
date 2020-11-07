@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<waypoints>
+<onLoad>
+	settings.profile.options.WAYPOINT_DEVIATION = 5
+	settings.profile.options.MAX_TARGET_DIST = 5
+	__WPL:setForcedWaypointType("TRAVEL")
+</onLoad>
+	<!-- #  1 --><waypoint x="-18547" z="-2824" y="805">
+	local dailyQuestCount, dailyQuestsPerDay= RoMScript("Daily_count()");
+	if dailyQuestCount == 10 then
+		RoMScript("DEFAULT_CHAT_FRAME:AddMessage('|cffffff00Done|r')")
+		error("Dailies done",2)
+	end
+	player:target_NPC(122168)
+	AcceptQuestByName(426333)
+	repeat
+		yrest(300)
+		player:target_NPC("Idle Campfire")
+		yrest(4800)
+		keyboardPress(key.VK_DOWN)  
+		yrest(300)
+		keyboardPress(key.VK_DOWN)
+		if inventory:itemTotalCount("To-be-grilled Hardhorn Egg") == 0 then
+			player:target_NPC(122168)
+ 			ChoiceOptionByName(getTEXT("SC_Z24Q426168_01")) -- 'I need more eggs.'
+		end
+   	until getQuestStatus("Top-Flight Chef","Daily") == "complete"
+	player:target_NPC("Madison Mull")
+	CompleteQuestByName("Top-Flight Chef","Daily")
+  </waypoint>
+  </waypoints>

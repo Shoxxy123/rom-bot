@@ -1,0 +1,953 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Elven Island quest series. -->
+	<!--	Required userfunctions: userfunction_teleport and userfunction_profilechange -->
+	<!--	EI_02_SporeGrove will complete all quests south of the first bridge. -->
+	<!--	Approximate Runtime: 35 Minutes -->
+	<onload>
+		__WPL:setWaypointIndex(1)
+			
+		function getShrooms(_shroom)
+			if _shroom == "Rita" and inventory:itemTotalCount(204672) ~= 1 then
+				moveAndGather(112893, 422335) -- Rita Mushroom
+				return
+			end
+			if _shroom == "Dilili" and inventory:itemTotalCount(204623) ~= 10 then
+				moveAndGather(112884, 422293) -- Dilili Mushroom
+				return
+			end
+			if _shroom == "Kawa" and inventory:itemTotalCount(204670) ~= 5 then
+				moveAndGather(112894, 422335) -- Kawa Mushroom
+				return
+			end
+			if _shroom == "White" and inventory:itemTotalCount(204584) ~= 5 then
+				moveAndGather(112823, 422304) -- White Pocket Mushroom
+				return
+			end
+			if _shroom == "Brown" and inventory:itemTotalCount(204671) ~= 3 then
+				moveAndGather(112892, 422335) -- Dark Brown Mushroom
+				return
+			end
+		end
+
+	</onload>
+	<!-- #  1 --><waypoint x="31634" z="2736" y="57">	</waypoint>
+	<!-- #  2 --><waypoint x="31463" z="2531" y="47">
+			player:target_NPC(112873) -- Ailkiss
+			AcceptQuestByName(422287) -- Don't Tell Master Belintan
+	</waypoint>
+	<!-- #  3 --><waypoint x="31543" z="2494" y="42">	</waypoint>
+	<!-- #  4 --><waypoint x="31775" z="2255" y="109">	</waypoint>
+	<!-- #  5 --><waypoint x="32168" z="1682" y="141">	</waypoint>
+	<!-- #  6 --><waypoint x="32383" z="1424" y="131">
+			player:target_NPC(112840) -- Yarvis
+			CompleteQuestByName(422323) -- Passing on a Note
+			AcceptQuestByName(422324) -- A Distraction
+			player:dismount()
+	</waypoint>
+	<!-- #  7 --><waypoint x="32294" z="981" y="36">
+			yrest(2500)
+			player:target_Object(112842) -- Pile of Planet Stones
+			killForQuest(false, 101930, 422114) -- Shallow Lakoso / Unification of Body and Mind
+	</waypoint>
+	<!-- #  8 --><waypoint x="32607" z="1076" y="33">
+			yrest(1500)
+			player:target_Object(112842) -- Pile of Planet Stones
+			killForQuest(false, 101930, 422114) -- Shallow Lakoso / Unification of Body and Mind
+	</waypoint>
+	<!-- #  9 --><waypoint x="32888" z="1271" y="12">
+			yrest(1500)
+			player:target_Object(112842) -- Pile of Planet Stones
+			killForQuest(false, 101930, 422114) -- Shallow Lakoso / Unification of Body and Mind
+	</waypoint>
+	<!-- # 10 --><waypoint x="33009" z="1400" y="45">
+			yrest(1500)
+			player:target_Object(112842) -- Pile of Planet Stones
+			killForQuest(false, 101930, 422114) -- Shallow Lakoso / Unification of Body and Mind
+	</waypoint>
+	<!-- # 11 --><waypoint x="33119" z="1438" y="27">
+			yrest(1500)
+			player:target_Object(112842) -- Pile of Planet Stones
+			killForQuest(false, 101930, 422114) -- Shallow Lakoso / Unification of Body and Mind
+	</waypoint>
+	<!-- # 12 --><waypoint x="32486" z="1343" y="79">
+			player:target_NPC(112840) -- Yarvis
+			CompleteQuestByName(422324) -- A Distraction
+			AcceptQuestByName(422325) -- Brightly-Colored Shells
+	</waypoint>
+	<!-- # 13 --><waypoint x="32210" z="1623" y="125">
+			killForQuest(false, 101926, 422325) -- Spotted Bettle / Brightly-Colored Shells
+	</waypoint>
+	<!-- # 14 --><waypoint x="32129" z="1886" y="107">
+			killForQuest(false, 101926, 422325) -- Spotted Bettle / Brightly-Colored Shells
+	</waypoint>
+	<!-- # 15 --><waypoint x="32233" z="2181" y="114">
+			killForQuest(false, 101926, 422325) -- Spotted Bettle / Brightly-Colored Shells
+	</waypoint>
+	<!-- # 16 --><waypoint x="31971" z="1969" y="91">
+			killForQuest(false, 101926, 422325) -- Spotted Bettle / Brightly-Colored Shells
+	</waypoint>
+	<!-- # 17 --><waypoint x="31670" z="1995" y="75">
+			killForQuest(true, 101926, 422325) -- Spotted Bettle / Brightly-Colored Shells
+	</waypoint>
+	<!-- # 18 --><waypoint x="31405" z="1943" y="73">
+			killForQuest(true, 101926, 422325) -- Spotted Bettle / Brightly-Colored Shells
+	</waypoint>
+	<!-- # 19 --><waypoint x="31763" z="1827" y="85">	</waypoint>
+	<!-- # 20 --><waypoint x="32152" z="1615" y="118">	</waypoint>
+	<!-- # 21 --><waypoint x="32368" z="1417" y="115">
+			player:target_NPC(112840) -- Yarvis
+			CompleteQuestByName(422325) -- Brightly-Colored Shells
+			AcceptQuestByName(422326) -- The Final Ingredient
+	</waypoint>
+	<!-- # 22 --><waypoint x="32179" z="1616" y="138">	</waypoint>
+	<!-- # 23 --><waypoint x="31712" z="1846" y="98">	</waypoint>
+	<!-- # 24 --><waypoint x="31401" z="2104" y="72">	</waypoint>
+	<!-- # 25 --><waypoint x="31284" z="2249" y="74">	</waypoint>
+	<!-- # 26 --><waypoint x="30952" z="2429" y="135">	</waypoint>
+	<!-- # 27 --><waypoint x="30869" z="2421" y="143">
+			player:target_NPC(112849) -- Dilothian
+			CompleteQuestByName(422333) -- Advanced Academy Certificate
+			AcceptQuestByName(422334) -- Dancing With Birds
+	</waypoint>
+	<!-- # 28 --><waypoint x="30799" z="2435" y="142">	</waypoint>
+	<!-- # 29 --><waypoint x="30555" z="2490" y="131">
+			targetAndUse(101927, 204638, 422334) -- Use a Vine Cage on a Bright Bird
+	</waypoint>
+	<!-- # 30 --><waypoint x="30329" z="2429" y="87">
+			killForQuest(false, 101931, 422326) -- Plains Wolf / The Final Ingredient
+	</waypoint>
+	<!-- # 31 --><waypoint x="30228" z="2602" y="103">
+			killForQuest(false, 101931, 422326) -- Plains Wolf / The Final Ingredient
+	</waypoint>
+	<!-- # 32 --><waypoint x="30129" z="2506" y="58">
+			targetAndUse(101927, 204638, 422334) -- Use a Vine Cage on a Bright Bird
+	</waypoint>
+	<!-- # 33 --><waypoint x="30042" z="2504" y="38">	</waypoint>
+	<!-- # 34 --><waypoint x="29920" z="2391" y="28">
+			targetAndUse(101927, 204638, 422334) -- Use a Vine Cage on a Bright Bird
+	</waypoint>
+	<!-- # 35 --><waypoint x="29962" z="2238" y="50">
+			killForQuest(true, 101931, 422326) -- Plains Wolf / The Final Ingredient
+	</waypoint>
+	<!-- # 36 --><waypoint x="30074" z="2204" y="42">	</waypoint>
+	<!-- # 37 --><waypoint x="30429" z="2118" y="58">	</waypoint>
+	<!-- # 38 --><waypoint x="30804" z="2057" y="104">	</waypoint>
+	<!-- # 39 --><waypoint x="30927" z="1964" y="106">	</waypoint>
+	<!-- # 40 --><waypoint x="31096" z="1838" y="115">
+			targetAndUse(101927, 204638, 422334) -- Use a Vine Cage on a Bright Bird
+	</waypoint>
+	<!-- # 41 --><waypoint x="31263" z="1898" y="97">
+			targetAndUse(101927, 204638, 422334) -- Use a Vine Cage on a Bright Bird
+	</waypoint>
+	<!-- # 42 --><waypoint x="31143" z="2071" y="82">	</waypoint>
+	<!-- # 43 --><waypoint x="31059" z="2190" y="97">	</waypoint>
+	<!-- # 44 --><waypoint x="30953" z="2430" y="119">	</waypoint>
+	<!-- # 45 --><waypoint x="30871" z="2425" y="127">
+			player:target_NPC(112849) -- Dilothian
+			CompleteQuestByName(422334) -- Dancing With Birds
+			AcceptQuestByName(422335) -- Spore Grove Resource War
+	</waypoint>
+	<!-- # 46 --><waypoint x="30867" z="2377" y="127">	</waypoint>
+	<!-- # 47 --><waypoint x="30645" z="2205" y="97">	</waypoint>
+	<!-- # 48 --><waypoint x="30482" z="2196" y="69">
+			player:target_NPC(112829) -- Walogowbi
+			AcceptQuestByName(422308) -- Troublemaker's Request
+	</waypoint>
+	<!-- # 49 --><waypoint x="30274" z="2172" y="45">	</waypoint>
+	<!-- # 50 --><waypoint x="29783" z="2287" y="69">
+			player:target_NPC(112883) -- Rodiie
+			AcceptQuestByName(422292) -- Mushrooms Not Muttering
+			player:target_NPC(112883) -- Rodiie
+			ChoiceOptionByName(getTEXT("SC_422335_3")) -- "Do you know what the effects of Dilili Mushrooms are?"
+	</waypoint>
+	<!-- # 51 --><waypoint x="29647" z="2232" y="63">	</waypoint>
+	<!-- # 52 --><waypoint x="29293" z="2216" y="105">
+			player:target_NPC(112827) -- Augsi
+			CompleteQuestByName(422308) -- Troublemaker's Request
+			AcceptQuestByName(422309) -- Troublemaker's Fate
+			AcceptQuestByName(422304) -- Wilderness Survival Code
+			player:target_NPC(112827) -- Augsi
+			ChoiceOptionByName(getTEXT("SC_422335_1")) -- "Excuse me, what are the properties of Flame Red Mushrooms?"
+	</waypoint>
+	<!-- # 53 --><waypoint x="29618" z="2224" y="62">	</waypoint>
+	<!-- # 54 --><waypoint x="30086" z="2198" y="42">	</waypoint>
+	<!-- # 55 --><waypoint x="30286" z="2160" y="43">	</waypoint>
+	<!-- # 56 --><waypoint x="30463" z="2199" y="66">
+			player:target_NPC(112829) -- Walogowbi
+			inventory:useItem(204587) -- Wand
+			player:target_NPC(112829) -- Walogowbi
+			CompleteQuestByName(422309) -- Troublemaker's Fate
+			player:mount()
+	</waypoint>
+	<!-- # 57 --><waypoint x="30684" z="2157" y="95">	</waypoint>
+	<!-- # 58 --><waypoint x="31125" z="2142" y="71">	</waypoint>
+	<!-- # 59 --><waypoint x="31228" z="2179" y="65">	</waypoint>
+	<!-- # 60 --><waypoint x="31352" z="2304" y="47">	</waypoint>
+	<!-- # 61 --><waypoint x="31645" z="2746" y="43">	</waypoint>
+	<!-- # 62 --><waypoint x="31782" z="3152" y="43">	</waypoint>
+	<!-- # 63 --><waypoint x="32108" z="3152" y="43">	</waypoint>
+	<!-- # 64 --><waypoint x="32153" z="3181" y="38">	</waypoint>
+	<!-- # 65 --><waypoint x="32152" z="3330" y="21">	</waypoint>
+	<!-- # 66 --><waypoint x="32233" z="3544" y="13">
+			player:target_NPC(112844) -- Torchas
+			CompleteQuestByName(422114) -- Unification of Body and Mind
+			AcceptQuestByName(422115) -- Outdoors Homework
+	</waypoint>
+	<!-- # 67 --><waypoint x="31841" z="3584" y="-12">	</waypoint>
+	<!-- # 68 --><waypoint x="31643" z="3607" y="-15">	</waypoint>
+	<!-- # 69 --><waypoint x="31452" z="3601" y="-10">	</waypoint>
+	<!-- # 70 --><waypoint x="31180" z="3728" y="-12">	</waypoint>
+	<!-- # 71 --><waypoint x="30973" z="3867" y="-12">	</waypoint>
+	<!-- # 72 --><waypoint x="30832" z="3983" y="-12">	</waypoint>
+	<!-- # 73 --><waypoint x="30732" z="4346" y="-11">	</waypoint>
+	<!-- # 74 --><waypoint x="30719" z="4646" y="0">	</waypoint>
+	<!-- # 75 --><waypoint x="30770" z="4876" y="-8">	</waypoint>
+	<!-- # 76 --><waypoint x="30706" z="5111" y="-12">	</waypoint>
+	<!-- # 77 --><waypoint x="30697" z="5332" y="-12">
+			if inventory:itemTotalCount(204619) == 0 then
+				repeat
+					player:target_Object(112880) -- Crystal Potion
+					yrest(1000)
+				until inventory:itemTotalCount(204619) == 1
+			end
+			player:mount()
+	</waypoint>
+	<!-- # 78 --><waypoint x="30928" z="5328" y="-13">	</waypoint>
+	<!-- # 79 --><waypoint x="31119" z="5175" y="3">	</waypoint>
+	<!-- # 80 --><waypoint x="31599" z="5002" y="-11">	</waypoint>
+	<!-- # 81 --><waypoint x="31711" z="4917" y="0">	</waypoint>
+	<!-- # 82 --><waypoint x="31692" z="4860" y="12">
+			player:target_NPC(112841) -- Argily
+			CompleteQuestByName(422326) -- The Final Ingredient
+			AcceptQuestByName(422342) -- Mysterious Divining Instrument
+			player:target_NPC(112841) -- Argily
+			ChoiceOptionByName(getTEXT("SC_112841_0")) -- 'I want to try divination'
+			math.randomseed(os.time())
+			pick = "SC_112841_"..math.random(2, 4)
+			ChoiceOptionByName(getTEXT(pick)) -- 'You select the instrument on the left/in the middle/on the right'
+			player:target_NPC(112841) -- Argily
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID then
+				CompleteQuestByName(422342, 1) -- Mysterious Divining Instrument
+				inventory:update()
+				inventory:useItem(224402) -- Foresight Satin Belt
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				CompleteQuestByName(422342, 2) -- Mysterious Divining Instrument
+				inventory:update()
+				inventory:useItem(224403) -- Unpredictable Belt
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_WARDEN then
+				CompleteQuestByName(422342, 3) -- Mysterious Divining Instrument
+				inventory:update()
+				inventory:useItem(224404) -- Journey's Beginning
+			end
+	</waypoint>
+	<!-- # 83 --><waypoint x="31711" z="4920" y="0">	</waypoint>
+	<!-- # 84 --><waypoint x="31741" z="5026" y="-12">
+			player:target_NPC(112833) -- Shewayana
+			AcceptQuestByName(422312) -- Miserable Joke
+	</waypoint>
+	<!-- # 85 --><waypoint x="31725" z="5029" y="-11">	</waypoint>
+	<!-- # 86 --><waypoint x="32108" z="5209" y="19">	</waypoint>
+	<!-- # 87 --><waypoint x="32700" z="5271" y="43" tag="Mila">
+			CatchMobSetup(102020, 60, 204591, 422312)
+			killForQuest(true, 102020, 422312)
+	</waypoint>
+	<!-- # 88 --><waypoint x="32603" z="5271" y="43">
+			yrest(2000)
+			if getQuestStatus(422312) == "incomplete" then
+				yrest(50000) -- Respawn time for Mila is about 48 seconds.
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Mila"))
+			end
+			CatchMobSetup(0, 0, 0, 0)
+	</waypoint>
+	<!-- # 89 --><waypoint x="32285" z="5205" y="40">	</waypoint>
+	<!-- # 90 --><waypoint x="31895" z="5091" y="-7">	</waypoint>
+	<!-- # 91 --><waypoint x="31728" z="5023" y="-11">
+			player:target_NPC(112833) -- Shewayana
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID then
+				CompleteQuestByName(422312, 1) -- Miserable Joke
+				inventory:update()
+				inventory:useItem(224393) -- Mila's Hot Tempered Shoulder Pads
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				CompleteQuestByName(422312, 2) -- Miserable Joke
+				inventory:update()
+				inventory:useItem(224394) -- Prankster Shoulder Guards
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_WARDEN then
+				CompleteQuestByName(422312, 3) -- Miserable Joke
+				inventory:update()
+				inventory:useItem(224395) -- Trickster Shoulder Guards
+			end
+			player:mount()
+	</waypoint>
+	<!-- # 92 --><waypoint x="31816" z="4934" y="-10">	</waypoint>
+	<!-- # 93 --><waypoint x="31884" z="4755" y="-4">	</waypoint>
+	<!-- # 94 --><waypoint x="31993" z="4548" y="11">	</waypoint>
+	<!-- # 95 --><waypoint x="31948" z="4390" y="26">	</waypoint>
+	<!-- # 96 --><waypoint x="31839" z="4238" y="37">	</waypoint>
+	<!-- # 97 --><waypoint x="31859" z="3927" y="6">	</waypoint>
+	<!-- # 98 --><waypoint x="32002" z="3562" y="-10">	</waypoint>
+	<!-- # 99 --><waypoint x="32155" z="3189" y="38">	</waypoint>
+	<!-- #100 --><waypoint x="32089" z="3148" y="43">	</waypoint>
+	<!-- #101 --><waypoint x="31779" z="3148" y="44">	</waypoint>
+	<!-- #102 --><waypoint x="31646" z="2761" y="45">	</waypoint>
+	<!-- #103 --><waypoint x="31461" z="2529" y="32">
+			player:target_NPC(112873) -- Ailkiss
+			CompleteQuestByName(422287) -- Don't Tell Master Belintan
+			AcceptQuestByName(422288) -- Special Elven Food
+	</waypoint>
+	<!-- #104 --><waypoint x="31390" z="2484" y="39" tag="Plants">
+			player:target_Object(112874)
+			yrest(2000)
+			if getQuestStatus(422288) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Ailkiss"))
+			end
+	</waypoint>
+	<!-- #105 --><waypoint x="31461" z="2631" y="41">
+			player:target_Object(112874)
+			yrest(2000)
+			if getQuestStatus(422288) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Ailkiss"))
+			end
+	</waypoint>
+	<!-- #106 --><waypoint x="31568" z="2746" y="47">
+			player:target_Object(112874)
+			yrest(2000)
+			if getQuestStatus(422288) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Ailkiss"))
+			end
+	</waypoint>
+	<!-- #107 --><waypoint x="31669" z="2666" y="39">
+			player:target_Object(112874)
+			yrest(2000)
+			if getQuestStatus(422288) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Ailkiss"))
+			end
+	</waypoint>
+	<!-- #108 --><waypoint x="31583" z="2498" y="25">
+			player:target_Object(112874)
+			yrest(2000)
+			if getQuestStatus(422288) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Plants"))
+			end
+	</waypoint>
+	<!-- #109 --><waypoint x="31461" z="2533" y="32" tag="Ailkiss">
+			player:target_NPC(112873) -- Ailkiss
+			CompleteQuestByName(422288) -- Special Elven Food
+			AcceptQuestByName(422289) -- Thunderbolt Pet LI03
+	</waypoint>
+	<!-- #110 --><waypoint x="31282" z="2426" y="57">	</waypoint>
+	<!-- #111 --><waypoint x="31040" z="2291" y="120">	</waypoint>
+	<!-- #112 --><waypoint x="30592" z="2198" y="86">	</waypoint>
+	<!-- #113 --><waypoint x="30271" z="2139" y="38">
+			targetAndUse(101928, 204621, 422289) -- Special Elven Food / Lively Ent / Thunderbolt Pet LI03
+			targetAndUse(112876, 204621, 422289)
+			<!-- Fake Waypoints, to avoid the bot clearing target on the Lively Ent as we lead it back to Ailkiss -->
+			player:moveTo(CWaypoint(30276, 2132), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(30394, 2128), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(30516, 2144), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(30633, 2149), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(30746, 2151), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(30858, 2153), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(30966, 2145), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(31074, 2200), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(31186, 2246), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(31255, 2325), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(31338, 2418), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+			player:moveTo(CWaypoint(31426, 2500), true)
+				yrest(2000)
+				inventory:useItem(204621) -- Special Elven Food
+	</waypoint>
+	<!-- #114 --><waypoint x="31440" z="2510" y="34">
+			player:target_NPC(112873); -- Ailkiss
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID then
+				CompleteQuestByName(422289, 1) -- Thunderbolt Pet LI03
+				inventory:update()
+				inventory:useItem(224396) -- Thunderbolt Pet Pants
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				CompleteQuestByName(422289, 2) -- Thunderbolt Pet LI03
+				inventory:update()
+				inventory:useItem(224397) -- Lively End Pants
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_WARDEN then
+				CompleteQuestByName(422289, 3) -- Thunderbolt Pet LI03
+				inventory:update()
+				inventory:useItem(224398) -- Elf Luring Pants
+			end
+			AcceptQuestByName(422290) -- Trap Again
+			player:mount()
+	</waypoint>
+	<!-- #115 --><waypoint x="31635" z="2710" y="39">	</waypoint>
+	<!-- #116 --><waypoint x="31784" z="3163" y="43">	</waypoint>
+	<!-- #117 --><waypoint x="31627" z="3257" y="43">	</waypoint>
+	<!-- #118 --><waypoint x="31502" z="3369" y="43">	</waypoint>
+	<!-- #119 --><waypoint x="31435" z="3462" y="18">	</waypoint>
+	<!-- #120 --><waypoint x="30955" z="3868" y="-11">	</waypoint>
+	<!-- #121 --><waypoint x="30841" z="3987" y="-12">	</waypoint>
+	<!-- #122 --><waypoint x="30779" z="4144" y="-16">	</waypoint>
+	<!-- #123 --><waypoint x="30711" z="4637" y="-4">	</waypoint>
+	<!-- #124 --><waypoint x="30779" z="4868" y="-7">	</waypoint>
+	<!-- #125 --><waypoint x="30708" z="5095" y="-13">	</waypoint>
+	<!-- #126 --><waypoint x="30698" z="5329" y="-12">
+			if inventory:itemTotalCount(204619) == 0 then
+				repeat
+					player:target_Object(112880) -- Crystal Potion
+					yrest(1000)
+				until inventory:itemTotalCount(204619) == 1
+			end
+			player:mount()
+	</waypoint>
+	<!-- #127 --><waypoint x="30703" z="5155" y="-11">	</waypoint>
+	<!-- #128 --><waypoint x="30716" z="5053" y="-27">	</waypoint>
+	<!-- #129 --><waypoint x="30779" z="4895" y="-13">	</waypoint>
+	<!-- #130 --><waypoint x="30711" z="4630" y="-4">	</waypoint>
+	<!-- #131 --><waypoint x="30759" z="4346" y="-12">	</waypoint>
+	<!-- #132 --><waypoint x="30833" z="3977" y="-12">	</waypoint>
+	<!-- #133 --><waypoint x="30958" z="3872" y="-11">	</waypoint>
+	<!-- #134 --><waypoint x="31405" z="3505" y="3">	</waypoint>
+	<!-- #135 --><waypoint x="31512" z="3362" y="43">	</waypoint>
+	<!-- #136 --><waypoint x="31773" z="3162" y="43">	</waypoint>
+	<!-- #137 --><waypoint x="31640" z="2744" y="42">	</waypoint>
+	<!-- #138 --><waypoint x="31458" z="2528" y="32">
+			player:target_NPC(112873) -- Ailkiss
+			CompleteQuestByName(422290) -- Trap Again
+	</waypoint>
+	<!-- #139 --><waypoint x="31271" z="2412" y="60">	</waypoint>
+	<!-- #140 --><waypoint x="31008" z="2303" y="123">	</waypoint>
+	<!-- #141 --><waypoint x="30583" z="2202" y="84">	</waypoint>
+	<!-- #142 --><waypoint x="30257" z="2170" y="43">	</waypoint>
+	<!-- #143 --><waypoint x="29962" z="2178" y="48" tag="WolfFur">
+			wolf = player:findNearestNameOrId(101931) -- Plains Wolf
+			if wolf and 120 > distance(wolf, player) then
+				player:target(wolf)
+				player:fight()
+				yrest(1000)
+			end
+			if inventory:itemTotalCount(204629) == 0 then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("WolfFur"))
+			end
+	</waypoint>
+	<!-- #144 --><waypoint x="30020" z="2168" y="40">	</waypoint>
+	<!-- #145 --><waypoint x="30033" z="2106" y="40">
+			player:target_NPC(112848) -- Aiman
+			ChoiceOptionByName(getTEXT("SC_422115_0")) -- 'Are you afraid of Plains Wolves?'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SC_422115_2")) -- 'Look at the Fistful of Plains Wolf Fur in my hands. Actually, it's not that difficult.'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SC_422115_4")) -- 'I'll try! You can only succeed if you try, right?'
+			if getQuestStatus(422115) == "incomplete" then
+				repeat
+					yrest(1000)
+				until getQuestStatus(422115) == "complete"
+			end
+			player:mount()
+			</waypoint>
+	<!-- #146 --><waypoint x="29982" z="2183" y="46">	</waypoint>
+	<!-- #147 --><waypoint x="29753" z="2095" y="72">	</waypoint>
+	<!-- #148 --><waypoint x="29706" z="1806" y="91">	</waypoint>
+	<!-- #149 --><waypoint x="29712" z="1255" y="59">
+			player:target_NPC(112878) -- Liri
+			CompleteQuestByName(422292) -- Mushrooms Not Muttering
+			AcceptQuestByName(422293) -- Terrifying Paralyzing Mushroom
+			AcceptQuestByName(422295) -- Stolen Mushrooms
+	</waypoint>
+	<!-- #150 --><waypoint x="29651" z="1223" y="65">
+			getShrooms("Rita")
+	</waypoint>
+	<!-- #151 --><waypoint x="29795" z="1252" y="56">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #152 --><waypoint x="29854" z="1113" y="36">
+			getShrooms("Dilili")
+	</waypoint>
+	<!-- #153 --><waypoint x="29705" z="1083" y="35">
+			getShrooms("Dilili")
+	</waypoint>
+	<!-- #154 --><waypoint x="29798" z="1146" y="38">	</waypoint>
+	<!-- #155 --><waypoint x="29931" z="1265" y="67">
+			getShrooms("Dilili")
+	</waypoint>
+	<!-- #156 --><waypoint x="29889" z="1386" y="76">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #157 --><waypoint x="29807" z="1446" y="75">	</waypoint>
+	<!-- #158 --><waypoint x="29573" z="1463" y="56">
+			getShrooms("Dilili")
+	</waypoint>
+	<!-- #159 --><waypoint x="29524" z="1359" y="58">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #160 --><waypoint x="29457" z="1420" y="50">
+			getShrooms("Dilili")
+	</waypoint>
+	<!-- #161 --><waypoint x="29390" z="1296" y="56">	</waypoint>
+	<!-- #162 --><waypoint x="29420" z="1215" y="65">
+			getShrooms("Dilili")
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #163 --><waypoint x="29289" z="1119" y="64">
+			getShrooms("Dilili")
+	</waypoint>
+	<!-- #164 --><waypoint x="29219" z="1183" y="48">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #165 --><waypoint x="29168" z="1258" y="50">
+			getShrooms("Dilili")
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #166 --><waypoint x="28911" z="1163" y="46">
+			getShrooms("Dilili")
+			getShrooms("Kawa")
+	</waypoint>
+	<!-- #167 --><waypoint x="28829" z="1221" y="31">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #168 --><waypoint x="28712" z="1306" y="31">
+			getShrooms("Dilili")
+	</waypoint>
+	<!-- #169 --><waypoint x="28659" z="1351" y="36">
+			getShrooms("Kawa")
+	</waypoint>
+	<!-- #170 --><waypoint x="28825" z="1383" y="54">
+			getShrooms("Brown")
+	</waypoint>
+	<!-- #171 --><waypoint x="28784" z="1451" y="52">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #172 --><waypoint x="28688" z="1568" y="50">
+			getShrooms("Kawa")
+	</waypoint>
+	<!-- #173 --><waypoint x="28780" z="1616" y="50">
+			getShrooms("Dilili")
+			getShrooms("White")
+	</waypoint>
+	<!-- #174 --><waypoint x="28644" z="1684" y="49">
+			getShrooms("Brown")
+	</waypoint>
+	<!-- #175 --><waypoint x="28524" z="1763" y="74">
+			getShrooms("White")
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #176 --><waypoint x="28458" z="1815" y="71">	</waypoint>
+	<!-- #177 --><waypoint x="28380" z="1905" y="66">
+			getShrooms("Kawa")
+	</waypoint>
+	<!-- #178 --><waypoint x="28397" z="1987" y="76">	</waypoint>
+	<!-- #179 --><waypoint x="28497" z="1977" y="71">
+			getShrooms("White")
+	</waypoint>
+	<!-- #180 --><waypoint x="28622" z="1943" y="69">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #181 --><waypoint x="28678" z="1917" y="74">
+			getShrooms("White")
+	</waypoint>
+	<!-- #182 --><waypoint x="28667" z="2068" y="84">
+			getShrooms("White")
+	</waypoint>
+	<!-- #183 --><waypoint x="28588" z="2188" y="91">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #184 --><waypoint x="28530" z="2221" y="90">
+			getShrooms("Kawa")
+			getShrooms("Brown")
+			getShrooms("Kawa")
+	</waypoint>
+	<!-- #185 --><waypoint x="28687" z="2206" y="93">
+			getShrooms("Brown")
+	</waypoint>
+	<!-- #186 --><waypoint x="28713" z="2308" y="115">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #187 --><waypoint x="28752" z="2478" y="135">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #188 --><waypoint x="28864" z="2539" y="108">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #189 --><waypoint x="28998" z="2491" y="98">	</waypoint>
+	<!-- #190 --><waypoint x="29299" z="2262" y="101">	</waypoint>
+	<!-- #191 --><waypoint x="29455" z="2180" y="82">	</waypoint>
+	<!-- #192 --><waypoint x="29641" z="2027" y="77">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #193 --><waypoint x="29675" z="1901" y="92">	</waypoint>
+	<!-- #194 --><waypoint x="29694" z="1709" y="85">
+			killForQuest(false, 101932, 422295) -- Spore Guard / Stolen Mushrooms
+	</waypoint>
+	<!-- #195 --><waypoint x="29691" z="1490" y="81">	</waypoint>
+	<!-- #196 --><waypoint x="29711" z="1249" y="58">
+			if inventory:itemTotalCount(204672) == 1 then
+				inventory:useItem(204672); -- Rita Mushroom
+			end
+			player:target_NPC(112878) -- Liri
+			CompleteQuestByName(422293) -- Terrifying Paralyzing Mushroom
+			yrest(8000)
+			CompleteQuestByName(422295) -- Stolen Mushrooms
+			AcceptQuestByName(422294) -- This is discouraging!
+	</waypoint>
+	<!-- #197 --><waypoint x="29710" z="1253" y="59">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #198 --><waypoint x="29696" z="1409" y="74">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #199 --><waypoint x="29696" z="1624" y="75">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #200 --><waypoint x="29698" z="1818" y="92">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #201 --><waypoint x="29664" z="1967" y="85">	</waypoint>
+	<!-- #202 --><waypoint x="29508" z="2127" y="68">	</waypoint>
+	<!-- #203 --><waypoint x="29404" z="2202" y="90">	</waypoint>
+	<!-- #204 --><waypoint x="29316" z="2163" y="102">	</waypoint>
+	<!-- #205 --><waypoint x="29280" z="2054" y="127">	</waypoint>
+	<!-- #206 --><waypoint x="29314" z="1940" y="152">	</waypoint>
+	<!-- #207 --><waypoint x="29295" z="1830" y="162">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #208 --><waypoint x="29217" z="1616" y="180">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #209 --><waypoint x="29217" z="1616" y="180">	</waypoint>
+	<!-- #210 --><waypoint x="29214" z="1691" y="174">	</waypoint>
+	<!-- #211 --><waypoint x="29065" z="1874" y="154">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #212 --><waypoint x="29062" z="2073" y="119">	</waypoint>
+	<!-- #213 --><waypoint x="29035" z="2216" y="121">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #214 --><waypoint x="29137" z="2257" y="118">	</waypoint>
+	<!-- #215 --><waypoint x="29213" z="2255" y="111">	</waypoint>
+	<!-- #216 --><waypoint x="29411" z="2196" y="90">	</waypoint>
+	<!-- #217 --><waypoint x="29613" z="2061" y="69">	</waypoint>
+	<!-- #218 --><waypoint x="29698" z="1941" y="91">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #219 --><waypoint x="29671" z="1647" y="75">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #220 --><waypoint x="29685" z="1406" y="70">
+			killForQuest(false, 101933, 422294) -- Spore Mage / This is discouraging!
+	</waypoint>
+	<!-- #221 --><waypoint x="29708" z="1252" y="59">
+			player:target_NPC(112878) -- Liri
+			CompleteQuestByName(422294) -- This is discouraging!
+			AcceptQuestByName(422296) -- Inform Rodiie
+	</waypoint>
+	<!-- #222 --><waypoint x="29691" z="1434" y="76">	</waypoint>
+	<!-- #223 --><waypoint x="29690" z="1732" y="85">	</waypoint>
+	<!-- #224 --><waypoint x="29720" z="1977" y="86">	</waypoint>
+	<!-- #225 --><waypoint x="29775" z="2279" y="67">
+			player:target_NPC(112883) -- Rodiie
+			CompleteQuestByName(422296) -- Inform Rodiie
+			AcceptQuestByName(422297) -- Only the Mushroom King...
+	</waypoint>
+	<!-- #226 --><waypoint x="29691" z="2275" y="69">	</waypoint>
+	<!-- #227 --><waypoint x="29293" z="2217" y="105">
+			player:target_NPC(112827) -- Augsi
+			CompleteQuestByName(422304) -- Wilderness Survival Code
+			AcceptQuestByName(422305) -- Campfire Materials
+	</waypoint>
+	<!-- #228 --><waypoint x="29201" z="2257" y="112">	</waypoint>
+	<!-- #229 --><waypoint x="29171" z="2165" y="120" tag="Wood1">
+			wood = player:findNearestNameOrId(112929); -- Dry Hard Wood Pile
+			if wood and 30 > distance(wood, player) then
+				player:moveTo(CWaypoint(wood.X, wood.Z), true)
+				yrest(1000)
+				repeat
+					player:target_Object(112929) -- Dry Hard Wood Pile
+				until inventory:itemTotalCount(204586) == 1
+			else
+				yrest(15000)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Wood1"))
+			end
+	</waypoint>
+	<!-- #230 --><waypoint x="29006" z="2293" y="119" tag="Wood2">
+			wood = player:findNearestNameOrId(112843); -- Dry Soft Wood Pile
+			if wood and 30 > distance(wood, player) then
+				player:moveTo(CWaypoint(wood.X, wood.Z), true)
+				yrest(1000)
+				repeat
+					player:target_Object(112843) -- Dry Soft Wood Pile
+				until inventory:itemTotalCount(204585) == 1
+			else
+				yrest(15000)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Wood2"))
+			end
+	</waypoint>
+	<!-- #231 --><waypoint x="29075" z="2351" y="112">	</waypoint>
+	<!-- #232 --><waypoint x="28980" z="2429" y="107" tag="Wood3">
+			wood = player:findNearestNameOrId(112929); -- Dry Hard Wood Pile
+			if wood and 30 > distance(wood, player) then
+				player:moveTo(CWaypoint(wood.X, wood.Z), true)
+				yrest(1000)
+				repeat
+					player:target_Object(112929) -- Dry Hard Wood Pile
+				until inventory:itemTotalCount(204586) == 2
+			else
+				yrest(15000)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Wood3"))
+			end
+			player:mount()
+	</waypoint>
+	<!-- #233 --><waypoint x="29065" z="2387" y="109">	</waypoint>
+	<!-- #234 --><waypoint x="29458" z="2158" y="82">	</waypoint>
+	<!-- #235 --><waypoint x="29684" z="1934" y="93">	</waypoint>
+	<!-- #236 --><waypoint x="29692" z="1751" y="87">	</waypoint>
+	<!-- #237 --><waypoint x="29601" z="1642" y="77" tag="Wood4">
+			wood = player:findNearestNameOrId(112843); -- Dry Soft Wood Pile
+			if wood and 30 > distance(wood, player) then
+				player:moveTo(CWaypoint(wood.X, wood.Z), true)
+				yrest(1000)
+				repeat
+					player:target_Object(112843) -- Dry Soft Wood Pile
+				until inventory:itemTotalCount(204585) == 2
+			else
+				yrest(15000)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Wood4"))
+			end
+	</waypoint>
+	<!-- #238 --><waypoint x="29888" z="1383" y="76" tag="Wood5">
+			wood = player:findNearestNameOrId(112843); -- Dry Soft Wood Pile
+			if wood and 30 > distance(wood, player) then
+				player:moveTo(CWaypoint(wood.X, wood.Z), true)
+				yrest(1000)
+				repeat
+					player:target_Object(112843) -- Dry Soft Wood Pile
+				until inventory:itemTotalCount(204585) == 3
+			else
+				yrest(15000)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Wood5"))
+			end
+	</waypoint>
+	<!-- #239 --><waypoint x="29753" z="1239" y="56" tag="Wood6">
+			wood = player:findNearestNameOrId(112843); -- Dry Soft Wood Pile
+			if wood and 30 > distance(wood, player) then
+				player:moveTo(CWaypoint(wood.X, wood.Z), true)
+				yrest(1000)
+				repeat
+					player:target_Object(112843) -- Dry Soft Wood Pile
+				until inventory:itemTotalCount(204585) == 4
+			else
+				yrest(15000)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Wood6"))
+			end
+			player:mount()
+	</waypoint>
+	<!-- #240 --><waypoint x="29721" z="1362" y="70">	</waypoint>
+	<!-- #241 --><waypoint x="29716" z="1643" y="79">	</waypoint>
+	<!-- #242 --><waypoint x="29666" z="1958" y="87">	</waypoint>
+	<!-- #243 --><waypoint x="29564" z="2099" y="60">	</waypoint>
+	<!-- #244 --><waypoint x="29473" z="2170" y="78">	</waypoint>
+	<!-- #245 --><waypoint x="29283" z="2215" y="107">
+			player:target_NPC(112827) -- Augsi
+			CompleteQuestByName(422305) -- Campfire Materials
+			AcceptQuestByName(422306) -- Crisis Management
+			player:target_NPC(112827) -- Augsi
+			ChoiceOptionByName(getTEXT("SC_112827_0")) -- 'Yes! I'm ready!'
+	</waypoint>
+	<!-- #246 --><waypoint x="29283" z="2215" y="107">
+			if getQuestStatus(422306) == "incomplete" then
+				repeat
+					Mitla = player:findNearestNameOrId(102022)
+					if Mitla and 80 > distance(Mitla, player) then
+						player:target(Mitla)
+						player:fight()
+					end
+				until getQuestStatus(422306) == "complete"
+			end
+	</waypoint>
+	<!-- #247 --><waypoint x="29283" z="2215" y="107">
+			player:target_NPC(112827) -- Augsi
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID then
+				CompleteQuestByName(422306, 1) -- Crisis Management
+				inventory:update()
+				inventory:useItem(224405) -- Decision Gloves
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				CompleteQuestByName(422306, 2) -- Crisis Management
+				inventory:update()
+				inventory:useItem(224406) -- Outdoor Survival Handguards
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_WARDEN then
+				CompleteQuestByName(422306, 3) -- Crisis Management
+				inventory:update()
+				inventory:useItem(224407) -- Gauntlets of Crisis Prevention
+			end
+			player:mount()
+	</waypoint>
+	<!-- #248 --><waypoint x="29163" z="2377" y="105">	</waypoint>
+	<!-- #249 --><waypoint x="29025" z="2479" y="100">	</waypoint>
+	<!-- #250 --><waypoint x="28847" z="2527" y="111">	</waypoint>
+	<!-- #251 --><waypoint x="28640" z="2508" y="134">	</waypoint>
+	<!-- #252 --><waypoint x="28236" z="2416" y="112">	</waypoint>
+	<!-- #253 --><waypoint x="28206" z="2361" y="121">
+			killForQuest(true, 101934, 422297) -- Bolida Wood / Only the Mushroom King...
+	</waypoint>
+	<!-- #254 --><waypoint x="28236" z="2416" y="112">	</waypoint>
+	<!-- #255 --><waypoint x="28440" z="2384" y="112">	</waypoint>
+	<!-- #256 --><waypoint x="28563" z="2296" y="94">	</waypoint>
+	<!-- #257 --><waypoint x="28604" z="2135" y="93">	</waypoint>
+	<!-- #258 --><waypoint x="28608" z="1917" y="69">	</waypoint>
+	<!-- #259 --><waypoint x="28663" z="1701" y="53">	</waypoint>
+	<!-- #260 --><waypoint x="28787" z="1392" y="50">	</waypoint>
+	<!-- #261 --><waypoint x="28870" z="1291" y="38">	</waypoint>
+	<!-- #262 --><waypoint x="29003" z="1217" y="45">	</waypoint>
+	<!-- #263 --><waypoint x="29119" z="1209" y="51">	</waypoint>
+	<!-- #264 --><waypoint x="29389" z="1292" y="57">	</waypoint>
+	<!-- #265 --><waypoint x="29563" z="1309" y="64">	</waypoint>
+	<!-- #266 --><waypoint x="29711" z="1248" y="58">
+			player:target_NPC(112878) -- Liri
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID then
+				CompleteQuestByName(422297, 1) -- Only the Mushroom King...
+				inventory:update()
+				inventory:useItem(224390) -- Jacket of Numbing Embrace
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				CompleteQuestByName(422297, 2) -- Only the Mushroom King...
+				inventory:update()
+				inventory:useItem(224391) -- Merchant's Leather Jacket
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_WARDEN then
+				CompleteQuestByName(422297, 3) -- Only the Mushroom King...
+				inventory:update()
+				inventory:useItem(224392) -- Spore Body Guard
+			end
+	</waypoint>
+	<!-- #267 --><waypoint x="29688" z="1490" y="80">	</waypoint>
+	<!-- #268 --><waypoint x="29692" z="1806" y="92">	</waypoint>
+	<!-- #269 --><waypoint x="29761" z="2043" y="79">	</waypoint>
+	<!-- #270 --><waypoint x="29854" z="2130" y="55">	</waypoint>
+	<!-- #271 --><waypoint x="30134" z="2295" y="40">	</waypoint>
+	<!-- #272 --><waypoint x="30480" z="2455" y="103">	</waypoint>
+	<!-- #273 --><waypoint x="30775" z="2433" y="123">	</waypoint>
+	<!-- #274 --><waypoint x="30850" z="2429" y="127">
+			player:target_NPC(112849) -- Dilothian
+			if player.Class1 == CLASS_MAGE then
+				CompleteQuestByName(422335, 1) -- Spore Grove Resource War
+				inventory:update()
+				item = inventory:findItem(224418) -- Kawa's Ring
+				item:moveTo("right ring")	
+			elseif player.Class1 == CLASS_DRUID then
+				CompleteQuestByName(422335, 3) -- Spore Grove Resource War
+				inventory:update()
+				item = inventory:findItem(224420) -- Rita's Ring
+				item:moveTo("right ring")	
+			else
+				CompleteQuestByName(422335, 2) -- Spore Grove Resource War
+				inventory:update()
+				item = inventory:findItem(224419) -- Flame Red Ring of Stone
+				item:moveTo("right ring")	
+			end
+			AcceptQuestByName(422336) -- Whistle Lake Habitat
+	</waypoint>
+	<!-- #275 --><waypoint x="30909" z="2432" y="127">	</waypoint>
+	<!-- #276 --><waypoint x="31166" z="2388" y="77">	</waypoint>
+	<!-- #277 --><waypoint x="31276" z="2402" y="60">	</waypoint>
+	<!-- #278 --><waypoint x="31478" z="2559" y="32">	</waypoint>
+	<!-- #279 --><waypoint x="31633" z="2727" y="41">	</waypoint>
+	<!-- #280 --><waypoint x="31787" z="3148" y="43">	</waypoint>
+	<!-- #281 --><waypoint x="32090" z="3142" y="43">	</waypoint>
+	<!-- #282 --><waypoint x="32136" z="3174" y="43">	</waypoint>
+	<!-- #283 --><waypoint x="32145" z="3346" y="20">	</waypoint>
+	<!-- #284 --><waypoint x="32235" z="3542" y="14">
+			player:target_NPC(112844) -- Torchas
+			CompleteQuestByName(422115) -- Outdoors Homework
+			AcceptQuestByName(422116) -- We Can Do It
+	</waypoint>
+	<!-- #285 --><waypoint x="31946" z="3568" y="-10">	</waypoint>
+	<!-- #286 --><waypoint x="31766" z="3589" y="-15">	</waypoint>
+	<!-- #287 --><waypoint x="31602" z="3604" y="-14">	</waypoint>
+	<!-- #288 --><waypoint x="31461" z="3606" y="-11">	</waypoint>
+	<!-- #289 --><waypoint x="31315" z="3639" y="-15">	</waypoint>
+	<!-- #290 --><waypoint x="30956" z="3806" y="-9">	</waypoint>
+	<!-- #291 --><waypoint x="30889" z="3806" y="0">	</waypoint>
+	<!-- #292 --><waypoint x="30766" z="3774" y="0">	</waypoint>
+	<!-- #293 --><waypoint x="30707" z="3728" y="0">
+			book = player:findNearestNameOrId(112947) -- Record of the Elven King
+			if book and 50 > distance(book, player) then
+				repeat
+					player:target_Object(112947) -- Record of the Elven King
+					yrest(2000)
+				until inventory:itemTotalCount(204630) == 1 
+			end
+			yrest(2000)
+			player:mount()
+	</waypoint>
+	<!-- #294 --><waypoint x="30747" z="3769" y="0">	</waypoint>
+	<!-- #295 --><waypoint x="30836" z="3792" y="0">	</waypoint>
+	<!-- #296 --><waypoint x="30838" z="3851" y="0">	</waypoint>
+	<!-- #297 --><waypoint x="30769" z="4204" y="-13">	</waypoint>
+	<!-- #298 --><waypoint x="30787" z="4488" y="-9">	</waypoint>
+	<!-- #299 --><waypoint x="30865" z="4689" y="-9">	</waypoint>
+	<!-- #300 --><waypoint x="30932" z="4984" y="-6">	</waypoint>
+	<!-- #301 --><waypoint x="30968" z="5326" y="-17">	</waypoint>
+	<!-- #302 --><waypoint x="30874" z="5331" y="-12">
+			player:target_NPC(112879) -- Ima Chenguan
+			AcceptQuestByName(422291) -- Teach Ailkiss A Lesson
+	</waypoint>
+	<!-- #303 --><waypoint x="30946" z="5331" y="-13">	</waypoint>
+	<!-- #304 --><waypoint x="30974" z="5259" y="-16">	</waypoint>
+	<!-- #305 --><waypoint x="30895" z="4729" y="-12">	</waypoint>
+	<!-- #306 --><waypoint x="30786" z="4490" y="-9">	</waypoint>
+	<!-- #307 --><waypoint x="30789" z="4178" y="-15">	</waypoint>
+	<!-- #308 --><waypoint x="30834" z="3990" y="-14">	</waypoint>
+	<!-- #309 --><waypoint x="30959" z="3864" y="-11">	</waypoint>
+	<!-- #310 --><waypoint x="31372" z="3527" y="1">	</waypoint>
+	<!-- #311 --><waypoint x="31502" z="3383" y="42">	</waypoint>
+	<!-- #312 --><waypoint x="31776" z="3148" y="45">	</waypoint>
+	<!-- #313 --><waypoint x="31642" z="2740" y="42">	</waypoint>
+	<!-- #314 --><waypoint x="31457" z="2521" y="32">
+			player:target_NPC(112873) -- Ailkiss
+			CompleteQuestByName(422291) -- Teach Ailkiss A Lesson
+	</waypoint>
+	<!-- #315 --><waypoint x="31244" z="2408" y="64">	</waypoint>
+	<!-- #316 --><waypoint x="30997" z="2290" y="122">	</waypoint>
+	<!-- #317 --><waypoint x="30537" z="2188" y="77">	</waypoint>
+	<!-- #318 --><waypoint x="30037" z="2101" y="41">
+			player:target_NPC(112848) -- Aiman
+			CompleteQuestByName(422116, 1) -- We Can Do It
+	</waypoint>
+	<!-- #319 --><waypoint x="30033" z="2162" y="39">	</waypoint>
+	<!-- #320 --><waypoint x="29564" z="2218" y="66">	</waypoint>
+	<!-- #321 --><waypoint x="29309" z="2211" y="102">
+			player:target_NPC(112831) -- Sishear
+			AcceptQuestByName(422311) -- Troubling Situation
+	</waypoint>
+	<!-- #322 --><waypoint x="29356" z="2461" y="69">	</waypoint>
+	<!-- #323 --><waypoint x="29405" z="3072" y="-19">	</waypoint>
+	<!-- #324 --><waypoint x="29381" z="3665" y="14">	</waypoint>
+	<!-- #325 --><waypoint x="29407" z="3790" y="18">
+			player:target_NPC(112832) -- Raylishag
+			CompleteQuestByName(422311) -- Troubling Situation
+			yrest(5000)
+			AcceptQuestByName(422307) -- Too Embarrassed to Hand in Homework
+	</waypoint>
+	<!-- #326 --><waypoint x="29336" z="3845" y="12">	</waypoint>
+	<!-- #327 --><waypoint x="29243" z="4057" y="37">
+			loadPaths("ElvenIsland/EI_03_SabineanCave")
+	</waypoint>
+</waypoints>
+
+
+
+
+

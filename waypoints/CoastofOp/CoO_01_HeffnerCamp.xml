@@ -1,0 +1,1198 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Coast of Opportunity quest series. -->
+	<!--	Required userfunctions: userfunction_travelTo and userfunction_questHelpers -->
+	<!--	CoO_01_HeffnerCamp will complete all quests up to the bridge leading to Shuma Valley. -->
+	<!--	Approximate Runtime: 60 Minutes -->
+	<onload>
+		__WPL:setWaypointIndex(1)
+		local zone = getZoneId()
+		if zone ~= 13 then
+			travelTo("Heffner")  -- Requires Rock5's userfunction_travelTo
+		end
+		local zone = getZoneId()
+		if zone ~= 13 then
+			error("Unable to travel to Heffner Camp. Exiting.",0)
+		end
+		
+		function getChest()
+			if getQuestStatus(423878) == "incomplete" or 
+			   getQuestStatus(423879) == "incomplete" or 
+			   getQuestStatus(423880) == "incomplete" or
+			   getQuestStatus(423881) == "incomplete" or 
+			   getQuestStatus(423882) == "incomplete" or 
+			   getQuestStatus(423883) == "incomplete" or 
+			   getQuestStatus(423884) == "incomplete" or 
+			   getQuestStatus(423885) == "incomplete" then
+					chest = player:findNearestNameOrId(117349) -- Sunken Supply Trunk
+					if chest and 150 > distance(chest, player) then
+					player:moveTo(CWaypoint(chest.X, chest.Z, chest.Y+5), true)
+					yrest(1000)
+					player:target_Object(117349) -- Sunken Supply Trunk
+					yrest(6000)
+				end
+			end
+		end
+		
+		function trainCrab()
+			if inventory:itemTotalCount(209051) == 1 then
+				inventory:useItem(209051) -- Captured Hermit Crab
+			end
+			yrest(3000)
+			if getQuestStatus(423908) == "incomplete" then
+				repeat
+					crab = player:findNearestNameOrId(105193)
+					if crab then
+						player:target(crab)
+						player:moveTo(CWaypoint(crab.X, crab.Z), true)
+						RoMScript("UseExtraAction(1)")
+						yrest(2000)
+					end
+					if getQuestStatus(423908) == "complete" then return end
+					crab = player:findNearestNameOrId(105193)
+					if crab then
+						player:target(crab)
+						player:moveTo(CWaypoint(crab.X, crab.Z), true)
+						RoMScript("UseExtraAction(2)")
+						yrest(2000)
+					end
+					if getQuestStatus(423908) == "complete" then return end
+					crab = player:findNearestNameOrId(105193)
+					if crab then
+						player:target(crab)
+						player:moveTo(CWaypoint(crab.X, crab.Z), true)
+						RoMScript("UseExtraAction(3)")
+						yrest(2000)
+					end
+					if getQuestStatus(423908) == "complete" then return end
+					crab = player:findNearestNameOrId(105193)
+					if crab then
+						player:target(crab)
+						player:moveTo(CWaypoint(crab.X, crab.Z), true)
+						inventory:useItem(209097) -- Sweet Fish Egg
+						yrest(2000)
+					end
+				until getQuestStatus(423908) == "complete"
+			end
+		end
+	</onload>
+	<!-- #  1 --><waypoint x="-6469" z="-3812" y="180">
+			player:mount()
+			print("Moving to Pitt Exodillus to begin Zone Quests")
+	</waypoint>
+	<!-- #  2 --><waypoint x="-6724" z="-3775" y="180">	</waypoint>
+	<!-- #  3 --><waypoint x="-7045" z="-3897" y="173">	</waypoint>
+	<!-- #  4 --><waypoint x="-7544" z="-4042" y="141">	</waypoint>
+	<!-- #  5 --><waypoint x="-7618" z="-4393" y="142">	</waypoint>
+	<!-- #  6 --><waypoint x="-7857" z="-4611" y="104">	</waypoint>
+	<!-- #  7 --><waypoint x="-7318" z="-5461" y="101">	</waypoint>
+	<!-- #  8 --><waypoint x="-7349" z="-5853" y="99">	</waypoint>
+	<!-- #  9 --><waypoint x="-7687" z="-6309" y="103">	</waypoint>
+	<!-- # 10 --><waypoint x="-8256" z="-6375" y="103">	</waypoint>
+	<!-- # 11 --><waypoint x="-8484" z="-6469" y="84">	</waypoint>
+	<!-- # 12 --><waypoint x="-8785" z="-6974" y="36">	</waypoint>
+	<!-- # 13 --><waypoint x="-8558" z="-7097" y="61">	</waypoint>
+	<!-- # 14 --><waypoint x="-8549" z="-7302" y="95">	</waypoint>
+	<!-- # 15 --><waypoint x="-8360" z="-7309" y="113">	</waypoint>
+	<!-- # 16 --><waypoint x="-8329" z="-7540" y="113">	</waypoint>
+	<!-- # 17 --><waypoint x="-8595" z="-7751" y="133">	</waypoint>
+	<!-- # 18 --><waypoint x="-9114" z="-8054" y="104">	</waypoint>
+	<!-- # 19 --><waypoint x="-8969" z="-8344" y="75">	</waypoint>
+	<!-- # 20 --><waypoint x="-8995" z="-8468" y="105">	</waypoint>
+	<!-- # 21 --><waypoint x="-8978" z="-8516" y="105">	</waypoint>
+	<!-- # 22 --><waypoint x="-9080" z="-8571" y="141">	</waypoint>
+	<!-- # 23 --><waypoint x="-9075" z="-8568" y="141">
+			player:target_NPC(117324) -- Pitt Exodillus
+			SureAcceptQuest(423677) -- Drifter's End
+	</waypoint>
+	<!-- # 24 --><waypoint x="-8988" z="-8515" y="105">	</waypoint>
+	<!-- # 25 --><waypoint x="-9011" z="-8434" y="105">	</waypoint>
+	<!-- # 26 --><waypoint x="-8961" z="-8303" y="75">	</waypoint>
+	<!-- # 27 --><waypoint x="-9112" z="-8042" y="104">
+			player:target_NPC(117325) -- Naidi Kenlin
+			SureCompleteQuest(423677) -- Drifter's End
+			SureAcceptQuest(423780) -- Frost Island, A New Beginning
+			SureCompleteQuest(423780) -- Frost Island, A New Beginning
+			SureAcceptQuest(423781) -- A Filling Meal
+	</waypoint>
+	<!-- # 28 --><waypoint x="-8721" z="-7828" y="132">	</waypoint>
+	<!-- # 29 --><waypoint x="-8367" z="-7554" y="110">	</waypoint>
+	<!-- # 30 --><waypoint x="-8394" z="-7312" y="113">	</waypoint>
+	<!-- # 31 --><waypoint x="-8539" z="-7292" y="95">	</waypoint>
+	<!-- # 32 --><waypoint x="-8564" z="-7119" y="61">	</waypoint>
+	<!-- # 33 --><waypoint x="-8676" z="-7138" y="37">	</waypoint>
+	<!-- # 34 --><waypoint x="-8679" z="-7308" y="36">
+			player:target_NPC(117308) -- Yoluta
+			SureAcceptQuest(423897) -- Skincare Materials
+	</waypoint>
+	<!-- # 35 --><waypoint x="-8723" z="-7236" y="36">	</waypoint>
+	<!-- # 36 --><waypoint x="-8894" z="-7368" y="22">	</waypoint>
+	<!-- # 37 --><waypoint x="-8800" z="-7793" y="-10">	</waypoint>
+	<!-- # 38 --><waypoint x="-8706" z="-7838" y="7">
+			if getQuestStatus(423897) == "incomplete" then
+				repeat
+					player:target_Object(117309) -- Hending Shell
+				until getQuestStatus(423897) == "complete"
+			end
+	</waypoint>
+	<!-- # 39 --><waypoint x="-8875" z="-7682" y="-9">	</waypoint>
+	<!-- # 40 --><waypoint x="-8888" z="-7460" y="2">	</waypoint>
+	<!-- # 41 --><waypoint x="-8854" z="-7295" y="21">	</waypoint>
+	<!-- # 42 --><waypoint x="-8689" z="-7272" y="23">
+			player:target_NPC(117308) -- Yoluta
+			SureCompleteQuest(423897) -- Skincare Materials
+			SureAcceptQuest(423899) -- Ayno's Shell Powder
+	</waypoint>
+	<!-- # 43 --><waypoint x="-8735" z="-7138" y="22">	</waypoint>
+	<!-- # 44 --><waypoint x="-8913" z="-6960" y="19">
+			player:target_NPC(117326) -- Michael Lotte
+			SureCompleteQuest(423781) -- A Filling Meal
+			SureAcceptQuest(423782) -- Set out only after you have your fill of food and drink
+	</waypoint>
+	<!-- # 45 --><waypoint x="-8882" z="-6936" y="21">	</waypoint>
+	<!-- # 46 --><waypoint x="-8624" z="-6798" y="22">
+			player:target_NPC(117327) -- Fantos Chalissius
+			SureCompleteQuest(423782) -- Set out only after you have your fill of food and drink
+			SureAcceptQuest(423783) -- Equip Yourself
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+					SureCompleteQuest(423783,1) -- Equip Yourself
+					yrest(2000)
+					inventory:update()
+					inventory:useItem(209015) -- Cloth Armor Package
+					yrest(4000)
+					inventory:update()
+					inventory:useItem(228117) -- Simple Cloth Hat
+					yrest(1000)
+					inventory:useItem(228118) -- Simple Cloth Robe
+					yrest(1000)
+					inventory:useItem(228119) -- Simple Leggings
+					yrest(1000)
+					inventory:useItem(228120) -- Simple Gloves
+					yrest(1000)
+					inventory:useItem(228121) -- Simple Cloth Boots
+					yrest(1000)
+					inventory:useItem(209027) -- Weapon Box
+					yrest(4000)
+					inventory:update()
+					inventory:useItem(213120) -- Coastal Wooden Staff
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+					SureCompleteQuest(423783,2) -- Equip Yourself
+					yrest(2000)
+					inventory:update()
+					inventory:useItem(209024) -- Leather Armor Package
+					yrest(4000)
+					inventory:update()
+					inventory:useItem(228122) -- Flexible Leather Hat
+					yrest(1000)
+					inventory:useItem(228123) -- Flexible Leather Coat
+					yrest(1000)
+					inventory:useItem(228124) -- Flexible Leather Leggings
+					yrest(1000)
+					inventory:useItem(228125) -- Flexible Leather Gloves
+					yrest(1000)
+					inventory:useItem(228126) -- Flexible Leather Boots
+					yrest(1000)
+					inventory:useItem(209027) -- Weapon Box
+					yrest(4000)
+					inventory:useItem(213118) -- Coastal Dagger
+					if player.Class == 2 then
+						yrest(1000)
+						inventory:useItem(213122) -- Coastal Wooden Bow
+					end
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+					SureCompleteQuest(423783,3) -- Equip Yourself
+					yrest(2000)
+					inventory:update()
+					inventory:useItem(209025) -- Chainmail Armor Box
+					yrest(4000)
+					inventory:update()
+					inventory:useItem(228127) -- Durable Chain Helm
+					yrest(1000)
+					inventory:useItem(228128) -- Durable Chain Coat
+					yrest(1000)
+					inventory:useItem(228129) -- Durable Chain Leggings
+					yrest(1000)
+					inventory:useItem(228130) -- Durable Chain Handguards
+					yrest(1000)
+					inventory:useItem(228131) -- Durable Chain Boots
+					yrest(1000)
+					inventory:useItem(209027) -- Weapon Box
+					yrest(4000)
+					inventory:update()
+					inventory:useItem(213119) -- Coastal Long Sword
+					if player.Class1  == 1 or player.Class1  == 6 then
+						yrest(1000)
+						inventory:useItem(228522) -- Coastal Wooden Shield
+					end
+			end
+			</waypoint>
+	<!-- # 47 --><waypoint x="-8624" z="-6798" y="22">
+			player:target_NPC(117327) -- Fantos Chalissius
+			SureAcceptQuest(423784) -- Battle Practice
+			if getQuestStatus(423784) == "incomplete" then
+				repeat
+					dummy = player:findNearestNameOrId(105243) -- Practice Dummy
+					if dummy and 200 > distance(dummy, player) then
+						player:target(dummy)
+						player:fight()
+					end
+				until getQuestStatus(423784) == "complete"
+			end
+			player:target_NPC(117327) -- Fantos Chalissius
+			SureCompleteQuest(423784) -- Battle Practice
+	</waypoint>
+	<!-- # 48 --><waypoint x="-8584" z="-6807" y="22">
+			player:target_NPC(117327) -- Fantos Chalissius
+			SureAcceptQuest(423785) -- Temporarily Lead a Team
+			speed("off")
+	</waypoint>
+	<!-- # 49 --><waypoint x="-8639" z="-6643" y="41">
+			yrest(1000)
+	</waypoint>
+	<!-- # 50 --><waypoint x="-8397" z="-6405" y="80">
+			yrest(1000)
+	</waypoint>
+	<!-- # 51 --><waypoint x="-8117" z="-6368" y="88">
+			yrest(1000)
+	</waypoint>
+	<!-- # 52 --><waypoint x="-7740" z="-6323" y="89">
+			yrest(1000)
+	</waypoint>
+	<!-- # 53 --><waypoint x="-7443" z="-6010" y="84">
+			yrest(1000)
+	</waypoint>
+	<!-- # 54 --><waypoint x="-7263" z="-5599" y="84">
+			yrest(1000)
+	</waypoint>
+	<!-- # 55 --><waypoint x="-7365" z="-5185" y="88">
+			yrest(1000)
+	</waypoint>
+	<!-- # 56 --><waypoint x="-7565" z="-4894" y="90">
+			yrest(1000)
+	</waypoint>
+	<!-- # 57 --><waypoint x="-7627" z="-4789" y="99">
+			yrest(5000)
+			player:target_NPC(117348) -- Colin Taibos
+			SureCompleteQuest(423785) -- Temporarily Lead a Team
+			SureAcceptQuest(423786) -- Report to the Deputy Captain
+			speed("on")
+	</waypoint>
+	<!-- # 58 --><waypoint x="-7791" z="-4604" y="89">	</waypoint>
+	<!-- # 59 --><waypoint x="-7590" z="-4350" y="127">	</waypoint>
+	<!-- # 60 --><waypoint x="-7535" z="-4035" y="127">	</waypoint>
+	<!-- # 61 --><waypoint x="-6973" z="-3903" y="166">	</waypoint>
+	<!-- # 62 --><waypoint x="-7011" z="-4063" y="171">	</waypoint>
+	<!-- # 63 --><waypoint x="-7079" z="-4115" y="172">
+			player:target_NPC(117311) -- Ayno
+			SureCompleteQuest(423899) -- Ayno's Shell Powder
+	</waypoint>
+	<!-- # 64 --><waypoint x="-6983" z="-4013" y="172">	</waypoint>
+	<!-- # 65 --><waypoint x="-7064" z="-3917" y="156">	</waypoint>
+	<!-- # 66 --><waypoint x="-7508" z="-3983" y="130">	</waypoint>
+	<!-- # 67 --><waypoint x="-7524" z="-3737" y="148">	</waypoint>
+	<!-- # 68 --><waypoint x="-7435" z="-3740" y="153">
+			player:target_NPC(117288) -- Nala Heffner
+			SureCompleteQuest(423786) -- Report to the Deputy Captain
+			SureAcceptQuest(423787) -- Troublesome Pirates
+	</waypoint>
+	<!-- # 69 --><waypoint x="-7519" z="-3736" y="148">	</waypoint>
+	<!-- # 70 --><waypoint x="-7448" z="-3835" y="148">
+			player:target_NPC(117289) -- Cheryl Heffner
+			SureCompleteQuest(423787) -- Troublesome Pirates
+			SureAcceptQuest(423788) -- Battle Preparations
+			player:target_Object(117650) -- Bag of Potions
+			player:target_NPC(117289) -- Cheryl Heffner
+			SureCompleteQuest(423788) -- Battle Preparations
+			SureAcceptQuest(423789) -- Eliminate the Spies
+			SureAcceptQuest(423906) -- Feathered Pirate Spies
+	</waypoint>
+	<!-- # 71 --><waypoint x="-7539" z="-3920" y="139">	</waypoint>
+	<!-- # 72 --><waypoint x="-7622" z="-4032" y="127">
+			player:target_NPC(105244) -- Lurking Pirate
+			player:fight()
+			player:target_NPC(105245) -- Sly Pirate
+			player:fight()
+	</waypoint>
+	<!-- # 73 --><waypoint x="-7653" z="-4209" y="128">
+			player:target_NPC(105244) -- Lurking Pirate
+			player:fight()
+			player:target_NPC(105245) -- Sly Pirate
+			player:fight()
+	</waypoint>
+	<!-- # 74 --><waypoint x="-7651" z="-4216" y="128">	</waypoint>
+	<!-- # 75 --><waypoint x="-7629" z="-4401" y="127">	</waypoint>
+	<!-- # 76 --><waypoint x="-7766" z="-4464" y="110">		</waypoint>
+	<!-- # 77 --><waypoint x="-7874" z="-4115" y="112">	</waypoint>
+	<!-- # 78 --><waypoint x="-8077" z="-3841" y="94">	</waypoint>
+	<!-- # 79 --><waypoint x="-8352" z="-3799" y="54" tag="Eagles">
+			killForQuest(false, 105143, 423906) -- Pirate's Tidal Eagle / Feathered Pirate Spies
+	</waypoint>
+	<!-- # 80 --><waypoint x="-8544" z="-3979" y="40">
+			killForQuest(false, 105143, 423906) -- Pirate's Tidal Eagle / Feathered Pirate Spies
+	</waypoint>
+	<!-- # 81 --><waypoint x="-8795" z="-4345" y="46">
+			killForQuest(false, 105143, 423906) -- Pirate's Tidal Eagle / Feathered Pirate Spies
+	</waypoint>
+	<!-- # 82 --><waypoint x="-8932" z="-4015" y="65">
+			killForQuest(false, 105143, 423906) -- Pirate's Tidal Eagle / Feathered Pirate Spies
+	</waypoint>
+	<!-- # 83 --><waypoint x="-8845" z="-3724" y="67">
+			killForQuest(false, 105143, 423906) -- Pirate's Tidal Eagle / Feathered Pirate Spies
+	</waypoint>
+	<!-- # 84 --><waypoint x="-8646" z="-3562" y="82">
+			killForQuest(false, 105143, 423906) -- Pirate's Tidal Eagle / Feathered Pirate Spies
+	</waypoint>
+	<!-- # 85 --><waypoint x="-8352" z="-3799" y="54">
+			killForQuest(false, 105143, 423906) -- Pirate's Tidal Eagle / Feathered Pirate Spies
+			if getQuestStatus(423906) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Eagles"))
+			end	
+	</waypoint>
+	<!-- # 86 --><waypoint x="-7915" z="-4100" y="101">	</waypoint>
+	<!-- # 87 --><waypoint x="-7897" z="-4309" y="92">	</waypoint>
+	<!-- # 88 --><waypoint x="-7764" z="-4511" y="103">	</waypoint>
+	<!-- # 89 --><waypoint x="-7584" z="-4391" y="127">	</waypoint>
+	<!-- # 90 --><waypoint x="-7578" z="-4080" y="128">	</waypoint>
+	<!-- # 91 --><waypoint x="-7490" z="-3830" y="150">
+			player:target_NPC(117289) -- Cheryl Heffner
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423906,1) -- Feathered Pirate Spies
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(423906,2) -- Feathered Pirate Spies
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(423906,3) -- Feathered Pirate Spies
+			end
+	</waypoint>
+	<!-- # 92 --><waypoint x="-7515" z="-3774" y="148">	</waypoint>
+	<!-- # 93 --><waypoint x="-7500" z="-3741" y="148">	</waypoint>
+	<!-- # 94 --><waypoint x="-7444" z="-3738" y="154">
+			player:target_NPC(117288) -- Nala Heffner
+			SureCompleteQuest(423789) -- Eliminate the Spies
+			SureAcceptQuest(423790) -- Affirmative
+			SureAcceptQuest(423907) -- Hermit Crab Pet Plan
+	</waypoint>
+	<!-- # 95 --><waypoint x="-7519" z="-3736" y="148">	</waypoint>
+	<!-- # 96 --><waypoint x="-7448" z="-3835" y="148">
+			player:target_NPC(117289) -- Cheryl Heffner
+			SureCompleteQuest(423790) -- Affirmative
+			SureAcceptQuest(423791) -- Old Equipment Made New Again
+	</waypoint>
+	<!-- # 97 --><waypoint x="-7547" z="-3912" y="140">	</waypoint>
+	<!-- # 98 --><waypoint x="-7300" z="-3972" y="127">	</waypoint>
+	<!-- # 99 --><waypoint x="-6960" z="-3913" y="166">	</waypoint>
+	<!-- #100 --><waypoint x="-7090" z="-4310" y="172">	</waypoint>
+	<!-- #101 --><waypoint x="-7214" z="-4304" y="172">
+			player:target_NPC(117290) -- Old Blacksmith Hansen
+			SureCompleteQuest(423791) -- Old Equipment Made New Again
+			SureAcceptQuest(423860) -- Business Ethics
+	</waypoint>
+	<!-- #102 --><waypoint x="-7030" z="-4258" y="171">	</waypoint>
+	<!-- #103 --><waypoint x="-6892" z="-4163" y="172">
+			player:target_NPC(117305) -- Liri Pulatius
+			ChoiceOptionByName(getTEXT("SO_423860_1")) -- 'Hello. The Old Blacksmith Hansen asked me to come get the rune your workshop promised...'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SO_423860_2")) -- 'Thank you for your generous contribution. The Silvershadow Adventurers' Guild will always remember your contribution.'
+	</waypoint>
+	<!-- #104 --><waypoint x="-7092" z="-4293" y="172">	</waypoint>
+	<!-- #105 --><waypoint x="-7209" z="-4303" y="172">
+			player:target_NPC(117290) -- Old Blacksmith Hansen
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423860,1) -- Business Ethics
+				inventory:update()
+				inventory:useItem(228303) -- Cloth Robe of Learned Wisdom
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(423860,2) -- Business Ethics
+				inventory:update()
+				inventory:useItem(228304) -- Leather Coat of Learned Righteousness
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(423860,3) -- Business Ethics
+				inventory:update()
+				inventory:useItem(228305) -- Chain Mail of Learned Bravery
+			end
+	</waypoint>
+	<!-- #106 --><waypoint x="-7209" z="-4303" y="172">
+			player:target_NPC(117290) -- Old Blacksmith Hansen
+			SureAcceptQuest(423861) -- The Right Tools for the Job
+			yrest(4000)
+			inventory:update()
+			if inventory:itemTotalCount(209307) == 1 then
+				inventory:useItem(209307) -- Old Hansen's Simple Drill
+				RoMScript("PickupEquipmentItem(15)")
+				inventory:useItem(520121) -- Endurance I Rune
+				RoMScript("PickupEquipmentItem(15)")
+				yrest(6000)
+				player:target_NPC(117290) -- Old Blacksmith Hansen
+				ChoiceOptionByName(getTEXT("SC_117290_O_01")) -- 'All done. See what you think.'
+			else
+				ChoiceOptionByName(getTEXT("SC_117290_O_02")) -- 'Whoops, I've lost that item you gave me...'
+			end
+	</waypoint>
+	<!-- #107 --><waypoint x="-7209" z="-4303" y="172">
+			player:target_NPC(117290) -- Old Blacksmith Hansen
+			SureCompleteQuest(423861) -- The Right Tools for the Job
+			SureAcceptQuest(423862) -- Sweet Warm Home
+			player:mount()
+	</waypoint>
+	<!-- #108 --><waypoint x="-7077" z="-4277" y="172">	</waypoint>
+	<!-- #109 --><waypoint x="-6866" z="-3773" y="172">	</waypoint>
+	<!-- #110 --><waypoint x="-6866" z="-3665" y="173">	</waypoint>
+	<!-- #111 --><waypoint x="-6949" z="-3655" y="173">
+			player:target_NPC(117291) -- Nicole Rebecca
+			SureCompleteQuest(423862) -- Sweet Warm Home
+			SureAcceptQuest(423865) -- Go To The Auction House for Nicole
+	</waypoint>
+	<!-- #112 --><waypoint x="-6884" z="-3668" y="174">	</waypoint>
+	<!-- #113 --><waypoint x="-6910" z="-4241" y="172">
+			player:target_NPC(117292) -- Mojave Wallace
+			SureCompleteQuest(423865) -- Go To The Auction House for Nicole
+			SureAcceptQuest(423866) -- Bear in the Mailbox
+	</waypoint>
+	<!-- #114 --><waypoint x="-7032" z="-3956" y="165">
+			player:target_NPC(117407) -- Mailbox
+			SureCompleteQuest(423866) -- Bear in the Mailbox
+			SureAcceptQuest(423856) -- Returned Teddy Bear
+	</waypoint>
+	<!-- #115 --><waypoint x="-6889" z="-3870" y="166">	</waypoint>
+	<!-- #116 --><waypoint x="-6878" z="-3671" y="173">	</waypoint>
+	<!-- #117 --><waypoint x="-6949" z="-3657" y="173">
+			player:target_NPC(117291) -- Nicole Rebecca
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423856,1) -- Business Ethics
+				inventory:update()
+				inventory:useItem(228309) -- Soft Pants of the Bear's Doubt
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(423856,2) -- Business Ethics
+				inventory:update()
+				inventory:useItem(228310) -- Leather Pants of the Roving Bear
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(423856,3) -- Business Ethics
+				inventory:update()
+				inventory:useItem(228311) -- Leg Guards of the Bear's Power
+			end
+			SureAcceptQuest(423984) -- Push the Bear on the Bard
+	</waypoint>
+	<!-- #118 --><waypoint x="-6887" z="-3660" y="173">	</waypoint>
+	<!-- #119 --><waypoint x="-6920" z="-4027" y="169">	</waypoint>
+	<!-- #120 --><waypoint x="-7130" z="-4499" y="177">
+			player:target_NPC(117294) -- Feideli Child
+			SureCompleteQuest(423984) -- Push the Bear on the Bard
+			SureAcceptQuest(423868) -- Crossroads
+			SureCompleteQuest(423868) -- Crossroads
+	</waypoint>
+	<!-- #121 --><waypoint x="-6980" z="-4179" y="168">	</waypoint>
+	<!-- #122 --><waypoint x="-6934" z="-3879" y="166">
+			player:target_NPC(117374) -- Chadis
+			SureAcceptQuest(423900) -- Differences Between Brothers
+	</waypoint>
+	<!-- #123 --><waypoint x="-7328" z="-3982" y="127">
+			player:target_NPC(117293) -- Ishlar Jyaa
+			SureAcceptQuest(423867) -- Ten Years to Sharpen a Sword
+			print(player.Class1)
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423867,3) -- Ten Years to Sharpen a Sword
+				inventory:update()
+				inventory:useItem(213127) -- Staff of Condensing
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(423867,4) -- Ten Years to Sharpen a Sword
+				inventory:update()
+				inventory:useItem(213126) -- Well-fit Longbow
+				inventory:useItem(213125) -- Chivalrous Dagger
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(423867,2) -- Ten Years to Sharpen a Sword
+				inventory:update()
+				inventory:useItem(213124) -- Spiked Long Sword of Bushwhacking
+			end
+			SureAcceptQuest(423869) -- Rampant Pirates
+			SureCompleteQuest(423869,3) -- Rampant Pirates (Shield for all classes, Talismans are worthless)
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT then
+				inventory:update()
+				inventory:useItem(228314) -- Solid Shield of Shared Front Line
+			end
+			SureAcceptQuest(424018) -- Deputy Captain Heffner is Looking for You
+	</waypoint>
+	<!-- #124 --><waypoint x="-7514" z="-3942" y="136">	</waypoint>
+	<!-- #125 --><waypoint x="-7660" z="-3786" y="149">
+			player:target_NPC(117375) -- Tadis
+			ChoiceOptionByName(getTEXT("SC_423900_02")) -- 'Why do you say he's scared?'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SC_423900_05")) -- 'I think you should calmly listen to your brother's explanation.'
+	</waypoint>
+	<!-- #126 --><waypoint x="-7485" z="-3971" y="130">	</waypoint>
+	<!-- #127 --><waypoint x="-7155" z="-3945" y="135">	</waypoint>
+	<!-- #128 --><waypoint x="-6920" z="-3846" y="169">
+			player:target_NPC(117374) -- Chadis
+			SureCompleteQuest(423900) -- Differences Between Brothers
+			SureAcceptQuest(423901) -- Unforgotten Agreement
+	</waypoint>
+	<!-- #129 --><waypoint x="-7253" z="-3963" y="127">	</waypoint>
+	<!-- #130 --><waypoint x="-7488" z="-3976" y="129">	</waypoint>
+	<!-- #131 --><waypoint x="-7660" z="-3781" y="149">
+			player:target_NPC(117375) -- Tadis
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423901,1) -- Unforgotten Agreement
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(423901,2) -- Unforgotten Agreement
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(423901,3) -- Unforgotten Agreement
+			end
+	</waypoint>
+	<!-- #132 --><waypoint x="-7497" z="-3739" y="149">	</waypoint>
+	<!-- #133 --><waypoint x="-7447" z="-3737" y="154">		
+			player:target_NPC(117288) -- Nala Heffner
+			SureCompleteQuest(424018) -- Deputy Captain Heffner is Looking for You
+			player:target_NPC(117288) -- Nala Heffner
+			<!-- Try to accept all the quests, as it is NOT dependant on your current main class, but rather the first Human or Elf class you had. -->
+			SureAcceptQuest(423870) -- Meet the Warrior Instructor
+			SureAcceptQuest(423871) -- Meet the Scout Instructor
+			SureAcceptQuest(423872) -- Meet the Rogue Instructor
+			SureAcceptQuest(423873) -- Meet the Mage Instructor
+			SureAcceptQuest(423874) -- Meet the Priest Instructor
+			SureAcceptQuest(423875) -- Meet the Knight Instructor
+			SureAcceptQuest(423876) -- Meet the Warden Instructor
+			SureAcceptQuest(423877) -- Meet the Druid Instructor
+	</waypoint>
+	<!-- #134 --><waypoint x="-7539" z="-3713" y="149">
+			if getQuestStatus(423870) == "complete" then
+				player:target_NPC(117295) -- Axel Kaiyinth
+				SureCompleteQuest(423870) -- Meet the Warrior Instructor
+				SureAcceptQuest(423878) -- Warrior: Challenge
+			end
+			if getQuestStatus(423871) == "complete" then
+				player:target_NPC(117296) -- Fansalin Gelafu
+				SureCompleteQuest(423871) -- Meet the Scout Instructor
+				SureAcceptQuest(423879) -- Scout: Challenge
+			end
+			if getQuestStatus(423872) == "complete" then
+				player:target_NPC(117297) -- Cassandra Eesai
+				SureCompleteQuest(423872) -- Meet the Rogue Instructor
+				SureAcceptQuest(423880) -- Rogue: Challenge
+			end
+			if getQuestStatus(423873) == "complete" then
+				player:target_NPC(117298) -- Forado Magyar
+				SureCompleteQuest(423873) -- Meet the Mage Instructor
+				SureAcceptQuest(423881) -- Mage: Challenge
+			end
+			if getQuestStatus(423874) == "complete" then
+				player:target_NPC(117299) -- Fade Aylit
+				SureCompleteQuest(423874) -- Meet the Priest Instructor
+				SureAcceptQuest(423882) -- Priest: Challenge
+			end
+			if getQuestStatus(423875) == "complete" then
+				player:target_NPC(117300) -- Zimondo Landrid
+				SureCompleteQuest(423875) -- Meet the Knight Instructor
+				SureAcceptQuest(423883) -- Knight: Challenge
+			end
+			if getQuestStatus(423876) == "complete" then
+				player:target_NPC(117301) -- Cyrus
+				SureCompleteQuest(423876) -- Meet the Warden Instructor
+				SureAcceptQuest(423884) -- Warden: Challenge
+			end
+			if getQuestStatus(423877) == "complete" then
+				player:target_NPC(117302) -- Telanda
+				SureCompleteQuest(423877) -- Meet the Druid Instructor
+				SureAcceptQuest(423885) -- Druid: Challenge
+			end
+	</waypoint>
+	<!-- #135 --><waypoint x="-7570" z="-3905" y="142">	</waypoint>
+	<!-- #136 --><waypoint x="-7378" z="-3989" y="128">	</waypoint>
+	<!-- #137 --><waypoint x="-6971" z="-3890" y="167">	</waypoint>
+	<!-- #138 --><waypoint x="-6760" z="-3871" y="169">
+			player:target_NPC(117378) -- Dowen
+			SureAcceptQuest(423910) -- New Food
+	</waypoint>
+	<!-- #139 --><waypoint x="-6964" z="-4092" y="169">	</waypoint>
+	<!-- #140 --><waypoint x="-7014" z="-4569" y="177">
+			player:target_NPC(117439) -- Lebniz Rol
+			SureAcceptQuest(423911) -- Who is the traitor?
+			player:target_NPC(117439) -- Lebniz Rol
+			ChoiceOptionByName(getTEXT("SC_423911_02")) -- 'I am willing to help.'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SC_423911_04")) -- 'So what do you plan to do?'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SC_423911_06")) -- 'Understood.'
+			player:mount()
+	</waypoint>
+	<!-- #141 --><waypoint x="-7011" z="-4410" y="186">	</waypoint>
+	<!-- #142 --><waypoint x="-7267" z="-4331" y="189">	</waypoint>
+	<!-- #143 --><waypoint x="-7024" z="-4262" y="184">	</waypoint>
+	<!-- #144 --><waypoint x="-6770" z="-3886" y="183">	</waypoint>
+	<!-- #145 --><waypoint x="-7079" z="-3924" y="166">	</waypoint>
+	<!-- #146 --><waypoint x="-7555" z="-3965" y="146">	</waypoint>
+	<!-- #147 --><waypoint x="-7518" z="-3712" y="162">	</waypoint>
+	<!-- #148 --><waypoint x="-7394" z="-3527" y="163">	</waypoint>
+	<!-- #149 --><waypoint x="-7535" z="-3719" y="162">	</waypoint>
+	<!-- #150 --><waypoint x="-7566" z="-4141" y="140">	</waypoint>
+	<!-- #151 --><waypoint x="-7645" z="-4417" y="141">	</waypoint>
+	<!-- #152 --><waypoint x="-7837" z="-4660" y="100">	</waypoint>
+	<!-- #153 --><waypoint x="-7291" z="-5658" y="99">	</waypoint>
+	<!-- #154 --><waypoint x="-7656" z="-6266" y="102">	</waypoint>
+	<!-- #155 --><waypoint x="-8165" z="-6374" y="106">	</waypoint>
+	<!-- #156 --><waypoint x="-8420" z="-6401" y="93">	</waypoint>
+	<!-- #157 --><waypoint x="-8711" z="-6845" y="37">	</waypoint>
+	<!-- #158 --><waypoint x="-8953" z="-7101" y="31">
+			player:target_NPC(117443) -- Lebniz Rol
+			SureCompleteQuest(423911) -- Who is the traitor?
+			SureAcceptQuest(423912) -- Pirate's Threats
+			player:target_NPC(117440) -- Furgol
+			ChoiceOptionByName(getTEXT("SC_423912_02")) -- 'Hey, if you don't say anything, I won't know how to help you.'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SC_423912_04")) -- 'If you aren't useful, that guy over there is going to kill you.'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SC_423912_06")) -- 'But if you give me information, I can help by asking the Deputy Captain to spare you.'
+			player:target_NPC(117443) -- Lebniz Rol
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423912,1) -- Pirate's Threats
+			else
+				SureCompleteQuest(423912,2) -- Pirate's Threats -- Leather for everyone else
+			end
+			SureAcceptQuest(424199) -- Retrieve the Goods
+	</waypoint>
+	<!-- #159 --><waypoint x="-8672" z="-6806" y="37">	</waypoint>
+	<!-- #160 --><waypoint x="-8325" z="-6355" y="106">	</waypoint>
+	<!-- #161 --><waypoint x="-7796" z="-6348" y="101">	</waypoint>
+	<!-- #162 --><waypoint x="-7520" z="-6148" y="103">	</waypoint>
+	<!-- #163 --><waypoint x="-7264" z="-5660" y="102">	</waypoint>
+	<!-- #164 --><waypoint x="-7367" z="-5207" y="105">	</waypoint>
+	<!-- #165 --><waypoint x="-7823" z="-4625" y="102">	</waypoint>
+	<!-- #166 --><waypoint x="-8289" z="-4725" y="103">	</waypoint>
+	<!-- #167 --><waypoint x="-8791" z="-4799" y="107">	</waypoint>
+	<!-- #168 --><waypoint x="-9325" z="-4801" y="28">	</waypoint>
+	<!-- #169 --><waypoint x="-9734" z="-4749" y="12">
+			CatchMobSetup(105193, 50, 209052, 423907)
+	</waypoint>
+	<!-- #170 --><waypoint x="-9734" z="-4749" y="12" tag="Crabs">
+			crab = player:findNearestNameOrId(105193) -- Hending Hermit Crab
+			if crab and 100 > distance(crab, player) then
+				player:target(crab)
+				player:fight()
+			end
+	</waypoint>
+	<!-- #171 --><waypoint x="-9734" z="-4749" y="12">
+			if getQuestStatus(423907) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Crabs"))
+			end	
+	</waypoint>
+	<!-- #172 --><waypoint x="-9983" z="-4669" y="8">
+			CatchMobSetup(0, 0, 0, 0)
+	</waypoint>
+	<!-- #173 --><waypoint x="-10288" z="-4784" y="-45">
+			getChest()
+	</waypoint>
+	<!-- #174 --><waypoint x="-10393" z="-4773" y="-56">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #175 --><waypoint x="-10459" z="-4974" y="-56">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #176 --><waypoint x="-10496" z="-5181" y="-49">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #177 --><waypoint x="-10051" z="-5119" y="-42">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #178 --><waypoint x="-10147" z="-5495" y="-34">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #179 --><waypoint x="-10504" z="-5187" y="-49">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #180 --><waypoint x="-10699" z="-5077" y="-89">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #181 --><waypoint x="-10674" z="-4943" y="-7">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #182 --><waypoint x="-10562" z="-4649" y="-70">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #183 --><waypoint x="-10631" z="-4553" y="-83">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #184 --><waypoint x="-10940" z="-4452" y="-106">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #185 --><waypoint x="-11001" z="-4326" y="-135">
+			killForQuest(false, 105192, 423910)
+			getChest()
+	</waypoint>
+	<!-- #186 --><waypoint x="-10820" z="-4387" y="-9">	</waypoint>
+	<!-- #187 --><waypoint x="-10759" z="-4490" y="-9">	</waypoint>
+	<!-- #188 --><waypoint x="-10637" z="-3848" y="-9">	</waypoint>
+	<!-- #189 --><waypoint x="-10216" z="-3732" y="-6">	</waypoint>
+	<!-- #190 --><waypoint x="-10018" z="-3839" y="9">	</waypoint>
+	<!-- #191 --><waypoint x="-10025" z="-3827" y="9">
+			if getQuestStatus(424199) == "incomplete" then
+				repeat
+					chest = player:findNearestNameOrId({114753, 117446, 118191, 118192})
+					if chest and 60 > distance(chest, player) then
+						player:target_Object(chest.Id) -- Stolen Goods
+					end
+				until getQuestStatus(424199) == "complete"
+			end
+			player:mount()
+	</waypoint>
+	<!-- #192 --><waypoint x="-9872" z="-3781" y="19">	</waypoint>
+	<!-- #193 --><waypoint x="-9781" z="-3799" y="11">	</waypoint>
+	<!-- #194 --><waypoint x="-9643" z="-3737" y="21">	</waypoint>
+	<!-- #195 --><waypoint x="-9489" z="-3874" y="15">	</waypoint>
+	<!-- #196 --><waypoint x="-9322" z="-3978" y="14">	</waypoint>
+	<!-- #197 --><waypoint x="-9117" z="-4028" y="11">	</waypoint>
+	<!-- #198 --><waypoint x="-8750" z="-4163" y="43">	</waypoint>
+	<!-- #199 --><waypoint x="-8637" z="-4517" y="84">	</waypoint>
+	<!-- #200 --><waypoint x="-8287" z="-4582" y="88">	</waypoint>
+	<!-- #201 --><waypoint x="-7996" z="-4705" y="89">	</waypoint>
+	<!-- #202 --><waypoint x="-7604" z="-4411" y="127">	</waypoint>
+	<!-- #203 --><waypoint x="-7543" z="-3894" y="142">	</waypoint>
+	<!-- #204 --><waypoint x="-7535" z="-3743" y="148">
+			if getQuestStatus(423878) == "complete" then
+				player:target_NPC(117295) -- Axel Kaiyinth
+				SureCompleteQuest(423878) -- Warrior: Challenge
+				SureAcceptQuest(423886) -- Warrior: Take Responsibility
+				SureCompleteQuest(423886) -- Warrior: Take Responsibility
+			end
+			if getQuestStatus(423879) == "complete" then
+				player:target_NPC(117296) -- Fansalin Gelafu
+				SureCompleteQuest(423879) -- Scout: Challenge
+				SureAcceptQuest(423887) -- Scout: Take Responsibility
+				SureCompleteQuest(423887) -- Scout: Take Responsibility
+			end
+			if getQuestStatus(423880) == "complete" then
+				player:target_NPC(117297) -- Cassandra Eesai
+				SureCompleteQuest(423880) -- Rogue: Challenge
+				SureAcceptQuest(423888) -- Rogue: Taking Responsibility
+				SureCompleteQuest(423888) -- Rogue: Taking Responsibility
+			end
+			if getQuestStatus(423881) == "complete" then
+				player:target_NPC(117298) -- Forado Magyar
+				SureCompleteQuest(423881) -- Mage: Challenge
+				SureAcceptQuest(423889) -- Mage: Taking Responsibility
+				SureCompleteQuest(423889) -- Mage: Taking Responsibility
+			end
+			if getQuestStatus(423882) == "complete" then
+				player:target_NPC(117299) -- Fade Aylit
+				SureCompleteQuest(423882) -- Priest: Challenge
+				SureAcceptQuest(423890) -- Priest: Taking Responsibility
+				SureCompleteQuest(423890) -- Priest: Taking Responsibility
+			end
+			if getQuestStatus(423883) == "complete" then
+				player:target_NPC(117300) -- Zimondo Landrid
+				SureCompleteQuest(423883) -- Knight: Challenge
+				SureAcceptQuest(423891) -- Knight: Taking Responsibility
+				SureCompleteQuest(423891) -- Knight: Taking Responsibility
+			end
+			if getQuestStatus(423884) == "complete" then
+				player:target_NPC(117301) -- Cyrus
+				SureCompleteQuest(423884) -- Warden: Challenge
+				SureAcceptQuest(423892) -- Warden: Taking Responsibility
+				SureCompleteQuest(423892) -- Warden: Taking Responsibility
+			end
+			if getQuestStatus(423885) == "complete" then
+				player:target_NPC(117302) -- Telanda
+				SureCompleteQuest(423885) -- Druid: Challenge
+				SureAcceptQuest(423893) -- Druid: Taking Responsibility
+				SureCompleteQuest(423893) -- Druid: Taking Responsibility
+			end
+	</waypoint>
+	<!-- #205 --><waypoint x="-7536" z="-3728" y="148">	</waypoint>
+	<!-- #206 --><waypoint x="-7456" z="-3743" y="154">
+			player:target_NPC(117447) -- Lebniz Rol
+			SureCompleteQuest(424199) -- Retrieve the Goods
+			player:target_NPC(117452) -- Furgol
+			SureAcceptQuest(423914) -- Pirate's Operations
+			player:target_NPC(117452) -- Furgol
+			ChoiceOptionByName(getTEXT("SC_423914_002")) -- 'Please tell us!'
+			yrest(15000)
+			player:target_NPC(117452) -- Furgol
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423914,1) -- Pirate's Operations -- Cloth for Mage, Priest, Druid, Warlock
+			else
+				SureCompleteQuest(423914,2) -- Pirate's Operations -- Leather for everyone else
+			end
+			player:target_NPC(117288) -- Nala Heffner
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423907,1) -- Hermit Crab Pet Plan -- Cloth for Mage, Priest, Druid, Warlock
+			else
+				SureCompleteQuest(423907,2) -- Hermit Crab Pet Plan -- Leather for everyone else
+			end
+			SureAcceptQuest(423915) -- Heffner's Plan
+			player:target_NPC(117288) -- Nala Heffner
+			ChoiceOptionByName(getTEXT("SC_423915_02")) -- 'Please let me join!'
+			player:target_NPC(117288) -- Nala Heffner
+			SureCompleteQuest(423915) -- Heffner's Plan
+			SureAcceptQuest(423916) -- Lead Heffner
+	</waypoint>
+	<!-- #207 --><waypoint x="-7515" z="-3741" y="148">	</waypoint>
+	<!-- #208 --><waypoint x="-7522" z="-3944" y="136">	</waypoint>
+	<!-- #209 --><waypoint x="-7234" z="-3971" y="128">	</waypoint>
+	<!-- #210 --><waypoint x="-6954" z="-3907" y="166">	</waypoint>
+	<!-- #211 --><waypoint x="-6760" z="-3882" y="169">
+			player:target_NPC(117378) -- Dowen
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423910,1) -- New Food
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(423910,2) -- New Food
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(423910,3) -- New Food
+			end
+	</waypoint>
+	<!-- #212 --><waypoint x="-7023" z="-3906" y="161">	</waypoint>
+	<!-- #213 --><waypoint x="-7536" z="-4022" y="127">	</waypoint>
+	<!-- #214 --><waypoint x="-7649" z="-4419" y="127">	</waypoint>
+	<!-- #215 --><waypoint x="-7764" z="-4480" y="108">	</waypoint>
+	<!-- #216 --><waypoint x="-7934" z="-4273" y="93">	</waypoint>
+	<!-- #217 --><waypoint x="-8021" z="-3822" y="87">
+			yrest(1000)
+			inventory:useItem(209476) -- Signal for contacting Heffner
+	</waypoint>
+	<!-- #218 --><waypoint x="-8366" z="-3797" y="51">	</waypoint>
+	<!-- #219 --><waypoint x="-8764" z="-3790" y="64">
+			yrest(5000)
+			player:target_NPC(118169) -- Nala Heffner
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423916,1) -- Lead Heffner -- Cloth for Mage, Priest, Druid, Warlock
+			else
+				SureCompleteQuest(423916,2) -- Lead Heffner -- Leather for everyone else
+			end
+			SureAcceptQuest(423917) -- Sneak Attack on the Pirate Leader
+	</waypoint>
+	<!-- #220 --><waypoint x="-8767" z="-3702" y="68">	</waypoint>
+	<!-- #221 --><waypoint x="-9042" z="-3867" y="60">	</waypoint>
+	<!-- #222 --><waypoint x="-9233" z="-3870" y="16">	</waypoint>
+	<!-- #223 --><waypoint x="-9028" z="-4087" y="19">	</waypoint>
+	<!-- #224 --><waypoint x="-8744" z="-4289" y="48">	</waypoint>
+	<!-- #225 --><waypoint x="-8613" z="-4572" y="88">	</waypoint>
+	<!-- #226 --><waypoint x="-8403" z="-4621" y="88">	</waypoint>
+	<!-- #227 --><waypoint x="-8054" z="-4561" y="90">	</waypoint>
+	<!-- #228 --><waypoint x="-7681" z="-4471" y="122">	</waypoint>
+	<!-- #229 --><waypoint x="-7586" z="-4343" y="127">	</waypoint>
+	<!-- #230 --><waypoint x="-7533" z="-3878" y="144">	</waypoint>
+	<!-- #231 --><waypoint x="-7439" z="-3832" y="148">
+			player:target_NPC(117289) -- Cheryl Heffner
+			SureCompleteQuest(423917) -- Sneak Attack on the Pirate Leader
+			SureAcceptQuest(423903) -- Missing Team Member
+	</waypoint>
+	<!-- #232 --><waypoint x="-7527" z="-3748" y="148">	</waypoint>
+	<!-- #233 --><waypoint x="-7448" z="-3734" y="154">
+			player:target_NPC(117288) -- Nala Heffner
+			SureAcceptQuest(423908) -- Pet Domestication Class
+	</waypoint>
+	<!-- #234 --><waypoint x="-7523" z="-3749" y="148">	</waypoint>
+	<!-- #235 --><waypoint x="-7487" z="-3998" y="127">	</waypoint>
+	<!-- #236 --><waypoint x="-6899" z="-3877" y="166">	</waypoint>
+	<!-- #237 --><waypoint x="-6894" z="-3599" y="174">
+			player:target_NPC(117725) -- Lanlac
+			SureAcceptQuest(423970) -- Fruit Eaten by Mistake
+	</waypoint>
+	<!-- #238 --><waypoint x="-6730" z="-3756" y="166">	</waypoint>
+	<!-- #239 --><waypoint x="-6366" z="-3849" y="165">	</waypoint>
+	<!-- #240 --><waypoint x="-6253" z="-3852" y="153">	</waypoint>
+	<!-- #241 --><waypoint x="-6101" z="-3711" y="132">	</waypoint>
+	<!-- #242 --><waypoint x="-5891" z="-3382" y="134">	</waypoint>
+	<!-- #243 --><waypoint x="-5758" z="-3206" y="130">
+			trainCrab()
+	</waypoint>
+	<!-- #244 --><waypoint x="-5549" z="-3183" y="133">	</waypoint>
+	<!-- #245 --><waypoint x="-5352" z="-3194" y="136">	</waypoint>
+	<!-- #246 --><waypoint x="-5131" z="-3195" y="132">	</waypoint>
+	<!-- #247 --><waypoint x="-4885" z="-3202" y="131">	</waypoint>
+	<!-- #248 --><waypoint x="-4840" z="-3393" y="136">	</waypoint>
+	<!-- #249 --><waypoint x="-4893" z="-3705" y="117">
+			player:target_Object(117726) -- Bizarre Red Plant
+	</waypoint>
+	<!-- #250 --><waypoint x="-4932" z="-3899" y="110">
+			player:target_Object(117726) -- Bizarre Red Plant
+	</waypoint>
+	<!-- #251 --><waypoint x="-5118" z="-3973" y="129">
+			player:target_Object(117726) -- Bizarre Red Plant
+	</waypoint>
+	<!-- #252 --><waypoint x="-4896" z="-3716" y="114">
+			player:target_Object(117726) -- Bizarre Red Plant
+	</waypoint>
+	<!-- #253 --><waypoint x="-4931" z="-3899" y="110">
+			player:target_Object(117726) -- Bizarre Red Plant
+	</waypoint>
+	<!-- #254 --><waypoint x="-5061" z="-4013" y="127">	</waypoint>
+	<!-- #255 --><waypoint x="-5240" z="-4188" y="124">	</waypoint>
+	<!-- #256 --><waypoint x="-5339" z="-4323" y="140">	</waypoint>
+	<!-- #257 --><waypoint x="-5375" z="-4420" y="138">	</waypoint>
+	<!-- #258 --><waypoint x="-5527" z="-4467" y="144">	</waypoint>
+	<!-- #259 --><waypoint x="-5670" z="-4533" y="149">	</waypoint>
+	<!-- #260 --><waypoint x="-5709" z="-4684" y="142">	</waypoint>
+	<!-- #261 --><waypoint x="-5644" z="-4858" y="131">	</waypoint>
+	<!-- #262 --><waypoint x="-5702" z="-4924" y="134">	</waypoint>
+	<!-- #263 --><waypoint x="-5657" z="-5038" y="91">	</waypoint>
+	<!-- #264 --><waypoint x="-5537" z="-5031" y="91">	</waypoint>
+	<!-- #265 --><waypoint x="-5378" z="-4977" y="100">
+			player:target_NPC(117409) -- Fask Pino
+			SureAcceptQuest(423904) -- Endless Seafood Nightmare
+	</waypoint>
+	<!-- #266 --><waypoint x="-5602" z="-5118" y="91">	</waypoint>
+	<!-- #267 --><waypoint x="-5610" z="-5303" y="116" tag="Seafood">
+			killForQuest(false, 105149, 423904)
+	</waypoint>
+	<!-- #268 --><waypoint x="-5587" z="-5640" y="121">
+			killForQuest(false, 105149, 423904)
+	</waypoint>
+	<!-- #269 --><waypoint x="-5731" z="-5810" y="116">
+			killForQuest(false, 105149, 423904)
+	</waypoint>
+	<!-- #270 --><waypoint x="-5972" z="-5686" y="118">
+			killForQuest(false, 105149, 423904)
+	</waypoint>
+	<!-- #271 --><waypoint x="-5811" z="-5527" y="120">
+			killForQuest(false, 105149, 423904)
+	</waypoint>
+	<!-- #272 --><waypoint x="-5637" z="-5381" y="115">
+			if getQuestStatus(423904) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Seafood"))
+			end
+	</waypoint>
+	<!-- #273 --><waypoint x="-5607" z="-5133" y="91">	</waypoint>
+	<!-- #274 --><waypoint x="-5376" z="-4982" y="100">
+			player:target_NPC(117409) -- Fask Pino
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423904, 1) -- Endless Seafood Nightmare
+				inventory:update()
+				inventory:useItem(228170) -- Squad Belt
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(423904, 2) -- Endless Seafood Nightmare
+				inventory:update()
+				inventory:useItem(228171) -- Belt of Searching
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(423904, 3) -- Endless Seafood Nightmare
+				inventory:update()
+				inventory:useItem(228172) -- Belt of Location
+			end
+			yrest(3000)
+			player:target_NPC(117409) -- Fask Pino
+			SureAcceptQuest(423905) -- Unpredictable Allergen
+			player:mount()
+	</waypoint>
+	<!-- #275 --><waypoint x="-5640" z="-5036" y="91">	</waypoint>
+	<!-- #276 --><waypoint x="-5710" z="-4920" y="134">	</waypoint>
+	<!-- #277 --><waypoint x="-5735" z="-4783" y="135">	</waypoint>
+	<!-- #278 --><waypoint x="-5758" z="-4628" y="130">	</waypoint>
+	<!-- #279 --><waypoint x="-6092" z="-4295" y="133">	</waypoint>
+	<!-- #280 --><waypoint x="-6148" z="-4108" y="127">	</waypoint>
+	<!-- #281 --><waypoint x="-6200" z="-3913" y="149">	</waypoint>
+	<!-- #282 --><waypoint x="-6502" z="-3817" y="166">	</waypoint>
+	<!-- #283 --><waypoint x="-6531" z="-3730" y="172">
+			player:target_NPC(117383) -- Nake
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423970, 1) -- Fruit Eaten by Mistake
+				inventory:update()
+				inventory:useItem(228259) -- Boots of Soft Juicy Fruit
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(423970, 2) -- Fruit Eaten by Mistake
+				inventory:update()
+				inventory:useItem(228332) -- Leather Boots of Fruits and Oily Seeds
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(423970, 3) -- Fruit Eaten by Mistake
+				inventory:update()
+				inventory:useItem(228333) -- Battle Boots of Red Fruit
+			end
+	</waypoint>
+	<!-- #284 --><waypoint x="-6684" z="-3756" y="166">	</waypoint>
+	<!-- #285 --><waypoint x="-6833" z="-3877" y="167">	</waypoint>
+	<!-- #286 --><waypoint x="-7086" z="-4126" y="172">
+			player:target_NPC(117410) -- Hugope
+			ChoiceOptionByName(getTEXT("SC_423905_02")) -- 'Give me a bottle of anti-itch medicine'
+			ChoiceOptionByName(getTEXT("SC_423905_05")) -- 'Here's 400 gold.'
+	</waypoint>
+	<!-- #287 --><waypoint x="-6963" z="-4044" y="170">	</waypoint>
+	<!-- #288 --><waypoint x="-6757" z="-3798" y="167">	</waypoint>
+	<!-- #289 --><waypoint x="-6635" z="-3797" y="168">	</waypoint>
+	<!-- #290 --><waypoint x="-6404" z="-3844" y="165">	</waypoint>
+	<!-- #291 --><waypoint x="-6228" z="-3914" y="152">	</waypoint>
+	<!-- #292 --><waypoint x="-6158" z="-4033" y="128">	</waypoint>
+	<!-- #293 --><waypoint x="-6093" z="-4280" y="132">	</waypoint>
+	<!-- #294 --><waypoint x="-5801" z="-4624" y="132">	</waypoint>
+	<!-- #295 --><waypoint x="-5741" z="-4740" y="133">	</waypoint>
+	<!-- #296 --><waypoint x="-5715" z="-4914" y="134">	</waypoint>
+	<!-- #297 --><waypoint x="-5657" z="-5038" y="91">	</waypoint>
+	<!-- #298 --><waypoint x="-5381" z="-4987" y="99">
+			player:target_NPC(117409) -- Fask Pino
+			SureCompleteQuest(423905) -- Unpredictable Allergen
+	</waypoint>
+	<!-- #299 --><waypoint x="-5639" z="-5039" y="91">	</waypoint>
+	<!-- #300 --><waypoint x="-5707" z="-4912" y="134">	</waypoint>
+	<!-- #301 --><waypoint x="-5739" z="-4662" y="131">	</waypoint>
+	<!-- #302 --><waypoint x="-5863" z="-4518" y="132">	</waypoint>
+	<!-- #303 --><waypoint x="-6089" z="-4315" y="132">	</waypoint>
+	<!-- #304 --><waypoint x="-6153" z="-4102" y="127">	</waypoint>
+	<!-- #305 --><waypoint x="-6192" z="-3904" y="149">	</waypoint>
+	<!-- #306 --><waypoint x="-6460" z="-3834" y="166">	</waypoint>
+	<!-- #307 --><waypoint x="-6703" z="-3787" y="168">	</waypoint>
+	<!-- #308 --><waypoint x="-6985" z="-3883" y="168">	</waypoint>
+	<!-- #309 --><waypoint x="-7276" z="-3970" y="127">	</waypoint>
+	<!-- #310 --><waypoint x="-7522" z="-3936" y="137">	</waypoint>
+	<!-- #311 --><waypoint x="-7516" z="-3835" y="148">	</waypoint>
+	<!-- #312 --><waypoint x="-7437" z="-3829" y="148">
+			player:target_NPC(117289) -- Cheryl Heffner
+			SureCompleteQuest(423903, 2) -- Missing Team Member
+			-- Rewards: [1] Soft Leggings of the Ocean's Smell (228173), [2] Leg Guards of the Beast's Smell (228174)
+	</waypoint>
+	<!-- #313 --><waypoint x="-7509" z="-3789" y="148">	</waypoint>
+	<!-- #314 --><waypoint x="-7507" z="-3743" y="148">	</waypoint>
+	<!-- #315 --><waypoint x="-7445" z="-3735" y="154">
+			player:target_NPC(117288) -- Nala Heffner
+			SureCompleteQuest(423908) -- Pet Domestication Class
+			SureAcceptQuest(423909) -- Combat Effectiveness
+	</waypoint>
+	<!-- #316 --><waypoint x="-7509" z="-3741" y="148">	</waypoint>
+	<!-- #317 --><waypoint x="-7532" z="-3910" y="140">	</waypoint>
+	<!-- #318 --><waypoint x="-7588" z="-4098" y="127">	</waypoint>
+	<!-- #319 --><waypoint x="-7601" z="-4351" y="128">	</waypoint>
+	<!-- #320 --><waypoint x="-7707" z="-4457" y="121">	</waypoint>
+	<!-- #321 --><waypoint x="-7824" z="-4521" y="93">	</waypoint>
+	<!-- #322 --><waypoint x="-8078" z="-4445" y="93">	</waypoint>
+	<!-- #323 --><waypoint x="-8475" z="-4353" y="98">	</waypoint>
+	<!-- #324 --><waypoint x="-8664" z="-4414" y="64">	</waypoint>
+	<!-- #325 --><waypoint x="-8923" z="-4317" y="43">	</waypoint>
+	<!-- #326 --><waypoint x="-9045" z="-4215" y="17">
+			killForQuest(true, 105145, 423909)
+	</waypoint>
+	<!-- #327 --><waypoint x="-9233" z="-4196" y="13">
+			killForQuest(true, 105145, 423909)
+	</waypoint>
+	<!-- #328 --><waypoint x="-9356" z="-4112" y="25">
+			killForQuest(true, 105145, 423909)
+	</waypoint>
+	<!-- #329 --><waypoint x="-9503" z="-4176" y="17">
+			killForQuest(true, 105145, 423909)
+	</waypoint>
+	<!-- #330 --><waypoint x="-9620" z="-4176" y="15">
+			killForQuest(true, 105145, 423909)
+	</waypoint>
+	<!-- #331 --><waypoint x="-9382" z="-4109" y="24">	</waypoint>
+	<!-- #332 --><waypoint x="-9216" z="-4174" y="13">
+			killForQuest(true, 105145, 423909)
+	</waypoint>
+	<!-- #333 --><waypoint x="-8916" z="-4299" y="42">	</waypoint>
+	<!-- #334 --><waypoint x="-8648" z="-4536" y="84">	</waypoint>
+	<!-- #335 --><waypoint x="-8489" z="-4526" y="92">	</waypoint>
+	<!-- #336 --><waypoint x="-8067" z="-4559" y="89">	</waypoint>
+	<!-- #337 --><waypoint x="-7789" z="-4506" y="100">	</waypoint>
+	<!-- #338 --><waypoint x="-7613" z="-4396" y="128">	</waypoint>
+	<!-- #339 --><waypoint x="-7552" z="-3968" y="133">	</waypoint>
+	<!-- #340 --><waypoint x="-7504" z="-3741" y="148">	</waypoint>
+	<!-- #341 --><waypoint x="-7444" z="-3736" y="154">
+			player:target_NPC(117288) -- Nala Heffner
+			SureCompleteQuest(423909, 3) -- Combat Effectiveness
+			-- Rewards: [1] Cloth Coat of Principle Kinship (228155), [2] Pet Partner Breastplate (228156), [3] Chain Coat of Glorious Battles (228157), 
+	</waypoint>
+	<!-- #342 --><waypoint x="-7513" z="-3744" y="148">	</waypoint>
+	<!-- #343 --><waypoint x="-7539" z="-3931" y="138">	</waypoint>
+	<!-- #344 --><waypoint x="-7424" z="-3990" y="127">	</waypoint>
+	<!-- #345 --><waypoint x="-7178" z="-3940" y="134">	</waypoint>
+	<!-- #346 --><waypoint x="-6857" z="-3865" y="166">	</waypoint>
+	<!-- #347 --><waypoint x="-6888" z="-3663" y="173">	</waypoint>
+	<!-- #348 --><waypoint x="-6936" z="-3654" y="173">
+			player:target_NPC(117291) -- Nicole Rebecca
+			SureAcceptQuest(423863) -- Nicole's Small Blessing
+	</waypoint>
+	<!-- #349 --><waypoint x="-6863" z="-3674" y="173">	</waypoint>
+	<!-- #350 --><waypoint x="-6439" z="-3837" y="166">
+			player:target_NPC(117307) -- Emily Suahel
+			ChoiceOptionByName(getTEXT("SO_423863_1")) -- 'Excuse me. Do you have flower petals for making tea?'
+	</waypoint>
+	<!-- #351 --><waypoint x="-6240" z="-3903" y="153">	</waypoint>
+	<!-- #352 --><waypoint x="-6157" z="-4094" y="127">	</waypoint>
+	<!-- #353 --><waypoint x="-6099" z="-4330" y="131">	</waypoint>
+	<!-- #354 --><waypoint x="-6008" z="-4470" y="134">	</waypoint>
+	<!-- #355 --><waypoint x="-5853" z="-4599" y="135">	</waypoint>
+	<!-- #356 --><waypoint x="-5891" z="-4642" y="156">	</waypoint>
+	<!-- #357 --><waypoint x="-6066" z="-4674" y="185">	</waypoint>
+	<!-- #358 --><waypoint x="-6041" z="-4766" y="209">	</waypoint>
+	<!-- #359 --><waypoint x="-5940" z="-4894" y="234">
+			player:target_Object(117400) -- Hibiscus Varietal
+	</waypoint>
+	<!-- #360 --><waypoint x="-5935" z="-5021" y="234">
+			player:target_Object(117400) -- Hibiscus Varietal
+	</waypoint>
+	<!-- #361 --><waypoint x="-5881" z="-5219" y="245">
+			player:target_Object(117400) -- Hibiscus Varietal
+	</waypoint>
+	<!-- #362 --><waypoint x="-5936" z="-4902" y="234">	</waypoint>
+	<!-- #363 --><waypoint x="-6024" z="-4761" y="209">	</waypoint>
+	<!-- #364 --><waypoint x="-5995" z="-4556" y="167">	</waypoint>
+	<!-- #365 --><waypoint x="-6046" z="-4403" y="133">	</waypoint>
+	<!-- #366 --><waypoint x="-6128" z="-4227" y="132">	</waypoint>
+	<!-- #367 --><waypoint x="-6175" z="-3938" y="134">	</waypoint>
+	<!-- #368 --><waypoint x="-6307" z="-3878" y="160">	</waypoint>
+	<!-- #369 --><waypoint x="-6557" z="-3804" y="166">	</waypoint>
+	<!-- #370 --><waypoint x="-6934" z="-3649" y="172">
+			player:target_NPC(117291) -- Nicole Rebecca
+			SureCompleteQuest(423863, 3) -- Nicole's Small Blessing
+			-- Rewards: [1] Belt of Fragrant Flowers (228306), [2] Belt of Leisure Time (228307), [3] Belt of Tea Time Atmosphere (228308), 
+	</waypoint>
+	<!-- #371 --><waypoint x="-6897" z="-3668" y="173">	</waypoint>
+	<!-- #372 --><waypoint x="-6897" z="-3820" y="171">	</waypoint>
+	<!-- #373 --><waypoint x="-7008" z="-3883" y="166">	</waypoint>
+	<!-- #374 --><waypoint x="-7333" z="-3977" y="127">	</waypoint>
+	<!-- #375 --><waypoint x="-7520" z="-3948" y="135">	</waypoint>
+	<!-- #376 --><waypoint x="-7507" z="-3742" y="148">	</waypoint>
+	<!-- #377 --><waypoint x="-7447" z="-3735" y="154">
+			player:target_NPC(117288) -- Nala Heffner
+			SureAcceptQuest(423956) -- Heffner's Awkward Situation
+			SureCompleteQuest(423956) -- Heffner's Awkward Situation
+			SureAcceptQuest(423895) -- Visit The Heart of Nature
+	</waypoint>
+	<!-- #378 --><waypoint x="-7503" z="-3736" y="148">	</waypoint>
+	<!-- #379 --><waypoint x="-7494" z="-3816" y="150">	</waypoint>
+	<!-- #380 --><waypoint x="-7442" z="-3828" y="148">
+			player:target_NPC(117289) -- Cheryl Heffner
+			SureAcceptQuest(423896) -- Four Legs Run Fast
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(423896, 1) -- Four Legs Run Fast
+				inventory:update()
+				inventory:useItem(228140) -- Ring of Nature's Source
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(423896, 2) -- Four Legs Run Fast
+				inventory:update()
+				inventory:useItem(228444) -- Ring of Earth's Intimacy
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_WARDEN or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(423970, 3) -- Fruit Eaten by Mistake
+				inventory:update()
+				inventory:useItem(228445) -- Ring of Earth's Stability
+			elseif player.Class1 ==  CLASS_KNIGHT then
+				SureCompleteQuest(423970, 4) -- Fruit Eaten by Mistake
+				inventory:update()
+				inventory:useItem(228446) -- Unmoving Rock Ring
+			end
+	</waypoint>
+	<!-- #381 --><waypoint x="-7519" z="-3860" y="147">	</waypoint>
+	<!-- #382 --><waypoint x="-7483" z="-3968" y="130">	</waypoint>
+	<!-- #383 --><waypoint x="-7207" z="-3947" y="131">	</waypoint>
+	<!-- #384 --><waypoint x="-7028" z="-3924" y="161">	</waypoint>
+	<!-- #385 --><waypoint x="-6992" z="-4104" y="171">	</waypoint>
+	<!-- #386 --><waypoint x="-7113" z="-4500" y="177">
+			player:target_NPC(117294) -- Feideli Child
+			SureAcceptQuest(423824) -- Sister's New Lute
+	</waypoint>
+	<!-- #387 --><waypoint x="-7017" z="-4218" y="170">	</waypoint>
+	<!-- #388 --><waypoint x="-6781" z="-3804" y="166">	</waypoint>
+	<!-- #389 --><waypoint x="-6605" z="-3813" y="169">	</waypoint>
+	<!-- #390 --><waypoint x="-6279" z="-3852" y="158">	</waypoint>
+	<!-- #391 --><waypoint x="-6122" z="-3735" y="134">	</waypoint>
+	<!-- #392 --><waypoint x="-5989" z="-3570" y="130">	</waypoint>
+	<!-- #393 --><waypoint x="-5714" z="-3404" y="130">	</waypoint>
+	<!-- #394 --><waypoint x="-5530" z="-3275" y="134">	</waypoint>
+	<!-- #395 --><waypoint x="-5184" z="-3140" y="131">	</waypoint>
+	<!-- #396 --><waypoint x="-4915" z="-3115" y="132">	</waypoint>
+	<!-- #397 --><waypoint x="-4440" z="-3129" y="130">	</waypoint>
+	<!-- #398 --><waypoint x="-4168" z="-3132" y="143">
+			error("Waypoint File Complete",0)
+	</waypoint>
+</waypoints>
+

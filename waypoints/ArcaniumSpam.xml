@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+<onLoad>
+
+--[v1.1]--
+
+--====== User Options ======--
+
+	local runtimelimit = nil	-- limits the script run in minutes. if set to nil, then the script runs non-stop.
+
+
+	local printonwindow = true     -- anything other than true or "true" will set it to false. Will print info on MM window name if set to true.
+
+
+	local autobuy = false		-- anything other than true or "true" will set it to false. Will auto-buy gear you specify below for you.
+
+
+	local geartobuy = {}		-- geartobuy is the gear you want the script to autobuy. It should be a table, 1st element should be the price of the item you want in gold, 2nd element is the price in badges, 3rd is the choice option number you want to click on the first store window, and the 4th is the index number of the item you want to buy. Of course you'll have to be near Arcanium merchant for this to work.
+					-- Example: for the lowest priced plate worth 600 badges,
+					-- you would have to set geartobuy to {14000, 600, 1, 8}
+
+
+	local whendone = "logout"         -- options are "logout" to log out the character but leave the game client open, "exit" to logout and close the game client, "end" to end script, "lognext" to log in the next character in the account, "charlist" to log next character in 'CharList', "function" to execute your custom function named customFunction() below, "standby" to put the character on standby (player:sleep()), or "wp_filename" which as the name suggests, is the filename of the waypoint you want to load after this script ends. Note that there is no need to include the file extension .xml, just the name of the wp file is fine. This defaults to "end" when set to nil.
+
+
+	local function customFunction()
+		-- put your endscript code here
+	end
+
+	
+	CharList = {
+	
+	}
+		-- To use the "lognext" or "charlist" options above, you will need to go to
+		-- http://www.solarstrike.net/phpBB3/viewtopic.php?p=10350 and download the
+		-- necessary files there. Below is an example of how to use Charlist above:
+		-- 
+		--		CharList = {
+		--			{account=6,chars={}},
+		--			{account=9,chars={2}},
+		--			{account=8,chars={2,3,8}}
+		--		}
+
+
+--==========================--
+
+
+player:update()
+yrest(500)
+loadProfile()
+yrest(500)
+
+local scriptstarttime = os.time()
+local runtimelimit = tonumber(runtimelimit)
+local endscript = false
+local pname, arenastarttime, arenaruntime, runtimehrs, runtimemins, runtimesecs, avg
+
+
+function toboolean(input)
+	return (type(input) == "string" and input == "true") or (type(input) == "boolean" and input == true)
+end
+
+
+printonwindow = toboolean(printonwindow)
+autobuy = toboolean(autobuy)
+
+function getbadges(arg)
+	local amount, limit = RoMScript('GetPlayerPointInfo(3,3,"")')
+	if arg == "max" then
+		return limit
+	end
+	return amount or 0
+end
+
+
+local startingbadges = getbadges()
+
+
+function earnedbadges()
+	return getbadges() - startingbadges
+end
+
+
+function printOnWindow()
+	if printonwindow and memoryReadBytePtr(getProc(),addresses.loadingScreenPtr, addresses.loadingScreen_offset) == 0 then
+		pname = player.Name or ""
+		pname = pname:gsub("^%w+-", "")
+		if pname and #pname > 8 then
+			pname = "["..pname:sub(1, 7).."*]";
+		end
+		if arenastarttime then arenaruntime = string.format("%0.1f", (os.time() - arenastarttime)/60).."m" else arenaruntime = "Queued" end
+		runtimehrs = math.floor((os.time()-scriptstarttime)/3600)
+		runtimemins = math.floor((os.time()-scriptstarttime)/60) % 60
+		runtimesecs = math.floor(os.time()-scriptstarttime) % 60
+		avg = string.format("%0.1f", earnedbadges() / ((os.time()-scriptstarttime)/60))
+		setWindowName(getHwnd(),sprintf("%s Script: %sh%sm%ss Arena: %s BotW: %s Earned: %s Avg/Min: %s", pname, runtimehrs, runtimemins, runtimesecs, arenaruntime, getbadges(), earnedbadges(), avg))
+	end
+end
+
+
+printOnWindow()
+
+EventMonitorStart("Sysmsg", "SYSTEM_MESSAGE")
+
+
+function battle(arg)
+	local battlebegins = getTEXT("BG_AA_PREPARE04")
+	local battleisover = getTEXT("BG_AA_END")
+	local time, _, msg = EventMonitorCheck("Sysmsg", "1")
+	if (arg == "begins" and msg and msg:find(battlebegins)) or (arg == "isover" and msg and msg:find(battleisover)) then
+		return true
+	end
+	return false
+end
+
+
+function autoBuy()
+	inventory:update()
+	yrest(100)
+	if autobuy and #geartobuy == 4 and inventory.Money >= geartobuy[1] and getbadges() >= geartobuy[2] and inventory:itemTotalCount(0) > 0 then
+		local jack = player:findNearestNameOrId(121440)  -- Jack Ykes
+		if jack then
+			player:target_NPC(jack.Id)
+			yrest(1000)
+			sendMacro("ChoiceOption("..geartobuy[3]..")")
+			yrest(1000)
+			sendMacro("StoreBuyItem(" .. geartobuy[4] .. ")")
+		else
+			print("Could Not Find Jack Ykes.")
+		end	
+	end		
+end
+
+
+function endScript()
+
+	EventMonitorStop("Sysmsg")
+	
+	unregisterTimer("windowprints")
+		
+	local filename = getExecutionPath() .. "/logs/ArcaniumSpam.log";
+	local file, err = io.open(filename, "a+");
+	local servername = RoMScript("GetCurrentRealm()") or ""
+	runtimehrs, runtimemins, runtimesecs, avg = runtimehrs or 0, runtimemins or 0, runtimesecs or 0, avg or 0
+
+	if file then
+		file:write("Acc: "..RoMScript("GetAccountName()").."     Name: "..string.format("%-10s",player.Name ).."     Server: "..servername.."     Date: "..os.date().."     Runtime: "..runtimehrs.."h "..runtimemins.."m "..runtimesecs.."s".."     Badges: "..getbadges().."     Badges Earned: "..earnedbadges().."     Avg/hr: "..avg.."\n")
+		file:close();
+	end
+	
+	if whendone == "logout" then
+		player:logout()
+	elseif whendone == "exit" then
+		player:logout(false, true)
+	elseif whendone == "end" then
+		error("Ending Script.",0)
+	elseif whendone == "lognext" then
+		ChangeChar()
+		yrest(3000)
+		loadPaths(__WPL.FileName);
+	elseif whendone == "charlist" then
+		LoginNextChar()
+		yrest(3000)
+		loadPaths(__WPL.FileName);
+	elseif whendone == "function" then
+		customFunction()
+	elseif whendone == "standby" then
+		player:sleep()
+	else
+		loadProfile()
+		loadPaths(whendone)
+	end
+
+end
+
+
+while getbadges("max") > getbadges() and not endscript do
+	
+	if not inBG("aa") then
+		if printonwindow then
+			registerTimer("windowprints", 6000, printOnWindow)
+		end
+
+		autoBuy()
+		
+		yrest(2000)
+
+		joinBG("aa", 60)
+	end
+
+	yrest(2000)
+
+	if inBG("aa") then
+		if printonwindow then
+			unregisterTimer("windowprints")
+		end
+
+		arenastarttime = os.time()
+
+		repeat
+			printOnWindow()
+			yrest(6000)
+		until battle("isover") or RoMScript("BattleGroundStatusFrame:IsVisible()") or not inBG("aa")
+
+		arenastarttime = nil
+
+		yrest(2000)
+
+		leaveBG(30)
+
+		repeat
+			yrest(1000)
+			printf("\rWaiting until out of Battleground.")
+		until not inBG("aa")
+
+		print("")
+		
+	end	
+
+	if runtimelimit and ((os.time()-scriptstarttime)/60) >= runtimelimit then
+		cprintf(cli.yellow,"Exceeded the set runtime limit. Ending script.\n")
+		endscript = true
+	end
+
+end
+
+if getbadges() >= getbadges("max") then
+	cprintf(cli.yellow,"\nThe char has acquired the maximum amount of Badges.\n\n")
+	if inBG("aa") then
+		leaveBG(30)
+		repeat
+			yrest(1000)
+		until not inBG("aa")	
+	end	 
+end
+
+endScript()
+
+</onLoad>
+
+</waypoints>

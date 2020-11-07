@@ -1,0 +1,15 @@
+This series of multiple waypoint files will complete all of the quests in the Howling Mountains zone. 
+
+New human characters should use the first set of files to complete the quests available to single classed characters. 
+At the end of this series you will be in the Varanas Class Hall where you can choose your second class.
+	HM_01_SingleClassHuman
+
+After choosing your second class as a human, you can then run the following files to take you back to Howling Mountains and finish the zone.
+This part of the quest series starts in the Varanas Class Hall after you've picked your secondary class.
+	HM_04_TravelToPioneer
+	HM_02_DualClassHuman
+
+For Elf and Dwarf characters that are using Howling Mountains to level their second class, use the following files to complete the entire zone in one session.
+This part of the quest series starts in the Varanas Class Hall after you've picked your secondary class.
+	HM_04_TravelToPioneer
+	HM_03_FullZoneElfDwarf

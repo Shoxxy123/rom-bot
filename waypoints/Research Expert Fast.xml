@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+<onLoad>
+	
+	function doquest()
+		player:target_NPC(123561) -- Jenn Shadoli
+		AcceptQuestByName("Research Expert") -- Research Expert
+		yrest(20)
+			player:target_Object(123369) -- Yellow Liquid
+			yrest(20)
+			player:target_Object(123368) -- Flask
+			yrest(20)
+			player:target_Object(123508) -- Cloudy Liquid
+		yrest(20)
+		player:target_NPC(123561) -- Jenn Shadoli
+		yrest(20)
+		CompleteQuestByName("Research Expert") -- Research Expert
+	end
+		
+
+
+	while (true) do
+		doquest()
+		local dqCount, dqPerDay = RoMScript("Daily_count()");
+		yrest(80)
+		if dqCount == 10 then
+			if inventory:itemTotalCount(202434) >= 1 then
+				inventory:useItem(202434);
+				yrest(1000)
+			else
+				printf("No Daily Reset Cards left!\n")
+				player:sleep();      
+			end	
+		end
+	end
+
+</onLoad>
+</waypoints>

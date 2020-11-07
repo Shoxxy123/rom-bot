@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+<onLoad>
+-- bags 104529/123978
+-- ruins zone is 219
+   local zone = getZoneId()
+ print("zone = ", zone)
+   if zone == 219 then
+		print("right", zone)
+   else 
+		error("You need to be in mirror to start")
+   end
+
+sendMacro('SetFindPartyState(false)') 
+changeProfileOption("MAX_TARGET_DIST", 100)
+
+function chkzone()
+	if zone ~= 219 then
+		error("You are no longer in mirror")
+	end
+end
+
+
+
+</onLoad>
+	<!-- # 39 --><waypoint x="-1391" z="1374" y="592">		 chkzone() </waypoint>
+	<!-- # 38 --><waypoint x="-1343" z="1370" y="592">	 chkzone() </waypoint>
+	<!-- # 37 --><waypoint x="-1625" z="1376">	yrest(1000) chkzone() </waypoint>
+	<!-- # 36 --><waypoint x="-2001" z="1377" y="786">	 chkzone() </waypoint>
+	<!-- # 35 --><waypoint x="-2001" z="1377" y="786">	 chkzone() </waypoint>
+	<!-- # 34 --><waypoint x="-1999" z="1840" y="786">	 chkzone() </waypoint>
+	<!-- # 33 --><waypoint x="-1999" z="1840" y="786">	 chkzone() </waypoint>
+	<!-- # 32 --><waypoint x="-1329" z="1830" y="786">	 chkzone() </waypoint>
+	<!-- # 31 --><waypoint x="-1554" z="1839" y="786">	 chkzone() </waypoint>
+	<!-- # 30 --><waypoint x="-1554" z="1839" y="786">	 chkzone() </waypoint>
+	<!-- # 29 --><waypoint x="-1551" z="1372" y="786">	 chkzone() </waypoint>
+	<!-- # 28 --><waypoint x="-1551" z="1372" y="786">	 chkzone() </waypoint>
+	<!-- # 27 --><waypoint x="-1349" z="1367" y="786">	 chkzone() </waypoint>
+	<!-- # 26 --><waypoint x="-1349" z="1367" y="786">	 chkzone() </waypoint>
+	<!-- # 25 --><waypoint x="-1361" z="1272" y="785">	 chkzone() </waypoint>
+	<!-- # 24 --><waypoint x="-1361" z="1272" y="785">	 chkzone() </waypoint>
+	<!-- # 23 --><waypoint x="-1392" z="1141" y="785">	 chkzone() </waypoint>
+	<!-- # 22 --><waypoint x="-1344" z="1058" y="785">	 chkzone() </waypoint>
+	<!-- # 21 --><waypoint x="-1792" z="1088" y="785">	 chkzone() </waypoint>
+	<!-- # 20 --><waypoint x="-1788" z="946" y="785">	 chkzone() </waypoint>
+	<!-- # 19 --><waypoint x="-1788" z="946" y="785">	 chkzone() </waypoint>
+	<!-- # 18 --><waypoint x="-1791" z="749" y="786">	 chkzone() </waypoint>
+	<!-- # 17 --><waypoint x="-1791" z="749" y="786">	 chkzone() </waypoint>
+	<!-- # 16 --><waypoint x="-2226" z="803" y="786">	 chkzone() </waypoint>
+	<!-- # 15 --><waypoint x="-2226" z="803" y="786">	 chkzone() </waypoint>
+	<!-- # 14 --><waypoint x="-2244" z="611" y="786">	 chkzone() </waypoint>
+	<!-- # 13 --><waypoint x="-2244" z="611" y="786">	 chkzone() </waypoint>
+	<!-- # 12 --><waypoint x="-1982" z="609" y="709">	 chkzone() </waypoint>
+	<!-- #  11 --><waypoint x="-1715" z="610" y="638" type="RUN">	 chkzone() </waypoint>
+	<!-- #  10 --><waypoint x="-1715" z="610" y="638" type="RUN">	 chkzone() </waypoint>
+	<!-- #  9 --><waypoint x="-1726" z="529" y="638">	 chkzone() </waypoint>
+	<!-- #  8 --><waypoint x="-2194" z="544" y="473" type="RUN">	 chkzone() </waypoint>
+	<!-- #  7 --><waypoint x="-2253" z="519" y="466" type="RUN">	 chkzone() </waypoint>
+	<!-- #  6 --><waypoint x="-2253" z="519" y="466" type="RUN">	 chkzone() </waypoint>
+	<!-- #  5 --><waypoint x="-2211" z="343" y="466" type="RUN">	 chkzone() </waypoint>
+	<!-- #  4 --><waypoint x="-1783" z="450" y="466">	 chkzone() </waypoint>
+	<!-- #  3 --><waypoint x="-1986" z="449" y="466">	 chkzone() </waypoint>
+	<!-- #  2 --><waypoint x="-1988" z="247" y="469">	 chkzone() </waypoint>
+	<!-- #  1 --><waypoint x="-1976" z="-265" y="466"> 
+	error("done at end")
+	player:sleep()
+	 chkzone() </waypoint>
+</waypoints>	
+
+
+

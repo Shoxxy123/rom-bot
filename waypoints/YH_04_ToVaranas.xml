@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+	<!-- 	Yrvandis Hollows v1.35 by Bill D. Cat -->
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Yrvandis Hollows quest series. -->
+	<!--	Required userfunctions: userfunction_teleport, userfunction_gotoportal and userfunction_questHelpers -->
+	<!--	YH_04_ToVaranas will take your character to the Varanas Class Hall after you have picked your second class. -->
+	<!--	Approximate Runtime: 5 Minutes -->
+	<onload>
+			if player.Class2 == -1 then -- No second class
+				error("Pick a second class before running this waypoint.",0)
+			end
+			if not __WPL.ResumePoint then
+				__WPL:setWaypointIndex(1)
+			end
+	</onload>
+	<!-- #  1 --><waypoint x="182" z="71" y="1563">
+			player:mount()
+	</waypoint>
+	<!-- #  2 --><waypoint x="259" z="-108" y="1561">	</waypoint>
+	<!-- #  3 --><waypoint x="482" z="-317" y="1561">	</waypoint>
+	<!-- #  4 --><waypoint x="619" z="-360" y="1561">	</waypoint>
+	<!-- #  5 --><waypoint x="739" z="-393" y="1561">	</waypoint>
+	<!-- #  6 --><waypoint x="756" z="-579" y="1561">	</waypoint>
+	<!-- #  7 --><waypoint x="792" z="-766" y="1561">	</waypoint>
+	<!-- #  8 --><waypoint x="914" z="-783" y="1561">	</waypoint>
+	<!-- #  9 --><waypoint x="1050" z="-798" y="1560">	</waypoint>
+	<!-- # 10 --><waypoint x="1282" z="-910" y="1562">	</waypoint>
+	<!-- # 11 --><waypoint x="1470" z="-910" y="1560">	</waypoint>
+	<!-- # 12 --><waypoint x="1756" z="-788" y="1560">	</waypoint>
+	<!-- # 13 --><waypoint x="1888" z="-773" y="1561">	</waypoint>
+	<!-- # 14 --><waypoint x="1932" z="-720" y="1561">	</waypoint>
+	<!-- # 15 --><waypoint x="1936" z="-565" y="1561">	</waypoint>
+	<!-- # 16 --><waypoint x="1953" z="-406" y="1561">	</waypoint>
+	<!-- # 17 --><waypoint x="1997" z="-359" y="1561">	</waypoint>
+	<!-- # 18 --><waypoint x="2201" z="-359" y="1561">	</waypoint>
+	<!-- # 19 --><waypoint x="2252" z="-393" y="1558">
+			player:target_NPC(119885) -- Snoop the Stubborn
+			ChoiceOptionByName(getTEXT("ARROW_VARANAS")) -- 'To Varanas'
+			waitForLoadingScreen(5)
+			player:rest(3);
+			player:update();
+	</waypoint>
+	<!-- # 20 --><waypoint x="2297" z="1153" y="-1">
+			player:target_NPC(122115) -- Snoop the Stubborn
+			ChoiceOptionByName(getTEXT("HOUSE_MAID_LEAVE_TALK")) -- 'Leave conversation'
+			yrest(3000)
+			travelTo("VaranasClassHall")
+	</waypoint>
+	<!-- # 21 --><waypoint x="5289" z="-3930" y="60">	</waypoint>
+	<!-- # 22 --><waypoint x="5230" z="-4020" y="60">	</waypoint>
+	<!-- # 23 --><waypoint x="5409" z="-4164" y="65">	</waypoint>
+	<!-- # 24 --><waypoint x="5500" z="-4237" y="61">
+			player:target_NPC(110167) -- Daris
+			SureCompleteQuest(425189) -- Silvershadow Invitation
+			error("All Dwarven quests complete. Welcome to Varanas!",0)
+	</waypoint>
+</waypoints>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Howling Mountains quest series for secondary classed characters. -->
+	<!--	Required userfunctions: userfunction_questHelpers userfunction_travelTo-->
+	<!--	HM_04_TravelToPioneer will take you back to Pioneer's Colony to complete quests Howling Mountains. -->
+	<!--	Version 2.02 -->
+	<onload>
+			if player.Class2 == -1 then -- No second class
+				error("Pick a second class before running this waypoint.",0)
+			end
+			if not __WPL.ResumePoint then
+				local _NPC = player:findNearestNameOrId(110167) -- Find Daris in Class Hall for reference.
+				if not (_NPC and 100 > distance(_NPC, player)) then
+					error("Not in Varanas Class Hall!",0)
+				end
+				__WPL:setWaypointIndex(1)
+			end
+	</onload>
+	<!-- #  1 --><waypoint x="5506" z="-4242" y="77">
+			if player.Level > 9 and player.Level2 == 1 then -- Player has picked second class, but has not switched Primary/Secondary classes yet.
+				player:target_NPC(110581)
+				swapClass()
+				RoMCode("SwapEquipmentItem(1)")
+				player:merchant(112734) -- Sell off junk items
+			end
+			if player.Race == 2 then -- Dwarven characters do not get default equipment when picking second class.
+				player:openStore(112734) -- Buy starter gear for second class
+				if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_WARLOCK then
+					store:buyItem(204452,1) -- Mage's Basic Equipment
+					inventory:update()
+					RoMScript("StoreFrame:Hide()")
+					inventory:useItem(204452)
+					yrest(3000)
+					inventory:update()
+					inventory:useItem(221262) -- Apprentice Robe
+					inventory:useItem(221263) -- Apprentice Trousers
+					inventory:useItem(221264) -- Apprentice Boots
+					inventory:useItem(210224) -- Novice Short Wand
+				elseif player.Class1 == CLASS_PRIEST then
+					store:buyItem(204453,1) -- Priest's Basic Equipment
+					inventory:update()
+					RoMScript("StoreFrame:Hide()")
+					inventory:useItem(204453)
+					yrest(3000)
+					inventory:update()
+					inventory:useItem(220346) -- Traveler's Robe
+					inventory:useItem(220408) -- Traveler's Leggings
+					inventory:useItem(220467) -- Soft Traveler's Boots
+					inventory:useItem(210224) -- Novice Short Wand
+					inventory:useItem(220769) -- Shabby Wooden Shield
+				elseif player.Class1 == CLASS_ROGUE then
+					store:buyItem(204451,1) -- Rogue's Basic Equipment (has cloth armor, we only want the weapons)
+					store:buyItem(204449,1) -- Warrior's Basic Equipment (has leather armor)
+					inventory:update()
+					RoMScript("StoreFrame:Hide()")
+					inventory:useItem(204449)
+					yrest(3000)
+					inventory:update()
+					inventory:useItem(204451)
+					yrest(3000)
+					inventory:update()
+					inventory:useItem(221273) -- Apprentice Leather Armor
+					inventory:useItem(221274) -- Apprentice Leather Trousers
+					inventory:useItem(221275) -- Apprentice Long Boots
+					inventory:useItem(210110) -- Defensive Knife
+					inventory:useItem(210032) -- Stone Fragment
+				elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+					store:buyItem(204454,1) -- Knight's Basic Equipment (has chain armor)
+					inventory:update()
+					RoMScript("StoreFrame:Hide()")
+					inventory:useItem(204454)
+					yrest(3000)
+					inventory:update()
+					inventory:useItem(221265) -- Apprentice Chainmail
+					inventory:useItem(221266) -- Apprentice Leg Guards
+					inventory:useItem(221267) -- Apprentice Boots
+					inventory:useItem(210081) -- Pioneers Hunting Scimitar
+					if player.Class1 == CLASS_WARRIOR then
+						inventory:useItem(220769) -- Shabby Wooden Shield
+					end
+				end
+			end
+			RoMCode("BagFrame:Hide()")
+			player:mount()
+	</waypoint>
+	<!-- #  2 --><waypoint x="5441" z="-4239" y="77">	</waypoint>
+	<!-- #  3 --><waypoint x="5363" z="-4175" y="82">	</waypoint>
+	<!-- #  4 --><waypoint x="5263" z="-4054" y="82">	</waypoint>
+	<!-- #  5 --><waypoint x="5230" z="-4004" y="76">	</waypoint>
+	<!-- #  6 --><waypoint x="5297" z="-3940" y="76">	</waypoint>
+	<!-- #  7 --><waypoint x="5270" z="-3904" y="76">
+			travelTo("VaranasBridge")
+	</waypoint>
+	<!-- #  8 --><waypoint x="2543" z="1059" y="51">	</waypoint>
+	<!-- #  9 --><waypoint x="2332" z="1148" y="21">
+			player:target_NPC(122115) -- Snoop the Stubborn -- Make sure the transport location is unlocked for future use.
+			ChoiceOptionByName(getTEXT("HOUSE_MAID_LEAVE_TALK")) -- 'Leave conversation'
+	</waypoint>
+	<!-- # 10 --><waypoint x="2150" z="1179" y="3">	</waypoint>
+	<!-- # 11 --><waypoint x="1992" z="1153" y="1">	</waypoint>
+	<!-- # 12 --><waypoint x="1798" z="1118" y="4">	</waypoint>
+	<!-- # 13 --><waypoint x="1695" z="1135" y="15">	</waypoint>
+	<!-- # 14 --><waypoint x="1525" z="1193" y="31">	</waypoint>
+	<!-- # 15 --><waypoint x="1388" z="1219" y="34">	</waypoint>
+	<!-- # 16 --><waypoint x="1201" z="1222" y="24">	</waypoint>
+	<!-- # 17 --><waypoint x="1093" z="1190" y="23">	</waypoint>
+	<!-- # 18 --><waypoint x="1059" z="1078" y="25">	</waypoint>
+	<!-- # 19 --><waypoint x="1036" z="927" y="35">	</waypoint>
+	<!-- # 20 --><waypoint x="972" z="761" y="56">	</waypoint>
+	<!-- # 21 --><waypoint x="925" z="575" y="67">	</waypoint>
+	<!-- # 22 --><waypoint x="870" z="319" y="28">	</waypoint>
+	<!-- # 23 --><waypoint x="859" z="178" y="32">	</waypoint>
+	<!-- # 24 --><waypoint x="854" z="5" y="41">	</waypoint>
+	<!-- # 25 --><waypoint x="822" z="-149" y="34">	</waypoint>
+	<!-- # 26 --><waypoint x="764" z="-258" y="35">	</waypoint>
+	<!-- # 27 --><waypoint x="655" z="-374" y="36">	</waypoint>
+	<!-- # 28 --><waypoint x="595" z="-490" y="42">	</waypoint>
+	<!-- # 29 --><waypoint x="533" z="-656" y="42">	</waypoint>
+	<!-- # 30 --><waypoint x="420" z="-779" y="39">	</waypoint>
+	<!-- # 31 --><waypoint x="283" z="-938" y="29">	</waypoint>
+	<!-- # 32 --><waypoint x="209" z="-1076" y="30">	</waypoint>
+	<!-- # 33 --><waypoint x="92" z="-1199" y="34">	</waypoint>
+	<!-- # 34 --><waypoint x="-55" z="-1309" y="13">	</waypoint>
+	<!-- # 35 --><waypoint x="-204" z="-1391" y="3">	</waypoint>
+	<!-- # 36 --><waypoint x="-362" z="-1445" y="-18">	</waypoint>
+	<!-- # 37 --><waypoint x="-465" z="-1510" y="-32">	</waypoint>
+	<!-- # 38 --><waypoint x="-558" z="-1604" y="-38">	</waypoint>
+	<!-- # 39 --><waypoint x="-620" z="-1719" y="-42">	</waypoint>
+	<!-- # 40 --><waypoint x="-640" z="-1837" y="-43">	</waypoint>
+	<!-- # 41 --><waypoint x="-624" z="-2012" y="-48">	</waypoint>
+	<!-- # 42 --><waypoint x="-599" z="-2170" y="-39">	</waypoint>
+	<!-- # 43 --><waypoint x="-588" z="-2330" y="-52">	</waypoint>
+	<!-- # 44 --><waypoint x="-582" z="-2524" y="-52">	</waypoint>
+	<!-- # 45 --><waypoint x="-582" z="-2722" y="-39">	</waypoint>
+	<!-- # 46 --><waypoint x="-567" z="-2890" y="-34">	</waypoint>
+	<!-- # 47 --><waypoint x="-538" z="-3060" y="-23">	</waypoint>
+	<!-- # 48 --><waypoint x="-498" z="-3254" y="-9">	</waypoint>
+	<!-- # 49 --><waypoint x="-486" z="-3395" y="-2">	</waypoint>
+	<!-- # 50 --><waypoint x="-507" z="-3498" y="2">	</waypoint>
+	<!-- # 51 --><waypoint x="-579" z="-3646" y="10">	</waypoint>
+	<!-- # 52 --><waypoint x="-681" z="-3756" y="17">	</waypoint>
+	<!-- # 53 --><waypoint x="-806" z="-3903" y="6">	</waypoint>
+	<!-- # 54 --><waypoint x="-908" z="-3996" y="7">	</waypoint>
+	<!-- # 55 --><waypoint x="-1048" z="-4082" y="17">	</waypoint>
+	<!-- # 56 --><waypoint x="-1168" z="-4196" y="10">	</waypoint>
+	<!-- # 57 --><waypoint x="-1302" z="-4330" y="-1">	</waypoint>
+	<!-- # 58 --><waypoint x="-1350" z="-4435" y="-13">	</waypoint>
+	<!-- # 59 --><waypoint x="-1372" z="-4564" y="-19">	</waypoint>
+	<!-- # 60 --><waypoint x="-1414" z="-4676" y="-22">	</waypoint>
+	<!-- # 61 --><waypoint x="-1484" z="-4860" y="-12">	</waypoint>
+	<!-- # 62 --><waypoint x="-1475" z="-4984" y="-9">	</waypoint>
+	<!-- # 63 --><waypoint x="-1428" z="-5107" y="0">	</waypoint>
+	<!-- # 64 --><waypoint x="-1368" z="-5173" y="3">	</waypoint>
+	<!-- # 65 --><waypoint x="-1295" z="-5213" y="8">	</waypoint>
+	<!-- # 66 --><waypoint x="-1129" z="-5291" y="13">	</waypoint>
+	<!-- # 67 --><waypoint x="-1071" z="-5374" y="12">	</waypoint>
+	<!-- # 68 --><waypoint x="-1057" z="-5456" y="25">	</waypoint>
+	<!-- # 69 --><waypoint x="-1079" z="-5510" y="37">	</waypoint>
+	<!-- # 70 --><waypoint x="-1155" z="-5539" y="51">
+			player:target_NPC(111256) -- Snoop the Stubborn -- Make sure the transport location is unlocked for future use.
+			ChoiceOptionByName(getTEXT("HOUSE_MAID_LEAVE_TALK")) -- 'Leave conversation'
+	</waypoint>
+	<!-- # 71 --><waypoint x="-1175" z="-5672" y="60">	</waypoint>
+	<!-- # 72 --><waypoint x="-1183" z="-5804" y="60">	</waypoint>
+	<!-- # 73 --><waypoint x="-1090" z="-5965" y="53">	</waypoint>
+	<!-- # 74 --><waypoint x="-1003" z="-5970" y="49">	</waypoint>
+	<!-- # 75 --><waypoint x="-862" z="-5963" y="50">	</waypoint>
+	<!-- # 76 --><waypoint x="-716" z="-5975" y="46">	</waypoint>
+	<!-- # 77 --><waypoint x="-609" z="-5997" y="42">
+			if not player.Mounted then
+				player:mount()
+			end
+			if not player.Mounted then -- Did not have a usable mount, so let's rent one.
+				player:target_NPC(110782) -- Tex
+				ChoiceOptionByName(getTEXT("SO_MOUNTH_SHOP_AA")) -- 'Long term rent of a brown horse'
+				local acceptCost = RoMScript("StaticPopup_Visible('SET_REQUESTDIALOG')")
+				if acceptCost then
+					RoMScript("StaticPopup_EnterPressed("..acceptCost..");")
+				end
+				yrest(2000)
+				inventory:update()
+				player:mount()
+			end
+	</waypoint>
+	<!-- # 78 --><waypoint x="-512" z="-6050" y="38">	</waypoint>
+	<!-- # 79 --><waypoint x="-435" z="-6137" y="28">	</waypoint>
+	<!-- # 80 --><waypoint x="-370" z="-6246" y="15">	</waypoint>
+	<!-- # 81 --><waypoint x="-297" z="-6369" y="24">	</waypoint>
+	<!-- # 82 --><waypoint x="-228" z="-6509" y="31">	</waypoint>
+	<!-- # 83 --><waypoint x="-198" z="-6632" y="28">	</waypoint>
+	<!-- # 84 --><waypoint x="-204" z="-6759" y="38">	</waypoint>
+	<!-- # 85 --><waypoint x="-233" z="-6877" y="45">	</waypoint>
+	<!-- # 86 --><waypoint x="-286" z="-7069" y="47">	</waypoint>
+	<!-- # 87 --><waypoint x="-306" z="-7211" y="43">	</waypoint>
+	<!-- # 88 --><waypoint x="-352" z="-7334" y="49">	</waypoint>
+	<!-- # 89 --><waypoint x="-395" z="-7523" y="63">	</waypoint>
+	<!-- # 90 --><waypoint x="-392" z="-7628" y="65">	</waypoint>
+	<!-- # 91 --><waypoint x="-353" z="-7737" y="69">	</waypoint>
+	<!-- # 92 --><waypoint x="-367" z="-7835" y="75">	</waypoint>
+	<!-- # 93 --><waypoint x="-427" z="-7942" y="76">	</waypoint>
+	<!-- # 94 --><waypoint x="-548" z="-8106" y="79">	</waypoint>
+	<!-- # 95 --><waypoint x="-623" z="-8193" y="88">	</waypoint>
+	<!-- # 96 --><waypoint x="-733" z="-8214" y="105">	</waypoint>
+	<!-- # 97 --><waypoint x="-976" z="-8215" y="106">	</waypoint>
+	<!-- # 98 --><waypoint x="-1219" z="-8183" y="133">	</waypoint>
+	<!-- # 99 --><waypoint x="-1445" z="-8152" y="160">	</waypoint>
+	<!-- #100 --><waypoint x="-1695" z="-8121" y="176">	</waypoint>
+	<!-- #101 --><waypoint x="-1937" z="-8101" y="183">	</waypoint>
+	<!-- #102 --><waypoint x="-2139" z="-8084" y="186">	</waypoint>
+	<!-- #103 --><waypoint x="-2358" z="-8066" y="184">	</waypoint>
+	<!-- #104 --><waypoint x="-2574" z="-8049" y="176">	</waypoint>
+	<!-- #105 --><waypoint x="-2768" z="-8033" y="198">	</waypoint>
+	<!-- #106 --><waypoint x="-2922" z="-8007" y="209">	</waypoint>
+	<!-- #107 --><waypoint x="-3124" z="-7959" y="195">	</waypoint>
+	<!-- #108 --><waypoint x="-3308" z="-7915" y="185">	</waypoint>
+	<!-- #109 --><waypoint x="-3440" z="-7886" y="207">	</waypoint>
+	<!-- #110 --><waypoint x="-3569" z="-7916" y="220">	</waypoint>
+	<!-- #111 --><waypoint x="-3735" z="-7970" y="215">	</waypoint>
+	<!-- #112 --><waypoint x="-3832" z="-8040" y="245">	</waypoint>
+	<!-- #113 --><waypoint x="-3950" z="-8159" y="254">	</waypoint>
+	<!-- #114 --><waypoint x="-4059" z="-8287" y="260">	
+			if player.Race == 0 then -- Human returning for second part of zone
+				loadPaths("HowlingMountains/HM_02_DualClassHuman")
+			else
+				loadPaths("HowlingMountains/HM_03_FullZoneElfDwarf")
+			end
+	</waypoint>
+</waypoints>

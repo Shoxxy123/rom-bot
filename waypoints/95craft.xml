@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="utf-8"?>
+<waypoints>
+	<onLoad>
+
+
+---== version 3.2b ==---
+
+
+---------====== User Options ======--------
+
+
+askforinput = true		-- set to true if you want to be asked which skill you'd like to level upon starting the script. If you are chaining this script, then set this to false and set the skill you like to level below.
+
+
+skilltolevel = 1		-- set to 1 for Alchemy, 2 for Armorcrafting, 3 for Blacksmithing, 4 for Carpentry or 5 for Tailoring. Note that this option will be overwritten if you have askforinput set to true and you chose another skill.
+
+
+below40multiplier = 50		-- the amount of ingredients the script will buy when it opens the store at Crafting levels below 40. It is recommended that you don't change this number.
+
+
+fortyto49multiplier = 300	-- the amount of ingredients the script will buy when it opens the store at Crafting levels 40 to 49. It is recommended that you don't change this number if you have enough space for this much.
+
+
+fiftyabovemultiplier = 300	-- the amount of ingredients the script will buy when it opens the store at Crafting levels 50 and bove. Feel free to increase or decrease this number based on your backpack space. 
+
+
+sellcrafteditems = true		-- set to true to sell crafted items in your bag every time you buy new ingredients from the store.
+
+
+givebagspacereminder = true	-- set to true if you want the script to pause and remind you to check your bag space everytime you start the script.
+
+
+usecraftpotion = false		-- set to true to make the script auto-use the 1 day crafting potions in your inventory. If this is set to true and the script detects you don't have one, it will set usecraftoption to false automatically.
+
+
+yrestadjustment = 0		-- this is the value in milliseconds that is added to how long the print intervals are. If you are noticing the prints come BEFORE the char finishes casting, adjust this value preferably to a point where the prints come a little AFTER the char finishes casting. This will make sure that the script calculates accurately the amount of ingredients it needs to buy at certain levels.
+
+
+stopatlevel = 95		-- set to a level you'd like the bot to stop at. Just leave to the default nil if you want the script to run til the highest level possible which is 75.
+
+
+atstopdo = "pause"		-- set to "pause" to pause bot, "logout" to log out to character selection, "exit" to exit game. If left "" or nil or anything else aside from the said options, it will error. This setting will be applied upon reaching stopatlevel or level 75.
+		
+	
+printallinfoonmmwindow = false	-- set to true if print all info on MM window. If set to false, the bot will only print the current level and exp.
+
+
+printinfoonwindowname = true 	-- set to true to print info on MM's window name.
+
+
+printallinfo = true		-- set to true to print all info on MM's window name. If set to false it only prints some useful info.
+
+
+-------------------------------------------
+
+
+
+	local crafttable = {
+[1] = {name = "Alchemy", text = getTEXT("SYS_SKILLNAME_ALCHEMY"), npc = 112945, toolid = 119588, recipes = { 
+	[15] = {name = "Smelted Alloy", 		prodid = 209746, GUID = 551645, items = {[1] = {id = 209742,num = 1},[2] = {id = 209743,num = 1}}},
+	[25] = {name = "Super Solvent", 		prodid = 209747, GUID = 551646, items = {[1] = {id = 209742,num = 3},[2] = {id = 209743,num = 1}}},
+	[35] = {name = "Philosopher's Stone", 		prodid = 209748, GUID = 551647, items = {[1] = {id = 209742,num = 2},[2] = {id = 209744,num = 1},[3] = {id = 209743,num = 1}}},
+	[45] = {name = "Mass-produced Stone of Wisdom", prodid = 209749, GUID = 551648, items = {[1] = {id = 209744,num = 1},[2] = {id = 209745,num = 2},[3] = {id = 209743,num = 1}}},
+	[55] = {name = "Magical Energy Crystal", 	prodid = 241590, GUID = 551970, items = {[1] = {id = 209744,num = 3},[2] = {id = 241588,num = 1},[3] = {id = 209743,num = 1}}},
+	[65] = {name = "Modified Stone of Wisdom", 	prodid = 241591, GUID = 551971, items = {[1] = {id = 209744,num = 3},[2] = {id = 241589,num = 1},[3] = {id = 209743,num = 1}}},
+	[75] = {name = "Inconceivable Elixir", 	prodid = 241590, GUID = 551977, items = {[1] = {id = 209743,num = 3},[2] = {id = 200500,num = 1},[3] = {id = 241588,num = 1}}},
+	[85] = {name = "Stone Tablet of Mystic Energy", 	prodid = 241591, GUID = 551978, items = {[1] = {id = 209743,num = 3},[2] = {id = 200501,num = 1},[3] = {id = 241589,num = 1}}},
+		}},
+[2] = {name = "Armorcrafting", text = getTEXT("SYS_SKILLNAME_MAKEARMOR"), npc = 112944, toolid = 119587, recipes = {
+	[15] = {name = "Simple Working Helmet", 	prodid = 209754, GUID = 551649, items = {[1] = {id = 209750,num = 1},[2] = {id = 209751,num = 1}}},
+	[25] = {name = "Light Leather Armor", 		prodid = 209755, GUID = 551650, items = {[1] = {id = 209750,num = 2},[2] = {id = 209751,num = 1}}},
+	[35] = {name = "Magical Chain Armor", 		prodid = 209756, GUID = 551651, items = {[1] = {id = 209750,num = 2},[2] = {id = 209752,num = 1},[3] = {id = 209751,num = 1}}},
+	[45] = {name = "Powerful Epic Shield", 		prodid = 209757, GUID = 551652, items = {[1] = {id = 209750,num = 3},[2] = {id = 209752,num = 1},[3] = {id = 209753,num = 1},[4] = {id = 209751,num = 1}}},
+	[55] = {name = "Helmet of Penetrating Sight", 	prodid = 241594, GUID = 551972, items = {[1] = {id = 209750,num = 3},[2] = {id = 241592,num = 1},[3] = {id = 209751,num = 1}}},
+	[65] = {name = "Power Plate Armor Type T800", 	prodid = 241595, GUID = 551973, items = {[1] = {id = 209750,num = 3},[2] = {id = 241593,num = 1},[3] = {id = 209751,num = 1}}},
+	
+		}},
+[3] = {name = "Blacksmithing", text = getTEXT("SYS_SKILLNAME_BLACKSMITH"), npc = 112944, toolid = 119586, recipes = {
+	[15] = {name = "Iron Doll", 			prodid = 209728, GUID = 551637, items = {[1] = {id = 209724,num = 1},[2] = {id = 209725,num = 1}}},
+	[25] = {name = "Delicate White Iron Kettle",  	prodid = 209729, GUID = 551638, items = {[1] = {id = 209724,num = 3},[2] = {id = 209725,num = 1}}},
+	[35] = {name = "Unknown Iron Rune Dice", 	prodid = 209730, GUID = 551639, items = {[1] = {id = 209726,num = 2},[2] = {id = 209725,num = 1}}},
+	[45] = {name = "Powerful Epic Sword", 		prodid = 209733, GUID = 551640, items = {[1] = {id = 209726,num = 2},[2] = {id = 209727,num = 1},[3] = {id = 209725,num = 1}}},
+	[55] = {name = "Thermos Bottle", 		prodid = 241582, GUID = 551966, items = {[1] = {id = 209727,num = 2},[2] = {id = 241580,num = 1},[3] = {id = 209725,num = 1}}},
+	[65] = {name = "Spice Cauldron",  		prodid = 241583, GUID = 551967, items = {[1] = {id = 209727,num = 2},[2] = {id = 241581,num = 1},[3] = {id = 209725,num = 1}}},
+	[75] = {name = "X Alloy Armor", 		prodid = 200515, GUID = 551605, items = {[1] = {id = 200494,num = 2},[2] = {id = 209725,num = 1},[3] = {id = 241580,num = 1}}},
+	[85] = {name = "Legendary Pikelance",  		prodid = 200516, GUID = 551606, items = {[1] = {id = 200495,num = 2},[2] = {id = 209725,num = 1},[3] = {id = 241581,num = 1}}},
+		}},
+[4] = {name = "Carpentry", text = getTEXT("SYS_SKILLNAME_CARPENTER"), npc = 112944, toolid = 119589, recipes = {
+	[15] = {name = "Basic Wood Crafts Box", prodid = 209720, GUID = 551633, items = {[1] = {id = 209716,num = 1},[2] = {id = 209717,num = 1}}},
+	[25] = {name = "Magic Wood Crafts Box", prodid = 209721, GUID = 551634, items = {[1] = {id = 209716,num = 3},[2] = {id = 209717,num = 1}}},
+	[35] = {name = "Exquisite Sample Bow",  prodid = 209722, GUID = 551635, items = {[1] = {id = 209718,num = 1},[2] = {id = 209717,num = 1}}},
+	[45] = {name = "Powerful Epic Bow", 	prodid = 209723, GUID = 551636, items = {[1] = {id = 209718,num = 2},[2] = {id = 209719,num = 1},[3] = {id = 209717,num = 1}}},
+	[55] = {name = "Special Ice Coal", 	prodid = 241578, GUID = 551964, items = {[1] = {id = 209719,num = 2},[2] = {id = 241576,num = 1},[3] = {id = 209717,num = 1}}},
+	[65] = {name = "Easy-to-Use Wand",      prodid = 241579, GUID = 551965, items = {[1] = {id = 209719,num = 3},[2] = {id = 241577,num = 1},[3] = {id = 209717,num = 1}}},
+	[75] = {name = "Exquisite Bamboo Charcoal Box", prodid = 200513, GUID = 551603, items = {[1] = {id = 200492,num = 3},[2] = {id = 241576,num = 1},[3] = {id = 209717,num = 1}}},
+	[85] = {name = "Legendary Carpentry Craft Piece", prodid = 200514, GUID = 551604, items = {[1] = {id = 241577,num = 3},[2] = {id = 209717,num = 1},[3] = {id = 200493,num = 1}}},
+		}},
+[5] = {name = "Tailoring", text = getTEXT("SYS_SKILLNAME_TAILOR"), npc = 112945, toolid = 119590, recipes = {
+	[15] = {name = "DIIOR Pants Suit", 	prodid = 209738, GUID = 551641, items = {[1] = {id = 209734,num = 2},[2] = {id = 209735,num = 1}}},
+	[25] = {name = "Cucci Pants Suit", 	prodid = 209739, GUID = 551642, items = {[1] = {id = 209734,num = 3},[2] = {id = 209735,num = 1}}},
+	[35] = {name = "LY Pants Suit", 	prodid = 209740, GUID = 551643, items = {[1] = {id = 209734,num = 3},[2] = {id = 209736,num = 1},[3] = {id = 209735,num = 1}}},
+	[45] = {name = "SHANEL Pants Suit", 	prodid = 209741, GUID = 551644, items = {[1] = {id = 209734,num = 4},[2] = {id = 209736,num = 1},[3] = {id = 209737,num = 1},[4] = {id = 209735,num = 1}}},
+	[55] = {name = "ZERA Robe", 		prodid = 241586, GUID = 551968, items = {[1] = {id = 209734,num = 5},[2] = {id = 241584,num = 1},[3] = {id = 209735,num = 1}}},
+	[65] = {name = "POSS Shirt", 		prodid = 241587, GUID = 551969, items = {[1] = {id = 209734,num = 5},[2] = {id = 241585,num = 1},[3] = {id = 209735,num = 1}}},
+	[75] = {name = "H&amp;N Shirt", 		prodid = 241519, GUID = 551729, items = {[1] = {id = 209735,num = 5},[2] = {id = 200498,num = 1},[3] = {id = 241584,num = 1}}},
+	[85] = {name = "Benetten Robe", 	prodid = 241520, GUID = 551730, items = {[1] = {id = 200499,num = 5},[2] = {id = 241585,num = 1},[3] = {id = 209735,num = 1}}},
+		}},
+	}
+
+function getCraftLevel(skillnum)
+	local lvl = player:getCraftLevel(crafttable[skillnum].name)
+	return lvl
+end
+
+function evaluateLevel(skillnum)
+	local lvl = getCraftLevel(skillnum)
+	if 15 > lvl then
+		error("This script only works if you have "..crafttable[skillnum].name.." Level higher than 15 and lower than 95.",0)
+	end
+	if lvl >= stopatlevel then
+		if sellcrafteditems then
+			local sellstuff = false
+			for k,v in pairs(crafttable[skillnum].recipes) do
+				if inventory:itemTotalCount(v.prodid) > 0 then
+					sellstuff = true
+					break
+				end
+			end
+			if sellstuff then
+				player:openStore(crafttable[skillnum].npc,3)
+				yrest(1000)
+				for k,v in pairs(crafttable[skillnum].recipes) do
+					repeat
+						inventory:useItem(v.prodid)
+					until inventory:itemTotalCount(v.prodid) == 0
+				end
+			end
+			RoMScript("CloseAllWindows()")
+		end
+		runtimehrs = math.floor((os.time()-scriptstarttime)/3600)		
+		runtimemins = math.floor((os.time()-scriptstarttime)/60) % 60
+		runtimesecs = math.floor(os.time()-scriptstarttime) % 60
+		cprintf(cli.pink,"\nTotal Script Runtime: %s H %s M %s S.\n\n", runtimehrs, runtimemins, runtimesecs)
+		cprintf(cli.pink, "\nLevel set to stop at which is %s has been reached.\n", stopatlevel)
+		if atstopdo == "pause" then
+			cprintf(cli.pink, "\nScript set to pause, hence, pausing script.\n\n")
+			player:sleep()
+		elseif atstopdo == "logout" then
+			cprintf(cli.pink, "\nScript set to log out, hence, logging out.\n\n")
+			player:logout()
+		elseif atstopdo == "exit" then
+			cprintf(cli.pink, "\nScript set to exit game, hence, exiting game.\n\n")
+			player:logout(false, true)
+		else
+			error("Invalid or no option set for atstopdo variable.",0)
+		end
+	end
+end
+
+function clearStoreInfo()
+	player:clearTarget()
+	yrest(1000)
+	store:update()
+end
+
+function learnRecipes(skillnum)
+	local recipestable = {}
+	for k, v in pairs(crafttable[skillnum].recipes) do
+		if RoMScript("GetCraftItemInfo("..v.GUID..")") == nil then
+			table.insert(recipestable, v.GUID)
+		end
+	end
+	yrest(500)
+	for k, v in pairs(recipestable) do
+		if inventory:itemTotalCount(v) > 0 then
+			inventory:useItem(v)
+			table.remove(recipestable, v)
+			yrest(5500)
+		end
+	end
+	yrest(1000)
+	if #recipestable > 0 then
+		player:openStore(crafttable[skillnum].npc, 2)
+		yrest(1000)
+		for k, v in pairs(recipestable) do
+			store:buyItem(v, 1)
+			yrest(500)			
+		end
+		RoMScript("CloseAllWindows()")		
+		yrest(1000)
+		for k, v in pairs(recipestable) do
+			if inventory:itemTotalCount(v) > 0 then
+				inventory:useItem(v)
+				yrest(5000)
+			end
+		end
+		clearStoreInfo()
+	end
+	local recipestable = nil
+end
+
+
+function getMultiplier(skillnum)
+	local lvl = getCraftLevel(skillnum)	
+	if lvl >= 15 and 40 > lvl then 
+		return below40multiplier
+	elseif lvl >= 40 and 50 > lvl then
+		return fortyto49multiplier
+	elseif lvl >= 50 and 95 > lvl then
+		return fiftyabovemultiplier		
+	end
+end
+
+function getCraftsInfo(skillnum, info)
+	local expgained = (getCraftLevel(skillnum) - oldexp)*100
+	local exppermin = expgained * (60 / casttime)
+	local exp = (getCraftLevel(skillnum) - math.floor(getCraftLevel(skillnum)))*100
+	if expgained == 0 then expgained = math.ceil(100 - exp) end
+	local craftstnl = math.ceil((100 - exp) / expgained)
+	local etahrs = math.floor((craftstnl * casttime) / 3600)
+	local etamins = math.floor((craftstnl * casttime) / 60) % 60
+	local etasecs = math.floor(craftstnl * casttime) % 60
+	if info == nil then
+		return expgained, exppermin, exp, craftstnl, etahrs, etamins, etasecs
+	elseif info == "expgained" then 
+		return expgained
+	elseif info == "exppermin" then 
+		return exppermin
+	elseif info == "exp" then
+		return exp
+	elseif info == "craftstnl" then
+		return craftstnl
+	elseif info == "etahrs" then
+		return etahrs
+	elseif info == "etamins" then
+		return etamins
+	elseif info == "etasecs" then
+		return etasecs
+	end
+end
+
+function skillNeedsToBeRaised(skillnum)
+	local lvl = getCraftLevel(skillnum)
+	if lvl % 20 == 0 then
+		return true		
+	end
+	return false
+end	
+
+function raiseMaxSkillLevel(skillnum)
+	print("Raising Max Level of "..crafttable[skillnum].name.." Skill.")
+	repeat
+		yrest(500)
+	until player:target_NPC(crafttable[skillnum].npc)
+	yrest(1000)
+	ChoiceOptionByName(getTEXT("SKILLCRAFT_SKILLPROVE"))
+	yrest(1000)
+	ChoiceOptionByName(crafttable[skillnum].text)
+	yrest(1000)
+	RoMScript("CloseAllWindows()")
+end
+
+function getCraftTable(skillnum)
+	local lvl = getCraftLevel(skillnum)
+	if lvl >= 15 and 25 > lvl then 
+		return crafttable[skillnum].recipes[15]
+	elseif lvl >= 25 and 35 > lvl then 
+		return crafttable[skillnum].recipes[25]
+	elseif lvl >= 35 and 45 > lvl then 
+		return crafttable[skillnum].recipes[35]
+	elseif lvl >= 45 and 55 > lvl then
+		return crafttable[skillnum].recipes[45]
+	elseif lvl >= 55 and 65 > lvl then
+		return crafttable[skillnum].recipes[55]
+	elseif lvl >= 65 and 75 > lvl then
+		return crafttable[skillnum].recipes[65]
+	elseif lvl >= 75 and 85 > lvl then
+		return crafttable[skillnum].recipes[75]
+	elseif lvl >= 85 then
+		return crafttable[skillnum].recipes[85]
+
+	end
+end
+
+function getCraftableAmount(skillnum)
+	local craft = getCraftTable(skillnum)
+	local __,__,craftableamount = RoMScript("GetCraftItemInfo("..craft.GUID..")")
+	return craftableamount
+end
+
+function buyItems(skillnum)
+	local craft = getCraftTable(skillnum)
+	local craftstnl = getCraftsInfo(skillnum, "craftstnl")
+	local multiplier = getMultiplier(skillnum)
+	inventory:update()
+	yrest(100)
+	player:openStore(crafttable[skillnum].npc,3)
+	yrest(1000)
+	if sellcrafteditems then
+		for k,v in pairs(crafttable[skillnum].recipes) do
+			repeat
+				inventory:useItem(v.prodid)
+			until inventory:itemTotalCount(v.prodid) == 0
+		end
+	end
+	yrest(1000)
+	local baselvl = math.floor(getCraftLevel(skillnum))
+	local levelstable = {19,24,34,39,44,54,59,64,74,84}
+	if table.contains(levelstable, baselvl) or baselvl == stopatlevel - 1 then
+		if multiplier > craftstnl then
+			multiplier = craftstnl
+		end
+	end
+	for k,v in pairs(craft.items) do
+		local amountsupposedtobuy = v.num*multiplier
+		local amountalreadyinbag = inventory:itemTotalCount(v.id)
+		local amounttobuy = amountsupposedtobuy - amountalreadyinbag
+		if 0 > amounttobuy then amounttobuy = 0 end
+		if amounttobuy > 0 then
+			yrest(100)
+			store:buyItem(v.id, amounttobuy)
+			yrest(200)
+		end
+	end
+	RoMScript("CloseAllWindows()")
+	yrest(1000)
+end
+
+printcolor = cli.lightgreen
+
+function printInfo(skillnum)
+	local expgained, exppermin, exp, craftstnl, etahrs, etamins, etasecs = getCraftsInfo(skillnum)
+	local craftableamount = getCraftableAmount(skillnum)
+	local skillname = crafttable[skillnum].name
+	local shorttext = {[1] = "Alc",[2] = "AC",[3] = "BS",[4] = "Crp",[5] = "Tlr"}
+	print("")
+	if printallinfoonmmwindow then
+		cprintf(printcolor, "You have enough ingredients to craft "..craftableamount.." item/s.\n")
+		cprintf(printcolor, "You need to craft "..craftstnl.." more item/s til next level.\n")
+		cprintf(printcolor, skillname.." Exp increased by "..string.format("%.2f", expgained).."%%\n")
+		cprintf(printcolor, "Current "..skillname.." Level is "..math.floor(getCraftLevel(skillnum)).." and "..string.format("%.2f", exp).."%%\n")
+		cprintf(printcolor, "Estimated time to next level is "..etahrs.." hour/s and "..etamins.." minute/s and "..etasecs.." second/s.\n" )
+	else
+		cprintf(printcolor, "Current "..skillname.." Level is "..math.floor(getCraftLevel(skillnum)).." and "..string.format("%.2f", exp).."%%\n")			
+	end
+	if printcolor == cli.lightgreen then
+		printcolor = cli.white
+	elseif printcolor == cli.white then
+		printcolor = cli.lightgreen
+	end
+	if printinfoonwindowname then
+		if printallinfo then
+			setWindowName(getHwnd(),sprintf(player.Name.." "..shorttext[skillnum].." Lvl: "..math.floor(getCraftLevel(skillnum)).."  "..string.format("%.2f", exp).."%%  Exp/craft: "..string.format("%.2f", expgained).."%%  Exp/min: "..string.format("%.2f", exppermin).."%%  "..craftableamount.."/"..craftstnl.."  ETA: "..etahrs.."h "..etamins.."m "..etasecs.."s"))		
+		else
+			setWindowName(getHwnd(),sprintf(player.Name.."  "..skillname.." Exp/min: "..string.format("%.2f", exppermin).."%%  No. of crafts til next level: "..craftstnl.."  ETA til next level: "..etahrs.."h "..etamins.."m "..etasecs.."s"))
+		end
+	end
+end
+
+function getCooldown(skillid)
+   local offset = memoryReadRepeat("int", getProc(), GetItemAddress(skillid) + addresses.skillRemainingCooldown_offset) or 0
+   if offset and offset ~= 0 then
+      return (memoryReadRepeat("int", getProc(), addresses.staticCooldownsBase + (offset+1)*4) or 0)/10
+   end
+   return 0
+end
+
+function charHasItemSetSkill(skillid)	
+	for num = 1, 5 do
+      		local id = memoryReadInt(getProc(), addresses.itemSetSkillsBase + (num - 1)*4)
+		if id == skillid then
+			return true
+		end
+   	end
+	return false	
+end
+
+function setSkillsToUse()
+	if charHasItemSetSkill(495776) then
+		usespeedskill = true
+	end
+	if charHasItemSetSkill(495777) then
+		usexpskill = true
+	end
+end
+
+function useCraftingSkills()
+	local speedskill = GetIdName(495776)	-- Crafting Speed skill
+	local expskill = GetIdName(495777)	-- Crafting Exp skill
+	if usespeedskill then
+		rest(1000)
+		local speedremaining = getCooldown(495776)
+		if speedremaining == 0 then
+			repeat
+				sendMacro("CastSpellByName(\""..speedskill.."\")")
+				player:updateBuffs()
+				rest(500)
+			until player:hasBuff(507016)
+		end
+	end
+	if usexpskill then
+		rest(1000)
+		local expremaining = getCooldown(495777)
+		if expremaining == 0 then
+			repeat
+				sendMacro("CastSpellByName(\""..expskill.."\")")
+				player:updateBuffs()
+				rest(500)
+			until player:hasBuff(507017)
+		end		
+	end
+end
+
+function setCastAndRestValue()
+	local currentcasttime = casttime
+	player:updateBuffs()
+	if player:hasBuff(507016) then
+		skillbuffon = true
+	else
+		skillbuffon = false
+	end
+	if player:hasBuff(508465) then	-- 1 day potion
+		itembuffon = true
+	else
+		itembuffon = false
+	end
+	if skillbuffon and itembuffon then
+		local tempcasttime = (5 - (5 * .375))
+		casttime = tempcasttime - (tempcasttime * .25)
+	elseif skillbuffon and not itembuffon then
+		casttime = 5 - (5 * .375)
+	elseif itembuffon and not skillbuffon then
+		casttime = 5 - (5 * .25)
+	elseif not skillbuffon and not itembuffon then
+		casttime = 5
+	end
+	yrestvalue = casttime * 1000
+end
+
+function giveReminder()
+	local playergold = RoMScript('GetPlayerMoney("copper")')
+	if givebagspacereminder then
+		cprintf(cli.lightblue, "\nReminder! You need lots of gold and bag space to level until 75.\nThe amount of gold you currently have is: "..playergold.."\nThese are your current settings:\nbelow40multiplier: "..below40multiplier..", fortyto49multiplier: "..fortyto49multiplier..", fiftyabovemultiplier: "..fiftyabovemultiplier.."\nCurrent number of free spaces in your bag is "..inventory:itemTotalCount(0).."\nIf you are ready to start, then press DELETE.\n\n")
+		flashWindow(nil,0)
+		player:sleep()
+	end
+end
+
+function askUser()
+	if askforinput then
+		cprintf(cli.lightgreen,"\n     Craft Festival script\n")
+		print[[These are the available options:
+
+	1 - Alchemy
+	2 - Armorcrafting
+	3 - Blacksmithing
+	4 - Carpentry
+	5 - Tailoring
+	q - Quit
+]]
+		repeat
+			printf("Enter the number of your choice: ")
+			answer = io.stdin:read()
+			answer = string.lower(answer)
+			local answerstable = {"1","2","3","4","5","q"}			
+			for k,v in pairs(answerstable) do
+				if answer == v then
+					if answer == "q" then
+						error("Ending script.",0)
+					end
+					answerisvalid = true
+					skilltolevel = tonumber(answer)		
+				end
+			end
+			if not answerisvalid then
+				cprintf(cli.pink, "Invalid input.\n")
+			end
+		until answerisvalid
+		local text = {[1] = "1 - Alchemy", [2] = "2 - Armorcrafting ", [3] = "3 - Blacksmithing", [4] = "4 - Carpentry", [5] =  "5 - Tailoring"}
+		cprintf(cli.lightblue, "\nYou chose "..text[skilltolevel]..".\n\n")
+	end
+
+end
+
+function moveIfCasting()
+	player:updateCasting()
+	if player.Casting then
+		keyboardPress(settings.hotkeys.MOVE_FORWARD.key)
+		yrest(250)
+		keyboardRelease(settings.hotkeys.MOVE_FORWARD.key)
+	end
+end
+
+function checkSkillToLevel()
+	if type(skilltolevel) ~= "number" or 0 > skilltolevel or skilltolevel > 5 or skilltolevel == nil then
+		error("Invalid option for skill to level.", 0)
+	end
+end	
+
+function usePotion()
+	if usecraftpotion then
+		if inventory:itemTotalCount(208655) == 0 then
+			usecraftpotion = false
+		elseif inventory:itemTotalCount(208655) > 0 then
+			player:updateBuffs()
+			if not player:hasBuff(508465) then	-- 1 day potion
+				inventory:useItem(208655)
+			end
+		end
+	end
+end
+
+function goToTool(skillnum)
+	player:updateXYZ()
+	player:clearTarget()
+	local npc = player:findNearestNameOrId(crafttable[skillnum].npc)
+	local tool = player:findNearestNameOrId(crafttable[skillnum].toolid)
+	if not npc then
+		error("This script only works if you are near Mizner or Fiona in Varanas Central Plaza.",0)
+	end
+	if tool then
+		if distance(player.X, player.Z, player.Y, tool.X, tool.Z, tool.Y) > 30 then
+			player:moveTo(CWaypoint(tool.X, tool.Z))
+		end
+	end
+end
+		
+					
+
+
+
+
+
+	askUser()
+	
+	stopatlevel = tonumber(stopatlevel) or 95
+
+	scriptstarttime = os.time()
+
+	checkSkillToLevel()
+
+	goToTool(skilltolevel)
+
+	giveReminder()
+
+	clearStoreInfo()
+
+	evaluateLevel(skilltolevel)
+	
+	learnRecipes(skilltolevel)
+
+	oldexp = getCraftLevel(skilltolevel)
+
+	setSkillsToUse()
+
+	useCraftingSkills()
+
+	usePotion()
+
+	moveIfCasting()	
+
+
+	while(true) do
+
+		setCastAndRestValue()	
+
+		newexp = getCraftLevel(skilltolevel)
+
+		player:updateCasting()
+
+		if not player.Casting then
+			if skillNeedsToBeRaised(skilltolevel) then
+				raiseMaxSkillLevel(skilltolevel)
+			end
+			evaluateLevel(skilltolevel)
+			local craft = getCraftTable(skilltolevel)
+			local lvl = getCraftLevel(skilltolevel)
+			local craftableamount = getCraftableAmount(skilltolevel)
+			print("Current Level: "..lvl)
+			if craftableamount > 0 then
+				print("Starting to craft "..craftableamount.." x "..craft.name)	
+				RoMScript("CreateCraftItem("..craft.GUID..","..craftableamount..",1)")
+			else
+				buyItems(skilltolevel)
+			end			
+		end
+
+		yrest(yrestvalue+yrestadjustment)
+
+		oldexp = newexp
+
+		printInfo(skilltolevel)
+
+		useCraftingSkills()
+
+		usePotion()
+
+	end
+
+	</onLoad>
+</waypoints>

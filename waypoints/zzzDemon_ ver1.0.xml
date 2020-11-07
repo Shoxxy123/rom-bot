@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+<!-- Demonstration Battle daily quest -->
+<!-- v1.0 -->
+<!-- by: lolita -->
+<!-- Do Demonstration Battle daily quest in Rorazan, and use daily reset tickets if you have some -->
+<onLoad>
+settings.profile.mobs = {106474,106475,106476};
+function checkCondition()
+   queststate = getQuestStatus(425124);
+   if queststate == "complete" then
+      if player.Level >= 80 then
+         __WPL:setWaypointIndex(__WPL:findWaypointTag("go to housekeeper1"));  -- make your waypoint to house, change class and get back to NPC
+      else
+         __WPL:setWaypointIndex(__WPL:findWaypointTag("complete"));
+      end
+   end
+end
+
+function checkLoopCondition()
+	queststate = getQuestStatus(425124);
+	if queststate ~= "complete" then
+	__WPL:setWaypointIndex(__WPL:findWaypointTag("incomplete"));
+	end
+end
+
+function getclass()
+	-- those 3 class can be main or secoundary
+	if (player.Class1 == 4 or player.Class2 == 4) then -- mage
+		SlashCommand("/cast Fireball")
+	elseif (player.Class1 == 2 or player.Class2 == 2) then -- scout
+		SlashCommand("/cast Shot")
+	elseif (player.Class1 == 3 or player.Class2 == 3)  then 	-- rogue
+		SlashCommand("/cast Shadowstab")
+	-- class who can do daily
+	elseif player.Class1 == 5 then 			-- priest
+		SlashCommand("/cast Chain of Light")
+	elseif player.Class1 == 6 then 			-- knight
+		SlashCommand("/cast Holy Strike")
+	elseif player.Class1 == 7 then 			-- warden
+		SlashCommand("/cast Charged Chop")
+	elseif player.Class1 == 9 then 			-- warlock
+		SlashCommand("/cast Surge of Malice")
+	-- for those 3 class didnt found useful skill for doing this daily
+	-- so you must use them with mage, scout or rogue as secoundary class
+	elseif player.Class1 == 8 then 			-- druid
+		printf("Pls change your secondary class to Mage or Scout or Rogue");
+		player:sleep()
+	elseif player.Class1 == 10 then 		-- champion
+		printf("Pls change your secondary class to Mage or Scout or Rogue");
+		player:sleep()
+	elseif player.Class1 == 1 then 			-- warrior
+		printf("Pls change your secondary class to Mage or Scout or Rogue");
+		player:sleep()
+	end
+end
+function doquest()
+	LockedOn = RoMScript("UnitExists('target')")
+	enemy = RoMScript("UnitCanAttack('player','target')")
+	if (not LockedOn) or (not enemy) then
+		for i=1,5 do
+			if getQuestStatus(425124) == "complete" then
+				break
+			end
+			RoMScript("TargetNearestEnemy()")
+			getclass()
+			yrest(500)
+		end
+	end
+end
+
+function swapClass(mainClass, secClass)
+   player:target_NPC(120185) -- ID for housemaid inside house
+   ChoiceOptionByName(getTEXT("SO_110581_1")) -- 'I want to switch my primary and secondary class.'
+   player:update()
+   local pri, sec
+   if mainClass == nil then
+      pri = player.Class2 + 1
+      sec = player.Class1 + 1
+   else
+      pri = mainClass + 1
+      sec = secClass + 1
+   end
+   RoMScript("ExchangeClass("..pri..","..sec..")")
+end
+
+</onLoad>
+	<!-- #  1 --><waypoint x="-18346" z="-22692" y="469" type ="TRAVEL">
+   	checkCondition()
+   	local dailyQuestCount, dailyQuestsPerDay= RoMScript("Daily_count()");
+         if 10 == dailyQuestCount then
+            if inventory:itemTotalCount(202434) > 0 then
+               printf("We will use Daily Quest Reset Ticket");
+               inventory:useItem(202434)
+               yrest(1000)
+               loadPaths(__WPL.FileName)
+            elseif inventory:itemTotalCount(202434) == 0 then
+               error("Ending script",2)
+            end
+         else
+            printf("Done "..dailyQuestCount.." of " .. dailyQuestsPerDay ..    " Left " .. dailyQuestsPerDay - dailyQuestCount .. " Quests.");
+         end
+         if 60 > player.Level then -- go back to house and change class
+            __WPL:setWaypointIndex(__WPL:findWaypointTag("go to housekeeper2"));
+         else
+            player:target_NPC(119856)
+            AcceptQuestByName(425124)
+         end
+	</waypoint>
+	<!-- #  2 --><waypoint x="-18346" z="-22692" y="469" type ="TRAVEL">
+			player:target_NPC(119856)
+			yrest(500)
+			sendMacro("ChoiceOption(1);")
+			yrest(500)
+	</waypoint>
+	<!-- #  3 --><waypoint x="-18331" z="-22677" y="469" type ="TRAVEL">
+			doquest()
+			checkLoopCondition()
+	</waypoint>
+	<!-- #  4 --><waypoint x="-18359" z="-22701" y="483" tag="incomplete" type ="TRAVEL">	  </waypoint>
+	<!-- #  5 --><waypoint x="-18359" z="-22736" y="489" tag="go to housekeeper1" type ="TRAVEL">	player:mount(); </waypoint>
+	<!-- #  6 --><waypoint x="-18355" z="-22800" y="476" type ="TRAVEL">	</waypoint>
+	<!-- #  7 --><waypoint x="-18337" z="-22897" y="476" type ="TRAVEL">	</waypoint>
+	<!-- #  8 --><waypoint x="-18302" z="-22955" y="475" type ="TRAVEL">	</waypoint>
+	<!-- #  9 --><waypoint x="-18237" z="-23000" y="442" type ="TRAVEL">	</waypoint>
+	<!-- # 10 --><waypoint x="-18136" z="-23023" y="473" type ="TRAVEL">	</waypoint>
+	<!-- # 11 --><waypoint x="-18035" z="-23036" y="488" type ="TRAVEL">	</waypoint>
+	<!-- # 12 --><waypoint x="-17928" z="-23058" y="487" type ="TRAVEL">	</waypoint>
+	<!-- # 13 --><waypoint x="-17838" z="-23111" y="482" type ="TRAVEL">	</waypoint>
+	<!-- # 14 --><waypoint x="-17759" z="-23176" y="493" type ="TRAVEL">	</waypoint>
+	<!-- # 15 --><waypoint x="-17709" z="-23245" y="519" type ="TRAVEL">	</waypoint>
+	<!-- # 16 --><waypoint x="-17665" z="-23327" y="556" type ="TRAVEL">	</waypoint>
+	<!-- # 17 --><waypoint x="-17637" z="-23407" y="564" type ="TRAVEL">	</waypoint>
+	<!-- # 18 --><waypoint x="-17609" z="-23514" y="565" type ="TRAVEL">	</waypoint>
+	<!-- # 19 --><waypoint x="-17559" z="-23536" y="568" type ="TRAVEL">	</waypoint>
+	<!-- # 20 --><waypoint x="-17512" z="-23513" y="586" type ="TRAVEL">	</waypoint>
+	<!-- # 21 --><waypoint x="-17466" z="-23472" y="608" type ="TRAVEL">	</waypoint>
+	<!-- # 22 --><waypoint x="-17408" z="-23426" y="631" type ="TRAVEL">	</waypoint>
+	<!-- # 23 --><waypoint x="-17339" z="-23379" y="636" type ="TRAVEL">	</waypoint>
+	<!-- # 24 --><waypoint x="-17286" z="-23379" y="636" type ="TRAVEL">	</waypoint>
+	<!-- # 25 --><waypoint x="-17236" z="-23439" y="636" type ="TRAVEL">	</waypoint>
+	<!-- # 26 --><waypoint x="-17223" z="-23500" y="633" type ="TRAVEL">
+			swapClass(CLASS_SCOUT,CLASS_NONE)
+			
+	</waypoint>
+	<!-- # 27 --><waypoint x="-17223" z="-23501" y="633" type ="TRAVEL">	 player:mount(); </waypoint>
+	<!-- # 28 --><waypoint x="-17203" z="-23460" y="634" type ="TRAVEL">	</waypoint>
+	<!-- # 29 --><waypoint x="-17266" z="-23399" y="637" type ="TRAVEL">	</waypoint>
+	<!-- # 30 --><waypoint x="-17310" z="-23359" y="637" type ="TRAVEL">	</waypoint>
+	<!-- # 31 --><waypoint x="-17369" z="-23365" y="634" type ="TRAVEL">	</waypoint>
+	<!-- # 32 --><waypoint x="-17439" z="-23394" y="631" type ="TRAVEL">	</waypoint>
+	<!-- # 33 --><waypoint x="-17522" z="-23397" y="615" type ="TRAVEL">	</waypoint>
+	<!-- # 34 --><waypoint x="-17606" z="-23388" y="567" type ="TRAVEL">	</waypoint>
+	<!-- # 35 --><waypoint x="-17637" z="-23339" y="563" type ="TRAVEL">	</waypoint>
+	<!-- # 36 --><waypoint x="-17689" z="-23240" y="532" type ="TRAVEL">	</waypoint>
+	<!-- # 37 --><waypoint x="-17767" z="-23156" y="486" type ="TRAVEL">	</waypoint>
+	<!-- # 38 --><waypoint x="-17852" z="-23090" y="487" type ="TRAVEL">	</waypoint>
+	<!-- # 39 --><waypoint x="-17917" z="-23054" y="482" type ="TRAVEL">	</waypoint>
+	<!-- # 40 --><waypoint x="-18022" z="-23024" y="486" type ="TRAVEL">	</waypoint>
+	<!-- # 41 --><waypoint x="-18128" z="-23022" y="486" type ="TRAVEL">	</waypoint>
+	<!-- # 42 --><waypoint x="-18241" z="-23038" y="442" type ="TRAVEL">	</waypoint>
+	<!-- # 43 --><waypoint x="-18365" z="-23070" y="442" type ="TRAVEL">	</waypoint>
+	<!-- # 44 --><waypoint x="-18464" z="-23087" y="439" type ="TRAVEL">	</waypoint>
+	<!-- # 45 --><waypoint x="-18487" z="-23061" y="444" type ="TRAVEL">	</waypoint>
+	<!-- # 46 --><waypoint x="-18471" z="-22996" y="470" type ="TRAVEL">	</waypoint>
+	<!-- # 47 --><waypoint x="-18426" z="-22896" y="473" type ="TRAVEL">	</waypoint>
+	<!-- # 48 --><waypoint x="-18378" z="-22793" y="470" type ="TRAVEL">	</waypoint>
+	<!-- # 49 --><waypoint x="-18362" z="-22696" y="483" type ="TRAVEL">
+			player:target_NPC(119856) -- Anthony Taz
+			CompleteQuestByName(425124);
+			yrest(500)
+	</waypoint>
+	<!-- # 50 --><waypoint x="-18359" z="-22709" y="486" tag= "complete" type ="TRAVEL">    </waypoint>
+	<!-- # 51 --><waypoint x="-18358" z="-22773" y="471" tag="go to housekeeper2" type ="TRAVEL">  player:mount();	</waypoint>
+	<!-- # 52 --><waypoint x="-18353" z="-22821" y="470" type ="TRAVEL">	</waypoint>
+	<!-- # 53 --><waypoint x="-18322" z="-22933" y="470" type ="TRAVEL">	</waypoint>
+	<!-- # 54 --><waypoint x="-18276" z="-22977" y="470" type ="TRAVEL">	</waypoint>
+	<!-- # 55 --><waypoint x="-18188" z="-23011" y="458" type ="TRAVEL">	</waypoint>
+	<!-- # 56 --><waypoint x="-18103" z="-23022" y="481" type ="TRAVEL">	</waypoint>
+	<!-- # 57 --><waypoint x="-17984" z="-23038" y="482" type ="TRAVEL">	</waypoint>
+	<!-- # 58 --><waypoint x="-17908" z="-23067" y="488" type ="TRAVEL">	</waypoint>
+	<!-- # 59 --><waypoint x="-17827" z="-23118" y="482" type ="TRAVEL">	</waypoint>
+	<!-- # 60 --><waypoint x="-17741" z="-23196" y="499" type ="TRAVEL">	</waypoint>
+	<!-- # 61 --><waypoint x="-17681" z="-23281" y="539" type ="TRAVEL">	</waypoint>
+	<!-- # 62 --><waypoint x="-17636" z="-23418" y="563" type ="TRAVEL">	</waypoint>
+	<!-- # 63 --><waypoint x="-17618" z="-23512" y="569" type ="TRAVEL">	</waypoint>
+	<!-- # 64 --><waypoint x="-17565" z="-23541" y="568" type ="TRAVEL">	</waypoint>
+	<!-- # 65 --><waypoint x="-17505" z="-23511" y="582" type ="TRAVEL">	</waypoint>
+	<!-- # 66 --><waypoint x="-17449" z="-23464" y="613" type ="TRAVEL">	</waypoint>
+	<!-- # 67 --><waypoint x="-17388" z="-23427" y="637" type ="TRAVEL">	</waypoint>
+	<!-- # 68 --><waypoint x="-17290" z="-23428" y="634" type ="TRAVEL">	</waypoint>
+	<!-- # 69 --><waypoint x="-17228" z="-23443" y="636" type ="TRAVEL">	</waypoint>
+	<!-- # 70 --><waypoint x="-17223" z="-23501" y="633" type ="TRAVEL">	
+			swapClass(CLASS_WARDEN,CLASS_NONE)
+	</waypoint>		
+	<!-- # 71 --><waypoint x="-17223" z="-23501" y="634" type ="TRAVEL"> player:mount();	</waypoint>
+	<!-- # 72 --><waypoint x="-17213" z="-23476" y="633" type ="TRAVEL">	</waypoint>
+	<!-- # 73 --><waypoint x="-17256" z="-23423" y="634" type ="TRAVEL">	</waypoint>
+	<!-- # 74 --><waypoint x="-17318" z="-23356" y="635" type ="TRAVEL">	</waypoint>
+	<!-- # 75 --><waypoint x="-17394" z="-23393" y="634" type ="TRAVEL">	</waypoint>
+	<!-- # 76 --><waypoint x="-17509" z="-23457" y="599" type ="TRAVEL">	</waypoint>
+	<!-- # 77 --><waypoint x="-17593" z="-23413" y="566" type ="TRAVEL">	</waypoint>
+	<!-- # 78 --><waypoint x="-17668" z="-23301" y="549" type ="TRAVEL">	</waypoint>
+	<!-- # 79 --><waypoint x="-17761" z="-23169" y="489" type ="TRAVEL">	</waypoint>
+	<!-- # 80 --><waypoint x="-17824" z="-23106" y="485" type ="TRAVEL">	</waypoint>
+	<!-- # 81 --><waypoint x="-17933" z="-23046" y="485" type ="TRAVEL">	</waypoint>
+	<!-- # 82 --><waypoint x="-18044" z="-23006" y="485" type ="TRAVEL">	</waypoint>
+	<!-- # 83 --><waypoint x="-18243" z="-23029" y="439" type ="TRAVEL">	</waypoint>
+	<!-- # 84 --><waypoint x="-18337" z="-23066" y="439" type ="TRAVEL">	</waypoint>
+	<!-- # 85 --><waypoint x="-18430" z="-23090" y="439" type ="TRAVEL">	</waypoint>
+	<!-- # 86 --><waypoint x="-18481" z="-23071" y="438" type ="TRAVEL">	</waypoint>
+	<!-- # 87 --><waypoint x="-18475" z="-23005" y="464" type ="TRAVEL">	</waypoint>
+	<!-- # 88 --><waypoint x="-18407" z="-22855" y="474" type ="TRAVEL">	</waypoint>
+	<!-- # 89 --><waypoint x="-18366" z="-22727" y="484" type ="TRAVEL">	</waypoint>
+	<!-- # 90 --><waypoint x="-18359" z="-22701" y="483" type ="TRAVEL">	</waypoint>
+</waypoints>

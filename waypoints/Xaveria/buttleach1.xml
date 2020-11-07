@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+	<!-- #  1 --><waypoint x="7166" z="3027" y="184">
+	repeat 
+	local queststate = getQuestStatus("Catch Butterflies")
+	yrest(2000) 
+	until queststate == "complete"
+	__WPL:setDirection(WPT_FORWARD);
+	</waypoint>
+	<!-- # 10 --><waypoint x="7049" z="3417" y="193">	</waypoint>
+	<!-- # 11 --><waypoint x="6626" z="3747" y="175">	</waypoint>
+	<!-- # 12 --><waypoint x="6560" z="3976" y="206">	</waypoint>
+	<!-- # 13 --><waypoint x="6479" z="4387" y="185">	</waypoint>
+	<!-- # 14 --><waypoint x="6326" z="5027" y="184">	</waypoint>
+	<!-- # 15 --><waypoint x="6427" z="5431" y="172">
+	local queststate = getQuestStatus("Catch Butterflies")
+	if queststate == "complete" then
+		player:target_NPC("Robbie Butcher");
+		CompleteQuestByName("Catch")	
+	end
+	yrest(1000)
+	local dqCount, dqPerDay = RoMScript("Daily_count()");
+	if dqCount ~= 10 then
+		player:target_NPC("Robbie Butcher");
+		AcceptQuestByName("Catch")
+	else
+		inventory:update();
+		player:update();
+		if inventory:itemTotalCount(202434) > 0 then
+			inventory:useItem(202434);
+			yrest(2000)
+			player:target_NPC("Robbie Butcher");
+			AcceptQuestByName("Catch")			
+		else
+			player:sleep();
+		end 
+	end
+	__WPL:setDirection(WPT_BACKWARD);
+	</waypoint>
+</waypoints>

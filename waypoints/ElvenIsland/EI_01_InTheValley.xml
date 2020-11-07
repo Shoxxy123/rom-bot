@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Elven Island quest series. -->
+	<!--	Required userfunctions: userfunction_teleport and userfunction_questHelpers -->
+	<!--	EI_01_InTheValley will complete all quests inside the Valley of Perparation -->
+	<!--	Approximate Runtime: 35 Minutes -->
+	<onload>
+		__WPL:setWaypointIndex(1)
+	</onload>
+	<!-- #  1 --><waypoint x="31954" z="3278" y="22">
+			player:target_NPC(112793) -- Gamunhan
+			AcceptQuestByName(422241) -- Getting to Know Yourself
+			CompleteQuestByName(422241) -- Getting to Know Yourself
+			AcceptQuestByName(422242) -- Elven Academy
+	</waypoint>
+	<!-- #  2 --><waypoint x="31978" z="3441" y="1">	</waypoint>
+	<!-- #  3 --><waypoint x="31932" z="3733" y="-6">	</waypoint>
+	<!-- #  4 --><waypoint x="31880" z="4091" y="28">	</waypoint>
+	<!-- #  5 --><waypoint x="31835" z="4202" y="36">	</waypoint>
+	<!-- #  6 --><waypoint x="31861" z="4287" y="38">	</waypoint>
+	<!-- #  7 --><waypoint x="31946" z="4397" y="23">	</waypoint>
+	<!-- #  8 --><waypoint x="31861" z="4581" y="6">
+			player:target_NPC(112794) -- Blinsik
+			CompleteQuestByName(422242) -- Elven Academy
+			AcceptQuestByName(422243) -- Preparations
+			CompleteQuestByName(422243) -- Preparations
+			AcceptQuestByName(422244) -- The Basics of Attack
+			AcceptQuestByName(422245) -- The Basics of Defense
+			AcceptQuestByName(422246) -- Basics of Recovery
+	</waypoint>
+	<!-- #  9 --><waypoint x="31944" z="4509" y="9">
+			player:target_NPC(112762) -- Jifand
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID then
+				CompleteQuestByName(422245, 1) -- The Basics of Defense
+				inventory:update()
+				inventory:useItem(221585) -- Superior Traveling Robe
+			else
+				CompleteQuestByName(422245, 2) -- The Basics of Defense
+				if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_WARDEN then 
+					inventory:update()
+					inventory:useItem(221586) -- Superior Chaincoat
+				end
+			end
+	</waypoint>
+	<!-- # 10 --><waypoint x="32065" z="4431" y="29">	</waypoint>
+	<!-- # 11 --><waypoint x="32172" z="4420" y="39">
+			player:target_NPC(112760) -- Samirat
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID then
+				CompleteQuestByName(422244, 1) -- The Basics of Attack
+				yrest(1000)
+				inventory:update()
+				inventory:useItem(210515) -- Fine Wand
+			else 
+				CompleteQuestByName(422244, 2) -- The Basics of Attack
+				yrest(1000)
+				inventory:update()
+				inventory:useItem(210516) -- Fine Long Sword
+			end
+			yrest(1000)
+			inventory:useItem(209577); -- Mysterious Runic Scroll
+	</waypoint>
+	<!-- # 12 --><waypoint x="32303" z="4362" y="40">
+			player:target_NPC(112763) -- Watimod
+			CompleteQuestByName(422246) -- Basics of Recovery
+	</waypoint>
+	<!-- # 13 --><waypoint x="32120" z="4417" y="37">	</waypoint>
+	<!-- # 14 --><waypoint x="31850" z="4585" y="9">
+			player:target_NPC(112794) -- Blinsik
+			AcceptQuestByName(422247) -- Student Certificate
+			player:mount()
+	</waypoint>
+	<!-- # 15 --><waypoint x="31853" z="4647" y="9">	</waypoint>
+	<!-- # 16 --><waypoint x="31846" z="4828" y="-4">	</waypoint>
+	<!-- # 17 --><waypoint x="31777" z="5046" y="-11">	</waypoint>
+	<!-- # 18 --><waypoint x="31734" z="5178" y="-15">
+			player:target_NPC(112845) -- Radulov
+			AcceptQuestByName(422156) -- Greetings of respect
+	</waypoint>
+	<!-- # 19 --><waypoint x="31596" z="5130" y="-16">	</waypoint>
+	<!-- # 20 --><waypoint x="31370" z="5116" y="-16">
+			player:mount()
+	</waypoint>
+	<!-- # 21 --><waypoint x="30973" z="5098" y="0">	</waypoint>
+	<!-- # 22 --><waypoint x="30706" z="5185" y="-11">
+			player:target_NPC(112796) -- Magalan
+			CompleteQuestByName(422247) -- Student Certificate
+			AcceptQuestByName(422248) -- Certification Master
+	</waypoint>
+	<!-- # 23 --><waypoint x="30707" z="5111" y="-12">	</waypoint>
+	<!-- # 24 --><waypoint x="30771" z="4918" y="-17">	</waypoint>
+	<!-- # 25 --><waypoint x="30752" z="4755" y="0">
+			player:target_NPC(112850) -- Belintan
+			ChoiceOptionByName(getTEXT("SC_422156_0")) -- "Hello, Master Belintan. I am [$PLAYERNAME]."
+	</waypoint>
+	<!-- # 26 --><waypoint x="30714" z="4663" y="0">	</waypoint>
+	<!-- # 27 --><waypoint x="30785" z="4264" y="-13">	</waypoint>
+	<!-- # 28 --><waypoint x="30841" z="3811" y="0">
+			player:target_NPC(112795) -- Womukray
+			CompleteQuestByName(422248) -- Certification Master
+			AcceptQuestByName(422249) -- Jump Training
+			player:dismount()
+	</waypoint>
+	<!-- # 29 --><waypoint x="30933" z="3791" y="-3">
+			teleport(30952, 3768, 8)
+			if getQuestStatus(422249) == "incomplete" then
+				repeat
+					player:target_Object(112890) -- Fruit Basket
+					yrest(2000)
+				until getQuestStatus(422249) == "complete"
+			end
+	</waypoint>
+	<!-- # 30 --><waypoint x="30945" z="3803" y="-9">	</waypoint>
+	<!-- # 31 --><waypoint x="30865" z="3800" y="0">
+			player:target_NPC(112795) -- Womukray
+			CompleteQuestByName(422249) -- Jump Training
+			AcceptQuestByName(422250) -- Pest Extermination
+			player:target_NPC(112865) -- Lishathalon
+			AcceptQuestByName(422280) -- If Master Could Respond
+	</waypoint>
+	<!-- # 32 --><waypoint x="30836" z="3868" y="0">	</waypoint>
+	<!-- # 33 --><waypoint x="30823" z="3959" y="-11">
+			killForQuest(true, 101922, 422250) -- Gluttonous Snail / Pest Extermination
+	</waypoint>
+	<!-- # 34 --><waypoint x="30804" z="4046" y="-14">
+			killForQuest(true, 101922, 422250) -- Gluttonous Snail / Pest Extermination
+	</waypoint>
+	<!-- # 35 --><waypoint x="30752" z="4329" y="-12">	</waypoint>
+	<!-- # 36 --><waypoint x="30813" z="4581" y="-10">	</waypoint>
+	<!-- # 37 --><waypoint x="30897" z="4738" y="-12">	</waypoint>
+	<!-- # 38 --><waypoint x="30930" z="5048" y="-5">
+			killForQuest(true, 101922, 422250) -- Gluttonous Snail / Pest Extermination
+	</waypoint>
+	<!-- # 39 --><waypoint x="31041" z="5120" y="2">
+			killForQuest(true, 101922, 422250) -- Gluttonous Snail / Pest Extermination
+	</waypoint>
+	<!-- # 40 --><waypoint x="31146" z="5275" y="7">	</waypoint>
+	<!-- # 41 --><waypoint x="31280" z="5355" y="5">	</waypoint>
+	<!-- # 42 --><waypoint x="31360" z="5462" y="-21">	</waypoint>
+	<!-- # 43 --><waypoint x="31402" z="5475" y="-6">
+			player:target_NPC(112866) -- Machi Yoda
+			CompleteQuestByName(422280) -- If Master Could Respond
+			AcceptQuestByName(422281) -- My Honor
+			yrest(3000)
+			inventory:update()
+			inventory:useItem(204615) -- Gift Bag
+			yrest(3000)
+			inventory:update()
+			inventory:useItem(204616) -- Handkerchief
+			RoMScript("AcceptBorderQuest()")
+			RoMScript("CloseAllWindows()")
+			yrest(1000)
+			inventory:useItem(204617) -- Fingerprint Impression
+			RoMScript("AcceptBorderQuest()")
+			RoMScript("CloseAllWindows()")
+			yrest(1000)
+			inventory:useItem(204618) -- Signed Portrait
+			RoMScript("AcceptBorderQuest()")
+			RoMScript("CloseAllWindows()")
+			player:mount()
+	</waypoint>
+	<!-- # 44 --><waypoint x="31285" z="5380" y="24">	</waypoint>
+	<!-- # 45 --><waypoint x="31146" z="5285" y="25">	</waypoint>
+	<!-- # 46 --><waypoint x="31052" z="4974" y="13">
+			player:target_NPC(112867) -- Shizoshanath
+			CompleteQuestByName(422282) -- Machi Yoda's Handkerchief
+	</waypoint>
+	<!-- # 47 --><waypoint x="30889" z="4713" y="3">	</waypoint>
+	<!-- # 48 --><waypoint x="30764" z="4474" y="7">	</waypoint>
+	<!-- # 49 --><waypoint x="30812" z="4024" y="1">
+			killForQuest(true, 101922, 422250) -- Gluttonous Snail / Pest Extermination
+	</waypoint>
+	<!-- # 50 --><waypoint x="30846" z="3813" y="17">
+			player:target_NPC(112795) -- Womukray
+			CompleteQuestByName(422250) -- Pest Extermination
+			AcceptQuestByName(422251) -- Equipment Repair
+			CompleteQuestByName(422251) -- Equipment Repair
+			AcceptQuestByName(422252) -- Rabbit Fur
+			player:target_NPC(112865) -- Lishathalon
+			CompleteQuestByName(422281) -- My Honor
+	</waypoint>
+	<!-- # 51 --><waypoint x="30958" z="3807" y="6">	</waypoint>
+	<!-- # 52 --><waypoint x="31376" z="3564" y="10">
+			killForQuest(true, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 53 --><waypoint x="31503" z="3512" y="8">
+			killForQuest(true, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 54 --><waypoint x="31661" z="3397" y="25">
+			killForQuest(true, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 55 --><waypoint x="31786" z="3325" y="28">	</waypoint>
+	<!-- # 56 --><waypoint x="32118" z="3409" y="8">	</waypoint>
+	<!-- # 57 --><waypoint x="32299" z="3268" y="28">
+			player:target_NPC(112869) -- Rayjinth
+			CompleteQuestByName(422284) -- Machi Yoda's Signed Portrait
+			AcceptQuestByName(422285) -- Disheartened Rayjinth
+	</waypoint>
+	<!-- # 58 --><waypoint x="32303" z="3351" y="28">
+			player:target_NPC(112949) -- Daily Quest Manager
+			AcceptQuestByName(422263) -- Helping Others
+			CompleteQuestByName(422263) -- Helping Others
+	</waypoint>
+	<!-- # 59 --><waypoint x="32363" z="3330" y="28">	</waypoint>
+	<!-- # 60 --><waypoint x="32389" z="3382" y="30">	</waypoint>
+	<!-- # 61 --><waypoint x="32338" z="3454" y="27">
+			killForQuest(true, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 62 --><waypoint x="32236" z="3499" y="11">	</waypoint>
+	<!-- # 63 --><waypoint x="32236" z="3545" y="14">
+			player:target_NPC(112844) -- Torchas
+			AcceptQuestByName(422114) -- Unification of Body and Mind
+	</waypoint>
+	<!-- # 64 --><waypoint x="32176" z="3586" y="1">
+			killForQuest(true, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 65 --><waypoint x="31980" z="3670" y="-10">
+			killForQuest(true, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 66 --><waypoint x="31955" z="3796" y="1">
+			killForQuest(true, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 67 --><waypoint x="31928" z="3934" y="27">
+			player:target_NPC(112859) -- Lindina
+			AcceptQuestByName(422272) -- Returning to Nature
+	</waypoint>
+	<!-- # 68 --><waypoint x="31846" z="4178" y="36">	</waypoint>
+	<!-- # 69 --><waypoint x="31872" z="4295" y="39">	</waypoint>
+	<!-- # 70 --><waypoint x="31953" z="4396" y="24">	</waypoint>
+	<!-- # 71 --><waypoint x="31855" z="4575" y="9">	</waypoint>
+	<!-- # 72 --><waypoint x="31667" z="4654" y="12">	</waypoint>
+	<!-- # 73 --><waypoint x="31644" z="4741" y="12">
+			player:target_NPC(112841) -- Argily
+			AcceptQuestByName(422323) -- Passing on a Note
+	</waypoint>
+	<!-- # 74 --><waypoint x="31674" z="4810" y="12">
+			player:target_NPC(112868) -- Steyathe
+			CompleteQuestByName(422283) -- Machi Yoda's Fingerprint
+	</waypoint>
+	<!-- # 75 --><waypoint x="31674" z="4810" y="12">	</waypoint>
+	<!-- # 76 --><waypoint x="31706" z="4901" y="12">
+			killForQuest(false, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 77 --><waypoint x="31694" z="5049" y="-10">	</waypoint>
+	<!-- # 78 --><waypoint x="31718" z="5178" y="-15">
+			player:target_NPC(112845) -- Radulov
+			CompleteQuestByName(422156) -- Greetings of respect
+			AcceptQuestByName(422157) -- First Time
+			repeat
+				player:target_Object(112931); -- Water Energy Crystal
+				yrest(3000)
+			until inventory:itemTotalCount(204632) == 1
+			if getQuestStatus(422157) == "incomplete" then
+				repeat
+					player:target_Object(112928) -- Lakeside Plant
+					yrest(5000)
+				until getQuestStatus(422157) == "complete"
+			end
+			player:target_NPC(112845) -- Radulov
+			CompleteQuestByName(422157) -- First Time
+	</waypoint>
+	<!-- # 79 --><waypoint x="31837" z="5037" y="-14">
+			killForQuest(false, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 80 --><waypoint x="31942" z="4804" y="-1">
+			player:target_NPC(112847) -- Labio
+			AcceptQuestByName(422158) -- We are all New Students
+	</waypoint>
+	<!-- # 81 --><waypoint x="31732" z="5169" y="-13">
+			if getQuestStatus(422158) == "incomplete" then
+				repeat
+					inventory:useItem(204668)
+					yrest(2000)
+				until getQuestStatus(422158) == "complete"
+			end
+	</waypoint>
+	<!-- # 82 --><waypoint x="31857" z="5014" y="-15">
+			killForQuest(false, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 83 --><waypoint x="31939" z="4810" y="-2">
+			player:target_NPC(112847) -- Labio
+			CompleteQuestByName(422158) -- We are all New Students
+	</waypoint>
+	<!-- # 84 --><waypoint x="31801" z="4998" y="-11">
+			killForQuest(false, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 85 --><waypoint x="31728" z="5174" y="-14">
+			player:target_NPC(112845) -- Radulov
+			AcceptQuestByName(422159) -- History Lesson
+			player:target_NPC(112845) -- Radulov
+			ChoiceOptionByName(getTEXT("SC_422159_4")) -- 'Holy King Yabis'an'
+			yrest(15000)
+			player:target_NPC(112845) -- Radulov
+			CompleteQuestByName(422159) -- History Lesson
+	</waypoint>
+	<!-- # 86 --><waypoint x="31827" z="5014" y="-12">
+			killForQuest(false, 101925, 422252) -- White Cave Rabbit / Rabbit Fur
+	</waypoint>
+	<!-- # 87 --><waypoint x="31944" z="4805" y="-1">
+			player:target_NPC(112847) -- Labio
+			AcceptQuestByName(422160) -- Run for It
+			inventory:useItem(204633) -- Genius Labio Number 1
+			yrest(15000)
+			player:target_NPC(112847) -- Labio
+			if player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then 
+				CompleteQuestByName(422160, 1) -- Run for It
+				inventory:update()
+				item = inventory:findItem(224412) -- Wild Earring
+				item:moveTo("left earring")	
+			elseif player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID then 
+				CompleteQuestByName(422160, 2) -- Run for It
+				inventory:update()
+				item = inventory:findItem(224413) -- Hiding Earring
+				item:moveTo("left earring")	
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_WARDEN then 
+				CompleteQuestByName(422160, 3) -- Run for It
+				inventory:update()
+				item = inventory:findItem(224414) -- Escape Earring
+				item:moveTo("left earring")	
+			end
+			AcceptQuestByName(422327) -- Potion Trial
+			inventory:useItem(204635) -- Genius Labio Number 29
+			yrest(6000)
+			player:target_NPC(112847) -- Labio
+			CompleteQuestByName(422327) -- Potion Trial
+	</waypoint>
+	<!-- # 88 --><waypoint x="31742" z="5156" y="-13">
+			player:target_NPC(112845) -- Radulov
+			AcceptQuestByName(422161) -- Gaining ground
+			player:target_NPC(112845) -- Radulov
+			ChoiceOptionByName(getTEXT("SC_422161_0")) -- "You may start."
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("SC_422161_4")) -- "Two Kings, light and shade, in life and battle"
+			player:target_NPC(112845) -- Radulov
+			ChoiceOptionByName(getTEXT("SC_422161_9")) -- "Holy Kings Isnasil - Palun'aik - Yabis'an"
+			player:target_NPC(112845) -- Radulov
+			ChoiceOptionByName(getTEXT("SC_422161_20")) -- 'Holy King Yabis'an'
+			CompleteQuestByName(422161) -- Gaining Ground
+			AcceptQuestByName(422162) -- Ancient Ents
+	</waypoint>
+	<!-- # 89 --><waypoint x="31580" z="5518" y="-33">
+			player:target_NPC(112851); -- Natensyu
+			CompleteQuestByName(422162); -- Ancient Ents
+			AcceptQuestByName(422163); -- Ancient Regret
+	</waypoint>
+	<!-- # 90 --><waypoint x="31734" z="5212" y="-18">
+			player:target_NPC(112845); -- Radulov
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID then 
+				CompleteQuestByName(422163, 2) -- Ancient Regret
+				inventory:update()
+				item = inventory:findItem(224416) -- Earring of Unending Longing
+				item:moveTo("right earring")	
+			else 
+				CompleteQuestByName(422163, 1) -- Ancient Regret
+				inventory:update()
+				item = inventory:findItem(224415) -- Earring of the Ancient Regret
+				item:moveTo("right earring")	
+			end
+	</waypoint>
+	<!-- # 91 --><waypoint x="31439" z="5387" y="-29">	</waypoint>
+	<!-- # 92 --><waypoint x="31413" z="5470" y="-8">
+			player:target_NPC(112866) -- Machi Yoda
+			CompleteQuestByName(422285) -- Disheartened Rayjinth
+			AcceptQuestByName(422286) -- Individual Instruction
+			player:mount()
+	</waypoint>
+	<!-- # 93 --><waypoint x="31266" z="5348" y="23">	</waypoint>
+	<!-- # 94 --><waypoint x="31139" z="5274" y="23">	</waypoint>
+	<!-- # 95 --><waypoint x="30898" z="4738" y="3">	</waypoint>
+	<!-- # 96 --><waypoint x="30756" z="4377" y="4">	</waypoint>
+	<!-- # 97 --><waypoint x="30852" z="3812" y="17">
+			player:target_NPC(112795) -- Womukray
+			CompleteQuestByName(422252) -- Rabbit Fur
+			AcceptQuestByName(422253) -- Embedding Studies
+			CompleteQuestByName(422253) -- Embedding Studies
+			AcceptQuestByName(422264) -- Herbalism Skills
+	</waypoint>
+	<!-- # 98 --><waypoint x="30914" z="3804" y="15">	</waypoint>
+	<!-- # 99 --><waypoint x="31118" z="3759" y="4">	</waypoint>
+	<!-- #100 --><waypoint x="31485" z="3583" y="7">	</waypoint>
+	<!-- #101 --><waypoint x="31864" z="3501" y="15">	</waypoint>
+	<!-- #102 --><waypoint x="32145" z="3437" y="23">	</waypoint>
+	<!-- #103 --><waypoint x="32301" z="3267" y="44">
+			player:target_NPC(112869) -- Rayjinth
+			CompleteQuestByName(422286) -- Individual Instruction
+	</waypoint>
+	<!-- #104 --><waypoint x="32173" z="3403" y="30">	</waypoint>
+	<!-- #105 --><waypoint x="31874" z="3718" y="4">	</waypoint>
+	<!-- #106 --><waypoint x="31738" z="3882" y="0">
+			player:target_NPC(112965) -- Shidograce
+			CompleteQuestByName(422264) -- Herbalism Skills
+			AcceptQuestByName(422265) -- Woodcutting Skills
+	</waypoint>
+	<!-- #107 --><waypoint x="31963" z="3838" y="27">	</waypoint>
+	<!-- #108 --><waypoint x="32225" z="3957" y="43">	</waypoint>
+	<!-- #109 --><waypoint x="32304" z="4043" y="54">	</waypoint>
+	<!-- #110 --><waypoint x="32369" z="4260" y="50">
+			player:target_NPC(112964) -- Folsit
+			CompleteQuestByName(422265) -- Woodcutting Skills
+			AcceptQuestByName(422266) -- Mining Skills
+	</waypoint>
+	<!-- #111 --><waypoint x="32278" z="3988" y="52">
+			player:target_NPC(112963) -- Obothek
+			CompleteQuestByName(422266) -- Mining Skills
+	</waypoint>
+	<!-- #112 --><waypoint x="32035" z="3840" y="26">	</waypoint>
+	<!-- #113 --><waypoint x="31701" z="3671" y="0">	</waypoint>
+	<!-- #114 --><waypoint x="31593" z="3672" y="-3">
+			player:target_NPC(112846) -- Skasja
+			AcceptQuestByName(422328) -- Make Him Understand the Rules
+	</waypoint>
+	<!-- #115 --><waypoint x="31682" z="3666" y="0">	</waypoint>
+	<!-- #116 --><waypoint x="31778" z="3771" y="0">	</waypoint>
+	<!-- #117 --><waypoint x="31843" z="4205" y="54">	</waypoint>
+	<!-- #118 --><waypoint x="31937" z="4377" y="45">	</waypoint>
+	<!-- #119 --><waypoint x="31940" z="4489" y="25">	</waypoint>
+	<!-- #120 --><waypoint x="31894" z="4581" y="18">	</waypoint>
+	<!-- #121 --><waypoint x="31959" z="4785" y="20">
+			player:target_NPC(112847) -- Labio
+			ChoiceOptionByName(getTEXT("SC_422328_0")) -- "Labio, Master Skasja wants me to come."
+			if getQuestStatus(422328) == "incomplete" then
+				repeat
+					yrest(1000)
+				until getQuestStatus(422328) == "complete"
+			end
+	</waypoint>
+	<!-- #122 --><waypoint x="31928" z="4671" y="13">	</waypoint>
+	<!-- #123 --><waypoint x="31980" z="4562" y="25">	</waypoint>
+	<!-- #124 --><waypoint x="31994" z="4452" y="32">	</waypoint>
+	<!-- #125 --><waypoint x="31879" z="4284" y="57">	</waypoint>
+	<!-- #126 --><waypoint x="31846" z="4010" y="24">	</waypoint>
+	<!-- #127 --><waypoint x="31750" z="3751" y="0">	</waypoint>
+	<!-- #128 --><waypoint x="31673" z="3684" y="-2">	</waypoint>
+	<!-- #129 --><waypoint x="31585" z="3667" y="-1">
+			player:target_NPC(112846) -- Skasja
+			CompleteQuestByName(422328) -- Make Him Understand the Rules
+			AcceptQuestByName(422329) -- Never Forget the Rules
+	</waypoint>
+	<!-- #130 --><waypoint x="31701" z="3698" y="-1">	</waypoint>
+	<!-- #131 --><waypoint x="31797" z="3869" y="6">	</waypoint>
+	<!-- #132 --><waypoint x="31849" z="4200" y="52">	</waypoint>
+	<!-- #133 --><waypoint x="31934" z="4426" y="32">	</waypoint>
+	<!-- #134 --><waypoint x="31896" z="4598" y="19">	</waypoint>
+	<!-- #135 --><waypoint x="31942" z="4779" y="16">
+			player:target_NPC(112847) -- Labio
+			CompleteQuestByName(422329) -- Never Forget the Rules
+			AcceptQuestByName(422330) -- Genius Labio Number 21
+	</waypoint>
+	<!-- #136 --><waypoint x="31734" z="5181" y="0">	</waypoint>
+	<!-- #137 --><waypoint x="31582" z="5526" y="-32">
+			if getQuestStatus(422330) == "incomplete" then
+				repeat
+					player:target_Object(112895) -- Hand Carved Wooden Box
+					yrest(2000)
+				until getQuestStatus(422330) == "complete"
+			end
+	</waypoint>
+	<!-- #138 --><waypoint x="31684" z="5200" y="-21">
+			player:mount()
+	</waypoint>
+	<!-- #139 --><waypoint x="31944" z="4815" y="14">
+			player:target_NPC(112847) -- Labio
+			CompleteQuestByName(422330) -- Genius Labio Number 21
+			AcceptQuestByName(422331) -- Penance for Mercy
+	</waypoint>
+	<!-- #140 --><waypoint x="31946" z="4654" y="16">	</waypoint>
+	<!-- #141 --><waypoint x="31977" z="4553" y="25">	</waypoint>
+	<!-- #142 --><waypoint x="31977" z="4427" y="36">	</waypoint>
+	<!-- #143 --><waypoint x="31873" z="4280" y="55">	</waypoint>
+	<!-- #144 --><waypoint x="31825" z="4080" y="33">	</waypoint>
+	<!-- #145 --><waypoint x="31751" z="3753" y="0">	</waypoint>
+	<!-- #146 --><waypoint x="31667" z="3688" y="-2">	</waypoint>
+	<!-- #147 --><waypoint x="31597" z="3670" y="-2">
+			player:target_NPC(112846) -- Skasja
+			CompleteQuestByName(422331) -- Penance for Mercy
+			AcceptQuestByName(422332) -- Redeeming His Sins
+	</waypoint>
+	<!-- #148 --><waypoint x="31698" z="3697" y="-1">	</waypoint>
+	<!-- #149 --><waypoint x="31778" z="3775" y="0">	</waypoint>
+	<!-- #150 --><waypoint x="31832" z="4176" y="51">	</waypoint>
+	<!-- #151 --><waypoint x="31871" z="4296" y="54">	</waypoint>
+	<!-- #152 --><waypoint x="31954" z="4409" y="39">	</waypoint>
+	<!-- #153 --><waypoint x="31896" z="4593" y="19">	</waypoint>
+	<!-- #154 --><waypoint x="31938" z="4775" y="16">
+			player:target_NPC(112847) -- Labio
+			ChoiceOptionByName(getTEXT("SC_422332_0")) -- "Master Skasja wants me to ask for one of your potions."
+			RoMScript("CloseAllWindows()")
+			inventory:update()
+			inventory:useItem(204720) -- Genius Labio Number 17
+			player:target_NPC(112847) -- Labio
+			ChoiceOptionByName(getTEXT("SC_422332_1")) -- "Master Skasja asks that you wear this ring."
+	</waypoint>
+	<!-- #155 --><waypoint x="31946" z="4654" y="16">	</waypoint>
+	<!-- #156 --><waypoint x="31977" z="4553" y="25">	</waypoint>
+	<!-- #157 --><waypoint x="31977" z="4427" y="36">	</waypoint>
+	<!-- #158 --><waypoint x="31873" z="4280" y="55">	</waypoint>
+	<!-- #159 --><waypoint x="31825" z="4080" y="33">	</waypoint>
+	<!-- #160 --><waypoint x="31751" z="3753" y="0">	</waypoint>
+	<!-- #161 --><waypoint x="31667" z="3688" y="-2">	</waypoint>
+	<!-- #162 --><waypoint x="31593" z="3676" y="-3">
+			player:target_NPC(112846); -- Skasja
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_DRUID then 
+				CompleteQuestByName(422332, 1) -- Redeeming His Sins
+				inventory:update()
+				inventory:useItem(224387) -- Legal Hood
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then 
+				CompleteQuestByName(422332, 2) -- Redeeming His Sins
+				inventory:update()
+				inventory:useItem(224388) -- Judging Cap
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_WARDEN then 
+				CompleteQuestByName(422332, 3) -- Redeeming His Sins
+				inventory:update()
+				inventory:useItem(224389) -- Tiara of Penance
+			end
+	</waypoint>
+	<!-- #163 --><waypoint x="31720" z="3696" y="0">	</waypoint>
+	<!-- #164 --><waypoint x="31786" z="3851" y="3">	</waypoint>
+	<!-- #165 --><waypoint x="31788" z="4037" y="17">
+			killForQuest(false, 101923, 422272) -- Sick Ent / Returning to Nature
+			player:mount()
+	</waypoint>
+	<!-- #166 --><waypoint x="31828" z="4193" y="35">	</waypoint>
+	<!-- #167 --><waypoint x="31945" z="4386" y="26">	</waypoint>
+	<!-- #168 --><waypoint x="31894" z="4600" y="2">	</waypoint>
+	<!-- #169 --><waypoint x="31930" z="4871" y="-5">	</waypoint>
+	<!-- #170 --><waypoint x="32103" z="5088" y="22">	</waypoint>
+	<!-- #171 --><waypoint x="32248" z="5105" y="38">	</waypoint>
+	<!-- #172 --><waypoint x="32355" z="5090" y="51">
+			player:target_NPC(112825) -- Ayleetamol
+			AcceptQuestByName(422302) -- Gluttonous Snail Larvae
+	</waypoint>
+	<!-- #173 --><waypoint x="32297" z="5125" y="44" tag="MoreEnts">
+			targetAndUse(102019, 204581, 422302) -- Insecticide / Anguished Ent / Gluttonous Snail Larvae
+			killForQuest(false, 102018, 422302) -- Gluttonous Snail Hatchling / Gluttonous Snail Larvae
+	</waypoint>
+	<!-- #174 --><waypoint x="31966" z="5232" y="16">
+			killForQuest(false, 101923, 422272) -- Sick Ent / Returning to Nature
+	</waypoint>
+	<!-- #175 --><waypoint x="32128" z="5339" y="36">
+			killForQuest(false, 101923, 422272) -- Sick Ent / Returning to Nature
+	</waypoint>
+	<!-- #176 --><waypoint x="32269" z="5345" y="40">
+			targetAndUse(102019, 204581, 422302) -- Insecticide / Anguished Ent / Gluttonous Snail Larvae
+			killForQuest(false, 102018, 422302) -- Gluttonous Snail Hatchling / Gluttonous Snail Larvae
+	</waypoint>
+	<!-- #177 --><waypoint x="32377" z="5305" y="40">
+			targetAndUse(102019, 204581, 422302) -- Insecticide / Anguished Ent / Gluttonous Snail Larvae
+			killForQuest(false, 102018, 422302) -- Gluttonous Snail Hatchling / Gluttonous Snail Larvae
+	</waypoint>
+	<!-- #178 --><waypoint x="32466" z="5250" y="35">
+			killForQuest(false, 101923, 422272) -- Sick Ent / Returning to Nature
+	</waypoint>
+	<!-- #179 --><waypoint x="32599" z="5344" y="44">
+			targetAndUse(102019, 204581, 422302) -- Insecticide / Anguished Ent / Gluttonous Snail Larvae
+			killForQuest(false, 102018, 422302) -- Gluttonous Snail Hatchling / Gluttonous Snail Larvae
+	</waypoint>
+	<!-- #180 --><waypoint x="32639" z="5138" y="43">
+			targetAndUse(102019, 204581, 422302) -- Insecticide / Anguished Ent / Gluttonous Snail Larvae
+			killForQuest(false, 102018, 422302) -- Gluttonous Snail Hatchling / Gluttonous Snail Larvae
+	</waypoint>
+	<!-- #181 --><waypoint x="32683" z="5000" y="45">
+			killForQuest(false, 101923, 422272) -- Sick Ent / Returning to Nature
+	</waypoint>
+	<!-- #182 --><waypoint x="32709" z="4825" y="56">	</waypoint>
+	<!-- #183 --><waypoint x="32767" z="4679" y="60">
+			killForQuest(false, 101923, 422272) -- Sick Ent / Returning to Nature
+	</waypoint>
+	<!-- #184 --><waypoint x="32614" z="4350" y="70">
+			killForQuest(false, 101923, 422272) -- Sick Ent / Returning to Nature
+	</waypoint>
+	<!-- #185 --><waypoint x="32371" z="4368" y="42">	</waypoint>
+	<!-- #186 --><waypoint x="32133" z="4420" y="37">	</waypoint>
+	<!-- #187 --><waypoint x="32012" z="4535" y="15">	</waypoint>
+	<!-- #188 --><waypoint x="31844" z="4792" y="-2">
+			targetAndUse(102019, 204581, 422302) -- Insecticide / Anguished Ent / Gluttonous Snail Larvae
+			killForQuest(false, 102018, 422302) -- Gluttonous Snail Hatchling / Gluttonous Snail Larvae
+	</waypoint>
+	<!-- #189 --><waypoint x="31923" z="4952" y="-13">	</waypoint>
+	<!-- #190 --><waypoint x="32114" z="5096" y="24">	</waypoint>
+	<!-- #191 --><waypoint x="32278" z="5120" y="42">
+			targetAndUse(102019, 204581, 422302) -- Insecticide / Anguished Ent / Gluttonous Snail Larvae
+			killForQuest(false, 102018, 422302) -- Gluttonous Snail Hatchling / Gluttonous Snail Larvae
+			if getQuestStatus(422302) == "incomplete" or getQuestStatus(422272) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("MoreEnts"))
+			end
+	</waypoint>
+	<!-- #192 --><waypoint x="32372" z="5088" y="51">
+			player:target_NPC(112825) -- Ayleetamol
+			CompleteQuestByName(422302) -- Gluttonous Snail Larvae
+			AcceptQuestByName(422303) -- Pure Water Source
+	</waypoint>
+	<!-- #193 --><waypoint x="32139" z="5213" y="22">	</waypoint>
+	<!-- #194 --><waypoint x="31688" z="5160" y="-15">
+			if getQuestStatus(422303) == "incomplete" then
+				repeat
+					moveAndGather(112826, 422303) -- Water Jar / Pure Water Source
+				until getQuestStatus(422303) == "complete"
+			end
+			player:mount()
+	</waypoint>
+	<!-- #195 --><waypoint x="32139" z="5213" y="22">	</waypoint>
+	<!-- #196 --><waypoint x="32361" z="5101" y="49">
+			player:target_NPC(112825) -- Ayleetamol
+			CompleteQuestByName(422303) -- Pure Water Source
+	</waypoint>
+	<!-- #197 --><waypoint x="32205" z="5120" y="46">	</waypoint>
+	<!-- #198 --><waypoint x="31977" z="4981" y="9">	</waypoint>
+	<!-- #199 --><waypoint x="31911" z="4781" y="12">	</waypoint>
+	<!-- #200 --><waypoint x="31987" z="4521" y="28">	</waypoint>
+	<!-- #201 --><waypoint x="31880" z="4283" y="55">	</waypoint>
+	<!-- #202 --><waypoint x="31860" z="4134" y="50">	</waypoint>
+	<!-- #203 --><waypoint x="31930" z="3943" y="45">
+			player:target_NPC(112859) -- Lindina
+			CompleteQuestByName(422272) -- Returning to Nature
+			AcceptQuestByName(422273) -- Seed Purification
+	</waypoint>
+	<!-- #204 --><waypoint x="31814" z="3760" y="0">	</waypoint>
+	<!-- #205 --><waypoint x="31681" z="3634" y="3">	</waypoint>
+	<!-- #206 --><waypoint x="31521" z="3593" y="5">	</waypoint>
+	<!-- #207 --><waypoint x="31349" z="3638" y="0">	</waypoint>
+	<!-- #208 --><waypoint x="31035" z="3832" y="2">	</waypoint>
+	<!-- #209 --><waypoint x="30862" z="3803" y="17">
+			player:target_NPC(112795) -- Womukray
+			AcceptQuestByName(422254) -- Certification Completion
+	</waypoint>
+	<!-- #210 --><waypoint x="30838" z="3854" y="15">	</waypoint>
+	<!-- #211 --><waypoint x="30779" z="4174" y="0">
+			player:target_NPC(112860) -- Lushiwait
+			CompleteQuestByName(422273) -- Seed Purification
+			AcceptQuestByName(422274) -- Gardening With Holy Earth
+	</waypoint>
+	<!-- #212 --><waypoint x="30779" z="4174" y="0">
+			if getQuestStatus(422274) == "incomplete" then
+				repeat
+					repeat
+						player:target_Object(112861) -- Holy Earth
+						yrest(2000)
+					until player:findNearestNameOrId(112871) ~= nil -- Recently Sprouted Plant
+					repeat
+						plant = player:findNearestNameOrId({112862, 112872}) -- Withering Plant / Mature Plant
+						if plant and 40 > distance(plant, player) then
+							player:moveTo(CWaypoint(plant.X, plant.Z), true)
+							player:target_Object(plant.Id)
+						end
+					until player:findNearestNameOrId({112862, 112871, 112872}) == nil -- Recently Sprouted Plant / Withering Plant / Mature Plant
+				until getQuestStatus(422274) == "complete"
+			end
+	</waypoint>
+	<!-- #213 --><waypoint x="30786" z="4181" y="-15">
+			player:target_NPC(112860) -- Lushiwait
+			CompleteQuestByName(422274) -- Gardening With Holy Earth
+			AcceptQuestByName(422275) -- They Eat Anything
+			AcceptQuestByName(422276) -- Water Brings Hope
+			AcceptQuestByName(422277) -- Doing My Job
+	</waypoint>
+	<!-- #214 --><waypoint x="30786" z="4181" y="-15">
+			if inventory:itemTotalCount(204610) == 1 then
+				targetAndUse(101922, 204610, 422275) -- Blessed Seed / Gluttonous Snail
+			end
+			player:mount()
+	</waypoint>
+	<!-- #215 --><waypoint x="30734" z="4355" y="-11">	</waypoint>
+	<!-- #216 --><waypoint x="30861" z="4651" y="-11">	</waypoint>
+	<!-- #217 --><waypoint x="31007" z="4952" y="-5">
+			if inventory:itemTotalCount(204610) == 1 then
+				targetAndUse(101922, 204610, 422275) -- Blessed Seed / Gluttonous Snail
+				player:mount()
+			end
+	</waypoint>
+	<!-- #218 --><waypoint x="31142" z="5274" y="6">	</waypoint>
+	<!-- #219 --><waypoint x="31359" z="5379" y="-13">
+			yrest(1000)
+			if getQuestStatus(422276) == "incomplete" then
+				repeat
+					player:target_Object(112863) -- Moist Soil
+				until getQuestStatus(422276) == "complete"
+			end
+			player:mount()
+	</waypoint>
+	<!-- #220 --><waypoint x="31161" z="5288" y="25">	</waypoint>
+	<!-- #221 --><waypoint x="30804" z="5170" y="0">	</waypoint>
+	<!-- #222 --><waypoint x="30711" z="5177" y="4">
+			player:target_NPC(112796) -- Magalan
+			CompleteQuestByName(422254) -- Certification Completion
+			AcceptQuestByName(422255) -- About to Leave
+	</waypoint>
+	<!-- #223 --><waypoint x="30780" z="5157" y="-3">	</waypoint>
+	<!-- #224 --><waypoint x="30876" z="4927" y="3">	</waypoint>
+	<!-- #225 --><waypoint x="30891" z="4711" y="3">	</waypoint>
+	<!-- #226 --><waypoint x="30790" z="4438" y="2">	</waypoint>
+	<!-- #227 --><waypoint x="30793" z="4189" y="0">	</waypoint>
+	<!-- #228 --><waypoint x="30852" z="3979" y="3">	</waypoint>
+	<!-- #229 --><waypoint x="30946" z="3884" y="6">	</waypoint>
+	<!-- #230 --><waypoint x="31386" z="3667" y="0">	</waypoint>
+	<!-- #231 --><waypoint x="31540" z="3623" y="3">	</waypoint>
+	<!-- #232 --><waypoint x="31677" z="3604" y="1">	</waypoint>
+	<!-- #233 --><waypoint x="31853" z="3772" y="3">	</waypoint>
+	<!-- #234 --><waypoint x="31936" z="3917" y="42">
+			player:target_NPC(112859) -- Lindina
+			CompleteQuestByName(422275) -- They Eat Anything
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_WARDEN then
+				CompleteQuestByName(422276, 1) -- Water Brings Hope
+				inventory:update()
+				inventory:useItem(224424) -- Chain of New Hope
+			elseif player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				CompleteQuestByName(422276, 2) -- Water Brings Hope
+				inventory:update()
+				inventory:useItem(224425) -- Mission Chain
+			elseif player.Class1 == CLASS_MAGE then
+				CompleteQuestByName(422276, 3) -- Water Brings Hope
+				inventory:update()
+				inventory:useItem(224426) -- Chain of Natural Purification
+			elseif player.Class1 == CLASS_DRUID then
+				CompleteQuestByName(422276, 4) -- Water Brings Hope
+				inventory:update()
+				inventory:useItem(224427) -- Chain of The Holy King's Blessings
+			end
+			CompleteQuestByName(422277) -- Doing My Job
+			AcceptQuestByName(422278) -- If Skippers Don't Spread Pollen...
+	</waypoint>
+	<!-- #235 --><waypoint x="31880" z="4046" y="39">	</waypoint>
+	<!-- #236 --><waypoint x="31830" z="4271" y="53">
+			killForQuest(true, 101924, 422278) -- Rainbow Skipper / If Skippers Don't Spread Pollen...
+	</waypoint>
+	<!-- #237 --><waypoint x="31971" z="4409" y="39">
+			killForQuest(true, 101924, 422278) -- Rainbow Skipper / If Skippers Don't Spread Pollen...
+	</waypoint>
+	<!-- #238 --><waypoint x="31895" z="4571" y="20">	</waypoint>
+	<!-- #239 --><waypoint x="31909" z="4831" y="10">
+			killForQuest(true, 101924, 422278) -- Rainbow Skipper / If Skippers Don't Spread Pollen...
+	</waypoint>
+	<!-- #240 --><waypoint x="32147" z="5133" y="37">
+			killForQuest(true, 101924, 422278) -- Rainbow Skipper / If Skippers Don't Spread Pollen...
+	</waypoint>
+	<!-- #241 --><waypoint x="32339" z="5131" y="61">	</waypoint>
+	<!-- #242 --><waypoint x="32486" z="5031" y="73">
+			killForQuest(true, 101924, 422278) -- Rainbow Skipper / If Skippers Don't Spread Pollen...
+	</waypoint>
+	<!-- #243 --><waypoint x="32594" z="4848" y="60">	</waypoint>
+	<!-- #244 --><waypoint x="32585" z="4613" y="61">
+			killForQuest(true, 101924, 422278) -- Rainbow Skipper / If Skippers Don't Spread Pollen...
+	</waypoint>
+	<!-- #245 --><waypoint x="32372" z="4443" y="55">
+			killForQuest(true, 101924, 422278) -- Rainbow Skipper / If Skippers Don't Spread Pollen...
+	</waypoint>
+	<!-- #246 --><waypoint x="32109" z="4425" y="50">	</waypoint>
+	<!-- #247 --><waypoint x="31983" z="4388" y="48">
+			killForQuest(true, 101924, 422278) -- Rainbow Skipper / If Skippers Don't Spread Pollen...
+	</waypoint>
+	<!-- #248 --><waypoint x="31842" z="4283" y="55">
+			killForQuest(true, 101924, 422278) -- Rainbow Skipper / If Skippers Don't Spread Pollen...
+	</waypoint>
+	<!-- #249 --><waypoint x="31843" z="4125" y="43">	</waypoint>
+	<!-- #250 --><waypoint x="31925" z="3943" y="43">
+			player:target_NPC(112859) -- Lindina
+			CompleteQuestByName(422278) -- If Skippers Don't Spread Pollen...
+			AcceptQuestByName(422279) -- Setting Off Again
+	</waypoint>
+	<!-- #251 --><waypoint x="31870" z="3711" y="-11">	</waypoint>
+	<!-- #252 --><waypoint x="31880" z="3547" y="-9">
+			player:target_NPC(112864) -- Fairlun
+			CompleteQuestByName(422279) -- Setting Off Again
+	</waypoint>
+	<!-- #253 --><waypoint x="31718" z="3601" y="-16">	</waypoint>
+	<!-- #254 --><waypoint x="31441" z="3599" y="-10">	</waypoint>
+	<!-- #255 --><waypoint x="30984" z="3812" y="-10">	</waypoint>
+	<!-- #256 --><waypoint x="30867" z="3801" y="0">
+			player:target_NPC(112795) -- Womukray
+			AcceptQuestByName(422333) -- Advanced Academy Certificate
+	</waypoint>
+	<!-- #257 --><waypoint x="30916" z="3809" y="15">	</waypoint>
+	<!-- #258 --><waypoint x="31004" z="3795" y="6">	</waypoint>
+	<!-- #259 --><waypoint x="31427" z="3470" y="29">	</waypoint>
+	<!-- #260 --><waypoint x="31526" z="3341" y="58">	</waypoint>
+	<!-- #261 --><waypoint x="31776" z="3157" y="59">	</waypoint>
+	<!-- #262 --><waypoint x="31652" z="2785" y="62">
+			loadPaths("ElvenIsland/EI_02_SporeGrove")
+	</waypoint>
+</waypoints>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+startGMDetect()
+<onload>
+function bossbuff()
+	if player.Class1 == 2 and player.Class2 == 7 then -- warden/warrior
+		inventory:useItem(204462)
+		yrest(5000)
+		inventory:useItem(204463)
+		yrest(5000)
+		player:cast("WARDEN_SAVAGE_POWER")
+		player:cast("SCOUT_ARROW_OF_ESSENCE")
+	end
+	if player.Class1 == 4 and player.Class2 == 5 then -- mage/priest
+		player:cast("MAGE_ENERGY_INFLUX")
+		player:cast("MAGE_INTENSIFICATION")
+		player:cast("MAGE_MAGIC_DRAIN")
+		player:cast("MAGE_ELEMENTAL_CATALYST")
+	end
+end
+</onload>
+	<!-- #  1 --><waypoint x="1644" z="-4921" y="752">	</waypoint>
+	<!-- #  2 --><waypoint x="1670" z="-5077" y="760">	</waypoint>
+	<!-- #  3 --><waypoint x="1688" z="-5162" y="759">
+	waitForLoadingScreen();
+	</waypoint>
+	<!-- #  5 --><waypoint x="1886" z="2881" y="433">	</waypoint>
+	<!-- #  6 --><waypoint x="2044" z="2698" y="433">	</waypoint>
+	<!-- #  7 --><waypoint x="2348" z="2335" y="401">	</waypoint>
+	<!-- #  8 --><waypoint x="2177" z="2540" y="407">	bossbuff()	</waypoint>
+	<!-- #  9 --><waypoint x="2188" z="2524" y="401">	</waypoint>
+	<!-- # 10 --><waypoint x="2120" z="2607" y="432">	</waypoint>
+	<!-- # 11 --><waypoint x="1894" z="2874" y="433">	</waypoint>
+		player:cast("ROGUE_HIDE")
+	<!-- # 12 --><waypoint x="1774" z="2883" y="433">	</waypoint>
+	<!-- # 13 --><waypoint x="1696" z="2891" y="445">		
+	waitForLoadingScreen();
+	yrest(800)
+	SlashCommand("ILG destroy"); 
+	yrest(200)
+	SlashCommand("ILG inv");
+        yrest(200)
+	SlashCommand("ILG inv"); 
+	</waypoint>
+</waypoints>

@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+	<!-- 	Yrvandis Hollows v1.35 by Bill D. Cat -->
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Yrvandis Hollows quest series. -->
+	<!--	Required userfunctions: userfunction_teleport, userfunction_gotoportal and userfunction_questHelpers -->
+	<!--	YH_03_Taffrock will complete all quests inside the Taffrock Instance and finish the zone quests afterwards -->
+	<!--	Approximate Runtime: 45 Minutes -->
+	<onload>
+		speed("on")
+		if not __WPL.ResumePoint then
+			__WPL:setWaypointIndex(1)
+		end
+		
+		function getStatue()
+			if getQuestStatus(425087) == "incomplete" then
+				statue = player:findNearestNameOrId({120260, 120261, 120262, 120537}) -- Petrified Resident
+				if statue and 45 > distance(statue.X, statue.Z, player.X, player.Z) then
+					player:target_Object(statue.Id)
+					yrest(3000)
+				end
+			end
+		end
+		
+	</onload>
+	<!-- #  1 --><waypoint x="5134" z="3938" y="1421">	</waypoint>
+	<!-- #  2 --><waypoint x="5176" z="3891" y="1417">
+			player:target_NPC(120248) -- Nadil Steelaxis
+			SureAcceptQuest(425088) -- Search for a Scout
+			player:target_NPC(120357) -- Sinther Shadowrule
+			SureAcceptQuest(425081) -- Save Our Faith
+			player:mount()
+	</waypoint>
+	<!-- #  3 --><waypoint x="5313" z="3967" y="1412">	</waypoint>
+	<!-- #  4 --><waypoint x="5566" z="4207" y="1421">	</waypoint>
+	<!-- #  5 --><waypoint x="5569" z="4567" y="1425">	</waypoint>
+	<!-- #  6 --><waypoint x="5982" z="4604" y="1425">	</waypoint>
+	<!-- #  7 --><waypoint x="5986" z="4914" y="1425">	</waypoint>
+	<!-- #  8 --><waypoint x="5947" z="5358" y="1429">	</waypoint>
+	<!-- #  9 --><waypoint x="5937" z="5594" y="1427">	</waypoint>
+	<!-- # 10 --><waypoint x="5971" z="5730" y="1431">
+			inside = GoThroughPortal(150)
+			if inside == false then
+				error("Failed to enter the instance: Taffrock Southern District", 0)
+			end
+	</waypoint>
+	<!-- # 11 --><waypoint x="2400" z="-3927" y="2979">
+			__WPL:setForcedWaypointType("NORMAL")
+			speed("on")
+	</waypoint>
+	<!-- # 12 --><waypoint x="2428" z="-3466" y="2981">	</waypoint>
+	<!-- # 13 --><waypoint x="2415" z="-3297" y="2980">	</waypoint>
+	<!-- # 14 --><waypoint x="2346" z="-3185" y="2980">	</waypoint>
+	<!-- # 15 --><waypoint x="2027" z="-3151" y="2980">	</waypoint>
+	<!-- # 16 --><waypoint x="2041" z="-2905" y="2980">	</waypoint>
+	<!-- # 17 --><waypoint x="2025" z="-2697" y="2982">	</waypoint>
+	<!-- # 18 --><waypoint x="2024" z="-2494" y="2980">	</waypoint>
+	<!-- # 19 --><waypoint x="2018" z="-2308" y="2980">	</waypoint>
+	<!-- # 20 --><waypoint x="2020" z="-2120" y="2980">	</waypoint>
+	<!-- # 21 --><waypoint x="2038" z="-2005" y="2980">	</waypoint>
+	<!-- # 22 --><waypoint x="2021" z="-1825" y="2980">	</waypoint>
+	<!-- # 23 --><waypoint x="2026" z="-1646" y="2980">	</waypoint>
+	<!-- # 24 --><waypoint x="2143" z="-1485" y="2980">	</waypoint>
+	<!-- # 25 --><waypoint x="2136" z="-1216" y="2980">
+			player:target_NPC(120530) -- Biolin Ironcauldron
+			SureAcceptQuest(425087) -- Bring as much as you can
+			player:target_NPC(120352) -- Dannol Peacetree
+			SureAcceptQuest(425090) -- Provide Shelter
+			SureAcceptQuest(425089) -- Consolidate Vanguard
+	</waypoint>
+	<!-- # 26 --><waypoint x="2184" z="-1474" y="2980" tag="Statues">
+			getStatue()
+			getStatue()
+	</waypoint>
+	<!-- # 27 --><waypoint x="1991" z="-1685" y="2980">
+			getStatue()
+			getStatue()
+			getStatue()
+	</waypoint>
+	<!-- # 28 --><waypoint x="2014" z="-1442" y="2982">
+			getStatue()
+			getStatue()
+			if getQuestStatus(425087) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Statues"))
+			end
+	</waypoint>
+	<!-- # 29 --><waypoint x="1724" z="-1338" y="2980">	</waypoint>
+	<!-- # 30 --><waypoint x="1457" z="-1303" y="2980" tag="Barrier">
+			if getQuestStatus(425090) == "incomplete" then
+				repeat
+					inventory:useItem(241052) -- Barrier Deployment Instrument
+					yrest(5000)
+				until inventory:itemTotalCount(241052) == 0
+			end
+	</waypoint>
+	<!-- # 31 --><waypoint x="1318" z="-1245" y="2980">
+			if inventory:itemTotalCount(241052) > 0 then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Barrier"))
+			end
+	</waypoint>
+	<!-- # 32 --><waypoint x="1305" z="-1181" y="2982">	</waypoint>
+	<!-- # 33 --><waypoint x="1308" z="-911" y="2981">	</waypoint>
+	<!-- # 34 --><waypoint x="1236" z="-716" y="2981">	</waypoint>
+	<!-- # 35 --><waypoint x="1061" z="-677" y="2981">	</waypoint>
+	<!-- # 36 --><waypoint x="912" z="-660" y="2981">	</waypoint>
+	<!-- # 37 --><waypoint x="906" z="-376" y="2981">	</waypoint>
+	<!-- # 38 --><waypoint x="906" z="-655" y="2981">	</waypoint>
+	<!-- # 39 --><waypoint x="1240" z="-749" y="2981">	</waypoint>
+	<!-- # 40 --><waypoint x="1309" z="-1199" y="2982">	</waypoint>
+	<!-- # 41 --><waypoint x="1400" z="-1243" y="2980">	</waypoint>
+	<!-- # 42 --><waypoint x="1730" z="-1274" y="2980">	</waypoint>
+	<!-- # 43 --><waypoint x="1941" z="-1251" y="2982">	</waypoint>
+	<!-- # 44 --><waypoint x="2131" z="-1198" y="2980">
+			player:target_NPC(120352) -- Dannol Peacetree
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425090, 1) -- Provide Shelter
+				inventory:update()
+				inventory:useItem(213724) -- Observer Staff
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425090, 2) -- Provide Shelter
+				inventory:update()
+				inventory:useItem(213725) -- Pursuit Dagger
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425090, 3) -- Provide Shelter
+			end
+	</waypoint>
+	<!-- # 45 --><waypoint x="1949" z="-1258" y="2982">	</waypoint>
+	<!-- # 46 --><waypoint x="1856" z="-1280" y="2980">	</waypoint>
+	<!-- # 47 --><waypoint x="1409" z="-1268" y="2980">	</waypoint>
+	<!-- # 48 --><waypoint x="1329" z="-1196" y="2982">	</waypoint>
+	<!-- # 49 --><waypoint x="1281" z="-747" y="2981">	</waypoint>
+	<!-- # 50 --><waypoint x="939" z="-647" y="2981">	</waypoint>
+	<!-- # 51 --><waypoint x="890" z="-511" y="2981">	</waypoint>
+	<!-- # 52 --><waypoint x="909" z="-242" y="2982">	</waypoint>
+	<!-- # 53 --><waypoint x="919" z="24" y="2973">	</waypoint>
+	<!-- # 54 --><waypoint x="925" z="496" y="2973">	</waypoint>
+	<!-- # 55 --><waypoint x="916" z="844" y="2981">	</waypoint>
+	<!-- # 56 --><waypoint x="915" z="1028" y="2980">	</waypoint>
+	<!-- # 57 --><waypoint x="953" z="1312" y="2980">	</waypoint>
+	<!-- # 58 --><waypoint x="1196" z="1326" y="2981">	</waypoint>
+	<!-- # 59 --><waypoint x="1209" z="1323" y="2981">
+			__WPL:setForcedWaypointType("TRAVEL")
+			fly()
+	</waypoint>
+	<!-- # 60 --><waypoint x="1344" z="1327" y="3417">	</waypoint>
+	<!-- # 61 --><waypoint x="1628" z="1342" y="3557">	</waypoint>
+	<!-- # 62 --><waypoint x="1885" z="1327" y="3291">	</waypoint>
+	<!-- # 63 --><waypoint x="2083" z="1324" y="3037">	</waypoint>
+	<!-- # 64 --><waypoint x="1923" z="1279" y="3006" tag="Princess">
+			moveAndGather(120527,425080) -- Morfantas Statue / A Thread of Hope
+			repeat
+				yrest(500)
+			until player.Casting == false
+	</waypoint>
+	<!-- # 65 --><waypoint x="1921" z="1296" y="3050">
+			print("Begin pathing to evade Gargoylem")
+	</waypoint>
+	<!-- # 66 --><waypoint x="2162" z="1314" y="3114">	</waypoint>
+	<!-- # 67 --><waypoint x="2423" z="1320" y="3239">	</waypoint>
+	<!-- # 68 --><waypoint x="2616" z="1181" y="3292">	</waypoint>
+	<!-- # 69 --><waypoint x="2785" z="1203" y="3393">	</waypoint>
+	<!-- # 70 --><waypoint x="2904" z="1313" y="3476">
+			print("Gargoylem should have dropped aggro and returned to his starting point.")
+			player:rest(5,85,"full")
+			if inventory:itemTotalCount(241048) > 0 and getQuestStatus(425081) == "complete" then
+				inventory:useItem(241048) -- Princess of Morfantas Stone Statue
+				RoMScript("AcceptBorderQuest()") -- A Thread of Hope
+				RoMScript("CloseAllWindows()")
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("PrincessDone"))
+			end
+	</waypoint>
+	<!-- # 71 --><waypoint x="2652" z="1371" y="3299">	</waypoint>
+	<!-- # 72 --><waypoint x="2328" z="1331" y="3159">	</waypoint>
+	<!-- # 73 --><waypoint x="1960" z="1293" y="3009">
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Princess"))
+	</waypoint>
+	<!-- # 74 --><waypoint x="2430" z="1326" y="3074" tag="PrincessDone">	</waypoint>
+	<!-- # 75 --><waypoint x="2705" z="1325" y="3074">
+			flyoff()
+			outside = GoThroughPortal(250)
+			if outside == false then
+				error("Failed to leave the instance: Taffrock Southern District.", 0)
+			end
+	</waypoint>
+	<!-- # 76 --><waypoint x="5984" z="5737" y="1431">
+			player:mount()
+	</waypoint>
+	<!-- # 77 --><waypoint x="5937" z="5602" y="1428">	</waypoint>
+	<!-- # 78 --><waypoint x="5960" z="5279" y="1425">	</waypoint>
+	<!-- # 79 --><waypoint x="5989" z="4863" y="1426">	</waypoint>
+	<!-- # 80 --><waypoint x="5974" z="4595" y="1425">	</waypoint>
+	<!-- # 81 --><waypoint x="5589" z="4581" y="1425">	</waypoint>
+	<!-- # 82 --><waypoint x="5560" z="4334" y="1424">	</waypoint>
+	<!-- # 83 --><waypoint x="5495" z="4180" y="1418">	</waypoint>
+	<!-- # 84 --><waypoint x="5188" z="3903" y="1416">
+			player:target_NPC(120248) -- Nadil Steelaxis
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425088, 2) -- Search for a Scout
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425088, 2) -- Search for a Scout
+			elseif player.Class1 == CLASS_WARRIOR then
+				SureCompleteQuest(425088, 2) -- Search for a Scout
+			elseif player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425088, 3) -- Search for a Scout
+			end
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425087, 1) -- Bring as much as you can
+				inventory:update()
+				inventory:useItem(230445) -- Untiring Cloth Gloves
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425087, 2) -- Bring as much as you can
+				inventory:update()
+				inventory:useItem(230446) -- Untiring Leather Gloves
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425087, 3) -- Bring as much as you can
+				inventory:update()
+				inventory:useItem(230447) -- Untiring Chainmail Gloves
+			end
+	</waypoint>
+	<!-- # 85 --><waypoint x="5188" z="3903" y="1416">
+			player:target_NPC(120357) -- Sinther Shadowrule
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425081, 1) -- Save Our Faith
+				inventory:update()
+				inventory:useItem(230457) -- Strategy of the Protector
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425081, 2) -- Save Our Faith
+				inventory:update()
+				inventory:useItem(230458) -- Determination of the Protector
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425081, 3) -- Save Our Faith
+				inventory:update()
+				inventory:useItem(230459) -- Conviction of the Protector 
+			end
+			SureCompleteQuest(425080) -- A Thread of Hope
+			SureAcceptQuest(425082) -- War of Attrition
+	</waypoint>
+	<!-- # 86 --><waypoint x="5156" z="3924" y="1419">	</waypoint>
+	<!-- # 87 --><waypoint x="5109" z="3960" y="1424">
+			player:target_NPC(120363) -- Kayya Antsz
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425089, 1) -- Consolidate Vanguard
+				inventory:update()
+				inventory:useItem(230451) -- Guide of the Protector
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425089, 2) -- Consolidate Vanguard
+				inventory:update()
+				inventory:useItem(230452) -- Direction of the Protector
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425089, 3) -- Consolidate Vanguard
+				inventory:update()
+				inventory:useItem(230453) -- Target of the Protector
+			end
+			player:mount()
+	</waypoint>
+	<!-- # 88 --><waypoint x="5247" z="3833" y="1413">	</waypoint>
+	<!-- # 89 --><waypoint x="5306" z="3778" y="1412">	</waypoint>
+	<!-- # 90 --><waypoint x="5294" z="3645" y="1428">	</waypoint>
+	<!-- # 91 --><waypoint x="5249" z="3418" y="1435">	</waypoint>
+	<!-- # 92 --><waypoint x="5152" z="3356" y="1429">	</waypoint>
+	<!-- # 93 --><waypoint x="4863" z="3323" y="1426">	</waypoint>
+	<!-- # 94 --><waypoint x="4596" z="3326" y="1431">	</waypoint>
+	<!-- # 95 --><waypoint x="4484" z="3199" y="1433">	</waypoint>
+	<!-- # 96 --><waypoint x="4471" z="3059" y="1438">	</waypoint>
+	<!-- # 97 --><waypoint x="4465" z="2788" y="1425">	</waypoint>
+	<!-- # 98 --><waypoint x="4381" z="2441" y="1418">	</waypoint>
+	<!-- # 99 --><waypoint x="4417" z="2238" y="1421">	</waypoint>
+	<!-- #100 --><waypoint x="4531" z="2131" y="1418">
+			player:target_NPC(120252) -- Dormen Blackjaw
+			SureCompleteQuest(425082) -- War of Attrition
+	</waypoint>
+	<!-- #101 --><waypoint x="4504" z="2144" y="1418">
+			player:target_NPC(120526) -- Kayya Antsz
+			SureAcceptQuest(425083) -- Request Rescue
+			player:mount()
+	</waypoint>
+	<!-- #102 --><waypoint x="4387" z="2245" y="1421">	</waypoint>
+	<!-- #103 --><waypoint x="4340" z="2353" y="1425">	</waypoint>
+	<!-- #104 --><waypoint x="4410" z="2597" y="1414">	</waypoint>
+	<!-- #105 --><waypoint x="4469" z="2843" y="1425">	</waypoint>
+	<!-- #106 --><waypoint x="4489" z="3114" y="1436">	</waypoint>
+	<!-- #107 --><waypoint x="4549" z="3290" y="1431">	</waypoint>
+	<!-- #108 --><waypoint x="4637" z="3338" y="1431">	</waypoint>
+	<!-- #109 --><waypoint x="4922" z="3316" y="1422">	</waypoint>
+	<!-- #110 --><waypoint x="5196" z="3370" y="1432">	</waypoint>
+	<!-- #111 --><waypoint x="5281" z="3494" y="1435">	</waypoint>
+	<!-- #112 --><waypoint x="5301" z="3674" y="1426">	</waypoint>
+	<!-- #113 --><waypoint x="5299" z="3835" y="1412">	</waypoint>
+	<!-- #114 --><waypoint x="5439" z="4041" y="1418">	</waypoint>
+	<!-- #115 --><waypoint x="5552" z="4243" y="1420">	</waypoint>
+	<!-- #116 --><waypoint x="5565" z="4447" y="1425">	</waypoint>
+	<!-- #117 --><waypoint x="5590" z="4588" y="1425">	</waypoint>
+	<!-- #118 --><waypoint x="5981" z="4597" y="1425">	</waypoint>
+	<!-- #119 --><waypoint x="5983" z="4870" y="1426">	</waypoint>
+	<!-- #120 --><waypoint x="5974" z="5193" y="1425">	</waypoint>
+	<!-- #121 --><waypoint x="5939" z="5483" y="1426">	</waypoint>
+	<!-- #122 --><waypoint x="5949" z="5607" y="1429">	</waypoint>
+	<!-- #123 --><waypoint x="5982" z="5671" y="1431">	</waypoint>
+	<!-- #124 --><waypoint x="5975" z="5769" y="1431">
+			inside = GoThroughPortal(150)
+			if inside == false then
+				error("Failed to enter the instance: Taffrock Southern District", 0)
+			end
+	</waypoint>
+	<!-- #125 --><waypoint x="2474" z="-3797" y="2979">	</waypoint>
+	<!-- #126 --><waypoint x="2474" z="-3797" y="2979">
+			player:target_NPC(120365) -- Kemo Silvering
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_WARLOCK then
+				SureCompleteQuest(425083, 1) -- Request Rescue
+				inventory:update()
+				inventory:useItem(230466) -- Prayer of Friendship
+			elseif player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(425083, 2) -- Request Rescue
+				inventory:update()
+				inventory:useItem(230467) -- Agreement of Friendship
+			elseif player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION then
+				SureCompleteQuest(425083, 3) -- Request Rescue
+				inventory:update()
+				inventory:useItem(230468) -- Oath of Friendship
+			end
+			SureAcceptQuest(425084) -- Cautious Approach
+	</waypoint>
+	<!-- #127 --><waypoint x="2471" z="-3845" y="2979" tag="Rescue">
+			player:target_NPC(120531) -- Shadowforge Dwarf Warrior
+			yrest(3000)
+			ChoiceOptionByName(getTEXT("SC_425084_5")) -- "We should fall back to Sinther Camp first."
+			if getQuestStatus(425084) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("RescueDone"))
+			end
+	</waypoint>
+	<!-- #128 --><waypoint x="2457" z="-3898" y="2979">
+			player:target_NPC(120531) -- Shadowforge Dwarf Warrior
+			yrest(3000)
+			ChoiceOptionByName(getTEXT("SC_425084_5")) -- "We should fall back to Sinther Camp first."
+			if getQuestStatus(425084) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("RescueDone"))
+			end
+	</waypoint>
+	<!-- #129 --><waypoint x="2391" z="-3867" y="2979">
+			player:target_NPC(120531) -- Shadowforge Dwarf Warrior
+			yrest(3000)
+			ChoiceOptionByName(getTEXT("SC_425084_5")) -- "We should fall back to Sinther Camp first."
+			if getQuestStatus(425084) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("RescueDone"))
+			end
+	</waypoint>
+	<!-- #130 --><waypoint x="2364" z="-3825" y="2979">
+			player:target_NPC(120531) -- Shadowforge Dwarf Warrior
+			yrest(3000)
+			ChoiceOptionByName(getTEXT("SC_425084_5")) -- "We should fall back to Sinther Camp first."
+			if getQuestStatus(425084) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("RescueDone"))
+			end
+	</waypoint>
+	<!-- #131 --><waypoint x="2324" z="-3861" y="2979">
+			player:target_NPC(120531) -- Shadowforge Dwarf Warrior
+			yrest(3000)
+			ChoiceOptionByName(getTEXT("SC_425084_5")) -- "We should fall back to Sinther Camp first."
+			if getQuestStatus(425084) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Rescue"))
+			end
+	</waypoint>
+	<!-- #132 --><waypoint x="2391" z="-3980" y="2979" tag="RescueDone">
+			outside = GoThroughPortal(250)
+			if outside == false then
+				error("Failed to leave the instance: Taffrock Southern District.", 0)
+			end
+	</waypoint>
+	<!-- #133 --><waypoint x="5968" z="5697" y="1431">
+			player:mount()
+	</waypoint>
+	<!-- #134 --><waypoint x="5942" z="5610" y="1430">	</waypoint>
+	<!-- #135 --><waypoint x="5962" z="5351" y="1429">	</waypoint>
+	<!-- #136 --><waypoint x="5988" z="4918" y="1425">	</waypoint>
+	<!-- #137 --><waypoint x="5966" z="4607" y="1425">	</waypoint>
+	<!-- #138 --><waypoint x="5578" z="4564" y="1425">	</waypoint>
+	<!-- #139 --><waypoint x="5562" z="4349" y="1425">	</waypoint>
+	<!-- #140 --><waypoint x="5462" z="4154" y="1417">	</waypoint>
+	<!-- #141 --><waypoint x="5296" z="3792" y="1412">	</waypoint>
+	<!-- #142 --><waypoint x="5259" z="3475" y="1435">	</waypoint>
+	<!-- #143 --><waypoint x="5179" z="3371" y="1432">	</waypoint>
+	<!-- #144 --><waypoint x="5051" z="3331" y="1421">	</waypoint>
+	<!-- #145 --><waypoint x="4625" z="3322" y="1431">	</waypoint>
+	<!-- #146 --><waypoint x="4514" z="3246" y="1432">	</waypoint>
+	<!-- #147 --><waypoint x="4468" z="2883" y="1427">	</waypoint>
+	<!-- #148 --><waypoint x="4404" z="2575" y="1412">	</waypoint>
+	<!-- #149 --><waypoint x="4397" z="2332" y="1424">	</waypoint>
+	<!-- #150 --><waypoint x="4453" z="2180" y="1419">	</waypoint>
+	<!-- #151 --><waypoint x="4537" z="2131" y="1418">
+			player:target_NPC(120252) -- Dormen Blackjaw
+			SureCompleteQuest(425084) -- Cautious Approach
+			SureAcceptQuest(425085) -- Safe Return
+	</waypoint>
+	<!-- #152 --><waypoint x="4497" z="2147" y="1418">	</waypoint>
+	<!-- #153 --><waypoint x="4334" z="1843" y="1431">	</waypoint>
+	<!-- #154 --><waypoint x="4200" z="1471" y="1478">	</waypoint>
+	<!-- #155 --><waypoint x="4179" z="1256" y="1483">	</waypoint>
+	<!-- #156 --><waypoint x="4307" z="900" y="1482">	</waypoint>
+	<!-- #157 --><waypoint x="4326" z="687" y="1482">	</waypoint>
+	<!-- #158 --><waypoint x="4246" z="540" y="1470">	</waypoint>
+	<!-- #159 --><waypoint x="4095" z="452" y="1443">	</waypoint>
+	<!-- #160 --><waypoint x="3880" z="397" y="1397">	</waypoint>
+	<!-- #161 --><waypoint x="3566" z="193" y="1338">	</waypoint>
+	<!-- #162 --><waypoint x="3277" z="9" y="1338">	</waypoint>
+	<!-- #163 --><waypoint x="2968" z="-184" y="1333">	</waypoint>
+	<!-- #164 --><waypoint x="2734" z="-263" y="1386">	</waypoint>
+	<!-- #165 --><waypoint x="2472" z="-305" y="1480">	</waypoint>
+	<!-- #166 --><waypoint x="2266" z="-357" y="1553">	</waypoint>
+	<!-- #167 --><waypoint x="1954" z="-372" y="1561">	</waypoint>
+	<!-- #168 --><waypoint x="1909" z="-780" y="1561">	</waypoint>
+	<!-- #169 --><waypoint x="1744" z="-786" y="1560">	</waypoint>
+	<!-- #170 --><waypoint x="1496" z="-905" y="1560">	</waypoint>
+	<!-- #171 --><waypoint x="1265" z="-908" y="1560">	</waypoint>
+	<!-- #172 --><waypoint x="1053" z="-787" y="1560">	</waypoint>
+	<!-- #173 --><waypoint x="778" z="-768" y="1561">	</waypoint>
+	<!-- #174 --><waypoint x="744" z="-371" y="1561">	</waypoint>
+	<!-- #175 --><waypoint x="523" z="-344" y="1561">	</waypoint>
+	<!-- #176 --><waypoint x="488" z="9" y="1561">
+			player:target_NPC(120239) -- Hebron Shadoweave
+			SureCompleteQuest(425085) -- Safe Return
+	</waypoint>
+	<!-- #177 --><waypoint x="328" z="-10" y="1561">	</waypoint>
+	<!-- #178 --><waypoint x="199" z="89" y="1561">
+			player:dismount()
+			player:target_NPC(120366) -- Morfantas
+			SureAcceptQuest(425086) -- Conversation with Morfantas
+			player:target_NPC(120366) -- Morfantas
+			ChoiceOptionByName(getTEXT("SC_423497_2")) -- "Then go."
+			if getQuestStatus(425086) == "incomplete" then
+				repeat
+					princess = player:findNearestNameOrId(120539)
+					player:moveTo(CWaypoint(princess.X, princess.Z), true)
+					yrest(2000)
+				until getQuestStatus(425086) == "complete"
+			end
+	</waypoint>
+	<!-- #179 --><waypoint x="186" z="80" y="1563">
+			player:target_NPC(120366) -- Morfantas
+			SureCompleteQuest(425086) -- Conversation with Morfantas
+			player:target_NPC(120538) -- Morfantas
+			SureAcceptQuest(425188) -- Morfantas' Request
+			player:target_NPC(120538) -- Morfantas
+			ChoiceOptionByName(getTEXT("SC_423180_6")) -- "Hmm, I know."
+			if getQuestStatus(425188) == "incomplete" then
+				repeat
+					yrest(3000)
+				until getQuestStatus(425188) == "complete"
+			end
+			player:target_NPC(120538) -- Morfantas
+			SureCompleteQuest(425188) -- Morfantas' Request
+			player:target_NPC(120367) -- Geelix Sidon
+			SureAcceptQuest(425189) -- Silvershadow Invitation
+			print("Stop here and pick your second class. Press DEL to continue after choosing.")
+			repeat
+				player:sleep()
+				player:update()
+			until player.Class2 ~= -1
+			loadPaths("YrvandisHollows/YH_04_ToVaranas")
+	</waypoint>
+</waypoints>

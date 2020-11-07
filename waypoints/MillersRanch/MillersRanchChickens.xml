@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+
+<!--        Rock5's Millers Ranch Chickens run        -->
+<!--           By Rock5     Version 3.2 (Final)       -->
+<!-- www.solarstrike.net/phpBB3/viewtopic.php?p=12139 -->
+
+<onLoad>
+	--== User Option ==--
+
+	GetReward = true -- Doesn't complete the quest if 'false'.
+	Timeout = 300    -- Time hens and eggs stay in the ignore list before being given another chance. '0' disables it, remains permanently in ignore list.
+
+	--=================--
+
+	ignoredHens = {}
+	ignoredEggs = {}
+
+	changeProfileOption("HARVEST_DISTANCE", 150)
+
+	-- Get name strings
+	questname=RoMScript("TEXT('Sys422386_name')"); yrest(500) -- ie. "An Easy Lay?"
+	npcname=RoMScript("TEXT('Sys114930_name')"); yrest(500) -- ie. "Jenna Miller"
+	merchant=RoMScript("TEXT('Sys114935_name')"); yrest(500) -- ie. "Pykesile"
+
+	-- Don't need assist. Disable it.
+	if settings.profile.options.EGGPET_ENABLE_ASSIST == true then
+		settings.profile.options.EGGPET_ENABLE_ASSIST = false
+		local assistPet = CEggPet(settings.profile.options.EGGPET_ASSIST_SLOT)
+		assistPet:Return()
+	end
+
+	-- Don't need buffs, disable those skills
+	for i, skill in pairs(settings.profile.skills) do
+		if skill.Type == STYPE_BUFF then
+			settings.profile.skills[i].AutoUse = false
+		end
+	end
+
+	local zoneid = RoMScript("GetZoneID()")
+	if zoneid ~= 304 then -- not at Miller's Ranch
+		-- Try to find Sorrun and teleport in
+		if player:target_NPC("Sorrun") then
+			sendMacro("ChoiceOption(3)") yrest(1000)
+			sendMacro("ChoiceOption(1)")
+			waitForLoadingScreen()
+			yrest(1000)
+			__WPL:setWaypointIndex(__WPL:getNearestWaypoint(player.X,player.Z))
+		else
+			error("You are too far from Miller's Ranch")
+		end
+	end
+
+	-- eval functions
+	function feedHenEvalFunc(address)
+		-- Don't target hens in the ignore list
+		for k,v in pairs(ignoredHens) do
+			if v.address == address then
+				if Timeout == 0 or (Timeout > 0 and Timeout > (os.time() - v.time)) then
+					return false
+				end
+			end
+		end
+
+		local hen = CObject(address)
+
+		-- Don't target hens in coop
+		if hen.Z > 3240 then return false end -- Hen in coop
+
+		-- Don't target moving hens
+		local oldX, oldZ = hen.X, hen.Z
+		yrest(100)
+		hen:update()
+		if distance(hen.X,hen.Z,oldX,oldZ) > 2 then return false end
+
+		return true
+	end
+
+	function coopHenEvalFunc(address)
+		-- Don't target hens in the ignore list
+		for k,v in pairs(ignoredHens) do
+			if v.address == address then
+				if Timeout == 0 or (Timeout > 0 and Timeout > (os.time() - v.time)) then
+					return false
+				end
+			end
+		end
+
+		-- Only target coop Hens
+		if 3240 > CObject(address).Z then return false end
+
+		return true
+	end
+
+	function eggEvalFunc(address)
+		-- Don't target eggs in the ignore list
+		for k,v in pairs(ignoredEggs) do
+			if Timeout > 0 and (os.time() - v.time) > Timeout then
+				table.remove(ignoredEggs,k)
+			elseif v.address == address then
+				return false
+			end
+		end
+
+		return true
+	end
+</onLoad>
+	<!-- #  1 --><waypoint x="4026" z="3400">
+		if settings.profile.options.EGGPET_ENABLE_CRAFT == true then -- if crafting is enabled
+			player:merchant(merchant);
+		end
+		__WPL:setDirection(WPT_FORWARD)
+	</waypoint>
+	<!-- #  2 --><waypoint x="4029" z="3327">	</waypoint>
+	<!-- #  3 --><waypoint x="4016" z="3172" tag="merchant">	</waypoint>
+	<!-- #  4 --><waypoint x="3948" z="3107" tag="Main">
+		-- Do we need more pet tools?
+		if settings.profile.options.EGGPET_ENABLE_CRAFT == true then
+			local craftpet = CEggPet(settings.profile.options.EGGPET_CRAFT_SLOT)
+			local toolChoice = craftpet:getToolChoices()
+			if inventory:itemTotalCount(toolChoice[1].Id) == 0 then
+				-- go buy some.
+				__WPL:setDirection(WPT_BACKWARD)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("merchant"));
+				return
+			end
+		end
+
+		queststate = getQuestStatus(questname)
+		if queststate == "complete" and GetReward == true then
+			-- Complete quest
+			repeat
+				repeat
+					player:target_NPC(npcname); yrest(200)
+				until RoMScript("SpeakFrame:IsVisible()")
+
+				sendMacro("CompleteQuest()"); yrest(1500);
+			until getQuestStatus(questname) ~= "complete"
+			-- Accept quest
+			repeat
+				repeat
+					player:target_NPC(npcname); yrest(200)
+				until RoMScript("SpeakFrame:IsVisible()")
+
+				sendMacro("AcceptQuest()"); yrest(1000);
+			until getQuestStatus(questname) ~= "not accepted"
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("Main"))
+
+		elseif queststate == "not accepted" then
+			-- Accept quest
+			player:target_NPC(npcname);
+			sendMacro("AcceptQuest()"); yrest(200);
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("Main"))
+
+		else
+			local feedNumber = inventory:itemTotalCount(204789)
+			local strikes = 0
+
+			local hen = player:findNearestNameOrId(112955, nil, feedHenEvalFunc)
+			while feedNumber > 0 and hen do -- While you have feed and hen
+				player:target_Object(112955,nil,nil,true,function(address) return address == hen.Address end ) -- Feed Hen
+				if( inventory:itemTotalCount(204789) == feedNumber ) then -- Feed didn't work
+					strikes = strikes + 1
+					if strikes >= 3 then -- Add to ignore list
+						-- First see if it isn't already on list
+						local found
+						for k,v in pairs(ignoredHens) do
+							if v.address == hen.Address then
+								found = k
+								break
+							end
+						end
+						if found then -- reset timer
+							ignoredHens[found].time = os.time()
+						else
+							table.insert(ignoredHens,{address=hen.Address, time=os.time()})
+						end
+						strikes = 0
+					end
+				else
+					-- If it's on the ignore list, remove it.
+					for k,v in pairs(ignoredHens) do
+						if v.address == hen.Address then
+							table.remove(ignoredHens,k)
+							break
+						end
+					end
+					strikes = 0
+				end
+
+				feedNumber = inventory:itemTotalCount(204789)
+
+				hen = player:findNearestNameOrId(112955, nil, feedHenEvalFunc)
+			end
+			-- Out of feed or hens
+			if 1 > inventory:itemTotalCount(204789) then -- Get more feed
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Get Feed"));
+			else
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Get Eggs"))
+			end
+		end
+
+		if #ignoredHens > 0 then
+			printf("Ignored hens\tSeconds\n")
+			for k,v in pairs(ignoredHens) do
+				printf("%x  \t%d\n",v.address,os.time()-v.time)
+			end
+			printf("\n")
+		end
+
+		if #ignoredEggs > 0 then
+			printf("Ignored eggs\tSeconds\n")
+			for k,v in pairs(ignoredEggs) do
+				printf("%x  \t%d\n",v.address,os.time()-v.time)
+			end
+		end
+
+		if #ignoredHens == 3 then
+			printf("All hens are stuck.\n")
+			player:sleep()
+		end
+	</waypoint>
+	<!-- #  5 --><waypoint x="3940" z="3055" tag="Get Feed">	</waypoint>
+	<!-- #  6 --><waypoint x="3937" z="2978"> player:target_Object(112956,nil,true)	</waypoint>
+	<!-- #  7 --><waypoint x="3935" z="3051">__WPL:setWaypointIndex(__WPL:findWaypointTag("Main"));	</waypoint>
+	<!-- #  8 --><waypoint x="3928" z="3185" tag="Get Eggs">	</waypoint>
+	<!-- #  9 --><waypoint x="3929" z="3261">
+		while player:target_Object(112955,nil,nil,true,coopHenEvalFunc) do -- Check for hens
+			yrest(500)
+			local egg = player:findNearestNameOrId({112958,114931}, player.LastTargetPtr, eggEvalFunc)
+			while egg do
+				player:target_Object({112958,114931},nil,nil,false, function(address) return address == egg.Address end) -- Get Fresh/Golden Eggs
+				-- wait till egg disappears. Avoids same address problem. We have time till the next hen is ready anyway.
+				local maxWaitTime = 4
+				local startTime = os.clock()
+				repeat
+					yrest(200)
+					player:update()
+				until player.TargetPtr == 0 or (os.clock() - startTime) > maxWaitTime
+
+				-- Didn't disappear. Add to ignore list
+				if player.TargetPtr ~= 0 then
+					table.insert(ignoredEggs,{address=egg.Address, time=os.time()})
+				end
+
+				egg = player:findNearestNameOrId({112958,114931}, player.LastTargetPtr, eggEvalFunc)
+			end
+		end
+	</waypoint>
+	<!-- # 10 --><waypoint x="3926" z="3198">__WPL:setWaypointIndex(__WPL:findWaypointTag("Main"));	</waypoint>
+</waypoints>

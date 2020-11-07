@@ -1,0 +1,1530 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Howling Mountains quest series for human characters. -->
+	<!--	Required userfunctions: userfunction_questHelpers and userfunction_travelTo -->
+	<!--	HM_01_SingleClassHuman will complete all quests in Pioneer's Colony available to single class human characters and then go to Varanas to choose a second class. -->
+	<!--	Version 2.02 -->
+	<onload>
+			if player.Race ~= 0 or player.Class2 ~= -1 then
+				error("This waypoint file is for a new single classed Human character.",0)
+			end
+			if not __WPL.ResumePoint then
+				local _NPC = player:findNearestNameOrId(110484) -- Find Laif Cindai near Pioneer's Colonyfor reference.
+				if not (_NPC and 100 > distance(_NPC, player)) then
+					error("Not at Human starting point in Howling Mountains!",0)
+				end
+				__WPL:setWaypointIndex(1)
+			end
+			function getSupplies()
+				if getQuestStatus(420064) == "incomplete" then
+					supplies = player:findNearestNameOrId({110080,110433})
+					if supplies and 150 > distance(supplies.X, supplies.Z, player.X, player.Z) then
+						player:moveTo(CWaypoint(supplies.X, supplies.Z), true)
+						player:target_Object(supplies.Id)
+						yrest(3000)
+					end
+				end
+				killForQuest(false, 100061, 420531)
+			end
+			function checkBackpacks()
+				if getQuestStatus(420065) == "incomplete" then -- Habits of the Kobolds
+					inventory:update()
+					local _numBags = inventory:itemTotalCount(200167) -- Kobold Backpack
+					if _numBags > 0 then
+						for _openBags= 1,_numBags do
+							inventory:useItem(200167) -- Kobold Backpack
+						end
+					end
+				end
+			end
+	</onload>
+	<!-- #  1 --><waypoint x="-4050" z="-8290" y="241">
+			player:target_NPC(110484) -- Laif Cindai
+			SureAcceptQuest(420660) -- Report In
+	</waypoint>
+	<!-- #  2 --><waypoint x="-3785" z="-8469" y="206">	</waypoint>
+	<!-- #  3 --><waypoint x="-3698" z="-8675" y="224">
+			player:target_NPC(110482) -- Leighton
+			SureCompleteQuest(420660) -- Report In
+			SureAcceptQuest(420661) -- Claiming Weapons
+	</waypoint>
+	<!-- #  4 --><waypoint x="-3743" z="-8577" y="214">	</waypoint>
+	<!-- #  5 --><waypoint x="-3794" z="-8529" y="218">
+			player:target_NPC(110658) -- Mallor
+			SureCompleteQuest(420661) -- Claiming Weapons
+			SureAcceptQuest(420662) -- Claiming Armor
+	</waypoint>
+	<!-- #  6 --><waypoint x="-3769" z="-8568" y="218">
+			player:target_NPC(110657) -- Shamp
+			SureCompleteQuest(420662) -- Claiming Armor
+			SureAcceptQuest(420663) -- Claim Your Potions
+	</waypoint>
+	<!-- #  7 --><waypoint x="-3772" z="-8654" y="224">
+			player:target_NPC(110489) -- Reideen
+			SureCompleteQuest(420663) -- Claim Your Potions
+			SureAcceptQuest(420665) -- Complete Preparations
+	</waypoint>
+	<!-- #  8 --><waypoint x="-3700" z="-8678" y="224">
+			player:target_NPC(110482) -- Leighton
+			SureCompleteQuest(420665) -- Complete Preparations
+			SureAcceptQuest(420666) -- Testing Your Skills
+			SureAcceptQuest(420712) -- Posting Quests
+	</waypoint>
+	<!-- #  9 --><waypoint x="-3719" z="-8580" y="209">	</waypoint>
+	<!-- # 10 --><waypoint x="-3694" z="-8509" y="206">
+			player:target_NPC(110583) -- Pioneers Colony Bulletin Board
+			SureCompleteQuest(420712) -- Posting Quests
+			inventory:update()
+			inventory:useItem(201704) -- Weapon Package
+			yrest(2000)
+			inventory:useItem(201705) -- Armor Package
+			yrest(2000)
+			if player.Class1 == CLASS_WARRIOR then
+				inventory:useItem(210511) -- Fine Axe
+				inventory:useItem(221581) -- Superior Leather Armor
+			end
+			if player.Class1 == CLASS_SCOUT then
+				inventory:useItem(210512) -- Excellent Small Dagger
+				inventory:useItem(221582) -- Superior Traveling Dress
+			end
+			if player.Class1 == CLASS_ROGUE then
+				inventory:useItem(210513) -- Fine Dagger
+				inventory:useItem(221583) -- Superior Coat
+			end
+			if player.Class1 == CLASS_MAGE then
+				inventory:useItem(210514) -- Fine Short Staff
+				inventory:useItem(221584) -- Superior Robe
+			end
+			if player.Class1 == CLASS_PRIEST then
+				inventory:useItem(210515) -- Fine Wand
+				inventory:useItem(221585) -- Superior Traveling Robe
+			end
+			if player.Class1 == CLASS_KNIGHT then
+				inventory:useItem(210516) -- Fine Long Sword
+				inventory:useItem(221586) -- Superior Chaincoat
+			end
+			yrest(2000)
+			inventory:useItem(209577) -- Mysterious Runic Scroll
+			yrest(2000)
+	</waypoint>
+	<!-- # 11 --><waypoint x="-3756" z="-8496" y="206">
+			__WPL:setDirection(WPT_FORWARD)
+			if getQuestStatus(420666) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("TestingYourSkillsDone"))
+			end
+	</waypoint>
+	<!-- # 12 --><waypoint x="-3698" z="-8284" y="198">
+			killForQuest(true, 100052, 420666, 100452, 420666) -- Fungus / Testing Your Skills
+			if getQuestStatus(420666) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 13 --><waypoint x="-3637" z="-8125" y="204">
+			killForQuest(true, 100052, 420666, 100452, 420666) -- Fungus / Testing Your Skills
+			if getQuestStatus(420666) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 14 --><waypoint x="-3729" z="-7951" y="193">
+			killForQuest(true, 100052, 420666, 100452, 420666) -- Fungus / Testing Your Skills
+			if getQuestStatus(420666) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 15 --><waypoint x="-3889" z="-7787" y="162">
+			killForQuest(true, 100052, 420666, 100452, 420666) -- Fungus / Testing Your Skills
+			if getQuestStatus(420666) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 16 --><waypoint x="-4054" z="-7689" y="176">
+			killForQuest(true, 100052, 420666, 100452, 420666) -- Fungus / Testing Your Skills
+			__WPL:setDirection(WPT_BACKWARD)
+	</waypoint>
+	<!-- # 17 --><waypoint x="-3698" z="-8677" y="224" tag="TestingYourSkillsDone">
+			player:target_NPC(110482) -- Leighton
+			SureCompleteQuest(420666) -- Testing Your Skills
+			SureAcceptQuest(420667) -- Lively Reward
+	</waypoint>
+	<!-- # 18 --><waypoint x="-3720" z="-8671" y="224">	</waypoint>
+	<!-- # 19 --><waypoint x="-3775" z="-8739" y="232">
+			player:target_NPC(110490) -- Port
+			SureCompleteQuest(420667) -- Lively Reward
+			SureAcceptQuest(420668) -- Embedding Runes
+			SureCompleteQuest(420668) -- Embedding Runes
+			SureAcceptQuest(420669) -- A Friend's Concern
+			inventory:useItem(201709) -- Generous Gift
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				inventroy:useItem(220098) -- Rough Cloth Garment
+			end
+	</waypoint>
+	<!-- # 20 --><waypoint x="-3745" z="-8680" y="223">	</waypoint>
+	<!-- # 21 --><waypoint x="-3705" z="-8671" y="223">	</waypoint>
+	<!-- # 22 --><waypoint x="-3648" z="-8703" y="224">	</waypoint>
+	<!-- # 23 --><waypoint x="-3639" z="-8728" y="229">
+			player:target_NPC(110073) -- Shikha
+			SureCompleteQuest(420669) -- A Friend's Concern
+			SureAcceptQuest(420670) -- Making Winter Clothes
+	</waypoint>
+	<!-- # 24 --><waypoint x="-3573" z="-8710" y="221">	</waypoint>
+	<!-- # 25 --><waypoint x="-3457" z="-8684" y="209">	</waypoint>
+	<!-- # 26 --><waypoint x="-3378" z="-8722" y="214">
+			__WPL:setDirection(WPT_FORWARD)
+			if getQuestStatus(420670) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("MakingWinterClothesDone"))
+			end
+	</waypoint>
+	<!-- # 27 --><waypoint x="-3232" z="-8795" y="211">	</waypoint>
+	<!-- # 28 --><waypoint x="-3068" z="-8905" y="217">	</waypoint>
+	<!-- # 29 --><waypoint x="-2855" z="-9001" y="223">
+			if getQuestStatus(420670) == "incomplete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+	</waypoint>
+	<!-- # 30 --><waypoint x="-2788" z="-9039" y="246">
+			killForQuest(true, 100054, 420670) -- Wolf Cub / Making Winter Clothes
+			if getQuestStatus(420670) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 31 --><waypoint x="-2677" z="-9045" y="270">
+			killForQuest(true, 100054, 420670) -- Wolf Cub / Making Winter Clothes
+			if getQuestStatus(420670) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+			killForQuest(true, 100054, 420670) -- Wolf Cub / Making Winter Clothes
+			if getQuestStatus(420670) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	<!-- # 32 --><waypoint x="-2529" z="-8977" y="278">
+			killForQuest(true, 100054, 420670) -- Wolf Cub / Making Winter Clothes
+			if getQuestStatus(420670) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 33 --><waypoint x="-2384" z="-9022" y="276">
+			killForQuest(true, 100054, 420670) -- Wolf Cub / Making Winter Clothes
+			if getQuestStatus(420670) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 34 --><waypoint x="-2200" z="-9107" y="240">
+			killForQuest(true, 100054, 420670) -- Wolf Cub / Making Winter Clothes
+			if getQuestStatus(420670) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 35 --><waypoint x="-2023" z="-9216" y="212">
+			killForQuest(true, 100054, 420670) -- Wolf Cub / Making Winter Clothes
+			if getQuestStatus(420670) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 36 --><waypoint x="-2005" z="-9395" y="208">
+			killForQuest(true, 100054, 420670) -- Wolf Cub / Making Winter Clothes
+			if getQuestStatus(420670) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 37 --><waypoint x="-1978" z="-9616" y="215">
+			killForQuest(true, 100054, 420670) -- Wolf Cub / Making Winter Clothes
+			if getQuestStatus(420670) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 38 --><waypoint x="-3473" z="-8674" y="212" tag="MakingWinterClothesDone">	</waypoint>
+	<!-- # 39 --><waypoint x="-3634" z="-8726" y="227">
+			player:target_NPC(110073) -- Shikha
+			SureCompleteQuest(420670) -- Making Winter Clothes
+			SureAcceptQuest(420671) -- Progress Update
+	</waypoint>
+	<!-- # 40 --><waypoint x="-3682" z="-8681" y="224">
+			player:target_NPC(110482) -- Leighton
+			SureCompleteQuest(420671) -- Progress Update
+			SureAcceptQuest(420672) -- Learn Herbalism
+	</waypoint>
+	<!-- # 41 --><waypoint x="-3732" z="-8664" y="222">	</waypoint>
+	<!-- # 42 --><waypoint x="-3811" z="-8720" y="225">	</waypoint>
+	<!-- # 43 --><waypoint x="-3835" z="-8835" y="237">
+			player:target_NPC(110471) -- Alice
+			SureCompleteQuest(420672) -- Learn Herbalism
+			SureAcceptQuest(420673) -- Learn Woodcutting
+	</waypoint>
+	<!-- # 44 --><waypoint x="-3803" z="-8881" y="237">	</waypoint>
+	<!-- # 45 --><waypoint x="-3650" z="-8944" y="230">
+			player:target_NPC(110470) -- Woody Woods
+			SureCompleteQuest(420673) -- Learn Woodcutting
+			SureAcceptQuest(420674) -- Learn Mining
+	</waypoint>
+	<!-- # 46 --><waypoint x="-3673" z="-8935" y="233">	</waypoint>
+	<!-- # 47 --><waypoint x="-3750" z="-8908" y="238">	</waypoint>
+	<!-- # 48 --><waypoint x="-3845" z="-8916" y="224">	</waypoint>
+	<!-- # 49 --><waypoint x="-3943" z="-8873" y="216">	</waypoint>
+	<!-- # 50 --><waypoint x="-4079" z="-8730" y="203">	</waypoint>
+	<!-- # 51 --><waypoint x="-4182" z="-8649" y="196">	</waypoint>
+	<!-- # 52 --><waypoint x="-4253" z="-8649" y="194">
+			player:target_NPC(110469) -- Hansen
+			SureCompleteQuest(420674) -- Learn Mining
+			SureAcceptQuest(420675) -- Help with the Collecting
+	</waypoint>
+	<!-- # 53 --><waypoint x="-4211" z="-8634" y="195">	</waypoint>
+	<!-- # 54 --><waypoint x="-3914" z="-8706" y="221">	</waypoint>
+	<!-- # 55 --><waypoint x="-3802" z="-8704" y="224">	</waypoint>
+	<!-- # 56 --><waypoint x="-3707" z="-8679" y="225">
+			player:target_NPC(110482) -- Leighton
+			SureCompleteQuest(420675) -- Help with the Collecting
+			SureAcceptQuest(420108) -- Regular Report on Pioneers Colony
+	</waypoint>
+	<!-- # 57 --><waypoint x="-3588" z="-8695" y="221">	</waypoint>
+	<!-- # 58 --><waypoint x="-3424" z="-8584" y="203">
+			player:target_NPC(112195) -- Zily Ante
+			SureAcceptQuest(421677) -- Fungus pet
+	</waypoint>
+	<!-- # 59 --><waypoint x="-3380" z="-8505" y="193">	</waypoint>
+	<!-- # 60 --><waypoint x="-3238" z="-8450" y="189">	</waypoint>
+	<!-- # 61 --><waypoint x="-3033" z="-8248" y="193">	</waypoint>
+	<!-- # 62 --><waypoint x="-2779" z="-8024" y="179">	</waypoint>
+	<!-- # 63 --><waypoint x="-2611" z="-7853" y="170">	</waypoint>
+	<!-- # 64 --><waypoint x="-2298" z="-7745" y="158">	</waypoint>
+	<!-- # 65 --><waypoint x="-2009" z="-7655" y="190">	</waypoint>
+	<!-- # 66 --><waypoint x="-1964" z="-7589" y="199">
+			player:target_NPC(111377) -- Nicolas
+			SureCompleteQuest(421677) -- Fungus pet
+	</waypoint>
+	<!-- # 67 --><waypoint x="-1839" z="-7739" y="208">	</waypoint>
+	<!-- # 68 --><waypoint x="-1619" z="-7981" y="158">	</waypoint>
+	<!-- # 69 --><waypoint x="-1438" z="-8099" y="152">	</waypoint>
+	<!-- # 70 --><waypoint x="-1277" z="-8253" y="124">	</waypoint>
+	<!-- # 71 --><waypoint x="-1075" z="-8499" y="110">	</waypoint>
+	<!-- # 72 --><waypoint x="-1007" z="-8527" y="125">	</waypoint>
+	<!-- # 73 --><waypoint x="-907" z="-8535" y="99">	</waypoint>
+	<!-- # 74 --><waypoint x="-812" z="-8580" y="98">	</waypoint>
+	<!-- # 75 --><waypoint x="-722" z="-8578" y="91">	</waypoint>
+	<!-- # 76 --><waypoint x="-435" z="-8532" y="76">	</waypoint>
+	<!-- # 77 --><waypoint x="-104" z="-8459" y="84">	</waypoint>
+	<!-- # 78 --><waypoint x="292" z="-8334" y="58">	</waypoint>
+	<!-- # 79 --><waypoint x="514" z="-8304" y="23">
+			player:target_NPC(110486) -- Mrs. Helen
+			SureAcceptQuest(420677) -- Bear Fur Gloves
+	</waypoint>
+	<!-- # 80 --><waypoint x="407" z="-8269" y="32">
+			__WPL:setDirection(WPT_FORWARD)
+			if getQuestStatus(420677) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("BearFurGlovesDone"))
+			end
+	</waypoint>
+	<!-- # 81 --><waypoint x="301" z="-8139" y="58">
+			killForQuest(true, 100056, 420677) -- Young Bear / Bear Fur Gloves
+			if getQuestStatus(420677) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 82 --><waypoint x="275" z="-7921" y="73">
+			killForQuest(true, 100056, 420677) -- Young Bear / Bear Fur Gloves
+			if getQuestStatus(420677) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 83 --><waypoint x="129" z="-7904" y="67">
+			killForQuest(true, 100056, 420677) -- Young Bear / Bear Fur Gloves
+			if getQuestStatus(420677) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 84 --><waypoint x="-20" z="-8016" y="59">
+			killForQuest(true, 100056, 420677) -- Young Bear / Bear Fur Gloves
+			if getQuestStatus(420677) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 85 --><waypoint x="-120" z="-8175" y="69">
+			killForQuest(true, 100056, 420677) -- Young Bear / Bear Fur Gloves
+			if getQuestStatus(420677) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("BearFurGlovesDone"))
+			end
+	</waypoint>
+	<!-- # 86 --><waypoint x="-321" z="-8438" y="78">
+			killForQuest(true, 100056, 420677) -- Young Bear / Bear Fur Gloves
+			if getQuestStatus(420677) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- # 87 --><waypoint x="-498" z="-8383" y="68">
+			killForQuest(true, 100056, 420677) -- Young Bear / Bear Fur Gloves
+			__WPL:setDirection(WPT_BACKWARD)
+	</waypoint>
+	<!-- # 88 --><waypoint x="407" z="-8269" y="32" tag="BearFurGlovesDone">	</waypoint>
+	<!-- # 89 --><waypoint x="514" z="-8304" y="23">
+			player:target_NPC(110486) -- Mrs. Helen
+			SureCompleteQuest(420677) -- Bear Fur Gloves
+			SureAcceptQuest(420678) -- Love Express
+	</waypoint>
+	<!-- # 90 --><waypoint x="385" z="-8243" y="41">	</waypoint>
+	<!-- # 91 --><waypoint x="212" z="-8002" y="79">	</waypoint>
+	<!-- # 92 --><waypoint x="89" z="-7710" y="54">	</waypoint>
+	<!-- # 93 --><waypoint x="-4" z="-7409" y="27">	</waypoint>
+	<!-- # 94 --><waypoint x="-95" z="-7008" y="46">	</waypoint>
+	<!-- # 95 --><waypoint x="-156" z="-6777" y="25">	</waypoint>
+	<!-- # 96 --><waypoint x="-229" z="-6532" y="14">	</waypoint>
+	<!-- # 97 --><waypoint x="-278" z="-6325" y="25">	</waypoint>
+	<!-- # 98 --><waypoint x="-274" z="-6118" y="29">
+			player:target_NPC(110078) -- George
+			SureCompleteQuest(420108) -- Regular Report on Pioneers Colony
+			SureCompleteQuest(420678) -- Love Express
+			SureAcceptQuest(420727) -- Golden Statue Auction
+	</waypoint>
+	<!-- # 99 --><waypoint x="-340" z="-6174" y="18">	</waypoint>
+	<!-- #100 --><waypoint x="-424" z="-6150" y="24">	</waypoint>
+	<!-- #101 --><waypoint x="-494" z="-6066" y="35">	</waypoint>
+	<!-- #102 --><waypoint x="-597" z="-5997" y="42">	</waypoint>
+	<!-- #103 --><waypoint x="-683" z="-5972" y="43">	</waypoint>
+	<!-- #104 --><waypoint x="-788" z="-5959" y="46">	</waypoint>
+	<!-- #105 --><waypoint x="-910" z="-5968" y="49">	</waypoint>
+	<!-- #106 --><waypoint x="-1052" z="-5977" y="49">	</waypoint>
+	<!-- #107 --><waypoint x="-1114" z="-5954" y="51">	</waypoint>
+	<!-- #108 --><waypoint x="-1181" z="-5865" y="57">	</waypoint>
+	<!-- #109 --><waypoint x="-1252" z="-5837" y="76">
+			player:target_NPC(110770) -- O'shel
+			SureCompleteQuest(420727, 1) -- Golden Statue Auction
+			SureAcceptQuest(420728) -- Golden Statue Letter
+	</waypoint>
+	<!-- #110 --><waypoint x="-1186" z="-5885" y="56">	</waypoint>
+	<!-- #111 --><waypoint x="-1083" z="-5958" y="53">	</waypoint>
+	<!-- #112 --><waypoint x="-1022" z="-5981" y="50">	</waypoint>
+	<!-- #113 --><waypoint x="-887" z="-5965" y="49">	</waypoint>
+	<!-- #114 --><waypoint x="-703" z="-5967" y="46">	</waypoint>
+	<!-- #115 --><waypoint x="-594" z="-5995" y="41">	</waypoint>
+	<!-- #116 --><waypoint x="-504" z="-6025" y="37">	</waypoint>
+	<!-- #117 --><waypoint x="-427" z="-5994" y="37">
+			player:target_NPC(110771) -- Mailbox
+			SureCompleteQuest(420728) -- Golden Statue Letter
+			SureAcceptQuest(420729) -- Return of the Golden Statue
+	</waypoint>
+	<!-- #118 --><waypoint x="-335" z="-6070" y="31">	</waypoint>
+	<!-- #119 --><waypoint x="-275" z="-6133" y="28">
+			player:target_NPC(110078) -- George
+			SureCompleteQuest(420729, 1) -- Return of the Golden Statue
+			SureAcceptQuest(420838) -- House Angel
+	</waypoint>
+	<!-- #120 --><waypoint x="-312" z="-6091" y="28">	</waypoint>
+	<!-- #121 --><waypoint x="-435" z="-5975" y="37">
+			player:target_NPC(110773) -- Meydo
+			SureCompleteQuest(420838) -- House Angel
+			SureAcceptQuest(420664) -- Registering Your Transport Portal
+			player:target_NPC(110773) -- Meydo
+			ChoiceOptionByName(getTEXT("SO_BUYHOME")) -- 'I want to apply for a house.'
+	</waypoint>
+	<!-- #122 --><waypoint x="-564" z="-6013" y="41">	</waypoint>
+	<!-- #123 --><waypoint x="-719" z="-5970" y="44">	</waypoint>
+	<!-- #124 --><waypoint x="-850" z="-5975" y="50">	</waypoint>
+	<!-- #125 --><waypoint x="-1006" z="-5976" y="49">	</waypoint>
+	<!-- #126 --><waypoint x="-1123" z="-5940" y="53">	</waypoint>
+	<!-- #127 --><waypoint x="-1178" z="-5875" y="56">	</waypoint>
+	<!-- #128 --><waypoint x="-1197" z="-5785" y="59">	</waypoint>
+	<!-- #129 --><waypoint x="-1170" z="-5692" y="59">	</waypoint>
+	<!-- #130 --><waypoint x="-1181" z="-5542" y="56">
+			player:target_NPC(110591) -- Christine
+			SureCompleteQuest(420664) -- Registering Your Transport Portal
+	</waypoint>
+	<!-- #131 --><waypoint x="-1175" z="-5677" y="58">	</waypoint>
+	<!-- #132 --><waypoint x="-1175" z="-5857" y="57">	</waypoint>
+	<!-- #133 --><waypoint x="-1084" z="-5963" y="53">	</waypoint>
+	<!-- #134 --><waypoint x="-974" z="-6034" y="51">
+			player:target_NPC(110055) -- Agnes
+			SureAcceptQuest(420068) -- A Bit Worrying
+	</waypoint>
+	<!-- #135 --><waypoint x="-841" z="-5963" y="49">	</waypoint>
+	<!-- #136 --><waypoint x="-777" z="-5890" y="59">
+			player:target_NPC(110051) -- Highly-skilled Doctor
+			SureAcceptQuest(420075) -- Gathering Spider Venom
+	</waypoint>
+	<!-- #137 --><waypoint x="-652" z="-5997" y="43">
+			player:target_NPC(110052) -- Dell
+			SureAcceptQuest(420093) -- Strange Request
+	</waypoint>
+	<!-- #138 --><waypoint x="-537" z="-6046" y="39">	</waypoint>
+	<!-- #139 --><waypoint x="-575" z="-6099" y="36">
+			player:target_NPC(110497) -- Cid
+			ChoiceOptionByName(getTEXT("SC_110497_A")) -- 'Receive custom-made weapon'
+			ChoiceOptionByName(getTEXT("SC_110497_2")) -- 'The weapon is okay like this.'
+	</waypoint>
+	<!-- #140 --><waypoint x="-540" z="-6046" y="39">	</waypoint>
+	<!-- #141 --><waypoint x="-645" z="-6004" y="43">	</waypoint>
+	<!-- #142 --><waypoint x="-820" z="-5963" y="49">	</waypoint>
+	<!-- #143 --><waypoint x="-1050" z="-5979" y="49">	</waypoint>
+	<!-- #144 --><waypoint x="-1168" z="-5893" y="54">	</waypoint>
+	<!-- #145 --><waypoint x="-1201" z="-5747" y="61">	</waypoint>
+	<!-- #146 --><waypoint x="-1253" z="-5611" y="73">	</waypoint>
+	<!-- #147 --><waypoint x="-1300" z="-5424" y="39">	</waypoint>
+	<!-- #148 --><waypoint x="-1413" z="-5277" y="10">
+			__WPL:setDirection(WPT_FORWARD)
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #149 --><waypoint x="-1613" z="-5351" y="41">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #150 --><waypoint x="-1733" z="-5354" y="59">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #151 --><waypoint x="-1943" z="-5152" y="15">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #152 --><waypoint x="-2059" z="-4962" y="-3">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #153 --><waypoint x="-2242" z="-5080" y="17">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #154 --><waypoint x="-2203" z="-5305" y="40">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #155 --><waypoint x="-2372" z="-5441" y="41">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #156 --><waypoint x="-2264" z="-5595" y="116">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #157 --><waypoint x="-2318" z="-5933" y="64">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #158 --><waypoint x="-2283" z="-6101" y="62">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #159 --><waypoint x="-2140" z="-6245" y="59">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #160 --><waypoint x="-1999" z="-6370" y="39">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #161 --><waypoint x="-1997" z="-6545" y="45">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #162 --><waypoint x="-2183" z="-6594" y="40">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #163 --><waypoint x="-2456" z="-6558" y="55">
+			if getQuestStatus(420093) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+	</waypoint>
+	<!-- #164 --><waypoint x="-2732" z="-6523" y="67">
+			killForQuest(true, 100146, 420093) -- Beetle / Strange Request
+			if getQuestStatus(420093) == "incomplete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #165 --><waypoint x="-3021" z="-6362" y="39">
+			__WPL:setDirection(WPT_FORWARD)
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #166 --><waypoint x="-3155" z="-6219" y="16">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #167 --><waypoint x="-3268" z="-6122" y="16">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #168 --><waypoint x="-3444" z="-6110" y="18">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #169 --><waypoint x="-3627" z="-6097" y="30">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #170 --><waypoint x="-3711" z="-5932" y="19">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #171 --><waypoint x="-3814" z="-5783" y="33">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #172 --><waypoint x="-3690" z="-5700" y="20">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #173 --><waypoint x="-3544" z="-5510" y="14">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #174 --><waypoint x="-3410" z="-5598" y="21">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #175 --><waypoint x="-3329" z="-5720" y="37">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #176 --><waypoint x="-3134" z="-5646" y="15">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #177 --><waypoint x="-2995" z="-5632" y="24">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #178 --><waypoint x="-2836" z="-5694" y="54">
+			if getQuestStatus(420068) == "complete" and getQuestStatus(420075) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+	</waypoint>
+	<!-- #179 --><waypoint x="-2625" z="-5671" y="58">
+			killForQuest(true, 100156, 420068, 100118, 420075) -- Wilt-leaf Bat / A Bit Worrying and Wild Spider / Gathering Spider Venom
+			if getQuestStatus(420068) == "incomplete" or getQuestStatus(420075) == "incomplete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #180 --><waypoint x="-2341" z="-5606" y="98">	</waypoint>
+	<!-- #181 --><waypoint x="-2189" z="-5749" y="85">	</waypoint>
+	<!-- #182 --><waypoint x="-2085" z="-5934" y="75">	</waypoint>
+	<!-- #183 --><waypoint x="-1963" z="-6041" y="69">	</waypoint>
+	<!-- #184 --><waypoint x="-1756" z="-6180" y="54">	</waypoint>
+	<!-- #185 --><waypoint x="-1589" z="-6238" y="22">	</waypoint>
+	<!-- #186 --><waypoint x="-1461" z="-6145" y="32">	</waypoint>
+	<!-- #187 --><waypoint x="-1311" z="-6050" y="31">	</waypoint>
+	<!-- #188 --><waypoint x="-1150" z="-6007" y="37">	</waypoint>
+	<!-- #189 --><waypoint x="-964" z="-6026" y="34">
+			__WPL:setForcedWaypointType("RUN")
+			player:target_NPC(110055) -- Agnes
+			SureCompleteQuest(420068) -- A Bit Worrying
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST then
+				inventory:useItem(222008) -- Gardening Trousers
+			end
+	</waypoint>
+	<!-- #190 --><waypoint x="-846" z="-5965" y="33">	</waypoint>
+	<!-- #191 --><waypoint x="-775" z="-5885" y="44">
+			player:target_NPC(110051) -- Highly-skilled Doctor
+			SureCompleteQuest(420075) -- Gathering Spider Venom
+			inventory:update()
+			inventory:useItem(222007) -- Reagent Ring
+	</waypoint>
+	<!-- #192 --><waypoint x="-783" z="-6080" y="28">
+			player:target_NPC(110057) -- Gil
+			SureCompleteQuest(420093) -- Strange Request
+			SureAcceptQuest(420094) -- Not Your Grandmother's Soup
+	</waypoint>
+	<!-- #193 --><waypoint x="-653" z="-6017" y="28">
+			player:target_NPC(110052) -- Dell
+			SureCompleteQuest(420094) -- Not Your Grandmother's Soup
+			SureAcceptQuest(420486) -- A Beautiful Necklace
+	</waypoint>
+	<!-- #194 --><waypoint x="-820" z="-5963" y="49">
+			__WPL:setDirection(WPT_FORWARD)
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("ABeautifulNecklaceDone"))
+			end
+	</waypoint>
+	<!-- #195 --><waypoint x="-1050" z="-5979" y="49">	</waypoint>
+	<!-- #196 --><waypoint x="-1168" z="-5893" y="54">	</waypoint>
+	<!-- #197 --><waypoint x="-1201" z="-5747" y="61">	</waypoint>
+	<!-- #198 --><waypoint x="-1253" z="-5611" y="73">	</waypoint>
+	<!-- #199 --><waypoint x="-1300" z="-5424" y="39">	</waypoint>
+	<!-- #200 --><waypoint x="-1413" z="-5277" y="10">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #201 --><waypoint x="-1613" z="-5351" y="41">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #202 --><waypoint x="-1733" z="-5354" y="59">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #203 --><waypoint x="-1943" z="-5152" y="15">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #204 --><waypoint x="-2059" z="-4962" y="-3">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #205 --><waypoint x="-2242" z="-5080" y="17">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #206 --><waypoint x="-2203" z="-5305" y="40">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #207 --><waypoint x="-2372" z="-5441" y="41">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #208 --><waypoint x="-2264" z="-5595" y="116">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #209 --><waypoint x="-2318" z="-5933" y="64">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #210 --><waypoint x="-2283" z="-6101" y="62">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #211 --><waypoint x="-2140" z="-6245" y="59">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #212 --><waypoint x="-1999" z="-6370" y="39">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("ABeautifulNecklaceDone"))
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #213 --><waypoint x="-1997" z="-6545" y="45">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_FORWARD)
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("ABeautifulNecklaceDone"))
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #214 --><waypoint x="-2183" z="-6594" y="40">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #215 --><waypoint x="-2456" z="-6558" y="55">
+			if getQuestStatus(420486) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+	</waypoint>
+	<!-- #216 --><waypoint x="-2732" z="-6523" y="67">
+			killForQuest(true, 100146, 420486) -- Beetle / A Beautiful Necklace
+			if getQuestStatus(420486) == "incomplete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #217 --><waypoint x="-1840" z="-6303" y="41" tag="ABeautifulNecklaceDone">	</waypoint>
+	<!-- #218 --><waypoint x="-1567" z="-6228" y="41">	</waypoint>
+	<!-- #219 --><waypoint x="-1372" z="-6072" y="51">	</waypoint>
+	<!-- #220 --><waypoint x="-1147" z="-5997" y="53">	</waypoint>
+	<!-- #221 --><waypoint x="-870" z="-5971" y="48">	</waypoint>
+	<!-- #222 --><waypoint x="-653" z="-6017" y="28">
+			player:target_NPC(110052) -- Dell
+			SureCompleteQuest(420486) -- A Beautiful Necklace
+			inventory:update()
+			inventory:useItem(221447) -- Beetle Necklace
+			SureAcceptQuest(420679) -- Assist the Mayor
+	</waypoint>
+	<!-- #223 --><waypoint x="-644" z="-5982" y="42">	</waypoint>
+	<!-- #224 --><waypoint x="-394" z="-6165" y="22">	</waypoint>
+	<!-- #225 --><waypoint x="-274" z="-6124" y="28">
+			player:target_NPC(110078) -- George
+			SureCompleteQuest(420679) -- Assist the Mayor
+			SureAcceptQuest(420482) -- A Letter from Varanas
+	</waypoint>
+	<!-- #226 --><waypoint x="-381" z="-6163" y="23">	</waypoint>
+	<!-- #227 --><waypoint x="-544" z="-6036" y="39">	</waypoint>
+	<!-- #228 --><waypoint x="-709" z="-5962" y="46">	</waypoint>
+	<!-- #229 --><waypoint x="-1078" z="-5949" y="54">	</waypoint>
+	<!-- #230 --><waypoint x="-1201" z="-5811" y="61">	</waypoint>
+	<!-- #231 --><waypoint x="-1208" z="-5589" y="65">	</waypoint>
+	<!-- #232 --><waypoint x="-1381" z="-5263" y="9">	</waypoint>
+	<!-- #233 --><waypoint x="-1546" z="-5011" y="-11">	</waypoint>
+	<!-- #234 --><waypoint x="-1620" z="-4821" y="-14">
+			player:target_NPC(110601) -- Black Bolton
+			SureAcceptQuest(420531) -- Strong Boars
+	</waypoint>
+	<!-- #235 --><waypoint x="-1613" z="-4766" y="-14">	</waypoint>
+	<!-- #236 --><waypoint x="-1889" z="-4606" y="5">	</waypoint>
+	<!-- #237 --><waypoint x="-1933" z="-4659" y="6">
+			player:target_NPC(110062) -- Furganda
+			SureCompleteQuest(420482) -- A Letter from Varanas
+			SureAcceptQuest(420469) -- Delayed Supplies
+	</waypoint>
+	<!-- #238 --><waypoint x="-1967" z="-4703" y="2">	</waypoint>
+	<!-- #239 --><waypoint x="-1845" z="-4870" y="-12">
+			player:target_NPC(110491) -- Katrina
+			SureAcceptQuest(420065) -- Habits of the Kobolds
+	</waypoint>
+	<!-- #240 --><waypoint x="-1859" z="-4947" y="-7">	</waypoint>
+	<!-- #241 --><waypoint x="-1755" z="-5002" y="0">	</waypoint>
+	<!-- #242 --><waypoint x="-1511" z="-5040" y="-10">	</waypoint>
+	<!-- #243 --><waypoint x="-1392" z="-5005" y="-12">
+			player:target_NPC(110056) -- Pnor
+			SureCompleteQuest(420469) -- Delayed Supplies
+			SureAcceptQuest(420064) -- The Lost Supplies
+	</waypoint>
+	<!-- #244 --><waypoint x="-1432" z="-4999" y="-10">
+			__WPL:setDirection(WPT_FORWARD)
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("BoarsAndBagsDone"))
+			end
+	</waypoint>
+	<!-- #245 --><waypoint x="-1430" z="-4864" y="-22">
+			getSupplies()
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #246 --><waypoint x="-1277" z="-4816" y="-25">
+			getSupplies()
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #247 --><waypoint x="-1100" z="-4777" y="-29">
+			getSupplies()
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #248 --><waypoint x="-823" z="-4647" y="-47">
+			getSupplies()
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #249 --><waypoint x="-902" z="-4475" y="-27">
+			getSupplies()
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #250 --><waypoint x="-972" z="-4457" y="-20">
+			getSupplies()
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #251 --><waypoint x="-1028" z="-4331" y="-15">
+			getSupplies()
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #252 --><waypoint x="-1040" z="-4207" y="4">
+			getSupplies()
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #253 --><waypoint x="-843" z="-4109" y="-5">
+			getSupplies()
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #254 --><waypoint x="-945" z="-4082" y="5">
+			getSupplies()
+			if getQuestStatus(420064) == "complete" and getQuestStatus(420531) == "complete" then
+				__WPL:setDirection(WPT_BACKWARD)
+			end
+	</waypoint>
+	<!-- #255 --><waypoint x="-1057" z="-3894" y="-3">
+			getSupplies()
+			__WPL:setDirection(WPT_BACKWARD)
+	</waypoint>
+	<!-- #256 --><waypoint x="-1392" z="-5005" y="-12" tag="BoarsAndBagsDone">
+			player:target_NPC(110056) -- Pnor
+			SureCompleteQuest(420064) -- The Lost Supplies
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT then
+				inventory:update()
+				inventory:useItem(222010) -- Damaged Cart Chain
+			end
+			SureAcceptQuest(420680) -- Supply Status
+			player:mount()
+	</waypoint>
+	<!-- #257 --><waypoint x="-1419" z="-4991" y="-28">	</waypoint>
+	<!-- #258 --><waypoint x="-1494" z="-4855" y="-27">	</waypoint>
+	<!-- #259 --><waypoint x="-1621" z="-4811" y="-29">
+			player:target_NPC(110601) -- Black Bolton
+			SureCompleteQuest(420531) -- Strong Boars
+			if player.Class1 == CLASS_ROGUE or player.Class1 == CLASS_SCOUT then
+				inventory:update()
+				inventory:useItem(222009) -- Wild Boar Leather Leg Guards
+			end
+	</waypoint>
+	<!-- #260 --><waypoint x="-1620" z="-4765" y="-30">	</waypoint>
+	<!-- #261 --><waypoint x="-1889" z="-4606" y="-10">	</waypoint>
+	<!-- #262 --><waypoint x="-1928" z="-4656" y="-10">
+			player:target_NPC(110062) -- Furganda
+			SureCompleteQuest(420680) -- Supply Status
+			SureAcceptQuest(420470) -- Eliminate the Kobold Scouts
+	</waypoint>
+	<!-- #263 --><waypoint x="-1967" z="-4703" y="2">	</waypoint>
+	<!-- #264 --><waypoint x="-1845" z="-4870" y="-12">
+			player:target_NPC(110491) -- Katrina
+			SureAcceptQuest(420481) -- The Magic of the Barrow
+	</waypoint>
+	<!-- #265 --><waypoint x="-1967" z="-4703" y="2">	</waypoint>
+	<!-- #266 --><waypoint x="-2012" z="-4589" y="7">	</waypoint>
+	<!-- #267 --><waypoint x="-2017" z="-4466" y="37">	</waypoint>
+	<!-- #268 --><waypoint x="-2165" z="-4316" y="128">	</waypoint>
+	<!-- #269 --><waypoint x="-2273" z="-4285" y="133">	</waypoint>
+	<!-- #270 --><waypoint x="-2470" z="-4237" y="76">	</waypoint>
+	<!-- #271 --><waypoint x="-2656" z="-4177" y="127">	</waypoint>
+	<!-- #272 --><waypoint x="-2804" z="-4073" y="88" tag="NeedMoreKobolds">	</waypoint>
+	<!-- #273 --><waypoint x="-2908" z="-3945" y="20">	</waypoint>
+	<!-- #274 --><waypoint x="-3035" z="-3895" y="2">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #275 --><waypoint x="-3087" z="-3820" y="-8">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #276 --><waypoint x="-3101" z="-3742" y="-5">
+			if getQuestStatus(420481) == "incomplete" then
+				repeat
+					player:target_Object(110091) -- Magic Stone Circle
+					player:rest(2)
+				until getQuestStatus(420481) == "complete"
+			end
+	</waypoint>
+	<!-- #277 --><waypoint x="-3234" z="-3695" y="2">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+			</waypoint>
+	<!-- #278 --><waypoint x="-3344" z="-3725" y="23">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #279 --><waypoint x="-3416" z="-3905" y="64">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #280 --><waypoint x="-3481" z="-4106" y="35">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #281 --><waypoint x="-3531" z="-3947" y="67">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #282 --><waypoint x="-3535" z="-3732" y="46">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #283 --><waypoint x="-3500" z="-3587" y="36">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #284 --><waypoint x="-3496" z="-3579" y="37">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #285 --><waypoint x="-3449" z="-3402" y="32">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #286 --><waypoint x="-3405" z="-3290" y="42">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #287 --><waypoint x="-3264" z="-3350" y="52">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #288 --><waypoint x="-3087" z="-3579" y="16">
+			killForQuest(true, 100203, 420065, 100203, 420470) -- Kobold Scout / Eliminate the Kobold Scouts / Habits of the Kobolds
+			checkBackpacks()
+			if getQuestStatus(420065) == "complete" and getQuestStatus(420470) == "complete" then
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #289 --><waypoint x="-2854" z="-3803" y="21">
+			if getQuestStatus(420065) == "incomplete" or getQuestStatus(420470) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("NeedMoreKobolds"))
+			end
+			if not player.Mounted then
+				player:mount()
+			end
+	</waypoint>
+	<!-- #290 --><waypoint x="-2745" z="-4130" y="124">	</waypoint>
+	<!-- #291 --><waypoint x="-2539" z="-4232" y="93">	</waypoint>
+	<!-- #292 --><waypoint x="-2369" z="-4330" y="114">	</waypoint>
+	<!-- #293 --><waypoint x="-2260" z="-4486" y="143">	</waypoint>
+	<!-- #294 --><waypoint x="-1992" z="-4693" y="6">	</waypoint>
+	<!-- #295 --><waypoint x="-1939" z="-4674" y="-11">
+			__WPL:setForcedWaypointType("RUN")
+			player:target_NPC(110062) -- Furganda
+			SureCompleteQuest(420470) -- Eliminate the Kobold Scouts
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT then
+				inventory:update()
+				inventory:useItem(222012) -- Reserve Soldier's Leg Guards
+			end
+	</waypoint>
+	<!-- #296 --><waypoint x="-1964" z="-4710" y="-14">	</waypoint>
+	<!-- #297 --><waypoint x="-1844" z="-4872" y="-28">
+			player:target_NPC(110491) -- Katrina
+			SureCompleteQuest(420065) -- Habits of the Kobolds
+			if player.Class1 == CLASS_ROGUE or player.Class1 == CLASS_SCOUT then
+				inventory:update()
+				inventory:useItem(222017) -- Cracked Leather Belt
+			end
+			SureCompleteQuest(420481) -- The Magic of the Barrow
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST or player.Class1 == CLASS_DRUID or player.Class1 == CLASS_WARLOCK then
+				inventory:update()
+				inventory:useItem(222020) -- Toi's Gloves
+			end
+			SureAcceptQuest(420076) -- Kobold Mutation
+	</waypoint>
+	<!-- #298 --><waypoint x="-1965" z="-4710" y="-14">
+			player:target_NPC(110062) -- Furganda
+			SureAcceptQuest(420477) -- Lost Company Member
+	</waypoint>
+	<!-- #299 --><waypoint x="-1983" z="-4622" y="-2">	</waypoint>
+	<!-- #300 --><waypoint x="-2080" z="-4414" y="80">	</waypoint>
+	<!-- #301 --><waypoint x="-2186" z="-4285" y="127">	</waypoint>
+	<!-- #302 --><waypoint x="-2353" z="-4184" y="79">	</waypoint>
+	<!-- #303 --><waypoint x="-2570" z="-4056" y="91">	</waypoint>
+	<!-- #304 --><waypoint x="-2724" z="-4006" y="95">
+			killForQuest(false, 100203, 420076) -- Kobold Scout / Kobold Mutation
+	</waypoint>
+	<!-- #305 --><waypoint x="-3033" z="-3907" y="5">
+			killForQuest(false, 100203, 420076) -- Kobold Scout / Kobold Mutation
+	</waypoint>
+	<!-- #306 --><waypoint x="-3179" z="-3864" y="0">
+			if getQuestStatus(420477) == "incomplete" then -- Lost Company Member
+				repeat
+					player:target_Object(110503) -- Guard company shield
+					player:rest(2)
+				until getQuestStatus(420477) == "complete"
+			end
+	</waypoint>
+	<!-- #307 --><waypoint x="-3279" z="-3914" y="38">
+			killForQuest(false, 100203, 420076) -- Kobold Scout / Kobold Mutation
+	</waypoint>
+	<!-- #308 --><waypoint x="-3432" z="-4074" y="37">
+			killForQuest(false, 100203, 420076) -- Kobold Scout / Kobold Mutation
+			if getQuestStatus(420076) == "complete" then -- Kobold Mutation
+				__WPL:setForcedWaypointType("TRAVEL")
+				player:mount()
+			end
+	</waypoint>
+	<!-- #309 --><waypoint x="-3507" z="-3963" y="70">
+			killForQuest(false, 100203, 420076) -- Kobold Scout / Kobold Mutation
+			if getQuestStatus(420076) == "complete" then -- Kobold Mutation
+				__WPL:setForcedWaypointType("TRAVEL")
+				player:mount()
+			end
+	</waypoint>
+	<!-- #310 --><waypoint x="-3478" z="-3738" y="51">
+			killForQuest(false, 100203, 420076) -- Kobold Scout / Kobold Mutation
+			if getQuestStatus(420076) == "complete" then -- Kobold Mutation
+				__WPL:setForcedWaypointType("TRAVEL")
+				player:mount()
+			end
+	</waypoint>
+	<!-- #311 --><waypoint x="-3458" z="-3558" y="42">
+			killForQuest(false, 100203, 420076) -- Kobold Scout / Kobold Mutation
+			if getQuestStatus(420076) == "complete" then -- Kobold Mutation
+				__WPL:setForcedWaypointType("TRAVEL")
+				player:mount()
+			end
+	</waypoint>
+	<!-- #312 --><waypoint x="-3369" z="-3342" y="40">
+			killForQuest(false, 100203, 420076) -- Kobold Scout / Kobold Mutation
+			if getQuestStatus(420076) == "complete" then -- Kobold Mutation
+				__WPL:setForcedWaypointType("TRAVEL")
+				player:mount()
+			end
+	</waypoint>
+	<!-- #313 --><waypoint x="-3234" z="-3373" y="58">
+			killForQuest(false, 100203, 420076) -- Kobold Scout / Kobold Mutation
+			if getQuestStatus(420076) == "complete" then -- Kobold Mutation
+				__WPL:setForcedWaypointType("TRAVEL")
+				player:mount()
+			end
+	</waypoint>
+	<!-- #314 --><waypoint x="-3033" z="-3472" y="46">
+			killForQuest(false, 100203, 420076) -- Kobold Scout / Kobold Mutation
+			if getQuestStatus(420076) == "complete" then -- Kobold Mutation
+				__WPL:setForcedWaypointType("TRAVEL")
+				player:mount()
+			end
+	</waypoint>
+	<!-- #315 --><waypoint x="-2819" z="-3577" y="21">	</waypoint>
+	<!-- #316 --><waypoint x="-2631" z="-3725" y="47">	</waypoint>
+	<!-- #317 --><waypoint x="-2444" z="-3856" y="75">	</waypoint>
+	<!-- #318 --><waypoint x="-2359" z="-4049" y="88">	</waypoint>
+	<!-- #319 --><waypoint x="-2285" z="-4267" y="145">	</waypoint>
+	<!-- #320 --><waypoint x="-2247" z="-4375" y="152">	</waypoint>
+	<!-- #321 --><waypoint x="-2137" z="-4485" y="120">	</waypoint>
+	<!-- #322 --><waypoint x="-1965" z="-4674" y="6">	</waypoint>
+	<!-- #323 --><waypoint x="-1940" z="-4686" y="2">
+			__WPL:setForcedWaypointType("RUN")
+			player:target_NPC(110062) -- Furganda
+			SureCompleteQuest(420477) -- Lost Company Member
+			if player.Class1 == CLASS_SCOUT or player.Class2 == CLASS_SCOUT then
+				inventory:update()
+				inventory:useItem(211095) -- Ryan's Bow
+			end
+			SureAcceptQuest(420478) -- Bloody Rune
+	</waypoint>
+	<!-- #324 --><waypoint x="-1959" z="-4712" y="1">	</waypoint>
+	<!-- #325 --><waypoint x="-1847" z="-4869" y="-12">
+			player:target_NPC(110491) -- Katrina
+			SureCompleteQuest(420076) -- Kobold Mutation
+			SureCompleteQuest(420478) -- Bloody Rune
+			SureAcceptQuest(420471) -- Sample of Mutated Blood
+			SureAcceptQuest(420479) -- Blood Sacrifice
+	</waypoint>
+	<!-- #326 --><waypoint x="-1861" z="-4909" y="-9">	</waypoint>
+	<!-- #327 --><waypoint x="-1725" z="-5023" y="7">	</waypoint>
+	<!-- #328 --><waypoint x="-1405" z="-5162" y="0">	</waypoint>
+	<!-- #329 --><waypoint x="-1211" z="-5263" y="12">	</waypoint>
+	<!-- #330 --><waypoint x="-1080" z="-5391" y="17">	</waypoint>
+	<!-- #331 --><waypoint x="-1134" z="-5628" y="55">	</waypoint>
+	<!-- #332 --><waypoint x="-1178" z="-5818" y="61">	</waypoint>
+	<!-- #333 --><waypoint x="-1114" z="-5952" y="51">	</waypoint>
+	<!-- #334 --><waypoint x="-984" z="-5974" y="49">	</waypoint>
+	<!-- #335 --><waypoint x="-841" z="-5962" y="49">	</waypoint>
+	<!-- #336 --><waypoint x="-773" z="-5873" y="61">
+			player:target_NPC(110051) -- Highly-skilled Doctor
+			SureCompleteQuest(420471) -- Sample of Mutated Blood
+			SureAcceptQuest(420472) -- Reason Behind the Kobold Survival
+	</waypoint>
+	<!-- #337 --><waypoint x="-825" z="-5951" y="49">	</waypoint>
+	<!-- #338 --><waypoint x="-976" z="-5972" y="48">	</waypoint>
+	<!-- #339 --><waypoint x="-1086" z="-5949" y="53">	</waypoint>
+	<!-- #340 --><waypoint x="-1178" z="-5859" y="58">	</waypoint>
+	<!-- #341 --><waypoint x="-1192" z="-5749" y="61">	</waypoint>
+	<!-- #342 --><waypoint x="-1150" z="-5621" y="53">	</waypoint>
+	<!-- #343 --><waypoint x="-1089" z="-5406" y="20">	</waypoint>
+	<!-- #344 --><waypoint x="-1149" z="-5282" y="13">	</waypoint>
+	<!-- #345 --><waypoint x="-1253" z="-5213" y="10">	</waypoint>
+	<!-- #346 --><waypoint x="-1441" z="-5160" y="1">	</waypoint>
+	<!-- #347 --><waypoint x="-1638" z="-5066" y="-7">	</waypoint>
+	<!-- #348 --><waypoint x="-1842" z="-4903" y="-10">
+			player:target_NPC(110491) -- Katrina
+			SureCompleteQuest(420472) -- Reason Behind the Kobold Survival
+			if player.Class1 == CLASS_ROGUE then
+				inventory:update()
+				inventory:useItem(211096) -- Expert's Sampling Tool
+			end
+	</waypoint>
+	<!-- #349 --><waypoint x="-1880" z="-4795" y="-13">	</waypoint>
+	<!-- #350 --><waypoint x="-1980" z="-4703" y="3">	</waypoint>
+	<!-- #351 --><waypoint x="-2065" z="-4432" y="92">	</waypoint>
+	<!-- #352 --><waypoint x="-2182" z="-4290" y="142">	</waypoint>
+	<!-- #353 --><waypoint x="-2308" z="-4187" y="104" tag="BloodSacrifice">
+			if (inventory:itemTotalCount(201189) > 9) then
+					__WPL:setWaypointIndex(__WPL:findWaypointTag("Redeye"))
+			else
+				killForQuest(false, 100055, 420479) -- Wolf / Blood Sacrifice
+			end
+	</waypoint>
+	<!-- #354 --><waypoint x="-2400" z="-3971" y="80">
+			if (inventory:itemTotalCount(201189) > 9) then
+					__WPL:setWaypointIndex(__WPL:findWaypointTag("Redeye"))
+			else
+				killForQuest(false, 100055, 420479) -- Wolf / Blood Sacrifice
+			end
+	</waypoint>
+	<!-- #355 --><waypoint x="-2354" z="-3791" y="65">
+			if (inventory:itemTotalCount(201189) > 9) then
+					__WPL:setWaypointIndex(__WPL:findWaypointTag("Redeye"))
+			else
+				killForQuest(false, 100055, 420479) -- Wolf / Blood Sacrifice
+			end
+	</waypoint>
+	<!-- #356 --><waypoint x="-2145" z="-3630" y="64">
+			if (inventory:itemTotalCount(201189) > 9) then
+					__WPL:setWaypointIndex(__WPL:findWaypointTag("Redeye"))
+			else
+				killForQuest(false, 100055, 420479) -- Wolf / Blood Sacrifice
+			end
+	</waypoint>
+	<!-- #357 --><waypoint x="-1894" z="-3668" y="53">
+			if (inventory:itemTotalCount(201189) > 9) then
+					__WPL:setWaypointIndex(__WPL:findWaypointTag("Redeye"))
+			else
+				killForQuest(false, 100055, 420479) -- Wolf / Blood Sacrifice
+			end
+	</waypoint>
+	<!-- #358 --><waypoint x="-1887" z="-3915" y="77">
+			if (inventory:itemTotalCount(201189) > 9) then
+					__WPL:setWaypointIndex(__WPL:findWaypointTag("Redeye"))
+			else
+				killForQuest(false, 100055, 420479) -- Wolf / Blood Sacrifice
+			end
+	</waypoint>
+	<!-- #359 --><waypoint x="-2077" z="-4076" y="105">
+			if (inventory:itemTotalCount(201189) > 9) then
+					__WPL:setWaypointIndex(__WPL:findWaypointTag("Redeye"))
+			else
+				killForQuest(false, 100055, 420479) -- Wolf / Blood Sacrifice
+			end
+			__WPL:setWaypointIndex(__WPL:findWaypointTag("BloodSacrifice"))
+	</waypoint>
+	<!-- #360 --><waypoint x="-2404" z="-4059" y="86" tag="Redeye">
+			__WPL:setDirection(WPT_FORWARD)
+			if getQuestStatus(420479) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("BloodSacrificeDone"))
+			end
+	</waypoint>
+	<!-- #361 --><waypoint x="-2550" z="-4080" y="104">	</waypoint>
+	<!-- #362 --><waypoint x="-2688" z="-4117" y="140">	</waypoint>
+	<!-- #363 --><waypoint x="-2894" z="-4042" y="78">	</waypoint>
+	<!-- #364 --><waypoint x="-3042" z="-3898" y="19">	</waypoint>
+	<!-- #365 --><waypoint x="-3099" z="-3754" y="10">
+			if getQuestStatus(420479) == "incomplete" then
+				if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST then
+					if inventory:itemTotalCount(200084) > 0 then
+						inventory:useItem(200084) -- Roasted Meat
+					end
+				else
+					if inventory:itemTotalCount(200083) > 0 then
+						inventory:useItem(200083) -- Roasted Fish
+					end
+				end
+				player:rest(2)
+				player:target_Object(110091) -- Magic Stone Circle
+				player:rest(3)
+			end
+	</waypoint>
+	<!-- #366 --><waypoint x="-3099" z="-3754" y="10" tag="Altar">
+			__WPL:setDirection(WPT_BACKWARD)
+			if not player.Battling and getQuestStatus(420479) == "complete" then
+				player:mount()
+				__WPL:setForcedWaypointType("TRAVEL")
+			end
+	</waypoint>
+	<!-- #367 --><waypoint x="-2216" z="-4223" y="141" tag="BloodSacrificeDone">	</waypoint>
+	<!-- #368 --><waypoint x="-2066" z="-4479" y="73">	</waypoint>
+	<!-- #369 --><waypoint x="-1970" z="-4699" y="3">	</waypoint>
+	<!-- #370 --><waypoint x="-1843" z="-4877" y="-11">
+			__WPL:setForcedWaypointType("RUN")
+			player:target_NPC(110491) -- Katrina
+			SureCompleteQuest(420479) -- Blood Sacrifice
+			SureAcceptQuest(420480) -- Seal the Magic Stone Circle
+	</waypoint>
+	<!-- #371 --><waypoint x="-1885" z="-4784" y="-11">	</waypoint>
+	<!-- #372 --><waypoint x="-2096" z="-4601" y="41">
+			__WPL:setDirection(WPT_FORWARD)
+			if getQuestStatus(420480) == "complete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("MagicCircleSealed"))
+			end
+	</waypoint>
+	<!-- #373 --><waypoint x="-2272" z="-4540" y="125">	</waypoint>
+	<!-- #374 --><waypoint x="-2370" z="-4441" y="126">	</waypoint>
+	<!-- #375 --><waypoint x="-2444" z="-4284" y="100">	</waypoint>
+	<!-- #376 --><waypoint x="-2647" z="-4122" y="142">	</waypoint>
+	<!-- #377 --><waypoint x="-2814" z="-4047" y="100">	</waypoint>
+	<!-- #378 --><waypoint x="-3036" z="-3914" y="22">	</waypoint>
+	<!-- #379 --><waypoint x="-3097" z="-3756" y="9">
+			if getQuestStatus(420480) == "incomplete" then
+				repeat
+					player:target_Object(110091) -- Magic Stone Circle
+					player:rest(2)
+				until getQuestStatus(420480) == "complete"
+			end
+			__WPL:setForcedWaypointType("TRAVEL")
+			if not player.Mounted then
+				player:mount()
+			end
+			__WPL:setDirection(WPT_BACKWARD)
+	</waypoint>
+	<!-- #380 --><waypoint x="-1940" z="-4686" y="2" tag="MagicCircleSealed">
+			__WPL:setForcedWaypointType("RUN")
+			player:target_NPC(110062) -- Furganda
+			if player.Class1 == CLASS_MAGE or player.Class1 == CLASS_PRIEST then
+				SureCompleteQuest(420480,1) -- Seal the Magic Stone Circle
+				inventory:update()
+				inventory:useItem(221531) -- Barrow Researcher's Soft Robe
+			end
+			if player.Class1 == CLASS_SCOUT or player.Class1 == CLASS_ROGUE then
+				SureCompleteQuest(420480,2) -- Seal the Magic Stone Circle
+				inventory:update()
+				inventory:useItem(221532) -- Barrow Searcher's Coat
+			end
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_KNIGHT then
+				SureCompleteQuest(420480,3) -- Seal the Magic Stone Circle
+				inventory:update()
+				inventory:useItem(221533) -- Barrow Defencer's Chainmail
+				inventory:useItem(221094) -- Demon Bear's Bonesword
+			end
+			yrest(2000)
+			inventory:update()
+			if inventory:itemTotalCount(770012) == 1 then
+				inventory:useItem(770012) -- Card - Redeye Night Bear
+			end
+			yrest(5000)
+			if not player.Mounted then
+				player:mount()
+			end
+	</waypoint>
+	<!-- #381 --><waypoint x="-1962" z="-4707" y="1">	</waypoint>
+	<!-- #382 --><waypoint x="-1889" z="-4802" y="-12">	</waypoint>
+	<!-- #383 --><waypoint x="-1842" z="-4977" y="-2">	</waypoint>
+	<!-- #384 --><waypoint x="-1632" z="-5078" y="-7">	</waypoint>
+	<!-- #385 --><waypoint x="-1486" z="-5173" y="3">	</waypoint>
+	<!-- #386 --><waypoint x="-1264" z="-5244" y="12">	</waypoint>
+	<!-- #387 --><waypoint x="-1130" z="-5294" y="12">	</waypoint>
+	<!-- #388 --><waypoint x="-1063" z="-5389" y="12">	</waypoint>
+	<!-- #389 --><waypoint x="-1061" z="-5459" y="27">	</waypoint>
+	<!-- #390 --><waypoint x="-1104" z="-5553" y="44">	</waypoint>
+	<!-- #391 --><waypoint x="-1167" z="-5705" y="61">	</waypoint>
+	<!-- #392 --><waypoint x="-1173" z="-5854" y="57">	</waypoint>
+	<!-- #393 --><waypoint x="-1120" z="-5943" y="52">	</waypoint>
+	<!-- #394 --><waypoint x="-975" z="-5984" y="47">	</waypoint>
+	<!-- #395 --><waypoint x="-812" z="-5967" y="48">	</waypoint>
+	<!-- #396 --><waypoint x="-672" z="-5976" y="44">	</waypoint>
+	<!-- #397 --><waypoint x="-571" z="-6018" y="40">	</waypoint>
+	<!-- #398 --><waypoint x="-477" z="-6087" y="34">	</waypoint>
+	<!-- #399 --><waypoint x="-400" z="-6164" y="22">	</waypoint>
+	<!-- #400 --><waypoint x="-276" z="-6128" y="29">
+			player:target_NPC(110078) -- George
+			SureAcceptQuest(420516) -- Check in with the Adventurers' Guild
+			if player.Class1 == CLASS_WARRIOR then SureAcceptQuest(420651) end -- Meet the Warrior Instructor
+			if player.Class1 == CLASS_SCOUT then SureAcceptQuest(420652) end -- Meet the Scout Instructor
+			if player.Class1 == CLASS_ROGUE then SureAcceptQuest(420653) end -- Meet the Rogue Instructor
+			if player.Class1 == CLASS_MAGE then SureAcceptQuest(420654) end -- Meet the Mage Instructor
+			if player.Class1 == CLASS_PRIEST then SureAcceptQuest(420655) end -- Meet the Priest Instructor
+			if player.Class1 == CLASS_KNIGHT then SureAcceptQuest(420656) end -- Meet the Knight Instructor
+			__WPL:setForcedWaypointType("TRAVEL")
+	</waypoint>
+	<!-- #401 --><waypoint x="-399" z="-6171" y="21">	</waypoint>
+	<!-- #402 --><waypoint x="-482" z="-6074" y="37">	</waypoint>
+	<!-- #403 --><waypoint x="-596" z="-6009" y="41">	</waypoint>
+	<!-- #404 --><waypoint x="-709" z="-5969" y="44">	</waypoint>
+	<!-- #405 --><waypoint x="-833" z="-5968" y="50">	</waypoint>
+	<!-- #406 --><waypoint x="-1071" z="-5970" y="51">	</waypoint>
+	<!-- #407 --><waypoint x="-1172" z="-5879" y="55">	</waypoint>
+	<!-- #408 --><waypoint x="-1186" z="-5748" y="61">	</waypoint>
+	<!-- #409 --><waypoint x="-1124" z="-5610" y="51">	</waypoint>
+	<!-- #410 --><waypoint x="-1062" z="-5423" y="19">	</waypoint>
+	<!-- #411 --><waypoint x="-1119" z="-5291" y="12">	</waypoint>
+	<!-- #412 --><waypoint x="-1318" z="-5202" y="8">	</waypoint>
+	<!-- #413 --><waypoint x="-1443" z="-5079" y="-4">	</waypoint>
+	<!-- #414 --><waypoint x="-1486" z="-4858" y="-11">	</waypoint>
+	<!-- #415 --><waypoint x="-1442" z="-4698" y="-17">	</waypoint>
+	<!-- #416 --><waypoint x="-1372" z="-4557" y="-18">	</waypoint>
+	<!-- #417 --><waypoint x="-1346" z="-4390" y="-6">	</waypoint>
+	<!-- #418 --><waypoint x="-1303" z="-4293" y="2">	</waypoint>
+	<!-- #419 --><waypoint x="-1212" z="-4202" y="8">	</waypoint>
+	<!-- #420 --><waypoint x="-1077" z="-4116" y="13">	</waypoint>
+	<!-- #421 --><waypoint x="-891" z="-3970" y="7">	</waypoint>
+	<!-- #422 --><waypoint x="-707" z="-3790" y="16">	</waypoint>
+	<!-- #423 --><waypoint x="-573" z="-3618" y="9">	</waypoint>
+	<!-- #424 --><waypoint x="-507" z="-3441" y="0">	</waypoint>
+	<!-- #425 --><waypoint x="-485" z="-3311" y="-5">	</waypoint>
+	<!-- #426 --><waypoint x="-557" z="-3005" y="-25">	</waypoint>
+	<!-- #427 --><waypoint x="-575" z="-2744" y="-42">	</waypoint>
+	<!-- #428 --><waypoint x="-575" z="-2329" y="-54">	</waypoint>
+	<!-- #429 --><waypoint x="-595" z="-2124" y="-38">	</waypoint>
+	<!-- #430 --><waypoint x="-642" z="-1861" y="-43">	</waypoint>
+	<!-- #431 --><waypoint x="-611" z="-1713" y="-40">	</waypoint>
+	<!-- #432 --><waypoint x="-500" z="-1537" y="-34">	</waypoint>
+	<!-- #433 --><waypoint x="-365" z="-1447" y="-19">	</waypoint>
+	<!-- #434 --><waypoint x="-199" z="-1391" y="3">	</waypoint>
+	<!-- #435 --><waypoint x="16" z="-1257" y="26">	</waypoint>
+	<!-- #436 --><waypoint x="147" z="-1127" y="33">	</waypoint>
+	<!-- #437 --><waypoint x="274" z="-961" y="27">	</waypoint>
+	<!-- #438 --><waypoint x="523" z="-675" y="39">	</waypoint>
+	<!-- #439 --><waypoint x="647" z="-420" y="39">	</waypoint>
+	<!-- #440 --><waypoint x="807" z="-218" y="34">	</waypoint>
+	<!-- #441 --><waypoint x="850" z="-7" y="38">	</waypoint>
+	<!-- #442 --><waypoint x="865" z="223" y="32">	</waypoint>
+	<!-- #443 --><waypoint x="904" z="479" y="48">	</waypoint>
+	<!-- #444 --><waypoint x="949" z="617" y="68">	</waypoint>
+	<!-- #445 --><waypoint x="1161" z="663" y="46">	</waypoint>
+	<!-- #446 --><waypoint x="1317" z="669" y="46">	</waypoint>
+	<!-- #447 --><waypoint x="1526" z="766" y="46">	</waypoint>
+	<!-- #448 --><waypoint x="1768" z="873" y="47">	</waypoint>
+	<!-- #449 --><waypoint x="1947" z="965" y="14">	</waypoint>
+	<!-- #450 --><waypoint x="2124" z="1073" y="18">	</waypoint>
+	<!-- #451 --><waypoint x="2295" z="1129" y="16">
+			player:target_NPC(122115) -- Snoop the Stubborn
+			ChoiceOptionByName(getTEXT("HOUSE_MAID_LEAVE_TALK")) -- 'Leave conversation'
+	</waypoint>
+	<!-- #452 --><waypoint x="2399" z="1167" y="26">	</waypoint>
+	<!-- #453 --><waypoint x="2530" z="1021" y="56">
+			player:target_NPC(110020) -- Derek
+			SureCompleteQuest(420516) -- Check in with the Adventurers' Guild
+	</waypoint>
+	<!-- #454 --><waypoint x="2742" z="960" y="69">
+			travelTo("VaranasClassHall")
+	</waypoint>
+	<!-- #455 --><waypoint x="5289" z="-3932" y="76">	</waypoint>
+	<!-- #456 --><waypoint x="5223" z="-4022" y="76">	</waypoint>
+	<!-- #457 --><waypoint x="5292" z="-4088" y="82">	</waypoint>
+	<!-- #458 --><waypoint x="5419" z="-4172" y="81">	</waypoint>
+	<!-- #459 --><waypoint x="5517" z="-4247" y="77">
+			if getQuestStatus(420651) == "complete" then 
+				player:target_NPC(110004) -- Walker
+				SureCompleteQuest(420651) -- Meet the Warrior Instructor
+			end
+			if getQuestStatus(420652) == "complete" then 
+				player:target_NPC(110008) -- Enger
+				SureCompleteQuest(420652) -- Meet the Scout Instructor
+			end
+			if getQuestStatus(420653) == "complete" then 
+				player:target_NPC(110307) -- Elson
+				SureCompleteQuest(420653) -- Meet the Rogue Instructor
+			end
+			if getQuestStatus(420654) == "complete" then 
+				player:target_NPC(110309) -- Casaray
+				SureCompleteQuest(420654) -- Meet the Mage Instructor
+			end
+			if getQuestStatus(420655) == "complete" then 
+				player:target_NPC(110312) -- Nadansa
+				SureCompleteQuest(420655) -- Meet the Priest Instructor
+			end
+			if getQuestStatus(420656) == "complete" then 
+				player:target_NPC(110318) -- Parsting
+				SureCompleteQuest(420656) -- Meet the Knight Instructor
+			end
+	</waypoint>
+	<!-- #460 --><waypoint x="5506" z="-4242" y="77">
+			if player.Class2 == -1 then
+				error("Congratulations! You can now pick your second class.", 0)
+			else
+				error("Welcome back to Varanas!", 0)
+			end
+	</waypoint>
+</waypoints>

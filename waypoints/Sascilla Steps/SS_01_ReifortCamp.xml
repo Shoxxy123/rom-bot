@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+	<!-- 	This is a series of waypoint files that will complete a walk-through of the entire Sascilia Steppes quest series. -->
+	<!--	Required userfunctions: userfunction_questHelpers -->
+	<!--	SS_01_ReifortCamp will complete all quests in Reifort Camp and then go to Rose Caravan. -->
+	<onload>
+			if not __WPL.ResumePoint then
+				__WPL:setWaypointIndex(1)
+			end
+			settings.profile.options.HARVEST_DISTANCE=250
+			
+			<!-- This function is needed to ensure the player can gather the Willow Wood for the quest "Refining Yellow Juice" -->
+			function getWood()
+				player:update()
+				local _isMounted = player.Mounted
+				local woodSkill = player:getCraftLevel(CRAFT_WOODCUTTING)
+				local woodType = 560018 -- Ash Wood
+				if woodSkill > 8 then
+					woodType = 560019 -- Willow Wood
+				end
+				local done
+				repeat
+					local wood = player:findNearestNameOrId(woodType)
+					if wood and 250 > distance(wood, player) then
+						player:moveTo(CWaypoint(wood.X, wood.Z), true)
+						player:harvest(woodType)
+					else
+						done = true
+					end
+				until done
+				if _isMounted then player:mount() end
+			end
+
+	</onload>
+	<!-- #  1 --><waypoint x="-29502" z="1261" y="-543">
+			player:target_NPC(111460) -- Diboq Lien
+			SureAcceptQuest(420107) -- Getting Started Is the Hardest Part
+			player:target_NPC(111092) -- Yeoloof
+			player:merchant(111092) -- Yeoloof
+			RoMScript("CloseAllWindows()")
+	</waypoint>
+	<!-- #  2 --><waypoint x="-29541" z="1251" y="-542">	</waypoint>
+	<!-- #  3 --><waypoint x="-29616" z="1406" y="-547">
+			player:target_NPC(111033) -- Yazmin
+			SureCompleteQuest(420107) -- Getting Started Is the Hardest Part
+			SureAcceptQuest(420845) -- Yazmin's Experiment
+			RoMScript("CloseAllWindows()")
+	</waypoint>
+	<!-- #  4 --><waypoint x="-29719" z="1379" y="-550">
+			player:target_NPC(111091) -- Chipu
+			player:merchant(111091) -- Chipu
+	</waypoint>
+	<!-- #  5 --><waypoint x="-29917" z="1328" y="-518" tag="Grass">
+			killForQuest(true, 100804, 420845, "GrassDone") -- Jumping Grass / Yazmin's Experiment
+	</waypoint>
+	<!-- #  6 --><waypoint x="-30018" z="1224" y="-502">
+			killForQuest(true, 100804, 420845, "GrassDone") -- Jumping Grass / Yazmin's Experiment
+	</waypoint>
+	<!-- #  7 --><waypoint x="-30168" z="1244" y="-486">
+			getWood()
+			killForQuest(true, 100804, 420845, "GrassDone") -- Jumping Grass / Yazmin's Experiment
+	</waypoint>
+	<!-- #  8 --><waypoint x="-30365" z="1300" y="-468">
+			killForQuest(true, 100804, 420845, "GrassDone") -- Jumping Grass / Yazmin's Experiment
+	</waypoint>
+	<!-- #  9 --><waypoint x="-30275" z="1593" y="-447">
+			killForQuest(true, 100804, 420845, "GrassDone") -- Jumping Grass / Yazmin's Experiment
+	</waypoint>
+	<!-- # 10 --><waypoint x="-30108" z="1490" y="-466">
+			getWood()
+			killForQuest(true, 100804, 420845, "GrassDone") -- Jumping Grass / Yazmin's Experiment
+	</waypoint>
+	<!-- # 11 --><waypoint x="-30025" z="1303" y="-499" tag="GrassDone">
+			if getQuestStatus(420845) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Grass"))
+			end
+	</waypoint>
+	<!-- # 12 --><waypoint x="-29601" z="1359" y="-535">
+			player:target_NPC(111033) -- Yazmin
+			SureCompleteQuest(420845) -- Yazmin's Experiment
+			SureAcceptQuest(420846) -- Yazmin's Caravan
+	</waypoint>
+	<!-- # 13 --><waypoint x="-29403" z="1346" y="-530">
+			player:target_NPC(111034) -- Harnidy
+			SureAcceptQuest(420848) -- Yazmin's Burden
+	</waypoint>
+	<!-- # 14 --><waypoint x="-29445" z="1335" y="-530">	</waypoint>
+	<!-- # 15 --><waypoint x="-29561" z="1066" y="-519">	</waypoint>
+	<!-- # 16 --><waypoint x="-29627" z="629" y="-520">	</waypoint>
+	<!-- # 17 --><waypoint x="-29668" z="278" y="-431">	</waypoint>
+	<!-- # 18 --><waypoint x="-29614" z="68" y="-378">	</waypoint>
+	<!-- # 19 --><waypoint x="-29235" z="-388" y="-341">
+			if getQuestStatus(420848) == "incomplete" then
+				repeat
+					player:target_Object(111080) -- Suspicious-looking Wooden Box
+					yrest(5000)
+				until getQuestStatus(420848) == "complete"
+			end
+			player:mount()
+	</waypoint>
+	<!-- # 20 --><waypoint x="-29416" z="-155" y="-353">	</waypoint>
+	<!-- # 21 --><waypoint x="-29612" z="160" y="-395">	</waypoint>
+	<!-- # 22 --><waypoint x="-29497" z="640" y="-497">	</waypoint>
+	<!-- # 23 --><waypoint x="-29391" z="682" y="-481">
+			player:target_NPC(111044) -- Dissi
+			SureAcceptQuest(420857) -- Dissi's Task
+	</waypoint>
+	<!-- # 24 --><waypoint x="-29571" z="933" y="-524">	</waypoint>
+	<!-- # 25 --><waypoint x="-29599" z="1176" y="-523">	</waypoint>
+	<!-- # 26 --><waypoint x="-29594" z="1420" y="-529">
+			player:target_NPC(111033) -- Yazmin
+			SureCompleteQuest(420857) -- Dissi's Task
+			SureAcceptQuest(420858) -- Dissi's Favor
+	</waypoint>
+	<!-- # 27 --><waypoint x="-29408" z="1338" y="-530">
+			player:target_NPC(111034) -- Harnidy
+			SureCompleteQuest(420848) -- Yazmin's Burden
+			SureAcceptQuest(420849) -- Yazmin and Harnidy
+			SureAcceptQuest(420851) -- Yazmin's Sweetheart
+	</waypoint>
+	<!-- # 28 --><waypoint x="-29600" z="1406" y="-531">
+			player:target_NPC(111033) -- Yazmin
+			SureCompleteQuest(420849) -- Yazmin and Harnidy
+			SureAcceptQuest(420850) -- Yazmin's Responsibility
+	</waypoint>
+	<!-- # 29 --><waypoint x="-29398" z="1346" y="-530">
+			player:target_NPC(111034) -- Harnidy
+			SureCompleteQuest(420850) -- Yazmin's Responsibility
+	</waypoint>
+	<!-- # 30 --><waypoint x="-29441" z="1348" y="-529">	</waypoint>
+	<!-- # 31 --><waypoint x="-29582" z="985" y="-520">	</waypoint>
+	<!-- # 32 --><waypoint x="-29402" z="684" y="-481">
+			player:target_NPC(111044) -- Dissi
+			SureCompleteQuest(420858) -- Dissi's Favor
+			SureAcceptQuest(420859) -- Dissi's Plan
+	</waypoint>
+	<!-- # 33 --><waypoint x="-29649" z="954" y="-518">	</waypoint>
+	<!-- # 34 --><waypoint x="-30234" z="1318" y="-461">	</waypoint>
+	<!-- # 35 --><waypoint x="-30621" z="1339" y="-450">
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+	</waypoint>
+	<!-- # 36 --><waypoint x="-30721" z="1493" y="-428">
+			if getQuestStatus(420851) == "incomplete" then
+				repeat
+					plant = player:findNearestNameOrId(111079)
+					if plant and 50 > distance(plant, player) then
+						player:target_Object(plant.Id)
+						yrest(5000)
+					end
+				until getQuestStatus(420851) == "complete"
+			end
+	</waypoint>
+	<!-- # 37 --><waypoint x="-30855" z="1403" y="-455" tag="Gazelle">
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+	</waypoint>
+	<!-- # 38 --><waypoint x="-30941" z="1255" y="-449">
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+	</waypoint>
+	<!-- # 39 --><waypoint x="-31088" z="1231" y="-430">
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+	</waypoint>
+	<!-- # 40 --><waypoint x="-31272" z="1116" y="-392">
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+			getWood()
+	</waypoint>
+	<!-- # 41 --><waypoint x="-31418" z="1161" y="-389">
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+	</waypoint>
+	<!-- # 42 --><waypoint x="-31324" z="1384" y="-419">
+			getWood()
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+	</waypoint>
+	<!-- # 43 --><waypoint x="-31132" z="1520" y="-425">
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+	</waypoint>
+	<!-- # 44 --><waypoint x="-31030" z="1643" y="-430">
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+	</waypoint>
+	<!-- # 45 --><waypoint x="-30807" z="1599" y="-437">
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+	</waypoint>
+	<!-- # 46 --><waypoint x="-30674" z="1481" y="-446">
+			killForQuest(true, 100901, 420846, 100901, 420859, "GazelleDone") -- Young Springbok / Yazmin's Caravan / Dissi's Plan
+	</waypoint>
+	<!-- # 47 --><waypoint x="-30379" z="1479" y="-450" tag="GazelleDone">
+			if getQuestStatus(420846) == "incomplete" or getQuestStatus(420859) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Gazelle"))
+			end
+	</waypoint>
+	<!-- # 48 --><waypoint x="-30118" z="1406" y="-457">	</waypoint>
+	<!-- # 49 --><waypoint x="-29795" z="1313" y="-513">	</waypoint>
+	<!-- # 50 --><waypoint x="-29593" z="1386" y="-535">
+			player:target_NPC(111033) -- Yazmin
+			SureCompleteQuest(420846) -- Yazmin's Caravan
+			SureAcceptQuest(420847) -- Yazmin's Thoughts
+	</waypoint>
+	<!-- # 51 --><waypoint x="-29399" z="1340" y="-530">
+			player:target_NPC(111034) -- Harnidy
+			SureCompleteQuest(420851) -- Yazmin's Sweetheart
+			SureAcceptQuest(420852) -- Yazmin's Number One
+	</waypoint>
+	<!-- # 52 --><waypoint x="-29452" z="1335" y="-529">	</waypoint>
+	<!-- # 53 --><waypoint x="-29568" z="1033" y="-519">	</waypoint>
+	<!-- # 54 --><waypoint x="-29539" z="923" y="-525">	</waypoint>
+	<!-- # 55 --><waypoint x="-29399" z="687" y="-482">
+			player:target_NPC(111044) -- Dissi
+			SureCompleteQuest(420859) -- Dissi's Plan
+			SureAcceptQuest(420860) -- Dissi's plot
+	</waypoint>
+	<!-- # 56 --><waypoint x="-29452" z="667" y="-486">	</waypoint>
+	<!-- # 57 --><waypoint x="-29519" z="328" y="-423">	</waypoint>
+	<!-- # 58 --><waypoint x="-29456" z="84" y="-381">	</waypoint>
+	<!-- # 59 --><waypoint x="-29224" z="-198" y="-357">	</waypoint>
+	<!-- # 60 --><waypoint x="-28810" z="-493" y="-336">	</waypoint>
+	<!-- # 61 --><waypoint x="-28427" z="-695" y="-348">
+			player:target_NPC(111047) -- Choken
+			SureCompleteQuest(420860) -- Dissi's plot
+	</waypoint>
+	<!-- # 62 --><waypoint x="-28581" z="-650" y="-335">	</waypoint>
+	<!-- # 63 --><waypoint x="-28948" z="-431" y="-336">	</waypoint>
+	<!-- # 64 --><waypoint x="-29448" z="-65" y="-361">	</waypoint>
+	<!-- # 65 --><waypoint x="-29561" z="254" y="-415">	</waypoint>
+	<!-- # 66 --><waypoint x="-29599" z="666" y="-520">	</waypoint>
+	<!-- # 67 --><waypoint x="-29536" z="957" y="-523">
+			player:target_NPC(111045) -- Gujab
+			SureAcceptQuest(420861) -- Dissi's Subordinates
+	</waypoint>
+	<!-- # 68 --><waypoint x="-29560" z="942" y="-524">	</waypoint>
+	<!-- # 69 --><waypoint x="-29608" z="1174" y="-522">	</waypoint>
+	<!-- # 70 --><waypoint x="-29499" z="1439" y="-534">	</waypoint>
+	<!-- # 71 --><waypoint x="-29308" z="1644" y="-493">	</waypoint>
+	<!-- # 72 --><waypoint x="-29055" z="1845" y="-518">
+			getWood()
+			getWood()
+	</waypoint>
+	<!-- # 73 --><waypoint x="-29073" z="1941" y="-509">	</waypoint>
+	<!-- # 74 --><waypoint x="-29073" z="1941" y="-509">
+			player:target_NPC(111037) -- Lamya
+			ChoiceOptionByName(getTEXT("EM_420847_4")) -- 'You should eat something'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("EM_420847_6")) -- 'Your husband wouldn't have wanted you to go hungry.'
+			RoMScript("CloseAllWindows()")
+
+			player:target_NPC(111038) -- Gianna
+			ChoiceOptionByName(getTEXT("EM_420847_4")) -- 'You should eat something'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("EM_420847_8")) -- 'Don't starve to death before your husband comes back.'
+			RoMScript("CloseAllWindows()")
+
+			player:target_NPC(111036) -- Joni
+			ChoiceOptionByName(getTEXT("EM_420847_0")) -- 'I hope this food will be of help to you'
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("EM_420847_2")) -- 'Helping out a great mother like you is just the right thing.'
+			RoMScript("CloseAllWindows()")
+	</waypoint>
+	<!-- # 75 --><waypoint x="-29090" z="2097" y="-493">
+			player:target_NPC(111043) -- Chikson
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("EM_420852_0")) -- 'Harnidy wanted me to bring you this food to eat.'
+			RoMScript("CloseAllWindows()")
+	</waypoint>
+	<!-- # 76 --><waypoint x="-29151" z="2213" y="-474">
+			player:target_NPC(111040) -- Libo
+			yrest(1500)
+			ChoiceOptionByName(getTEXT("EM_420852_0")) -- 'Harnidy wanted me to bring you this food to eat.'
+			RoMScript("CloseAllWindows()")
+	</waypoint>
+	<!-- # 77 --><waypoint x="-28900" z="2046" y="-503">	</waypoint>
+	<!-- # 78 --><waypoint x="-28793" z="1867" y="-514">
+			player:target_NPC(111042) -- Dannaud
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("EM_420852_0")) -- 'Harnidy wanted me to bring you this food to eat.'
+			RoMScript("CloseAllWindows()")
+	</waypoint>
+	<!-- # 79 --><waypoint x="-28806" z="1871" y="-513">	</waypoint>
+	<!-- # 80 --><waypoint x="-28820" z="1966" y="-517">	</waypoint>
+	<!-- # 81 --><waypoint x="-28637" z="2082" y="-521">
+			player:target_NPC(111039) -- Kergin
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("EM_420852_0")) -- 'Harnidy wanted me to bring you this food to eat.'
+			RoMScript("CloseAllWindows()")
+			player:target_NPC(111041) -- Parsol
+			yrest(1000)
+			ChoiceOptionByName(getTEXT("EM_420852_0")) -- 'Harnidy wanted me to bring you this food to eat.'
+			RoMScript("CloseAllWindows()")
+	</waypoint>
+	<!-- # 82 --><waypoint x="-28567" z="2156" y="-516">
+			player:target_NPC(111035) -- Sinaf
+			SureAcceptQuest(420853) -- Yazmin's Decision
+	</waypoint>
+	<!-- # 83 --><waypoint x="-28841" z="2033" y="-512">	</waypoint>
+	<!-- # 84 --><waypoint x="-29206" z="1684" y="-497">	</waypoint>
+	<!-- # 85 --><waypoint x="-29375" z="1356" y="-531">
+			player:target_NPC(111034) -- Harnidy
+			SureCompleteQuest(420852) -- Yazmin's Number One
+			SureCompleteQuest(420853) -- Yazmin's Decision
+			SureAcceptQuest(420854) -- Yazmin's Pain
+	</waypoint>
+	<!-- # 86 --><waypoint x="-29593" z="1393" y="-533">
+			player:target_NPC(111033) -- Yazmin
+			SureCompleteQuest(420847) -- Yazmin's Thoughts
+	</waypoint>
+	<!-- # 87 --><waypoint x="-29477" z="1478" y="-531">	</waypoint>
+	<!-- # 88 --><waypoint x="-29327" z="1624" y="-498">	</waypoint>
+	<!-- # 89 --><waypoint x="-28855" z="2016" y="-513">	</waypoint>
+	<!-- # 90 --><waypoint x="-28565" z="2152" y="-516">
+			player:target_NPC(111035) -- Sinaf
+			SureCompleteQuest(420854) -- Yazmin's Pain
+			SureAcceptQuest(420855) -- Yazmin's Rite of Passage
+	</waypoint>
+	<!-- # 91 --><waypoint x="-28791" z="2063" y="-514">	</waypoint>
+	<!-- # 92 --><waypoint x="-29065" z="1829" y="-517">	</waypoint>
+	<!-- # 93 --><waypoint x="-29278" z="1631" y="-494">	</waypoint>
+	<!-- # 94 --><waypoint x="-29550" z="1383" y="-535">	</waypoint>
+	<!-- # 95 --><waypoint x="-29598" z="1402" y="-532">
+			player:target_NPC(111033) -- Yazmin
+			SureCompleteQuest(420855) -- Yazmin's Rite of Passage
+			SureAcceptQuest(420856) -- Yazmin's Spouse
+	</waypoint>
+	<!-- # 96 --><waypoint x="-29386" z="1338" y="-530">
+			player:target_NPC(111034) -- Harnidy
+			SureCompleteQuest(420856) -- Yazmin's Spouse
+	</waypoint>
+	<!-- # 97 --><waypoint x="-29457" z="1329" y="-529">	</waypoint>
+	<!-- # 98 --><waypoint x="-29469" z="1122" y="-526">
+			player:target_NPC(111058) -- Leig
+			SureAcceptQuest(421006) -- Unexpected Extra Income
+	</waypoint>
+	<!-- # 99 --><waypoint x="-29365" z="1092" y="-521">	</waypoint>
+	<!-- #100 --><waypoint x="-29380" z="703" y="-482">
+			player:target_NPC(111044) -- Dissi
+			SureCompleteQuest(421006) -- Unexpected Extra Income
+			SureAcceptQuest(421007) -- An Extra Collection of Songs
+	</waypoint>
+	<!-- #101 --><waypoint x="-29596" z="909" y="-527">	</waypoint>
+	<!-- #102 --><waypoint x="-29600" z="1221" y="-523">	</waypoint>
+	<!-- #103 --><waypoint x="-29499" z="1438" y="-535">	</waypoint>
+	<!-- #104 --><waypoint x="-29327" z="1612" y="-499">	</waypoint>
+	<!-- #105 --><waypoint x="-29069" z="1844" y="-514">	</waypoint>
+	<!-- #106 --><waypoint x="-29065" z="2151" y="-484">	</waypoint>
+	<!-- #107 --><waypoint x="-29184" z="2435" y="-455">	</waypoint>
+	<!-- #108 --><waypoint x="-29312" z="2597" y="-421">
+			getWood()
+	</waypoint>
+	<!-- #109 --><waypoint x="-29611" z="2889" y="-324">	</waypoint>
+	<!-- #110 --><waypoint x="-29753" z="3194" y="-289">
+			getWood()
+	</waypoint>
+	<!-- #111 --><waypoint x="-29900" z="3443" y="-283">	</waypoint>
+	<!-- #112 --><waypoint x="-30023" z="3716" y="-298">	</waypoint>
+	<!-- #113 --><waypoint x="-29966" z="3966" y="-311">
+			getWood()
+	</waypoint>
+	<!-- #114 --><waypoint x="-29944" z="4335" y="-360">	</waypoint>
+	<!-- #115 --><waypoint x="-30022" z="4886" y="-358">	</waypoint>
+	<!-- #116 --><waypoint x="-30110" z="5131" y="-315">	</waypoint>
+	<!-- #117 --><waypoint x="-30172" z="5424" y="-258">
+			getWood()
+	</waypoint>
+	<!-- #118 --><waypoint x="-30259" z="5620" y="-268">	</waypoint>
+	<!-- #119 --><waypoint x="-30517" z="5704" y="-253">
+			player:target_NPC(111053) -- Fares Mitten
+			SureCompleteQuest(421007) -- An Extra Collection of Songs
+			SureAcceptQuest(421008) -- Serious Trouble
+	</waypoint>
+	<!-- #120 --><waypoint x="-30424" z="5841" y="-314">	</waypoint>
+	<!-- #121 --><waypoint x="-30369" z="6190" y="-373" tag="RedFrogs">
+			killForQuest(true, 100796, 420861, "RedFrogsDone") -- Red-tailed Frog / Dissi's Subordinates
+	</waypoint>
+	<!-- #122 --><waypoint x="-30561" z="6287" y="-376">
+			killForQuest(true, 100796, 420861, "RedFrogsDone") -- Red-tailed Frog / Dissi's Subordinates
+	</waypoint>
+	<!-- #123 --><waypoint x="-30692" z="6100" y="-378">
+			killForQuest(true, 100796, 420861, "RedFrogsDone") -- Red-tailed Frog / Dissi's Subordinates
+	</waypoint>
+	<!-- #124 --><waypoint x="-30895" z="6047" y="-383">
+			killForQuest(true, 100796, 420861, "RedFrogsDone") -- Red-tailed Frog / Dissi's Subordinates
+	</waypoint>
+	<!-- #125 --><waypoint x="-30970" z="5852" y="-374">
+			killForQuest(true, 100796, 420861, "RedFrogsDone") -- Red-tailed Frog / Dissi's Subordinates
+	</waypoint>
+	<!-- #126 --><waypoint x="-31263" z="6083" y="-375">
+			killForQuest(true, 100796, 420861, "RedFrogsDone") -- Red-tailed Frog / Dissi's Subordinates
+	</waypoint>
+	<!-- #127 --><waypoint x="-31469" z="6203" y="-366">
+			killForQuest(true, 100796, 420861, "RedFrogsDone") -- Red-tailed Frog / Dissi's Subordinates
+			getWood()
+	</waypoint>
+	<!-- #128 --><waypoint x="-31656" z="6242" y="-375">
+			killForQuest(true, 100796, 420861, "RedFrogsDone") -- Red-tailed Frog / Dissi's Subordinates
+	</waypoint>
+	<!-- #129 --><waypoint x="-31436" z="6180" y="-368">
+			killForQuest(true, 100796, 420861, "RedFrogsDone") -- Red-tailed Frog / Dissi's Subordinates
+			getWood()
+	</waypoint>
+	<!-- #130 --><waypoint x="-31108" z="6451" y="-368">
+			killForQuest(true, 100796, 420861, "RedFrogsDone") -- Red-tailed Frog / Dissi's Subordinates
+	</waypoint>
+	<!-- #131 --><waypoint x="-30619" z="6365" y="-372" tag="RedFrogsDone">
+			killForQuest(true, 100796, 420861) -- Red-tailed Frog / Dissi's Subordinates
+			if getQuestStatus(420861) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("RedFrogs"))
+			end
+	</waypoint>
+	<!-- #132 --><waypoint x="-30404" z="6005" y="-337">	</waypoint>
+	<!-- #133 --><waypoint x="-30149" z="5964" y="-327">	</waypoint>
+	<!-- #134 --><waypoint x="-29986" z="6268" y="-374">	</waypoint>
+	<!-- #135 --><waypoint x="-29986" z="6453" y="-374" tag="Journal">
+			killForQuest(true, 100894, 421008, 100895, 421008, "JournalDone")
+	</waypoint>
+	<!-- #136 --><waypoint x="-29981" z="6602" y="-378">
+			killForQuest(true, 100894, 421008, 100895, 421008, "JournalDone")
+	</waypoint>
+	<!-- #137 --><waypoint x="-29813" z="6648" y="-379">
+			killForQuest(true, 100894, 421008, 100895, 421008, "JournalDone")
+	</waypoint>
+	<!-- #138 --><waypoint x="-29792" z="6442" y="-377">
+			killForQuest(true, 100894, 421008, 100895, 421008, "JournalDone")
+	</waypoint>
+	<!-- #139 --><waypoint x="-29587" z="6286" y="-320">
+			killForQuest(true, 100894, 421008, 100895, 421008, "JournalDone")
+			getWood()
+	</waypoint>
+	<!-- #140 --><waypoint x="-29407" z="6322" y="-301">
+			killForQuest(true, 100894, 421008, 100895, 421008, "JournalDone")
+	</waypoint>
+	<!-- #141 --><waypoint x="-29279" z="6222" y="-340">
+			killForQuest(true, 100894, 421008, 100895, 421008, "JournalDone")
+	</waypoint>
+	<!-- #142 --><waypoint x="-29121" z="6214" y="-355">
+			killForQuest(true, 100894, 421008, 100895, 421008, "JournalDone")
+	</waypoint>
+	<!-- #143 --><waypoint x="-29006" z="6294" y="-345">
+			killForQuest(true, 100894, 421008, 100895, 421008, "JournalDone")
+	</waypoint>
+	<!-- #144 --><waypoint x="-28768" z="6326" y="-365">
+			killForQuest(true, 100894, 421008, 100895, 421008, "JournalDone")
+			if getQuestStatus(421008) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Journal"))
+			end
+	</waypoint>
+	<!-- #145 --><waypoint x="-29442" z="5719" y="-368" tag="JournalDone">	</waypoint>
+	<!-- #146 --><waypoint x="-29856" z="5665" y="-374">	</waypoint>
+	<!-- #147 --><waypoint x="-30225" z="5671" y="-283">	</waypoint>
+	<!-- #148 --><waypoint x="-30517" z="5701" y="-269">
+			player:target_NPC(111053) -- Fares Mitten
+			SureCompleteQuest(421008, 2) -- Serious Trouble
+			-- Rewards: (1) Researcher's Book (2) Kobold's Round Shield 
+			SureAcceptQuest(421009) -- Research Exchange
+			SureAcceptQuest(421010) -- The First Item of the Ceremony
+			player:mount()
+	</waypoint>
+	<!-- #149 --><waypoint x="-30398" z="5667" y="-276">	</waypoint>
+	<!-- #150 --><waypoint x="-30237" z="5482" y="-266">	</waypoint>
+	<!-- #151 --><waypoint x="-30109" z="5063" y="-341">	</waypoint>
+	<!-- #152 --><waypoint x="-30009" z="4833" y="-380">	</waypoint>
+	<!-- #153 --><waypoint x="-29974" z="4630" y="-378">
+			getWood()
+	</waypoint>
+	<!-- #154 --><waypoint x="-29936" z="4264" y="-375">	</waypoint>
+	<!-- #155 --><waypoint x="-29939" z="3936" y="-321">
+			getWood()
+	</waypoint>
+	<!-- #156 --><waypoint x="-29899" z="3548" y="-292">	</waypoint>
+	<!-- #157 --><waypoint x="-29821" z="3317" y="-293">	</waypoint>
+	<!-- #158 --><waypoint x="-29627" z="2954" y="-330">
+			getWood()
+	</waypoint>
+	<!-- #159 --><waypoint x="-29431" z="2704" y="-401">
+			getWood()
+	</waypoint>
+	<!-- #160 --><waypoint x="-29216" z="2489" y="-463">	</waypoint>
+	<!-- #161 --><waypoint x="-29084" z="2199" y="-493">	</waypoint>
+	<!-- #162 --><waypoint x="-29067" z="1859" y="-529">
+			getWood()
+	</waypoint>
+	<!-- #163 --><waypoint x="-29126" z="1769" y="-527">
+			getWood()
+	</waypoint>
+	<!-- #164 --><waypoint x="-29338" z="1600" y="-517">	</waypoint>
+	<!-- #165 --><waypoint x="-29549" z="1354" y="-552">	</waypoint>
+	<!-- #166 --><waypoint x="-29612" z="1129" y="-537">	</waypoint>
+	<!-- #167 --><waypoint x="-29539" z="967" y="-538">
+			player:target_NPC(111045) -- Gujab
+			SureCompleteQuest(420861) -- Dissi's Subordinates
+			SureAcceptQuest(420862) -- Dissi's Gloomy Future
+	</waypoint>
+	<!-- #168 --><waypoint x="-29390" z="677" y="-496">
+			player:target_NPC(111044) -- Dissi
+			SureCompleteQuest(420862) -- Dissi's Gloomy Future
+			SureAcceptQuest(420863) -- Dissi's Extra Income
+	</waypoint>
+	<!-- #169 --><waypoint x="-29565" z="929" y="-541">	</waypoint>
+	<!-- #170 --><waypoint x="-29598" z="1177" y="-539">	</waypoint>
+	<!-- #171 --><waypoint x="-29596" z="1405" y="-547">
+			player:target_NPC(111033) -- Yazmin
+			SureCompleteQuest(420863) -- Dissi's Extra Income
+			SureAcceptQuest(420864) -- Dissi's Comeuppance
+			SureAcceptQuest(421459) -- Clan Caravan
+	</waypoint>
+	<!-- #172 --><waypoint x="-29585" z="1240" y="-544">	</waypoint>
+	<!-- #173 --><waypoint x="-29608" z="977" y="-539">	</waypoint>
+	<!-- #174 --><waypoint x="-29659" z="362" y="-474">	</waypoint>
+	<!-- #175 --><waypoint x="-29614" z="39" y="-392">	</waypoint>
+	<!-- #176 --><waypoint x="-29551" z="-59" y="-381">	</waypoint>
+	<!-- #177 --><waypoint x="-29273" z="-326" y="-362">	</waypoint>
+	<!-- #178 --><waypoint x="-28963" z="-535" y="-353">
+			getWood()
+	</waypoint>
+	<!-- #179 --><waypoint x="-28725" z="-625" y="-356">	</waypoint>
+	<!-- #180 --><waypoint x="-28417" z="-699" y="-363">
+			player:target_NPC(111047) -- Choken
+			SureCompleteQuest(420864) -- Dissi's Comeuppance
+	</waypoint>
+	<!-- #181 --><waypoint x="-28618" z="-639" y="-350">	</waypoint>
+	<!-- #182 --><waypoint x="-28838" z="-587" y="-358">	</waypoint>
+	<!-- #183 --><waypoint x="-29087" z="-469" y="-357">	</waypoint>
+	<!-- #184 --><waypoint x="-29309" z="-298" y="-363">
+			getWood()
+	</waypoint>
+	<!-- #185 --><waypoint x="-29544" z="-66" y="-381">	</waypoint>
+	<!-- #186 --><waypoint x="-29643" z="121" y="-408">	</waypoint>
+	<!-- #187 --><waypoint x="-29666" z="289" y="-451">	</waypoint>
+	<!-- #188 --><waypoint x="-29642" z="537" y="-526">	</waypoint>
+	<!-- #189 --><waypoint x="-29608" z="1036" y="-537">	</waypoint>
+	<!-- #190 --><waypoint x="-29588" z="1215" y="-542">	</waypoint>
+	<!-- #191 --><waypoint x="-29518" z="1417" y="-552">	</waypoint>
+	<!-- #192 --><waypoint x="-29380" z="1569" y="-525">	</waypoint>
+	<!-- #193 --><waypoint x="-29071" z="1824" y="-534">
+			getWood()
+	</waypoint>
+	<!-- #194 --><waypoint x="-29062" z="2160" y="-499">	</waypoint>
+	<!-- #195 --><waypoint x="-29184" z="2427" y="-471">	</waypoint>
+	<!-- #196 --><waypoint x="-29284" z="2569" y="-447">	</waypoint>
+	<!-- #197 --><waypoint x="-29525" z="2805" y="-366">	</waypoint>
+	<!-- #198 --><waypoint x="-29672" z="3028" y="-326">	</waypoint>
+	<!-- #199 --><waypoint x="-29844" z="3347" y="-294">	</waypoint>
+	<!-- #200 --><waypoint x="-30007" z="3649" y="-314">	</waypoint>
+	<!-- #201 --><waypoint x="-30015" z="3791" y="-311">
+			getWood()
+	</waypoint>
+	<!-- #202 --><waypoint x="-29933" z="4082" y="-354">
+			getWood()
+	</waypoint>
+	<!-- #203 --><waypoint x="-29946" z="4314" y="-376">	</waypoint>
+	<!-- #204 --><waypoint x="-29983" z="4589" y="-379">	</waypoint>
+	<!-- #205 --><waypoint x="-30012" z="4883" y="-375">	</waypoint>
+	<!-- #206 --><waypoint x="-30104" z="5107" y="-336">	</waypoint>
+	<!-- #207 --><waypoint x="-30167" z="5435" y="-273">
+			getWood()
+	</waypoint>
+	<!-- #208 --><waypoint x="-30278" z="5712" y="-293">	</waypoint>
+	<!-- #209 --><waypoint x="-30350" z="5960" y="-326">	</waypoint>
+	<!-- #210 --><waypoint x="-30350" z="5960" y="-326">
+			player:target_Object(111114) -- Dust of Sand
+	</waypoint>
+	<!-- #211 --><waypoint x="-30060" z="6195" y="-376">
+			player:target_Object(111114) -- Dust of Sand
+	</waypoint>
+	<!-- #212 --><waypoint x="-29666" z="5977" y="-376">
+			player:target_Object(111114) -- Dust of Sand
+	</waypoint>
+	<!-- #213 --><waypoint x="-29718" z="5721" y="-377">
+			player:target_Object(111114) -- Dust of Sand
+	</waypoint>
+	<!-- #214 --><waypoint x="-29648" z="5379" y="-374">	</waypoint>
+	<!-- #215 --><waypoint x="-29384" z="4975" y="-377">
+			player:target_Object(111114) -- Dust of Sand
+	</waypoint>
+	<!-- #216 --><waypoint x="-29574" z="5093" y="-376" tag="Newts">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+	</waypoint>
+	<!-- #217 --><waypoint x="-29736" z="5156" y="-377">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+			getWood()
+	</waypoint>
+	<!-- #218 --><waypoint x="-29700" z="5289" y="-389">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+	</waypoint>
+	<!-- #219 --><waypoint x="-29815" z="5618" y="-379">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+	</waypoint>
+	<!-- #220 --><waypoint x="-29836" z="5816" y="-384">	</waypoint>
+	<!-- #221 --><waypoint x="-30000" z="6057" y="-377">	</waypoint>
+	<!-- #222 --><waypoint x="-30151" z="6163" y="-377">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+	</waypoint>
+	<!-- #223 --><waypoint x="-30282" z="6241" y="-376">	</waypoint>
+	<!-- #224 --><waypoint x="-30457" z="6191" y="-376">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+	</waypoint>
+	<!-- #225 --><waypoint x="-30586" z="6105" y="-373">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+	</waypoint>
+	<!-- #226 --><waypoint x="-30754" z="5934" y="-384">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+	</waypoint>
+	<!-- #227 --><waypoint x="-31018" z="6050" y="-377">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+	</waypoint>
+	<!-- #228 --><waypoint x="-31208" z="5995" y="-371">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+	</waypoint>
+	<!-- #229 --><waypoint x="-31145" z="5770" y="-369">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+	</waypoint>
+	<!-- #230 --><waypoint x="-30956" z="5637" y="-375">
+			killForQuest(true, 100741, 421459, "NewtsDone")
+			if getQuestStatus(421008) == "incomplete" then
+				__WPL:setWaypointIndex(__WPL:findWaypointTag("Newts"))
+			end
+	</waypoint>
+	<!-- #230 --><waypoint x="-30722" z="5707" y="-288">	</waypoint>
+	<!-- #231 --><waypoint x="-30535" z="5716" y="-273" tag="NewtsDone">
+			player:target_NPC(111053) -- Fares Mitten
+			if player.Class1 == CLASS_WARRIOR or player.Class1 == CLASS_CHAMPION or player.Class1 == CLASS_KNIGHT then
+				SureCompleteQuest(421010, 1) -- The First Item of the Ceremony
+			else
+				SureCompleteQuest(421010, 2) -- The First Item of the Ceremony
+			end
+			SureAcceptQuest(421011) -- The Second Item of the Ceremony
+	</waypoint>
+	<!-- #232 --><waypoint x="-30646" z="5706" y="-283">	</waypoint>
+	<!-- #233 --><waypoint x="-30775" z="5805" y="-356">	</waypoint>
+	<!-- #234 --><waypoint x="-30791" z="6020" y="-374">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #235 --><waypoint x="-30973" z="6138" y="-369">	</waypoint>
+	<!-- #236 --><waypoint x="-31079" z="6291" y="-375">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #237 --><waypoint x="-31184" z="6373" y="-377">	</waypoint>
+	<!-- #238 --><waypoint x="-31283" z="6406" y="-374">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #239 --><waypoint x="-31539" z="6419" y="-376">	</waypoint>
+	<!-- #240 --><waypoint x="-31684" z="6407" y="-378">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #241 --><waypoint x="-31525" z="6493" y="-377">	</waypoint>
+	<!-- #242 --><waypoint x="-31254" z="6523" y="-363">	</waypoint>
+	<!-- #243 --><waypoint x="-30923" z="6412" y="-367">	</waypoint>
+	<!-- #244 --><waypoint x="-30756" z="6397" y="-363">	</waypoint>
+	<!-- #245 --><waypoint x="-30619" z="6218" y="-375">	</waypoint>
+	<!-- #246 --><waypoint x="-30589" z="6140" y="-375">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #247 --><waypoint x="-30575" z="6106" y="-356">	</waypoint>
+	<!-- #248 --><waypoint x="-30469" z="6135" y="-366">	</waypoint>
+	<!-- #249 --><waypoint x="-30286" z="6356" y="-377">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #250 --><waypoint x="-30061" z="6235" y="-376">	</waypoint>
+	<!-- #251 --><waypoint x="-29867" z="6050" y="-376">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #252 --><waypoint x="-29656" z="5932" y="-377">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #253 --><waypoint x="-29377" z="5840" y="-375">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #254 --><waypoint x="-29587" z="5745" y="-366">	</waypoint>
+	<!-- #255 --><waypoint x="-29762" z="5684" y="-381">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #256 --><waypoint x="-29723" z="5532" y="-376">	</waypoint>
+	<!-- #257 --><waypoint x="-29691" z="5372" y="-378">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #258 --><waypoint x="-29549" z="5449" y="-378">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #259 --><waypoint x="-29572" z="5267" y="-375">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #260 --><waypoint x="-29471" z="5197" y="-376">	</waypoint>
+	<!-- #261 --><waypoint x="-29381" z="5190" y="-376">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #262 --><waypoint x="-29417" z="4936" y="-377">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #263 --><waypoint x="-29552" z="4981" y="-375">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #264 --><waypoint x="-29653" z="5042" y="-381">
+			moveAndGather(111086, 421011, "FernDone") -- Marsh Fern / The Second Item of the Ceremony
+	</waypoint>
+	<!-- #265 --><waypoint x="-29893" z="5022" y="-348">	</waypoint>
+	<!-- #266 --><waypoint x="-30098" z="5118" y="-335">	</waypoint>
+	<!-- #267 --><waypoint x="-29710" z="5053" y="-357" tag="FernDone">
+			player:mount()
+	</waypoint>
+	<!-- #268 --><waypoint x="-30072" z="5061" y="-328" >	</waypoint>
+	<!-- #269 --><waypoint x="-30167" z="5440" y="-273" >	</waypoint>
+	<!-- #270 --><waypoint x="-30457" z="5682" y="-266">	</waypoint>
+	<!-- #271 --><waypoint x="-30526" z="5716" y="-272">
+			player:target_NPC(111053) -- Fares Mitten
+			SureCompleteQuest(421011, 1) -- The Second Item of the Ceremony
+			-- Rewards: [1] Marsh Fern Dyed Pants (223096), [2] Marsh Fern Boots (223097)
+			SureAcceptQuest(421012) -- Refining Yellow Juice
+	</waypoint>
+	<!-- #272 --><waypoint x="-30607" z="5706" y="-259">	</waypoint>
+	<!-- #273 --><waypoint x="-30888" z="5761" y="-348">	</waypoint>
+	<!-- #274 --><waypoint x="-31357" z="6049" y="-336">	</waypoint>
+	<!-- #275 --><waypoint x="-31713" z="6177" y="-330">	</waypoint>
+	<!-- #276 --><waypoint x="-31980" z="6144" y="-350">	</waypoint>
+	<!-- #277 --><waypoint x="-32155" z="6195" y="-356">	</waypoint>
+	<!-- #278 --><waypoint x="-32547" z="6476" y="-314">
+			loadPaths("SasciliaSteppes/SS_02_RoseCaravan")
+	</waypoint>
+</waypoints>

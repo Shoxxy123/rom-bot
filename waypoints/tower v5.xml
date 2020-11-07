@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+<onLoad>
+-- tower zone id = 220
+   local zone = getZoneId()
+ print("zone = ", zone)
+   if zone == 220 then
+		print("right", zone)
+   else 
+		error("You need to be in mirror to start")
+   end
+sendMacro('SetFindPartyState(false)') 
+changeProfileOption("MAX_TARGET_DIST", 90)
+function chkzone()
+	if zone ~= 220 then
+		error("You are no longer in mirror")
+	end
+end
+</onLoad>
+
+function chkzone()
+	if zone ~= 220 then
+		error("You are no longer in mirror")
+	end
+end
+	<!-- #127 --><waypoint x="3868" z="1352" y="133">	 chkzone() </waypoint>
+	<!-- #126 --><waypoint x="3919" z="1535" y="136">	 chkzone() </waypoint>
+	<!-- #125 --><waypoint x="3924" z="1543" y="134">	 chkzone() </waypoint>
+	<!-- #124 --><waypoint x="4012" z="1661" y="131">	 chkzone() </waypoint>
+	<!-- #123 --><waypoint x="4020" z="1667" y="134">	 chkzone() </waypoint>
+	<!-- #122 --><waypoint x="4189" z="1767" y="202">	 chkzone() </waypoint>
+	<!-- #121 --><waypoint x="4199" z="1768" y="205">	 chkzone() </waypoint>
+	<!-- #120 --><waypoint x="4410" z="1786" y="265">	 chkzone() </waypoint>
+	<!-- #119 --><waypoint x="4420" z="1785" y="268">	 chkzone() </waypoint>
+	<!-- #118 --><waypoint x="4781" z="1741" >	 chkzone() </waypoint>
+	<!-- #117 --><waypoint x="4792" z="1743" y="321">	 chkzone() </waypoint>
+	<!-- #116 --><waypoint x="4859" z="1732" y="314">	 chkzone() </waypoint>
+	<!-- #115 --><waypoint x="4862" z="1724" y="315">	 chkzone() </waypoint>
+	<!-- #114 --><waypoint x="4859" z="1574" y="323">	 chkzone() </waypoint>
+	<!-- #113 --><waypoint x="4884" z="1526" y="323">	 chkzone() </waypoint>
+	<!-- #112 --><waypoint x="4884" z="1526" y="323">	 chkzone() </waypoint>
+	<!-- #111 --><waypoint x="4908" z="1731" y="314">	 chkzone() </waypoint>
+	<!-- #110 --><waypoint x="4918" z="1735" y="315">	 chkzone() </waypoint>
+	<!-- #109 --><waypoint x="5126" z="1779" y="349">	 chkzone() </waypoint>
+	<!-- #108 --><waypoint x="5134" z="1772" y="350">	 chkzone() </waypoint>
+	<!-- #107 --><waypoint x="5186" z="1634" y="354">	 chkzone() </waypoint>
+	<!-- #106 --><waypoint x="5182" z="1624" y="355">	 chkzone() </waypoint>
+	<!-- #105 --><waypoint x="5088" z="1490" y="346">	 chkzone() </waypoint>
+	<!-- #104 --><waypoint x="5088" z="1490" y="346">	 chkzone() </waypoint>
+	<!-- #103 --><waypoint x="5179" z="1480" y="366">	 chkzone() </waypoint>
+	<!-- #102 --><waypoint x="5183" z="1472" y="368">	 chkzone() </waypoint>
+	<!-- #101 --><waypoint x="5244" z="1330" y="406">	 chkzone() </waypoint>
+	<!-- #100 --><waypoint x="5243" z="1319" y="407">	 chkzone() </waypoint>
+	<!-- # 99 --><waypoint x="5221" z="1210" y="425">	 chkzone() </waypoint>
+	<!-- # 98 --><waypoint x="5216" z="1201" y="427">	 chkzone() </waypoint>
+	<!-- # 97 --><waypoint x="5143" z="1083" y="464">	 chkzone() </waypoint>
+	<!-- # 96 --><waypoint x="5135" z="1076" y="467">	 chkzone() </waypoint>
+	<!-- # 95 --><waypoint x="5076" z="1031" y="485">	 chkzone() </waypoint>
+	<!-- # 94 --><waypoint x="5065" z="1030" y="488">	 chkzone() </waypoint>
+	<!-- # 93 --><waypoint x="4803" z="1011" y="588">	 chkzone() </waypoint>
+	<!-- # 92 --><waypoint x="4792" z="1013" y="592">	 chkzone() </waypoint>
+	<!-- # 91 --><waypoint x="4710" z="1023" y="621">	 chkzone() </waypoint>
+	<!-- # 90 --><waypoint x="4708" z="1023" y="621">	 chkzone() </waypoint>
+	<!-- # 89 --><waypoint x="4626" z="1014" y="628">	 chkzone() </waypoint>
+	<!-- # 88 --><waypoint x="4549" z="1060" y="626">	 chkzone() </waypoint>
+	<!-- # 87 --><waypoint x="4636" z="1151" y="624">	 chkzone() </waypoint>
+	<!-- # 86 --><waypoint x="4636" z="1151" y="624">	 chkzone() </waypoint>
+	<!-- # 85 --><waypoint x="4635" z="1287" y="574">	 chkzone() </waypoint>
+	<!-- # 84 --><waypoint x="4633" z="1293" y="574">	 chkzone() </waypoint>
+	<!-- # 83 --><waypoint x="4532" z="1282" y="575">	 chkzone() </waypoint>
+	<!-- # 82 --><waypoint x="4563" z="1474" y="577">	 chkzone() </waypoint>
+	<!-- # 81 --><waypoint x="4563" z="1474" y="577">	 chkzone() </waypoint>
+	<!-- # 80 --><waypoint x="4701" z="1546" y="574">	 chkzone() </waypoint>
+	<!-- # 79 --><waypoint x="4701" z="1546" y="574">	 chkzone() </waypoint>
+	<!-- # 78 --><waypoint x="4645" z="1662" y="577">	 chkzone() </waypoint>
+	<!-- # 77 --><waypoint x="4645" z="1662" y="577">	 chkzone() </waypoint>
+	<!-- # 76 --><waypoint x="4574" z="1690" y="577">	 chkzone() </waypoint>
+	<!-- # 75 --><waypoint x="4574" z="1690" y="577">	 chkzone() </waypoint>
+	<!-- # 74 --><waypoint x="4502" z="1750" y="576">	 chkzone() </waypoint>
+	<!-- # 73 --><waypoint x="4500" z="1750" y="576">	 chkzone() </waypoint>
+	<!-- # 72 --><waypoint x="4314" z="1737" y="572">	 chkzone() </waypoint>
+	<!-- # 71 --><waypoint x="4316" z="1731" y="571">	 chkzone() </waypoint>
+	<!-- # 70 --><waypoint x="4360" z="1587" y="572">	 chkzone() </waypoint>
+	<!-- # 69 --><waypoint x="4360" z="1587" y="572">	 chkzone() </waypoint>
+	<!-- # 68 --><waypoint x="4183" z="1517" y="575">	 chkzone() </waypoint>
+	<!-- # 67 --><waypoint x="4183" z="1517" y="575">	 chkzone() </waypoint>
+	<!-- # 66 --><waypoint x="4327" z="1405" y="573">	 chkzone() </waypoint>
+	<!-- # 65 --><waypoint x="4327" z="1405" y="573">	 chkzone() </waypoint>
+	<!-- # 64 --><waypoint x="4313" z="1282" y="623">	 chkzone() </waypoint>
+	<!-- # 63 --><waypoint x="4313" z="1282" y="623">	 chkzone() </waypoint>
+	<!-- # 62 --><waypoint x="4273" z="1198" y="623">	 chkzone() </waypoint>
+	<!-- # 61 --><waypoint x="4273" z="1198" y="623">	 chkzone() </waypoint>
+	<!-- # 60 --><waypoint x="4338" z="1046" y="622">	 chkzone() </waypoint>
+	<!-- # 59 --><waypoint x="4338" z="1046" y="622">	 chkzone() </waypoint>
+	<!-- # 58 --><waypoint x="4160" z="1068" y="626">	 chkzone() </waypoint>
+	<!-- # 57 --><waypoint x="4160" z="1068" y="626">	 chkzone() </waypoint>
+	<!-- # 56 --><waypoint x="4190" z="990" y="626">	 chkzone() </waypoint>
+	<!-- # 55 --><waypoint x="4187" z="991" y="626">	 chkzone() </waypoint>
+	<!-- # 54 --><waypoint x="4054" z="1029" y="635">	 chkzone() </waypoint>
+	<!-- # 53 --><waypoint x="4047" z="1039" y="635">	 chkzone() </waypoint>
+	<!-- # 52 --><waypoint x="3987" z="1119" y="628">	 chkzone() </waypoint>
+	<!-- # 51 --><waypoint x="3984" z="1129" y="628">	 chkzone() </waypoint>
+	<!-- # 50 --><waypoint x="3990" z="1235" y="630">	 chkzone() </waypoint>
+	<!-- # 49 --><waypoint x="3982" z="1242" y="629">	 chkzone() </waypoint>
+	<!-- # 48 --><waypoint x="3915" z="1319" y="616">	 chkzone() </waypoint>
+	<!-- # 47 --><waypoint x="3918" z="1331" y="617">	 chkzone() </waypoint>
+	<!-- # 46 --><waypoint x="4003" z="1512" y="628">	 chkzone() </waypoint>
+	<!-- # 45 --><waypoint x="3999" z="1522" y="629">	 chkzone() </waypoint>
+	<!-- # 44 --><waypoint x="3932" z="1625" y="622">	 chkzone() </waypoint>
+	<!-- # 43 --><waypoint x="3932" z="1625" y="622">	 chkzone() </waypoint>
+	<!-- # 42 --><waypoint x="4031" z="1738" y="631">	 chkzone() </waypoint>
+	<!-- # 41 --><waypoint x="4031" z="1738" y="631">	 chkzone() </waypoint>
+	<!-- # 40 --><waypoint x="3901" z="1758" y="626">	 chkzone() </waypoint>
+	<!-- # 39 --><waypoint x="3856" z="1812" y="621">	 chkzone() </waypoint>
+	<!-- # 38 --><waypoint x="3863" z="1884" y="628">	 chkzone() </waypoint>
+	<!-- # 37 --><waypoint x="3884" z="2058" y="657">	 chkzone() </waypoint>
+	<!-- # 36 --><waypoint x="3882" z="2070" y="658">	 chkzone() </waypoint>
+	<!-- # 35 --><waypoint x="3862" z="2158" y="655">	 chkzone() </waypoint>
+	<!-- # 34 --><waypoint x="3862" z="2158" y="655">	 chkzone() </waypoint>
+	<!-- # 33 --><waypoint x="3800" z="2165" y="651">	 chkzone() </waypoint>
+	<!-- # 32 --><waypoint x="3791" z="2161" y="651">	 chkzone() </waypoint>
+	<!-- # 31 --><waypoint x="3692" z="2098" y="685">	 chkzone() </waypoint>
+	<!-- # 30 --><waypoint x="3688" z="2088" y="688">	 chkzone() </waypoint>
+	<!-- # 29 --><waypoint x="3624" z="1907" y="758">	 chkzone() </waypoint>
+	<!-- # 28 --><waypoint x="3627" z="1894" y="760">	 chkzone() </waypoint>
+	<!-- # 27 --><waypoint x="3648" z="1783" y="775">	 chkzone() </waypoint>
+	<!-- # 26 --><waypoint x="3648" z="1783" y="775">	 chkzone() </waypoint>
+	<!-- # 25 --><waypoint x="3439" z="1640" y="818">	 chkzone() </waypoint>
+	<!-- # 24 --><waypoint x="3439" z="1640" y="818">	 chkzone() </waypoint>
+	<!-- # 23 --><waypoint x="3720" z="1700" y="776">	 chkzone() </waypoint>
+	<!-- # 22 --><waypoint x="3720" z="1700" y="776">	 chkzone() </waypoint>
+	<!-- # 21 --><waypoint x="3725" z="1587" y="788">	 chkzone() </waypoint>
+	<!-- # 20 --><waypoint x="3725" z="1587" y="788">	 chkzone() </waypoint>
+	<!-- # 19 --><waypoint x="3573" z="1572" y="809">	 chkzone() </waypoint>
+	<!-- # 18 --><waypoint x="3573" z="1572" y="809">	 chkzone() </waypoint>
+	<!-- # 17 --><waypoint x="3398" z="1478" y="818">	 chkzone() </waypoint>
+	<!-- # 16 --><waypoint x="3398" z="1478" y="818">	 chkzone() </waypoint>
+	<!-- # 15 --><waypoint x="3348" z="1259" y="859">	 chkzone() </waypoint>
+	<!-- # 14 --><waypoint x="3350" z="1249" y="863">	 chkzone() </waypoint>
+	<!-- # 13 --><waypoint x="3381" z="1140" y="904">	 chkzone() </waypoint>
+	<!-- # 12 --><waypoint x="3381" z="1140" y="904">	 chkzone() </waypoint>
+	<!-- # 11 --><waypoint x="3508" z="1087" y="953">	 chkzone() </waypoint>
+	<!-- # 10 --><waypoint x="3508" z="1087" y="953">	 chkzone() </waypoint>
+	<!-- #  9 --><waypoint x="3609" z="1094" y="972">	 chkzone() </waypoint>
+	<!-- #  8 --><waypoint x="3623" z="1098" y="973">	 chkzone() </waypoint>
+	<!-- #  7 --><waypoint x="3882" z="1208" y="1009">	 chkzone() </waypoint>
+	<!-- #  6 --><waypoint x="3882" z="1208" y="1009">	 chkzone() </waypoint>
+	<!-- #  5 --><waypoint x="4006" z="1268" y="1021">	 chkzone() </waypoint>
+	<!-- #  4 --><waypoint x="4006" z="1268" y="1021">	chkzone() </waypoint>
+	<!-- #  3 --><waypoint x="4222" z="1391" >	 chkzone() </waypoint>
+	<!-- #  2 --><waypoint x="4304" z="1480" >	 chkzone() </waypoint>
+	<!-- #  1 --><waypoint x="4299" z="1440" y="1042">
+	error("done at end")
+	player:sleep()
+	 chkzone() </waypoint>
+</waypoints>

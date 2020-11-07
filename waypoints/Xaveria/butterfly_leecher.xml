@@ -1,0 +1,177 @@
+<<?xml version="1.0" encoding="utf-8"?><waypoints>
+
+<onLoad>
+	startGMDetect()
+
+	--== User Option ==--
+
+	Deliver = 0         -- Change if you want to enable/disable deliver quests  0=disable, any number = deliver after that amount of eggs (must b bigger than 9)
+	LagTime = 0           -- Affects accepting/completing quests. Increase LagTime if time is wasted by repeated CompleteQuests or AcceptQuests.
+	RunningSpeed = 0    -- The speed the toon runs when not teleporting. 50 is normal. Recommended 100.
+	UseTeleporter = false  -- Use Jduratedj's teleport userfunction. Please make sure you have it installed to use this option.
+	Timeout = 300         -- Time hens and eggs stay in the ignore list before being given another chance. '0' disables it, remains permanently in ignore list.
+	debugging = true      -- Set to true to display extra useful information regarding egg drop rates and ignore lists.
+
+	--=================--
+
+	-- Apply speed hack
+	local playerAddress = memoryReadIntPtr(getProc(), addresses.staticbase_char, addresses.charPtr_offset);
+	if playerAddress ~= 0 then
+		memoryWriteFloat(getProc(), playerAddress + 0x40, RunningSpeed);
+	end
+
+
+	   local dailycomplete_ptr = 0x9CD1E0;
+	   local dailycomplete_offset = 0xACF4;
+   
+	   function getDailyComplete()
+	      return memoryReadBytePtr(getProc(),dailycomplete_ptr,dailycomplete_offset);
+	   end
+   
+	   function checkDQCount()
+	    local dailyQuestCount, dailyQuestsPerDay= RoMScript("Daily_count()")
+	      cprintf(cli.lightblue,"%s quests completed.\n",tostring(dailyQuestCount));
+	      if (dailyQuestCount == 10) then
+	         cprintf(cli.lightblue,"Completed max number of daily quests, trying to use a daily reset card.\n");
+	         inventory:update();
+	         player:update();
+	         -- note #202434 is the daily reset card
+	            if inventory:itemTotalCount(202434) > 0 then
+	                  inventory:useItem(202434);
+	         else
+			sendMacro("LeaveParty();")
+			player:sleep();
+	            end
+	       end   
+	   end
+
+	function quest()
+	   local queststate = getQuestStatus("Catch Butterflies")
+	   if queststate == "complete" then
+	player:mount();
+	      __WPL:setForcedWaypointType("TRAVEL")
+	   end
+	end
+
+</onLoad>
+<waypoints><!-- MountSpeedhack  -->
+   <onLoad>
+   RoMScript("DEFAULT_CHAT_FRAME:AddMessage('|cffffff00MountSpeedhack: "Horse" Press key.CTRL to ACTIVATE! or DEactivate.|r')")
+   repeat
+      while not keyPressedLocal(key.VK_CONTROL) do yrest(100); end;
+	  MountSpeedHack();
+	  RoMScript("DEFAULT_CHAT_FRAME:AddMessage('|cffffff00MountSpeedhack: ACTIVATED!|r')")
+	  yrest(1500);
+      
+      while not keyPressedLocal(key.VK_CONTROL) do yrest(100); end;
+	  MountSpeedoff();
+	  RoMScript("DEFAULT_CHAT_FRAME:AddMessage('|cffffff00MountSpeedhack: DEactivated.|r')")
+	  yrest(1500);
+   until  false
+   </onLoad>
+</waypoints>
+
+	<!-- #  1 --><waypoint x="6414" z="5468" y="159">
+	__WPL:setForcedWaypointType("TRAVEL")
+	player:target_NPC("Robbie Butcher");
+	AcceptQuestByName("Catch Butterflies");
+	         local dqCount, dqPerDay = RoMScript("Daily_count()");
+	     if dqCount == 10 then
+		checkDQCount()
+	         else
+	               player:target_NPC("Robbie Butcher");
+	               AcceptQuestByName("Catch Butterflies")
+	          end
+
+	</waypoint>
+	<!-- #  4 --><waypoint x="6339" z="4882" y="182">
+	player:mount();
+	__WPL:setForcedWaypointType("TRAVEL")
+	</waypoint>
+	<!-- #  5 --><waypoint x="6435" z="4451" y="182">	</waypoint>
+	<!-- #  6 --><waypoint x="6503" z="4201" y="182">	</waypoint>
+	<!-- #  7 --><waypoint x="6530" z="4085" y="204">	</waypoint>
+	<!-- #  8 --><waypoint x="6551" z="3997" y="204">	</waypoint>
+	<!-- # 10 --><waypoint x="6572" z="3904" y="204">	</waypoint>
+	<!-- # 11 --><waypoint x="6605" z="3765" y="172">	</waypoint>
+	<!-- # 12 --><waypoint x="6834" z="3592" y="173">	</waypoint>
+	<!-- # 13 --><waypoint x="7031" z="3445" y="190">	</waypoint>
+	<!-- #  1 --><waypoint x="7135" z="3174" y="190">	</waypoint>
+	<!-- #  3 --><waypoint x="7360" z="3209" y="182">	</waypoint>
+	<!-- #  4 --><waypoint x="7342" z="3323" y="181">	</waypoint>
+	<!-- #  5 --><waypoint x="7449" z="3364" y="181">	</waypoint>
+	<!-- #  6 --><waypoint x="7514" z="3167" y="182">	</waypoint>
+	<!-- #  7 --><waypoint x="7631" z="3176" y="181">	</waypoint>
+	<!-- #  8 --><waypoint x="7662" z="3082" y="182">	</waypoint>
+	<!-- #  9 --><waypoint x="7555" z="3034" y="181">	</waypoint>
+	<!-- # 10 --><waypoint x="7541" z="3054" y="181">
+         queststate = getQuestStatus("Catch Butterflies")
+         if queststate == "complete" then
+	__WPL:setDirection(WPT_BACKWARD);
+	else
+	__WPL:setWaypointIndex(__WPL:findWaypointTag("one")); 
+	        end
+	</waypoint>
+	<!-- # 12 --><waypoint x="7610" z="2659" tag ='one'>	</waypoint>
+	<!-- # 13 --><waypoint x="7662" z="2315" y="182">	</waypoint>
+	<!-- # 14 --><waypoint x="7646" z="2063" y="182">	</waypoint>
+	<!-- # 15 --><waypoint x="7416" z="2033" y="177">	</waypoint>
+	<!-- # 16 --><waypoint x="7104" z="2209" y="176">	</waypoint>
+	<!-- # 17 --><waypoint x="6914" z="2155" y="176">	</waypoint>
+	<!-- # 18 --><waypoint x="6911" z="2450" y="182">	</waypoint>
+	<!-- # 19 --><waypoint x="7425" z="2660" y="181">
+         queststate = getQuestStatus("Catch Butterflies")
+         if queststate == "incomplete" then
+	__WPL:setWaypointIndex(__WPL:findWaypointTag("two"));
+	else
+	__WPL:setWaypointIndex(__WPL:findWaypointTag("three")); 
+	        end 
+	</waypoint>
+	<!-- # 21 --><waypoint x="7400" z="2656" tag ='two'>	</waypoint>
+	<!-- # 22 --><waypoint x="6991" z="2577" y="181">	</waypoint>
+	<!-- # 23 --><waypoint x="6211" z="2389" y="181">	</waypoint>
+	<!-- # 24 --><waypoint x="6261" z="2211" y="182">	</waypoint>
+	<!-- # 25 --><waypoint x="6356" z="1784" y="182">	</waypoint>
+	<!-- # 26 --><waypoint x="6537" z="1786" y="181">	</waypoint>
+	<!-- # 27 --><waypoint x="6689" z="1788" y="178">	</waypoint>
+	<!-- # 28 --><waypoint x="6769" z="1995" y="177">	</waypoint>
+	<!-- # 29 --><waypoint x="6927" z="2180" y="177">	</waypoint>
+	<!-- # 30 --><waypoint x="7015" z="2507" y="181">	</waypoint>
+	<!-- # 31 --><waypoint x="7611" z="2707" y="182">
+         queststate = getQuestStatus("Catch Butterflies")
+         if queststate == "complete" then
+	__WPL:setWaypointIndex(__WPL:findWaypointTag("three"));
+	else
+	__WPL:setWaypointIndex(__WPL:findWaypointTag("one")); 
+	        end
+	</waypoint>
+	<!-- # 33 --><waypoint x="7610" z="2722" tag ='three'>	</waypoint>
+	<!-- # 34 --><waypoint x="7534" z="3036" y="181">	</waypoint>
+	<!-- # 35 --><waypoint x="7638" z="3073" y="182">	</waypoint>
+	<!-- # 36 --><waypoint x="7629" z="3177" y="182">	</waypoint>
+	<!-- # 37 --><waypoint x="7523" z="3183" y="182">	</waypoint>
+	<!-- # 38 --><waypoint x="7471" z="3355" y="181">	</waypoint>
+	<!-- # 39 --><waypoint x="7348" z="3326" y="182">	</waypoint>
+	<!-- # 40 --><waypoint x="7366" z="3204" y="182">	</waypoint>
+	<!-- # 41 --><waypoint x="7140" z="3172" y="189">	</waypoint>
+	<!-- # 42 --><waypoint x="7031" z="3498" y="189">	</waypoint>
+	<!-- # 43 --><waypoint x="6621" z="3769" y="173">	</waypoint>
+	<!-- # 44 --><waypoint x="6558" z="3958" y="203">	</waypoint>
+	<!-- # 45 --><waypoint x="6474" z="4284" y="182">	</waypoint>
+	<!-- # 46 --><waypoint x="6320" z="4903" y="181">	</waypoint>
+	<!-- # 47 --><waypoint x="6350" z="5072" y="182">	</waypoint>
+	<!-- # 48 --><waypoint x="6427" z="5398" y="177">
+         queststate = getQuestStatus("Catch Butterflies");
+          if queststate == "complete" then
+               player:target_NPC("Robbie Butcher");
+           CompleteQuestByName("Catch Butterflies")
+		   end
+         local dqCount, dqPerDay = RoMScript("Daily_count()");
+	     if dqCount == 10 then
+		checkDQCount()
+	         else
+	               player:target_NPC("Robbie Butcher");
+	               AcceptQuestByName("Catch Butterflies")
+	          end
+	</waypoint>
+</waypoints>

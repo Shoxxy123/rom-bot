@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints>
+<OnLoad>
+<!-- Credit to yoyodoggg for the function setup -->
+<!-- Check how many quest items you have. The script is set to run until you have 1 days worth -->
+   function checkdaily()
+   local dailyQuestCount, dailyQuestsPerDay = RoMScript("Daily_count()");
+      if 10 == dailyQuestCount  then
+         error("Out of Dailies!")
+      else
+         printf("You've done "..dailyQuestCount.." of " .. dailyQuestsPerDay .. " Daily Quests.\n");
+         __WPL:setWaypointIndex(__WPL:findWaypointTag("Anbenron"))
+      end
+   end
+<!-- Check daily quest count, if out of quests the script stops -->
+   function checkitem()
+      oil = inventory:itemTotalCount(209101)
+         if (100>oil) then
+         printf("Lets go another round!\n");
+      else
+         __WPL:setWaypointIndex(__WPL:findWaypointTag("turnin"))
+      end
+   end
+</OnLoad>
+   <!-- #  1 --><waypoint x="-6496" z="2180" y="390">
+   checkitem();
+   __WPL:setDirection(WPT_FORWARD);
+   </waypoint>
+   <!-- #  2 --><waypoint x="-6533" z="2004" y="385">   </waypoint>
+   <!-- #  3 --><waypoint x="-6620" z="1950" y="389">   </waypoint>
+   <!-- #  4 --><waypoint x="-6528" z="1719" y="390">   </waypoint>
+   <!-- #  5 --><waypoint x="-6572" z="1579" y="385">   </waypoint>
+   <!-- #  6 --><waypoint x="-6704" z="1541" y="385">   </waypoint>
+   <!-- #  7 --><waypoint x="-6796" z="1383" y="386">   </waypoint>
+   <!-- #  8 --><waypoint x="-6897" z="1201" y="384">   </waypoint>
+   <!-- #  9 --><waypoint x="-7046" z="1081" y="386">   </waypoint>
+   <!-- # 10 --><waypoint x="-7224" z="986" y="385">   </waypoint>
+   <!-- # 11 --><waypoint x="-7314" z="923" y="387">   </waypoint>
+   <!-- # 12 --><waypoint x="-7407" z="756" y="386">   </waypoint>
+   <!-- # 13 --><waypoint x="-7645" z="709" y="394">   </waypoint>
+   <!-- # 14 --><waypoint x="-7770" z="667" y="398">   </waypoint>
+   <!-- # 15 --><waypoint x="-7848" z="459" y="384">   </waypoint>
+   <!-- # 16 --><waypoint x="-8039" z="430" y="385">   </waypoint>
+   <!-- # 17 --><waypoint x="-7970" z="120" y="394">   </waypoint>
+   <!-- # 18 --><waypoint x="-8226" z="64" y="403">   </waypoint>
+   <!-- # 19 --><waypoint x="-8271" z="358" y="391">   </waypoint>
+   <!-- # 20 --><waypoint x="-8487" z="552" y="391">   </waypoint>
+   <!-- # 21 --><waypoint x="-8468" z="76" y="394">   </waypoint>
+   <!-- # 22 --><waypoint x="-8659" z="102" y="390">   </waypoint>
+   <!-- # 23 --><waypoint x="-8851" z="190" y="390">   </waypoint>
+   <!-- # 24 --><waypoint x="-8874" z="59" y="390">   </waypoint>
+   <!-- # 25 --><waypoint x="-8892" z="-69" y="393">   </waypoint>
+   <!-- # 26 --><waypoint x="-8726" z="-219" y="385">
+   __WPL:setDirection(WPT_BACKWARD);
+   </waypoint>
+   <!-- #  1 --><waypoint x="-6564" z="2266" y="398" type="RUN" tag="turnin">   </waypoint>
+   <!-- #  2 --><waypoint x="-6385" z="2383" y="436" type="TRAVEL">   </waypoint>
+   <!-- #  3 --><waypoint x="-6546" z="2707" y="486" type="TRAVEL">   </waypoint>
+   <!-- #  4 --><waypoint x="-6694" z="2912" y="508" type="TRAVEL">   </waypoint>
+   <!-- #  5 --><waypoint x="-7203" z="2919" y="560" type="TRAVEL">   </waypoint>
+   <!-- #  6 --><waypoint x="-7407" z="2910" y="574" tag="Anbenron">
+         player:target_NPC(117588) -- Anbenron
+         AcceptQuestByName(423958) -- Life Hormone
+         player:target_NPC(117588) -- Anbenron
+         CompleteQuestByName(423958) -- Life Hormone
+         checkdaily();
+   </waypoint>
+</waypoints>

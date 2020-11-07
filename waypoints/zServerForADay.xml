@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="TRAVEL">
+<onLoad>
+
+--[v1.0]--
+
+local npc = {}
+local id = 113608
+for i = 1,6 do
+	npc[i] = GetIdName(id)
+	id = id +1
+end
+
+
+if player:target_NPC(111707) then -- Shobot Glan
+	yrest(1000)
+else
+	error("Could Not Find Shela Berit.")
+end
+ChoiceOptionByName("participate")
+if ChoiceOptionByName("Previous") then
+	error("Seems like the character has already done this activity.")
+end
+
+
+EventMonitorStart("SFAD", "CHAT_MSG_SAY");
+player:moveTo(CWaypoint(5033, -2372))
+yrest(3000)
+
+
+repeat	
+
+   	local time, _, name, msg = EventMonitorCheck("SFAD", "4,1", true)
+	local age;
+	if time then
+		age = RoMScript("GetTime()") - time
+	end
+
+
+  	if msg and age and 2 >= age then 
+		if name and (name == npc[1] or name == npc[2] or name == npc[3] or name == npc[4] or name == npc[5] or name == npc[6]) then
+      			player:target_NPC(name);
+      			yrest(100)
+		end
+		if msg:find("Bottoms") then
+   			RoMScript("UseExtraAction(1)")
+			printf("Used Cheer on %s.\n", name)
+   		elseif msg:find("Golden") then
+   			RoMScript("UseExtraAction(2)")
+			printf("Used Golden juice on %s.\n", name)
+   		elseif msg:find("Apple") then
+   			RoMScript("UseExtraAction(3)")
+			printf("Used Apple Juice on %s.\n", name)
+   		elseif msg:find("Ugh") then
+   			RoMScript("UseExtraAction(4)")
+			printf("Used Barf bag on %s.\n", name)
+		end
+		yrest(1000)
+		player:clearTarget();
+  	end
+
+	yrest(500)
+
+until getLastWarning("|cfffff266game over!|r",10) or getLastWarning("|cfffff266current points: 31",10)
+
+EventMonitorStop("SFAD");
+
+
+</onLoad>
+</waypoints>

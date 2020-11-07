@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+<onload>
+	teleport_SetStepPause(150)
+	local tweakit = 160
+	--if cast bar never gets inturupted then reduce number, you can go negative numbers aswell,i.e -50 -100. 
+	--If you are getting cast bar inturupted then increase number.
+
+
+	When_Finished = "relog"
+		-- "end" to end script, "relog" to log next character, "charlist" to log next in 'charlist' and "waypointfilename" to load that waypointfile.
+
+	CharList = {
+			{account=1,chars={}},
+			{account=2,chars={1,2,3}},
+	}
+	
+	
+
+	
+	function checkRelog()
+		flyoff()
+
+		if When_Finished == "relog" then
+			ChangeChar()
+			yrest(3000)
+			loadProfile()
+			loadPaths(__WPL.FileName);
+		elseif When_Finished == "charlist" then
+			SetCharList(CharList)
+			LoginNextChar()
+			loadProfile()
+			loadPaths(__WPL.FileName);
+		elseif When_Finished == "end" then
+			error("Ending script",2)
+		else
+			player:update()
+
+			if not string.find(When_Finished,".", 1, true) then
+				When_Finished = When_Finished .. ".xml"
+			end
+
+			local filename = getExecutionPath() .. "/waypoints/" .. When_Finished
+			local file, err = io.open(filename, "r");
+			if file then
+				file:close();
+				loadPaths(When_Finished)
+			else
+				error("'When_Finished' option is invalid",0)
+			end
+		end
+	end
+
+
+	function dochests()
+
+		local path = {
+	{X= -139 , Z= -291, Y= 5 },
+	{X= -106 , Z= -253, Y= 4 },
+	{X= -73 , Z= -219, Y= 5 },
+	{X= -38 , Z= -184, Y= 6 },
+	{X= -5 , Z= -147, Y= 7 },
+	{X= 30 , Z= -110, Y= 8 },
+	{X= 67 , Z= -78, Y= 10 },
+	{X= 101 , Z= -38, Y= 13 },
+	{X= 135 , Z= -4, Y= 15 },
+	{X= 169 , Z= 33, Y= 13 },
+	{X= 101 , Z= 104, Y= 14 },
+	{X= 66 , Z= 68, Y= 15 },
+	{X= 32 , Z= 32, Y= 14 },
+	{X= -2 , Z= -4, Y= 12 },
+	{X= -35 , Z= -39, Y= 9 },
+	{X= -70 , Z= -74, Y= 6 },
+	{X= -104 , Z= -110, Y= 4 },
+	{X= -140 , Z= -148, Y= 4 },
+	{X= -173 , Z= -183, Y= 5 },
+	{X= -208 , Z= -220, Y= 7 },
+	{X= -286 , Z= -154, Y= 8 },
+	{X= -252 , Z= -118, Y= 7 },
+	{X= -216 , Z= -79, Y= 7 },
+	{X= -182 , Z= -43, Y= 8 },
+	{X= -148 , Z= -8, Y= 9 },
+	{X= -111 , Z= 27, Y= 10 },
+	{X= -81 , Z= 60, Y= 12 },
+	{X= -44 , Z= 99, Y= 15 },
+	{X= -9 , Z= 134, Y= 16 },
+	}
+
+		local starttime = os.time()
+		local count = 0
+		local tablechest = {}
+		
+		local function openchest()
+			local tablechest = {}
+			local objectList = CObjectList();
+			objectList:update();
+			local objSize = objectList:size()
+			for i = 0,objSize do
+				local obj = objectList:getObject(i);
+				if obj.Id == 123536 then
+					obj.distance = distance(obj,player)
+					table.insert(tablechest, table.copy(obj))
+				end
+			end
+			-- sort by distance
+			local function distancesortfunc(a,b)
+				return b.distance > a.distance
+			end
+			table.sort(tablechest, distancesortfunc)
+			for i = 1, 2 do
+				if (os.time() - starttime) > 60 then break end
+				local ttkeeper = os.time()
+				if 30 > tablechest[i].distance then
+					player:target(tablechest[i].Address)
+					yrest(50)
+					Attack()
+					yrest(500)
+					if i == 1 then
+						yrest(250+tweakit)
+					else
+						yrest(380+tweakit)
+					end
+					count = count + 1
+				end
+			end
+		end
+		for i = 1, #path do
+			if (os.time() - starttime) > 60 then break end
+			teleport(path[i].X,path[i].Z,path[i].Y)
+			openchest(true)
+		end
+		print(count)
+		inventory:update()
+		for slot = 61, 240 do
+			item = inventory.BagSlot[slot]
+			if item and item.ItemShopItem then
+				item:moveTo("itemshop")
+			end;
+		end;
+	end
+	
+	
+	local zone = getZoneId()
+	if zone == 357 then
+		__WPL:setWaypointIndex(7)
+	elseif zone == 2 then
+		local Kekonee = player:findNearestNameOrId(123583)
+		if Kekonee and 200 > distance(Kekonee,player) then
+			__WPL:setWaypointIndex(6)
+		end
+	else
+		print("not in secret garden or varanas")
+		player:sleep()
+	end
+
+	function getjamie()
+		local jam = player:findNearestNameOrId(123584)
+		if jam and 100 > distance(jam,player) then
+			player:target_NPC(123584) -- Jamie
+			ChoiceOptionByName(getTEXT("SC_5YEARS_OPT9")) -- 'You have my word.'
+			return true
+		end
+	end
+
+	jamiepoints = {
+		[1]={ X=3559 , Z=-302, Y=44, Links={[1]={Num=2},[2]={Num=15},}},
+		[2]={ X=3635 , Z=-418, Y=0, Links={[1]={Num=1},[2]={Num=3},[3]={Num=14},}},
+		[3]={ X=3614 , Z=-539, Y=44, Links={[1]={Num=2},[2]={Num=4},[3]={Num=14},[4]={Num=8},[5]={Num=9},}},
+		[4]={ X=3532 , Z=-631, Y=44, Links={[1]={Num=3},[2]={Num=5},}},
+		[5]={ X=3522 , Z=-726, Y=44, Links={[1]={Num=4},[2]={Num=6},}},
+		[6]={ X=3563 , Z=-784, Y=44, Links={[1]={Num=5},[2]={Num=7},}},
+		[7]={ X=3643 , Z=-782, Y=44, Links={[1]={Num=6},[2]={Num=8},}},
+		[8]={ X=3743 , Z=-728, Y=44, Links={[1]={Num=7},[2]={Num=9},[3]={Num=14},[4]={Num=3},}},
+		[9]={ X=3853 , Z=-652, Y=44, Links={[1]={Num=8},[2]={Num=10},[3]={Num=3},[4]={Num=14},}},
+		[10]={ X=3966 , Z=-563, Y=44, Links={[1]={Num=9},[2]={Num=11},}},
+		[11]={ X=4001 , Z=-463, Y=44, Links={[1]={Num=10},[2]={Num=12},}},
+		[12]={ X=3960 , Z=-405, Y=44, Links={[1]={Num=11},[2]={Num=13},}},
+		[13]={ X=3873 , Z=-421, Y=44, Links={[1]={Num=12},[2]={Num=14},}},
+		[14]={ X=3763 , Z=-459, Y=44, Links={[1]={Num=13},[2]={Num=2},[3]={Num=3},[4]={Num=8},[5]={Num=9},}},
+		[15]={ X=3434 , Z=-108, Y=0, Links={[1]={Num=1},}},
+	}
+
+	function travel(_dest,justjamie)
+		player:update()
+		local path = {}
+		if type(_dest) == "table" then -- _dest are coords
+			if _dest.X ~= nil then
+				dest = {_dest.X,_dest.Z,_dest.Y}
+			else
+				dest = _dest
+			end
+		end
+		--=== determine location ===--
+		local closest = 1;
+		for i,v in pairs(jamiepoints) do
+			local oldClosestWp = jamiepoints[closest];
+			if v.Y == nil then
+				if( distance(player.X, player.Z, oldClosestWp.X, oldClosestWp.Z) > distance(player.X, player.Z, v.X, v.Z) ) then
+					closest = i;
+				end		
+			else
+				if( distance(player.X, player.Z, player.Y, oldClosestWp.X, oldClosestWp.Z, oldClosestWp.Y) > distance(player.X, player.Z, player.Y, v.X, v.Z, v.Y) ) then
+					closest = i;
+				end
+			end
+			travellocation = closest
+		end	
+
+		--=== determine destination ===--
+		local closest = 1;
+		for i,v in pairs(jamiepoints) do
+			local oldClosestWp = jamiepoints[closest];
+			if v.Y == nil then
+				if( distance(dest.X, dest.Z, oldClosestWp.X, oldClosestWp.Z) > distance(dest.X, dest.Z, v.X, v.Z)	) then
+				closest = i;
+				end
+			else
+				if( distance(dest[1], dest[2],dest[3], oldClosestWp.X, oldClosestWp.Z, oldClosestWp.Y) > distance(dest[1], dest[2],dest[3], v.X, v.Z, v.Y)	) then
+				closest = i;
+				end
+			end
+			traveldestination = closest
+		end
+
+		for pointnum,point in pairs(jamiepoints) do
+			for Num,link in pairs(point.Links) do
+				if jamiepoints[pointnum].Links[Num].dist == nil then
+					jamiepoints[pointnum].Links[Num].dist = distance(point.X, point.Z, jamiepoints[Num].X, jamiepoints[Num].Z)
+				end
+			end
+		end
+
+		local function findPath(_from, _val)
+
+			-- initialize
+			local dist = {} -- Current total distances to each point
+			local previous = {} -- Current previous points that yield the shortest distance to those points
+			local completed = {} -- points already checked and finished with
+			local Q = {}-- queue of current points being worked on. Only the index numbers
+			dist[_from] = 0
+			Q[_from] = true
+
+			local function getSmallestDist(_Q)
+				-- Look for shortest path in Q
+				local shortestdist = math.huge -- So we don't have to check for nil all the time
+				local shortest
+				for k,__ in pairs(_Q) do
+					if shortestdist > dist[k] then
+						shortestdist = dist[k]
+						shortest = k
+					end
+				end
+
+				return shortest
+			end
+
+
+			local destination_found = false
+			while next(Q) ~= nil do -- not empty
+				-- find point with shortest dist
+				local currNum = getSmallestDist(Q)
+				if currNum == nil then
+					error("I think it finished without finding a path to the destination.")
+				end
+		if jamiepoints[currNum]~= nil then -- This line is not needed. Added because of faulty database
+				currPoint = table.copy(jamiepoints[currNum])
+				-- see if it's the destination
+				if currNum == _val then
+					destination_found = currNum
+				end
+
+				if destination_found then
+					-- destination reached
+					print("Destination found")
+					break
+				end
+
+				-- bring in connected Links that aren't already completed
+				for k,v in pairs(currPoint.Links) do
+					if Q[v.Num] then -- Already in the Q. Update dist.
+						local tmp = dist[currNum] + v.dist
+						if  dist[v.Num] > tmp then
+							dist[v.Num] = tmp
+							previous[v.Num] = currNum
+						end
+					elseif not completed[v.Num] then -- add new point
+						Q[v.Num] = true
+						dist[v.Num] = dist[currNum] + v.dist
+						previous[v.Num] = currNum
+					end
+				end
+		end -- This line is not needed. Added because of faulty database
+				-- pop from the Q.
+				completed[currNum] = true
+				Q[currNum] = nil
+			end
+
+			if next(Q) == nil then
+				print("Didn't find path to destination.")
+				player:sleep()
+			end
+
+			if destination_found then -- return path
+				-- 'currNum' is the destination
+				table.insert(path,{X=jamiepoints[destination_found].X,Z=jamiepoints[destination_found].Z,Y=jamiepoints[destination_found].Y})
+				while previous[destination_found] do
+					destination_found = previous[destination_found]
+					--table.insert(path,destination_found)
+					table.insert(path,{X=jamiepoints[destination_found].X,Z=jamiepoints[destination_found].Z,Y=jamiepoints[destination_found].Y})
+				end
+			end
+
+		end	
+		findPath(traveldestination,travellocation)
+		local count = #path
+		for k,v in pairs(path) do
+			player:moveTo(CWaypoint(v.X,v.Z,v.Y),true,false,30)
+			if justjamie and getjamie() then return true end
+			print(count..": points left to go before destination.")
+			count = (count - 1)
+		end
+		print("Arrived at destination.")
+		--return true
+	end
+
+</onload>
+	<!-- #  1 --><waypoint x="2443" z="860" y="38">	</waypoint>
+	<!-- #  2 --><waypoint x="2484" z="979" y="38">	</waypoint>
+	<!-- #  3 --><waypoint x="2623" z="958" y="46">	</waypoint>
+	<!-- #  4 --><waypoint x="2885" z="647" y="73">	</waypoint>
+	<!-- #  5 --><waypoint x="3242" z="285" y="44">	</waypoint>
+	<!-- #  6 --><waypoint x="3422" z="163" y="44" tag="enter">
+			player:target_NPC(123583) -- Kekonee
+			ChoiceOptionByName(getTEXT("SC_5YEARS_OPT1")) -- 'I'm coming with you.'
+			waitForLoadingScreen()
+			player:target_NPC(123562) -- Kekonee
+			yrest(500)
+			RoMScript("ChoiceOption(2)")
+			yrest(1000)
+			dochests()
+	</waypoint>
+	<!-- #  7 --><waypoint x="-144" z="-299" y="5" tag="start">
+			player:target_NPC(123562) -- Kekonee
+			ChoiceOptionByName(getTEXT("SC_5YEARS_OPT3")) -- 'I want to get out of here.'
+			waitForLoadingScreen()
+	</waypoint>
+	<!-- #  8 --><waypoint x="3308" z="77" y="44" >
+	</waypoint>
+	<!-- #  9 --><waypoint x="3535" z="-263" y="44">
+	repeat
+		yrest(500)
+		local jam = player:findNearestNameOrId(123584)
+		if not jam then player:moveTo(CWaypoint(3655,-392,44)) end
+	until jam and travel({jam.X,jam.Z,jam.Y},true)
+	travel({3468,-171,44})
+	</waypoint>
+	<!-- # 10 --><waypoint x="3333" z="128" y="44">
+			checkRelog()
+	</waypoint>
+</waypoints>

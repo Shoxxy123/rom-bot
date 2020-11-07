@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?><waypoints type="RUN">
+	<!-- #  1 --><waypoint x="-14443" z="-205" y="762">	</waypoint>
+	<!-- #  2 --><waypoint x="-14316" z="-335" y="789">	</waypoint>
+	<!-- #  3 --><waypoint x="-14201" z="-568" y="783">	</waypoint>
+	<!-- #  4 --><waypoint x="-14132" z="-710" y="766">	</waypoint>
+	<!-- #  5 --><waypoint x="-14070" z="-738" y="764">	</waypoint>
+	<!-- #  6 --><waypoint x="-13974" z="-770" y="771">	</waypoint>
+	<!-- #  2 --><waypoint x="-13948" z="-767" y="774" tag="1" >		
+	player:target_NPC("Joey Klongen")
+	yrest(500)		
+	</waypoint>
+	<!-- #  4 --><waypoint x="-13713" z="-1108" y="788">	</waypoint>
+	<!-- #  5 --><waypoint x="-13531" z="-1427" y="840">	</waypoint>
+	<!-- #  6 --><waypoint x="-13286" z="-1842" y="835">	</waypoint>
+	<!-- #  7 --><waypoint x="-12823" z="-2105" y="884">	</waypoint>
+	<!-- #  8 --><waypoint x="-12785" z="-2309" y="822">		
+	player:target_NPC("Laura Febrey")
+	yrest(500)	
+	player:target_NPC("Laura Febrey")
+	yrest(500)	
+	</waypoint>
+	<!-- # 13 --><waypoint x="-12567" z="-2350" y="806">	</waypoint>
+	<!-- # 14 --><waypoint x="-12334" z="-2734" y="771">	</waypoint>
+
+	<!-- # 12 --><waypoint x="-10624" z="-2845" y="685" tag="Ration" >	</waypoint>	
+	<!-- # 12 --><waypoint x="-10624" z="-2845" y="685">	player:target_Object("Ration") 	</waypoint>
+	<!-- # 13 --><waypoint x="-10381" z="-2692" y="702">	</waypoint>
+	<!-- # 14 --><waypoint x="-10381" z="-2692" y="702">	player:target_Object("Ration") 	</waypoint>
+	<!-- # 15 --><waypoint x="-10226" z="-3202" y="640">	</waypoint>
+	<!-- # 16 --><waypoint x="-10296" z="-3234" y="625">	</waypoint>
+	<!-- # 17 --><waypoint x="-10296" z="-3234" y="625">	player:target_Object("Ration") 	</waypoint>
+	<!-- # 18 --><waypoint x="-10214" z="-3427" y="616">	</waypoint>
+	<!-- # 19 --><waypoint x="-10214" z="-3427" y="616">	player:target_Object("Ration") 	</waypoint>
+	<!-- # 20 --><waypoint x="-9950" z="-3462" y="626">		</waypoint>
+	<!-- # 21 --><waypoint x="-9880" z="-3633" y="646">		</waypoint>
+	<!-- # 22 --><waypoint x="-9892" z="-3703" y="657">		</waypoint>
+	<!-- # 23 --><waypoint x="-9892" z="-3703" y="657">		player:target_Object("Ration") 	</waypoint>
+	<!-- # 24 --><waypoint x="-9691" z="-3758" y="639">		</waypoint>
+	<!-- # 25 --><waypoint x="-9596" z="-3693" y="624">		</waypoint>
+	<!-- 30 # 26 --><waypoint x="-9596" z="-3693" y="624">		player:target_Object("Ration") 	</waypoint>
+	<!-- # 27 --><waypoint x="-9200" z="-3836" y="592">		</waypoint>
+	<!-- # 28 --><waypoint x="-9200" z="-3836" y="592">		player:target_Object("Ration") 	</waypoint>
+	<!-- # 29 --><waypoint x="-9413" z="-3938" y="608">		</waypoint>
+	<!-- # 30 --><waypoint x="-9682" z="-3803" y="636">		</waypoint>
+	<!-- # 31 --><waypoint x="-9956" z="-3458" y="626">		</waypoint>
+	<!-- # 32 --><waypoint x="-10023" z="-3206" y="637">	</waypoint>
+	<!-- # 33 --><waypoint x="-10023" z="-3206" y="637">	player:target_Object("Ration") 	</waypoint>
+	<!-- # 34 --><waypoint x="-10230" z="-3033" y="660">	</waypoint>
+	<!-- # 35 --><waypoint x="-10335" z="-2708" y="702">	player:target_Object("Ration")	</waypoint>
+	<!-- 40 # 36 --><waypoint x="-10335" z="-2708" y="702">
+	if not (inventory:getItemCount("Food Ration") > 9) then
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("Ration"))
+	end
+	</waypoint>
+
+	<!-- # 36 --><waypoint x="-10335" z="-2708" y="702" tag="3" >	</waypoint>
+	<!-- # 43 --><waypoint x="-10971" z="-2772" y="727">	</waypoint>
+	<!-- # 44 --><waypoint x="-11461" z="-2725" y="766">	</waypoint>
+	<!-- # 45 --><waypoint x="-11773" z="-2922" y="776">	</waypoint>
+	<!-- # 46 --><waypoint x="-11952" z="-2876" y="769">	</waypoint>
+	<!-- # 47 --><waypoint x="-12338" z="-2689" y="776">	</waypoint>
+	<!-- # 48 --><waypoint x="-12543" z="-2447" y="803">	</waypoint>
+	<!-- # 49 --><waypoint x="-12743" z="-2359" y="811">		
+	player:target_NPC("Laura Febrey")
+	yrest(500)
+	player:target_NPC("Laura Febrey")
+	yrest(500)
+	</waypoint>
+	<!-- # 54 --><waypoint x="-13009" z="-1963" y="873">	</waypoint>
+	<!-- 50 # 55 --><waypoint x="-13110" z="-1658" y="927">		
+	player:target_NPC("Ross Bete")
+	yrest(500)
+	player:target_NPC("Ross Bete")
+	yrest(500)
+	</waypoint>
+	<!-- # 60 --><waypoint x="-12952" z="-2094" y="868">	</waypoint>
+	<!-- # 61 --><waypoint x="-12549" z="-2295" y="810">	</waypoint>
+	<!-- # 62 --><waypoint x="-12456" z="-2613" y="778">	</waypoint>
+	<!-- # 63 --><waypoint x="-11305" z="-3020" y="756">	</waypoint>
+	<!-- # 64 --><waypoint x="-11045" z="-3206" y="771">	</waypoint>
+	<!-- # 65 --><waypoint x="-10801" z="-3256" y="727">	</waypoint>
+	<!-- # 66 --><waypoint x="-10539" z="-3197" y="691">	</waypoint>
+	<!-- # 67 --><waypoint x="-10375" z="-3336" y="611">	</waypoint>
+	<!-- # 68 --><waypoint x="-10231" z="-3272" y="630">	</waypoint>
+	<!-- 60 # 69 --><waypoint x="-9980" z="-3353" y="619">		</waypoint>
+	<!-- # 70 --><waypoint x="-9826" z="-3659" y="642">		</waypoint>
+	<!-- # 57 --><waypoint x="-9553" z="-3913" y="619">		</waypoint>
+
+
+	<!-- # 72 --><waypoint x="-9521" z="-4072" y="612" tag="Berhu" >		</waypoint>
+	<!-- # 73 --><waypoint x="-9330" z="-4120" y="611" type="NORMAL" >		</waypoint>
+	<!-- # 74 --><waypoint x="-9285" z="-4212" y="622" type="NORMAL" >		</waypoint>
+	<!-- # 75 --><waypoint x="-9374" z="-4349" y="656" type="NORMAL" >		</waypoint>
+	<!-- # 76 --><waypoint x="-9406" z="-4457" y="651" type="NORMAL" >		</waypoint>
+	<!-- # 77 --><waypoint x="-9310" z="-4618" y="635" type="NORMAL" >		</waypoint>
+	<!-- # 78 --><waypoint x="-9291" z="-4740" y="621" type="NORMAL" >		</waypoint>
+	<!-- 70 # 79 --><waypoint x="-9204" z="-4803" y="618" type="NORMAL" >		</waypoint>
+	<!-- # 80 --><waypoint x="-9085" z="-4871" y="639" type="NORMAL" >		</waypoint>
+	<!-- # 81 --><waypoint x="-9056" z="-4726" y="646" type="NORMAL" >		</waypoint>
+	<!-- # 82 --><waypoint x="-8957" z="-4569" y="651" type="NORMAL" >		</waypoint>
+	<!-- # 83 --><waypoint x="-9155" z="-4475" y="621" type="NORMAL" >		</waypoint>
+	<!-- # 84 --><waypoint x="-9043" z="-4370" y="596" type="NORMAL" >		</waypoint>
+	<!-- # 85 --><waypoint x="-9037" z="-4274" y="587" type="NORMAL" >		</waypoint>
+	<!-- # 86 --><waypoint x="-9041" z="-4155" y="615" type="NORMAL" >		</waypoint>
+	<!-- # 73 --><waypoint x="-8992" z="-4002" y="638" type="NORMAL" >		</waypoint>
+	<!-- # 74 --><waypoint x="-9447" z="-4381" y="650" type="NORMAL" >		</waypoint>
+	<!-- 80 # 75 --><waypoint x="-9539" z="-4267" y="634" type="NORMAL" >		</waypoint>
+	<!-- # 76 --><waypoint x="-9524" z="-3960" y="620" type="NORMAL" >
+	if not (player.mobs["Wild Berhu"] > 14) then
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("Berhu"))
+	end
+	</waypoint>
+
+
+	<!-- # 91 --><waypoint x="-9853" z="-3661" y="644" tag="5" >	</waypoint>
+	<!-- # 92 --><waypoint x="-9996" z="-3304" y="618">		</waypoint>
+	<!-- # 93 --><waypoint x="-10150" z="-3211" y="630">	</waypoint>
+	<!-- # 94 --><waypoint x="-10261" z="-3055" y="663">	</waypoint>
+	<!-- # 95 --><waypoint x="-10326" z="-2799" y="690">	</waypoint>
+	<!-- # 96 --><waypoint x="-10770" z="-2724" y="677">	</waypoint>
+	<!-- # 97 --><waypoint x="-11095" z="-2643" y="703">	</waypoint>
+	<!-- # 98 --><waypoint x="-11447" z="-2583" y="760">	</waypoint>
+	<!-- # 99 --><waypoint x="-11893" z="-2784" y="790">	</waypoint>
+	<!-- #100 --><waypoint x="-12305" z="-2737" y="770">	</waypoint>
+	<!-- #101 --><waypoint x="-12478" z="-2582" y="781">	</waypoint>
+	<!-- #102 --><waypoint x="-12861" z="-2203" y="858">	</waypoint>
+	<!-- #103 --><waypoint x="-13021" z="-1917" y="877">	</waypoint>
+	<!-- #104 --><waypoint x="-13107" z="-1666" y="926">		
+	player:target_NPC("Ross Bete")
+	yrest(500)
+	player:target_NPC("Ross Bete")
+	yrest(500)
+	</waypoint>
+
+
+	<!-- #  1 --><waypoint x="-13146" z="-1661" y="931" tag="6" >	</waypoint>
+	<!-- #  2 --><waypoint x="-13058" z="-1429" y="865">	</waypoint>
+	<!-- #  3 --><waypoint x="-13273" z="-1237" y="812">	</waypoint>
+	<!-- #  4 --><waypoint x="-13461" z="-1082" y="801">	</waypoint>
+	<!-- #  5 --><waypoint x="-13675" z="-954" y="769">		</waypoint>
+	<!-- #  6 --><waypoint x="-13860" z="-907" y="758">		</waypoint>
+	<!-- #  7 --><waypoint x="-14121" z="-693" y="765">		</waypoint>
+	<!-- #  8 --><waypoint x="-14196" z="-638" y="775">		</waypoint>
+	<!-- #  9 --><waypoint x="-14410" z="-701" y="764">		</waypoint>
+	<!-- # 10 --><waypoint x="-14602" z="-575" y="795">		</waypoint>
+	<!-- # 11 --><waypoint x="-14653" z="-594" y="825">		</waypoint>
+	<!-- # 12 --><waypoint x="-14826" z="-588" y="770">		</waypoint>
+	<!-- # 13 --><waypoint x="-14964" z="-791" y="771">		</waypoint>
+	<!-- # 14 --><waypoint x="-14992" z="-833" y="800">		</waypoint>
+	<!-- # 15 --><waypoint x="-15012" z="-847" y="816">		</waypoint>
+	<!-- # 16 --><waypoint x="-15031" z="-854" y="827">		</waypoint>
+	<!-- # 17 --><waypoint x="-15082" z="-858" y="862">		</waypoint>
+	<!-- # 18 --><waypoint x="-15169" z="-791" y="901">		</waypoint>
+	<!-- # 19 --><waypoint x="-15339" z="-780" y="935">		</waypoint>
+	<!-- # 20 --><waypoint x="-15551" z="-749" y="935">		</waypoint>
+	<!-- # 21 --><waypoint x="-15705" z="-947" y="914">		</waypoint>
+	<!-- # 22 --><waypoint x="-16013" z="-1101" y="899">	</waypoint>
+	<!-- # 23 --><waypoint x="-16114" z="-1126" y="907">	</waypoint>
+	<!-- # 24 --><waypoint x="-16294" z="-1302" y="936">	</waypoint>
+	<!-- # 25 --><waypoint x="-16515" z="-1455" y="954">	</waypoint>
+	<!-- # 26 --><waypoint x="-16820" z="-1047" y="938">	</waypoint>
+	<!-- # 27 --><waypoint x="-16786" z="-887" y="950">		</waypoint>
+	<!-- # 28 --><waypoint x="-16832" z="-701" y="1024">	</waypoint>
+	<!-- # 29 --><waypoint x="-16916" z="-647" y="1046">	</waypoint>
+	<!-- # 30 --><waypoint x="-17041" z="-557" y="1061">	</waypoint>
+	<!-- # 31 --><waypoint x="-17221" z="-576" y="1090">	</waypoint>
+	<!-- # 32 --><waypoint x="-17395" z="-693" y="1072">	</waypoint>
+	<!-- # 35 --><waypoint x="-17482" z="-381" y="983">		</waypoint>
+	<!-- # 36 --><waypoint x="-17648" z="-320" y="988">		
+	player:target_NPC("Kendo Hanks")
+	yrest(500)
+	player:target_NPC("Kendo Hanks")
+	yrest(500)
+	</waypoint>
+
+
+	<!-- #  1 --><waypoint x="-17668" z="-312" y="988" tag="7" >	</waypoint>
+	<!-- #  2 --><waypoint x="-17489" z="-432" y="980">		</waypoint>
+	<!-- #  3 --><waypoint x="-17368" z="-323" y="982">		</waypoint>
+	<!-- #  4 --><waypoint x="-17234" z="-354" y="993">		</waypoint>
+	<!-- #  5 --><waypoint x="-17040" z="-375" y="995">		</waypoint>
+	<!-- #  6 --><waypoint x="-16591" z="-352" y="939">		</waypoint>
+	<!-- #  7 --><waypoint x="-16656" z="-608" y="972">		</waypoint>
+	<!-- #  8 --><waypoint x="-16501" z="-928" y="917">		</waypoint>
+	<!-- #  9 --><waypoint x="-16233" z="-1106" y="906">	</waypoint>
+	<!-- # 10 --><waypoint x="-16086" z="-1554" y="955">	</waypoint>
+	<!-- # 11 --><waypoint x="-15964" z="-1684" y="944">	</waypoint>
+	<!-- # 12 --><waypoint x="-15701" z="-1770" y="918">	</waypoint>
+	<!-- # 13 --><waypoint x="-15701" z="-1770" y="918">	</waypoint>
+	<!-- # 14 --><waypoint x="-15401" z="-1787" y="913">	</waypoint>
+	<!-- # 15 --><waypoint x="-15203" z="-1894" y="883">	</waypoint>
+	<!-- # 16 --><waypoint x="-14911" z="-1837" y="917">	</waypoint>
+	<!-- # 17 --><waypoint x="-14268" z="-1691" y="919">	</waypoint>
+	<!-- # 18 --><waypoint x="-14103" z="-1776" y="920">	</waypoint>
+	<!-- # 19 --><waypoint x="-13913" z="-1674" y="915">	</waypoint>
+	<!-- # 20 --><waypoint x="-13661" z="-1845" y="895">	</waypoint>
+	<!-- # 21 --><waypoint x="-13472" z="-1875" y="830">	</waypoint>
+	<!-- # 22 --><waypoint x="-13343" z="-1951" y="820">	</waypoint>
+	<!-- # 23 --><waypoint x="-13240" z="-2056" y="816">	</waypoint>
+	<!-- # 24 --><waypoint x="-13101" z="-2101" y="828">	</waypoint>
+	<!-- # 25 --><waypoint x="-13029" z="-2113" y="847">	</waypoint>
+	<!-- # 26 --><waypoint x="-12894" z="-2200" y="859">	</waypoint>
+	<!-- # 27 --><waypoint x="-12803" z="-2316" y="823">		
+	player:target_NPC("Laura Febrey")
+	yrest(500)
+	player:target_NPC("Laura Febrey")
+	yrest(500)
+	</waypoint>
+
+
+	<!-- #  1 --><waypoint x="-12808" z="-2313" y="825" tag="8" >	</waypoint>
+	<!-- #  2 --><waypoint x="-12961" z="-2270" y="854">	</waypoint>
+	<!-- #  3 --><waypoint x="-13131" z="-2335" y="835">	</waypoint>
+	<!-- #  4 --><waypoint x="-13250" z="-2350" y="874">	</waypoint>
+	<!-- #  5 --><waypoint x="-13329" z="-2479" y="959">	</waypoint>
+	<!-- #  6 --><waypoint x="-13563" z="-2890" y="916">	</waypoint>
+	<!-- #  7 --><waypoint x="-13561" z="-3149" y="898">	</waypoint>
+	<!-- #  8 --><waypoint x="-13607" z="-3342" y="902">	</waypoint>
+	<!-- #  9 --><waypoint x="-13672" z="-3415" y="890">	</waypoint>
+	<!-- # 10 --><waypoint x="-13835" z="-3431" y="873">	</waypoint>
+	<!-- # 11 --><waypoint x="-13835" z="-3431" y="873">	</waypoint>
+	<!-- # 12 --><waypoint x="-13897" z="-3291" y="878">		
+	player:target_NPC("Mary.Ann Lewinsky")
+	yrest(500)
+	player:target_NPC("Mary.Ann Lewinsky")
+	yrest(500)
+	</waypoint>
+
+
+	<!-- #  1 --><waypoint x="-13887" z="-3295" y="878" tag="9" >	</waypoint>
+	<!-- #  2 --><waypoint x="-14107" z="-3454" y="877">	</waypoint>
+	<!-- #  3 --><waypoint x="-14256" z="-3448" y="873">	</waypoint>
+	<!-- #  4 --><waypoint x="-14369" z="-3448" y="859">	</waypoint>
+	<!-- #  5 --><waypoint x="-14522" z="-3778" y="839">	</waypoint>
+	<!-- #  6 --><waypoint x="-14498" z="-3863" y="843">	</waypoint>
+
+
+	<!-- #  1 --><waypoint x="-14455" z="-4047" y="838" type="NORMAL" tag="Spiders" >	</waypoint>
+	<!-- #  2 --><waypoint x="-14408" z="-4276" y="845" type="NORMAL" >	</waypoint>
+	<!-- #  3 --><waypoint x="-14289" z="-4225" y="838" type="NORMAL" >	</waypoint>
+	<!-- #  4 --><waypoint x="-14162" z="-4342" y="846" type="NORMAL" >	</waypoint>
+	<!-- #  5 --><waypoint x="-14127" z="-4467" y="850" type="NORMAL" >	</waypoint>
+	<!-- #  6 --><waypoint x="-14157" z="-4551" y="848" type="NORMAL" >	</waypoint>
+	<!-- #  7 --><waypoint x="-14215" z="-4712" y="845" type="NORMAL" >	</waypoint>
+	<!-- #  8 --><waypoint x="-14290" z="-4615" y="838" type="NORMAL" >	</waypoint>
+	<!-- #  9 --><waypoint x="-14290" z="-4615" y="838" type="NORMAL" >	</waypoint>
+	<!-- # 10 --><waypoint x="-14505" z="-4536" y="842" type="NORMAL" >	</waypoint>
+	<!-- # 11 --><waypoint x="-14639" z="-4450" y="847" type="NORMAL" >	</waypoint>
+	<!-- # 12 --><waypoint x="-14715" z="-4327" y="849" type="NORMAL" >	</waypoint>
+	<!-- # 13 --><waypoint x="-14629" z="-4166" y="853" type="NORMAL" >	
+	if not (inventory:getItemCount("Winter Spider Poison") > 19) then
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("Spiders"))
+	end	
+	</waypoint>
+
+
+	<!-- # 13 --><waypoint x="-14629" z="-4166" y="853" tag="11" > 	</waypoint>
+	<!-- #  1 --><waypoint x="-14459" z="-3901" y="845">	</waypoint>
+	<!-- #  2 --><waypoint x="-14370" z="-3759" y="850">	</waypoint>
+	<!-- #  3 --><waypoint x="-13933" z="-3586" y="863">	</waypoint>
+	<!-- #  4 --><waypoint x="-13897" z="-3298" y="877">		
+	player:target_NPC("Mary.Ann Lewinsky")
+	yrest(500)
+	player:target_NPC("Mary.Ann Lewinsky")
+	yrest(500)
+	</waypoint>
+
+
+	<!-- #  1 --><waypoint x="-13929" z="-3312" y="877" tag="12" >	</waypoint>
+	<!-- #  2 --><waypoint x="-14730" z="-3383" y="866">	</waypoint>
+	<!-- #  3 --><waypoint x="-15524" z="-3754" y="860">	</waypoint>
+	<!-- #  4 --><waypoint x="-15705" z="-3878" y="948">	</waypoint>
+	<!-- #  5 --><waypoint x="-15878" z="-3787" y="958">	</waypoint>
+	<!-- #  6 --><waypoint x="-15945" z="-3643" y="960">	</waypoint>
+	<!-- #  7 --><waypoint x="-16182" z="-3533" y="970">	</waypoint>
+	<!-- #  8 --><waypoint x="-16388" z="-3340" y="1028">	</waypoint>
+	<!-- #  9 --><waypoint x="-16589" z="-3243" y="1110">	</waypoint>
+	<!-- # 10 --><waypoint x="-16745" z="-3238" y="1084">	</waypoint>
+	<!-- # 11 --><waypoint x="-17141" z="-3177" y="1037">	</waypoint>
+	<!-- # 12 --><waypoint x="-17329" z="-3072" y="1042">	</waypoint>
+	<!-- # 13 --><waypoint x="-17638" z="-3085" y="1042">	</waypoint>
+	<!-- # 14 --><waypoint x="-18146" z="-2838" y="1023">	</waypoint>
+	<!-- # 15 --><waypoint x="-18512" z="-2546" y="1014">		
+	player:target_NPC("Rachel Greng")
+	yrest(500)
+	player:target_NPC("Rachel Greng")
+	yrest(500)
+	</waypoint>
+
+
+	<!-- #  3 --><waypoint x="-18527" z="-2322" y="1013" type="NORMAL" tag="Cyclops" >	</waypoint>
+	<!-- #  4 --><waypoint x="-18496" z="-2007" y="998" type="NORMAL" >		</waypoint>
+	<!-- #  5 --><waypoint x="-18148" z="-1931" y="1000" type="NORMAL" >	</waypoint>
+	<!-- #  6 --><waypoint x="-17999" z="-2009" y="998" type="NORMAL" >		</waypoint>
+	<!-- #  7 --><waypoint x="-17890" z="-2208" y="992" type="NORMAL" >		</waypoint>
+	<!-- #  8 --><waypoint x="-17878" z="-2354" y="991" type="NORMAL" >		</waypoint>
+	<!-- #  9 --><waypoint x="-17684" z="-2450" y="1011" type="NORMAL" >	</waypoint>
+	<!-- # 10 --><waypoint x="-17615" z="-2732" y="1029" type="NORMAL" >	</waypoint>
+	<!-- # 11 --><waypoint x="-17800" z="-2975" y="1032" type="NORMAL" >	</waypoint>
+	<!-- # 12 --><waypoint x="-18172" z="-2753" y="1018" type="NORMAL" >	
+	if not (player.mobs["Sea of Snow Cyclops"] > 19) then
+		__WPL:setWaypointIndex(__WPL:findWaypointTag("Cyclops"))
+	end
+	</waypoint>
+
+
+	<!-- # 12 --><waypoint x="-18172" z="-2753" y="1018" type="RUN" tag="14" >	</waypoint>
+	<!-- #  1 --><waypoint x="-18526" z="-2577" y="1019">		
+	player:target_NPC("Rachel Greng")
+	yrest(500)
+	player:target_NPC("Rachel Greng")
+	yrest(500)
+	</waypoint>
+	<!-- #  6 --><waypoint x="-18411" z="-2604" y="1006">	</waypoint>
+	<!-- #  7 --><waypoint x="-18020" z="-2454" y="1003">	</waypoint>
+	<!-- #  8 --><waypoint x="-17800" z="-2157" y="993">	</waypoint>
+	<!-- #  9 --><waypoint x="-17587" z="-2032" y="983">	</waypoint>
+	<!-- # 10 --><waypoint x="-17324" z="-1777" y="962">	</waypoint>
+	<!-- # 11 --><waypoint x="-16880" z="-1347" y="942">	</waypoint>
+	<!-- # 12 --><waypoint x="-16752" z="-1223" y="945">	</waypoint>
+	<!-- # 13 --><waypoint x="-16512" z="-990" y="910">		</waypoint>
+	<!-- # 14 --><waypoint x="-16307" z="-911" y="915">		</waypoint>
+	<!-- # 15 --><waypoint x="-15419" z="-734" y="935">		</waypoint>
+	<!-- # 16 --><waypoint x="-14965" z="-267" y="742">		</waypoint>
+	<!-- # 17 --><waypoint x="-14759" z="-312" y="739">		</waypoint>
+	<!-- # 18 --><waypoint x="-14626" z="-404" y="756">		</waypoint>
+	<!-- # 19 --><waypoint x="-14467" z="-716" y="761">		</waypoint>
+
+	<!-- # 27 --><waypoint x="-14197" z="-624" y="777">		</waypoint>
+	<!-- # 29 --><waypoint x="-14038" z="-783" y="763">		</waypoint>
+	<!-- # 30 --><waypoint x="-13993" z="-768" y="769">		
+	player:target_NPC("Joey Klongen")
+	player:sleep()
+	</waypoint>
+</waypoints>
