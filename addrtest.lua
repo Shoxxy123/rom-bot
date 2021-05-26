@@ -31,7 +31,7 @@ function printHeader(name, padchar)
 	local midpoint = math.ceil((width + #name)/2);
 	local left = width - midpoint;
 	local right = width - #name - left;
-	
+
 	print(string.rep(padchar, left) .. name .. string.rep(padchar, right));
 end
 
@@ -44,7 +44,7 @@ function getClassName(classId)
 	if( classId == nil ) then
 		return "Nil";
 	end
-	
+
 	if( classId == CLASS_NONE ) then
 		return "none";
 	elseif( classId == CLASS_GM ) then
@@ -159,7 +159,7 @@ end
 print("");
 printHeader("Texts");
 for i,key in pairs({'AC_INSTRUCTION_01', 'AC_INSTRUCTION_02', 'ZONE955_JOLIN_S1'}) do
-	printLine(colWidth, key, getTEXT(key));	
+	printLine(colWidth, key, getTEXT(key));
 end
 
 print("\nLoading data for additional testing...");
@@ -170,6 +170,7 @@ settings.loadProfile("Default")
 inventory = CInventory();
 inventory:update()
 
+print("")
 printHeader("Inventory");
 print("")
 printHeader("Item Shop Backpack", ' ');
@@ -188,7 +189,7 @@ end
 print("\n")
 printHeader("Backpack(s)", ' ');
 found = 0
-for i = 50,239 do
+for i = 60,239 do
 	v = inventory.BagSlot[i]
 	if( v and not v.Empty ) then
 		printLine(colWidth, i, sprintf("ID: %-8d Count: %-5d %s", v.Id or 0, v.ItemCount or 0, v.Name));
@@ -197,4 +198,75 @@ for i = 50,239 do
 end
 if( found == 0 ) then
 	print("No items were found in this inventory")
+end
+
+print("\n")
+printHeader("Bank", ' ');
+bank = CBank()
+found = 0
+for i,v in pairs(bank.BagSlot) do
+	if( v and not v.Empty ) then
+		printLine(colWidth, i, sprintf("ID: %-8d Count: %-5d %s", v.Id or 0, v.ItemCount or 0, v.Name));
+		found = found + 1
+	end
+end
+if( found == 0 ) then
+	print("No items were found in the bank")
+end
+
+
+print("")
+printHeader("Object List");
+local olist = CObjectList();
+olist:update()
+local displayCount = math.min(10, #olist.Objects)
+printLine(colWidth, "Objects found:", #olist.Objects);
+printLine(colWidth, sprintf("Top %d items", displayCount));
+for i = 1, displayCount do
+	v = olist.Objects[i];
+	printLine(colWidth, i, sprintf("ID: %-8d Address: 0x%08x Type: %d Name: %s", v.Id or 0, v.Address or 0, v.Type or -1, v.Name or ""));
+end
+
+
+print("")
+printHeader("Cursor Item");
+local cursor = CCursor();
+cursor:update()
+printLine(colWidth, "Cursor item ID:", cursor.ItemId or '<invalid>');
+printLine(colWidth, "Cursor item Bag ID:", cursor.ItemBagId or '<invalid>');
+
+
+print("")
+printHeader("Code Mods");
+printHeader("Check Code In Memory", ' ');
+local installableCodemods = {}
+for i,v in pairs(addresses.code_mod) do
+	local codemod = CCodeMod(v.base,
+		v.original_code,
+		v.replace_code
+	);
+
+	if( codemod:checkModified() == false ) then
+		cprintf_ex("%s|green|[+]|white| %s looks good\n", string.rep(" ", 12), i);
+		installableCodemods[i] = codemod;
+	else
+		cprintf_ex("%s|red|[x]|white| %s appears malformed/modified\n", string.rep(" ", 12), i);
+	end
+end
+
+print("");
+printHeader("Test if installable", ' ');
+for i,codemod in pairs(installableCodemods) do
+	local success = codemod:safeInstall();
+	if( success ) then
+		yrest(1000);
+		success = codemod:safeUninstall();
+		yrest(200);
+	end
+
+	if( success ) then
+		cprintf_ex("%s|green|[+]|white| %s OK!\n", string.rep(" ", 12), i);
+	else
+		cprintf_ex("%s|red|[x]|white| Failed\n", string.rep(" ", 12), i);
+	end
 end

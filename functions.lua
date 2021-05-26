@@ -149,11 +149,17 @@ function selectGame(character)
 		end
 		for k,v in pairs(processList) do
 			for i,j in pairs( getWindowsFromProcess(v) ) do
+				if( getWindowClassName(j) == "Radiant Arcana" ) then
+					table.insert(windowList, j)
+					break;
+				end
+
 				local parent = getWindowParent(j)
 				if getWindowClassName(j) == "IME" and parent then
 				   local x,y,w,h = windowRect(parent)
-				   if h ~= 0 then
+				   if w > 1 and  h > 1 then
 						table.insert(windowList, parent)
+						break;
 				   end
 				end
 			end
@@ -2629,7 +2635,7 @@ end
 local getTEXTCache = {}
 local textCacheFilename = getExecutionPath() .. "/cache/texts.lua";
 function getTEXT(key)
-	if( getTEXTCache['GAME_VERSION'] == nil ) then
+	if( getTEXTCache['GAME_VERSION'] == nil or getTEXTCache['AC_INSTRUCTION_01'] == nil ) then
 		if( not readCachedGameTexts() ) then
 			readAndCacheGameTexts();
 		end
@@ -2961,6 +2967,10 @@ function isGitInstalled()
 	end
 	
 	local response = io.popen('where git'):read('*a');
+	if( string.sub(response, 0, 5) == 'INFO:' ) then
+		return false;
+	end
+
 	return response ~= "";
 end
 
@@ -2977,9 +2987,30 @@ function isGitUpdateAvailable()
 	return false;
 end
 
+local function getRevisionFromFile()
+	local path = getExecutionPath() .. "/.git/refs/heads/master";
+	if( not fileExists(path) ) then
+		return nil;
+	end
+
+	local file = io.open(path, 'r');
+	if( not file ) then
+		return nil;
+	end
+
+	local hash = file:read('*a');
+	file:close();
+	return string.sub(hash, 0, 7);
+end
+
 function getCurrentRevision()
 	if( isGitInstalled() == false ) then
-		return "unknown";
+		local hash = getRevisionFromFile();
+		if( hash == nil ) then
+			return "unknown";
+		else
+			return hash;
+		end
 	end
 	
 	local path = getExecutionPath();
@@ -3045,4 +3076,45 @@ function validName(name, maxlen)
 	end
 	
 	return true;
+end
+
+function handleLoadstringFailure(luacode, errmsg, filename, linesbefore, linesafter)
+	filename = filename or ""
+	linesbefore = linesbefore or 5
+	linesafter = linesafter or 5
+	
+	-- Try to information from errmsg
+	linenumber = tonumber(string.match(errmsg, "%[string \"%.%.%.\"%]:(%d+):") or -1)
+	
+	startline = 0
+	endline = 0
+	if linenumber > 0 then
+		startline = math.max(0, linenumber - linesbefore)
+		endline = linenumber + linesafter
+	end
+	
+	-- Output code sample
+	if( filename ~= "" ) then
+		print("File: ", filename .. "\n")
+	end
+	
+	lc = 0
+	for line in string.gmatch(luacode, "(.-)\r?\n") do
+		lc = lc + 1
+		
+		if endline > 0 and lc > endline then
+			break;
+		end
+		
+		if lc >= startline and lc <= endline then
+			if( lc == linenumber ) then
+				cprintf(cli.lightred, sprintf("%6d >>", lc) ..line .. "\n")
+			else
+				print(sprintf("%6d   ", lc) .. line)
+			end
+		end
+	end
+	
+	print("")
+	error(errmsg, 2)
 end

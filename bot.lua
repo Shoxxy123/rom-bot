@@ -1,5 +1,11 @@
 BOT_VERSION = 4.0;
 BOT_REVISION = '<UNKNOWN>';
+;
+if( type(getVersion) ~= 'function' or (getVersion() / 100) >= 1.06 ) then
+		error("The RoM-Bot scripts are not compatible with your MicroMacro version.\n"
+		.. "Please download and install version 1.05:\n\n"
+		.. "http://solarstrike.net/project/download/44", 0);
+end
 
 include('qword.lua');
 include("addresses.lua");
@@ -107,9 +113,10 @@ __RPL = nil;	-- Return Point List
 
 
 -- start message
+local gitRevision = getCurrentRevision();
 text = sprintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" ..
 	"Welcome to rom bot! press END to quit\n" ..
-	"RoM Bot Version %0.2f, Revision %s\n", BOT_VERSION, getCurrentRevision());
+	"RoM Bot Version %0.2f, Revision %s\n", BOT_VERSION, gitRevision);
 
 printPicture("logo", text, 4);
 
@@ -258,7 +265,7 @@ function main()
 	if( settings.options.DEBUGGING ) then
 		printf("[DEBUG] camAddress: 0x%X\n", camera.Address);
 	end
-	
+
 
 	if( settings.options.DEBUGGING ) then
 		-- Camera debugging info
@@ -723,7 +730,7 @@ function main()
 		end
 	end
 	registerTimer("ClientDetection", secondsToTimer(2), checkClientCrash);
-	
+
 	collectgarbage("collect");
 	registerTimer("collectgarbage", secondsToTimer(60), function ()
 		collectgarbage("collect");
@@ -738,7 +745,7 @@ function main()
 		if __WPL.Mode == "waypoints" and #__WPL.Waypoints == 0 then -- Can't got to 'waypoints' with no waypoints
 			error(language[114],1) -- No waypoints to go to
 		end
-		
+
 		if( not isInGame() ) then
 			MemDatabase:flush();
 		end
@@ -925,7 +932,10 @@ function main()
 						-- execute the action from the skiped wp
 						if( currentWp.Action and type(currentWp.Action) == "string" ) then
 							local actionchunk = loadstring(currentWp.Action);
-							assert( actionchunk,  sprintf(language[150], WPLorRPL.CurrentWaypoint) );
+							if( not actionchunk ) then
+								cprintf(cli.yellow, sprintf(language[150], WPLorRPL.CurrentWaypoint) .. "\n")
+								handleLoadstringFailure(currentWp.Action, errmsg, filename)
+							end
 							actionchunk();
 						end
 						__WPL:updateResume()
@@ -993,7 +1003,10 @@ function main()
 					if( wp.Action and type(wp.Action) == "string" and string.find(wp.Action,"%a") ) then
 						keyboardRelease( settings.hotkeys.MOVE_FORWARD.key ); yrest(200) -- Stop moving
 						local actionchunk = loadstring(wp.Action);
-						assert( actionchunk,  sprintf(language[150], __RPL.CurrentWaypoint) );
+						if( not actionchunk ) then
+							cprintf(cli.yellow, sprintf(language[150], __RPL.CurrentWaypoint) .. "\n")
+							handleLoadstringFailure(wp.Action, errmsg, filename)
+						end
 						actionchunk();
 					end
 				else
@@ -1002,7 +1015,10 @@ function main()
 					if( wp.Action and type(wp.Action) == "string" and string.find(wp.Action,"%a") ) then
 						keyboardRelease( settings.hotkeys.MOVE_FORWARD.key ); yrest(200) -- Stop moving
 						local actionchunk = loadstring(wp.Action);
-						assert( actionchunk,  sprintf(language[150], __WPL.CurrentWaypoint) );
+						if( not actionchunk ) then
+							cprintf(cli.yellow, sprintf(language[150], __WPL.CurrentWaypoint) .. "\n")
+							handleLoadstringFailure(wp.Action, errmsg, filename)
+						end
 						actionchunk();
 					end
 				end
