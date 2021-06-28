@@ -83,10 +83,8 @@ function CItem:update()
 		self.BaseItemAddress = GetItemAddress( self.Id );
 		
 		if ( self.BaseItemAddress == nil or self.BaseItemAddress == 0 ) then
-			local msg = sprintf("Wrong value returned in update of CItem id: %d\n%s\n", self.Id, debug.traceback())
-			cprintf( cli.yellow, msg);
-			
-			logMessage(msg);
+			cprintf( cli.yellow, "Wrong value returned in update of CItem id: %d\n", self.Id );
+			logMessage(sprintf("Wrong value returned in update of item id: %d", self.Id));
 			return;
 		end;
 		self.Name = "";
@@ -153,7 +151,7 @@ function CItem:update()
 		end;
 
 
-		self.Name = (self.Name or "") .. tmp;
+		self.Name = self.Name .. tmp;
 
 		self.Quality = memoryReadInt(getProc(), self.BaseItemAddress + addresses.item.quality) or 0;
 		local plusQuality = memoryReadByte(getProc(), self.Address + addresses.item.quality);
@@ -173,7 +171,7 @@ function CItem:update()
 		-- Get Runes (only named Runes)
 		self.Stats = {}
 		self.Runes = {}
-		--[[if self.ObjType == 0 or self.ObjType == 1 or self.ObjType == 5 then -- Weapons, Armor and Equipment Enhancements
+		if self.ObjType == 0 or self.ObjType == 1 or self.ObjType == 5 then -- Weapons, Armor and Equipment Enhancements
 			for i = 1, 6 do
 				local tmpid = memoryReadUShort( getProc(), self.Address + addresses.item.stats + 0x2*(i-1) );
 				if tmpid == 0 then -- No More stats
@@ -194,7 +192,7 @@ function CItem:update()
 				local tmpname = GetIdName(tmpid)
 				self.Runes[i] = {Id = tmpid, Name = tmpname}
 			end
-		end--]]
+		end
 
 		-- Get base item flag values
 		local flags = memoryReadRepeat("int", getProc(),self.BaseItemAddress + addresses.item.flags) or 0;

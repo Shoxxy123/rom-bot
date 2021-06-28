@@ -80,11 +80,8 @@ function CWaypointList:load(filename)
 			table.insert(self.Waypoints, tmp);
 		elseif( string.lower(name) == "onload" ) then
 			if( string.len(action) > 0 and string.find(action, "%w") ) then
-				self.onLoadEvent,errmsg = loadstring(action);
-				if( not self.onLoadEvent ) then
-					cprintf(cli.yellow, language[152] .. "\n")
-					handleLoadstringFailure(action, errmsg, filename)
-				end
+				self.onLoadEvent = loadstring(action);
+				assert(self.onLoadEvent, sprintf(language[152]));
 
 				if( _G.type(self.onLoadEvent) ~= "function" ) then
 					self.onLoadEvent = nil;
